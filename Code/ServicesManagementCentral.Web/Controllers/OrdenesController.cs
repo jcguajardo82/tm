@@ -43,7 +43,7 @@ namespace ServicesManagement.Web.Controllers
 
     }
 
-
+    [Authorize]
     public class OrdenesController : Controller
     {
         string UrlApi = "";

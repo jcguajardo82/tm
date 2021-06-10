@@ -6,6 +6,7 @@ namespace ServicesManagement.Web.Controllers
     /// <summary>
     /// Cpanel controller
     /// </summary>
+    [Authorize]
     public class CpanelController : BaseController
     {
         public CpanelController() : base(System.Web.HttpContext.Current)

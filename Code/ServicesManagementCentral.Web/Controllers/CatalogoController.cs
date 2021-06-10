@@ -33,7 +33,7 @@ namespace ServicesManagement.Web.Controllers
     }
     /// <summary>
     /// Catalog Controller
-    /// </summary>
+    /// </summary>    [Authorize]
     public class CatalogoController : Controller
     {
         string UrlApi = System.Configuration.ConfigurationManager.AppSettings["urlApi"].ToString();

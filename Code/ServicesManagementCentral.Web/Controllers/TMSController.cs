@@ -36,7 +36,7 @@ namespace ServicesManagement.Web.Controllers
     }
 
 
-
+    [Authorize]
     public class TMSController : Controller
     {
         string UrlApi = System.Configuration.ConfigurationManager.AppSettings["api_TMS"].ToString();

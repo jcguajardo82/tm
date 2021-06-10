@@ -1,8 +1,4 @@
-﻿@{ 
-    string userName = ViewBag.Login!=null ? ViewBag.Login.Username : "";
-}
-
-<nav class="navbar-default navbar-static-side" role="navigation">
+﻿<nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
@@ -19,160 +15,81 @@
                     </span>
                 </div>
                 <div class="logo-element">
-                    ITECH
-                    
+                    <span>
+                        <img alt="image" class="img-circle logo" style="height: 35px; width: 45px" src="@Url.Content("~/Content/images/theme/Soriana_logo.png")" />
+                    </span>
                 </div>
             </li>
 
+            @{
+                //string userName = ViewBag.Login != null ? ViewBag.Login.Username : "";
+                var rol = Session["UserRol"] != null ? (ServicesManagement.Web.Controllers.UserRolModel)Session["UserRol"] : new ServicesManagement.Web.Controllers.UserRolModel();
+            }
+            @{
+
+                if (rol.idRol != null)
+                {
+                    var ds = ServicesManagement.Web.DALConfig.MenusRol_sUP(int.Parse(rol.idRol));
+                    System.Data.DataRow[] result = ds.Tables[0].Select("padreId = 0 ", "posicion ASC");
+                    foreach (System.Data.DataRow row in result)
+                    {
+
+                        <li>
+                            @if (row["controller"].ToString().Length != 0 || row["action"].ToString().Length != 0)
+                            {
+                                <a href="@Url.Action(row["action"].ToString(), row["controller"].ToString())"><i class="@row["icono"]"></i> <span class="nav-label">@row["descripcionCorta"]</span><span class="fa arrow"></span></a>
+                            }
+                            else
+                            {
+                                <a href="#"><i class="@row["icono"]"></i> <span class="nav-label">@row["descripcionCorta"]</span><span class="fa arrow"></span></a>
+                            }
+
+                            @{
+                                System.Data.DataRow[] result2 = ds.Tables[0].Select("padreId =" + @row["menuId"].ToString());
+                                //dt.AsEnumerable().Where( dr => dr.Field<int>( "ID" ) == 1 );
+                            }
+
+                            <ul class="nav nav-second-level collapse" aria-expanded="false">
+                                @foreach (System.Data.DataRow r in result2)
+                                {
+                                    <li><a href="@Url.Action(r["action"].ToString(), r["controller"].ToString())">@r["descripcionCorta"]</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                }
+                else
+                {
+
+                    Response.Redirect("~/Security/Login");
+
+                }
+
+            }
             @*<li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Shipment List</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("Index","Ordenes")"><i class="fa fa-angle-right"></i> <span class="nav-label">All Shipments</span></a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">New Requests</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Approved</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Assigned</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Delivered To Driver</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">In Stock</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Postponed</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">The shipment has been delivered, please check it</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Supplied</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">In Custom</a></li>
+                    <a href="#"><i class="fa fa-tasks"></i> <span class="nav-label">Ordenes</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li><a href="@Url.Action("MenuOrdenes","Ordenes")">Surtido de Ordenes</a></li>
+                        <li><a href="@Url.Action("OrdenSeleccionada","Ordenes")">Listado Ordenes</a></li>
+                            <li><a href="@Url.Action("OrdenDetalle","Ordenes")">Orden</a></li>
+                            <li><a href="@Url.Action("Servidores","Catalogo")">Traspaso</a></li>
+                            <li><a href="@Url.Action("Servidores","Catalogo")">Etiquetas</a></li>
+                            <li><a href="@Url.Action("Servidores","Catalogo")">Reportes</a></li>
 
-                </ul>
-            </li>*@
+                        <li><a href="@Url.Action("Logs","Catalogo")">Logs</a></li>
+                    </ul>
+                </li>
 
-
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Catálogos</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("CodigosPostales","Catalogo")">Alta de CP</a></li>
-                    <li><a href="@Url.Action("Almacenes","Catalogo")">Alta de Almacenes</a></li>
-                    <li><a href="@Url.Action("Transportistas","TMS")">Alta de Trasportistas</a></li>
-
-                    <li><a href="@Url.Action("Cat_Vehiculo","TMS")">Vehiculo</a></li>
-                    <li><a href="@Url.Action("Cat_Transportista","TMS")">Operador</a></li>
-                    <li><a href="@Url.Action("Cat_Servicio","TMS")">Servicio</a></li>
-
-                    @*<li><a href="@Url.Action("Transportistas","Catalogo")">Alta de Trasportistas</a></li>*@
-
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Cobertura de CP.</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("Index","Ordenes")">Regionalización de CP por Tienda.</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Regionalización de CP por Almacén.</a></li>
-                    
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Tipos de Logística.</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("Index","Ordenes")">Disponibilidad de Logística.</a></li>
-                    
-                </ul>
-            </li>
-
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Tiendas</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("Tiendas","Catalogo")">Tiendas</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Tiempos de Entrega por Tienda.</a></li>
-
-                </ul>
-            </li> 
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Catalogo de Trasportistas.</span></a>
-                
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Modulo de Trasporte Propio</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("AltaVehiculos","TMS")">Alta Tipo de Vehículos</a></li>
-                    <li><a href="@Url.Action("AltaVehiculo","TMS")">Alta de Vehículo</a></li>
-
-                </ul>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Pestañas</span></a>
-
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Reportes de KPIs.</span></a>
-
-            </li>
-
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Modulo de Reglas.</span></a>
-
-            </li>
-
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Transportistas</span></a>
-
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Mis Viajes</span></a>
-
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Terceros</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("Index","Ordenes")">Almances</a></li>
-                    <li><a href="@Url.Action("Index","Ordenes")">Mis Coberturas</a></li>
-
-                </ul>
-            </li>
-            
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Rates</span></a>
-
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Usuarios</span></a>
-
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-first-order"></i> <span class="nav-label">Roles</span></a>
-
-            </li>
-
-            <li>
-                <a href="@Url.Action("ReglasEnvioLogistica","TMS")"><i class="fa fa-first-order"></i> <span class="nav-label">Reglas de Envio x Logistica</span></a>
-
-            </li>
-            <li>
-                <a href="@Url.Action("CostoEnvioProv","TMS")"><i class="fa fa-first-order"></i> <span class="nav-label">costo de envio por proveedor</span></a>
-
-            </li>
-            <li>
-                <a href="@Url.Action("TiposEnvioPorAlmacen","TMS")"><i class="fa fa-first-order"></i> <span class="nav-label">tipo de envios por Almacen</span></a>
-
-            </li>
-            <li>
-                <a href="@Url.Action("TiposEnvioDesdeAlmacen","TMS")"><i class="fa fa-first-order"></i> <span class="nav-label">tiempos de envio  desde almacen</span></a>
-
-            </li>
-            <li>
-                <a href="@Url.Action("Transportistas","TMS")"><i class="fa fa-first-order"></i> <span class="nav-label">Transportistas</span></a>
-
-            </li>
-            <li>
-                <a href="@Url.Action("CPxDisponibilidadTrans","TMS")"><i class="fa fa-first-order"></i> <span class="nav-label">codigos postales x disponibilidad de trasportistas</span></a>
-
-            </li>
-
-
-
-            @*<li>
-                <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Catalogo</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse" aria-expanded="false">
-                    <li><a href="@Url.Action("Surtidores","Catalogo")">Surtidores</a></li>
-                    <li><a href="@Url.Action("Transportistas","Catalogo")">Transportistas</a></li>
-                    <li><a href="@Url.Action("Pasillos","Catalogo")">Pasillos</a></li>
-                    <li><a href="@Url.Action("PassCan","Catalogo")">Password para Cancelar</a></li>
-                </ul>
-            </li>*@
+                <li>
+                    <a href="#"><i class="fa fa-tools"></i> <span class="nav-label">Catalogo</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false">
+                        <li><a href="@Url.Action("Surtidores","Catalogo")">Surtidores</a></li>
+                        <li><a href="@Url.Action("Transportistas","Catalogo")">Transportistas</a></li>
+                        <li><a href="@Url.Action("Pasillos","Catalogo")">Pasillos</a></li>
+                        <li><a href="@Url.Action("PassCan","Catalogo")">Password para Cancelar</a></li>
+                    </ul>
+                </li>*@
         </ul>
 
     </div>
