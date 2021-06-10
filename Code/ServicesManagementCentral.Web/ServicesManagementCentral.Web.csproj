@@ -189,6 +189,7 @@
     <Compile Include="Controllers\Api\SecurityController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CatalogoController.cs" />
+    <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
@@ -205,6 +206,9 @@
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\CommonAlmacenModel.cs" />
     <Compile Include="Models\CommonProveedorModel.cs" />
+    <Compile Include="Models\Config\Menu.cs" />
+    <Compile Include="Models\Config\Rol.cs" />
+    <Compile Include="Models\Config\Usuario.cs" />
     <Compile Include="Models\DivisionModel.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionCliente.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionDetalleOrden.cs" />
