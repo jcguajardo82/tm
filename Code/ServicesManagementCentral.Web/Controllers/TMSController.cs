@@ -612,7 +612,7 @@ namespace ServicesManagement.Web.Controllers
                 return Json(new { Status = 0, Message = ex.Message });
             }
         }
-        #endregion
+
         private List<CobZon> GetDataFromCSVFileCobZon(Stream stream)
         {
             var List = new List<CobZon>();
@@ -635,7 +635,7 @@ namespace ServicesManagement.Web.Controllers
                         {
                             if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
                             var item = new CobZon();
-                            
+
 
                             item.NoProveedor = objDataRow[0].ToString();
                             item.CpOrigen = objDataRow[1].ToString();
@@ -696,5 +696,117 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        public ActionResult KgDinero()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ImportFileKg(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+                var fileData = GetDataFromCSVFileKg(importFile.InputStream);
+
+                ViewBag.List = fileData;
+
+                //var dtEmployee = fileData.ToDataTable();
+                //var tblEmployeeParameter = new SqlParameter("tblEmployeeTableType", SqlDbType.Structured)
+                //{
+                //    TypeName = "dbo.tblTypeEmployee",
+                //    Value = dtEmployee
+                //};
+                //await _dbContext.Database.ExecuteSqlCommandAsync("EXEC spBulkImportEmployee @tblEmployeeTableType", tblEmployeeParameter);
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+
+        private List<KgDinero> GetDataFromCSVFileKg(Stream stream)
+        {
+            var List = new List<KgDinero>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // To set First Row As Column Names    
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        var dataTable = dataSet.Tables[0];
+                        foreach (DataRow objDataRow in dataTable.Rows)
+                        {
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
+                            var item = new KgDinero();
+
+
+                            item.KG = objDataRow[0].ToString();
+                            item.A1 = objDataRow[1].ToString();
+                            item.A2 = objDataRow[2].ToString();
+                            item.A3 = objDataRow[3].ToString();
+                            item.A4 = objDataRow[4].ToString();
+                            item.A5 = objDataRow[5].ToString();
+                            item.A6 = objDataRow[6].ToString();
+                            item.A7 = objDataRow[7].ToString();
+                            item.PorcCliente = objDataRow[8].ToString();
+                            item.B1 = objDataRow[9].ToString();
+                            item.B2 = objDataRow[10].ToString();
+                            item.B3 = objDataRow[11].ToString();
+                            item.B4 = objDataRow[12].ToString();
+                            item.B5 = objDataRow[13].ToString();
+                            item.B6 = objDataRow[14].ToString();
+                            item.B7 = objDataRow[15].ToString();
+                          
+
+                            List.Add(item);
+
+                            DALImpex.KgDinero_iUp(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return List;
+        }
+
+        public ActionResult GetKg()
+        {
+            try
+            {
+                List<KgDinero> list = new List<KgDinero>();
+
+                var ds = DALImpex.KgDinero_sUp();
+
+                if (ds.Tables.Count > 0)
+                {
+                    list = DataTableToModel.ConvertTo<KgDinero>(ds.Tables[0]);
+                }
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
     }
 }
