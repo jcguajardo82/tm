@@ -1,0 +1,92 @@
+﻿<div id="modal-CreateAlmacen" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Alta de Almacén</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmCreateServicios">
+                    <div class="row">
+                        <div class="col col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>Almacén</label>
+                                <select class="form-control" id="AlmacenLista" name="AlmacenLista" onchange="GetCommonProveedor()">
+                                    <option selected="selected" value="0">--Unidad de Negocio--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>Proveedor</label>
+                                <select class="form-control" id="ProveedorLista" name="ProveedorLista">
+                                    <option selected="selected" value="0">--Unidad de Negocio--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-xs-8 col-md-3">
+                            <div class="form-group">
+                                <label>Paqueteria</label>
+                                <div class="input-group">
+                                    <div id="radioBtn" class="btn-group">
+                                        <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
+                                        <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
+                                    </div>
+                                    <input type="hidden" name="Paqueteria" id="Paqueteria">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xs-8 col-md-3">
+                            <div class="form-group">
+                                <label>Big Ticket</label>
+                                <div class="input-group">
+                                    <div id="radioBtn" class="btn-group">
+                                        <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
+                                        <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
+                                    </div>
+                                    <input type="hidden" name="BigTicket" id="BigTicket">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xs-8 col-md-3">
+                            <div class="form-group">
+                                <label>Servicio Estandar</label>
+                                <div class="input-group">
+                                    <div id="radioBtn" class="btn-group">
+                                        <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
+                                        <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
+                                    </div>
+                                    <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-xs-8 col-md-3">
+                            <div class="form-group">
+                                <label>Servicio Express</label>
+                                <div class="input-group">
+                                    <div id="radioBtn" class="btn-group">
+                                        <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
+                                        <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
+                                    </div>
+                                    <input type="hidden" name="ServicioExpress" id="ServicioExpress">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,309 @@
+﻿
+@{
+    ViewBag.Title = "AltaVehiculos";
+}
+
+
+
+<style>
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+
+    .red {
+        background-color: red !important;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Alta Tipo de Vehiculos</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+
+        @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
+
+
+        <br />
+
+        <div class="row">
+            <div class="col-12">
+                <table id="example" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Tipo Vehiculo</th>
+                            <th>Actvo</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1221521-1</td>
+                            <td>SETC</td>
+                            <td>
+                                <button class="btn btn-warning btn-circle" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <button class="btn btn-danger btn-circle" type="button">
+                                    <i class="fa fa-eraser"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1221521-2</td>
+                            <td>SETC</td>
+                            <td>
+                                <button class="btn btn-warning btn-circle" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <button class="btn btn-danger btn-circle" type="button">
+                                    <i class="fa fa-eraser"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Tipo Vehiculo</th>
+                            <th>Actvo</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Modal title</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="frmCreateServicios">
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Tipo de Vehiculo</label>
+
+                                    <input type="text" placeholder="Numero de Empleado" id="numE" name="numE" class="form-control" />
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col col-xs-4 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Estatus</label>
+
+                                    <div class="input-group">
+                                        <div id="radioBtn" class="btn-group">
+                                            <a class="btn btn-primary btn-sm active" data-toggle="happy" data-title="Y">ACTIVO</a>
+                                            <a class="btn btn-primary btn-sm notActive" data-toggle="happy" data-title="N">INACTIVO</a>
+                                        </div>
+                                        <input type="hidden" name="happy" id="happy">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Comentarios</span>
+                                    </div>
+                                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                    <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+}
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+
+    <script>
+
+        $('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
+
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        })
+
+
+        $(document).ready(function () {
+
+
+            $('#example').DataTable(
+                {
+
+                    language:
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                            },
+                            "buttons": {
+                                "print": "Imprimir",
+                                "pageLength": 'Mostrar %d Registros'
+
+                            }
+                        },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                                    [10, 25, 50, -1],
+                                     ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                            { extend: 'pageLength', className: 'btn-primary' },
+                            { extend: 'excel', className: 'btn-primary' },
+                            {
+                                text: 'Alta',
+                                action: function (e, dt, node, config) {
+
+                                    //bootbox.alert("HOLA");
+                                    $("#modal-form").modal('show');
+
+                                }
+                                , className: 'btn-primary'
+                            }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+                );
+        });
+
+        /* Bootbox Dialog box with custom Value */
+        $('.alert-custom').click(function () {
+            bootbox.dialog({
+                title: "This is a form in a modal.",
+                message: '<div class="row">  ' +
+                '<div class="col-md-12"> ' +
+                '<form class="form-horizontal"> ' +
+                '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="name">Name</label> ' +
+                '<div class="col-md-4"> ' +
+                '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md"> ' +
+                '<span class="help-block">Here goes your name</span> </div> ' +
+                '</div> ' +
+                '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
+                '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
+                '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
+                'Really awesome </label> ' +
+                '</div><div class="radio"> <label for="awesomeness-1"> ' +
+                '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
+                '</div> ' +
+                '</div> </div>' +
+                '</form> </div>  </div>',
+                buttons: {
+                    success: {
+                        label: "Save",
+                        className: "btn-success",
+                        callback: function () {
+                            var name = $('#name').val();
+                            var answer = $("input[name='awesomeness']:checked").val()
+                            $('.Example').show().html("Hello " + name + ". You've chosen <b>" + answer + "</b").fadeOut(5000);
+                        }
+                    }
+                }
+            }
+                    );
+        })
+    </script>
+
+}

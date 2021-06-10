@@ -1,0 +1,622 @@
+﻿
+@{
+    ViewBag.Title = "Listado Orden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+<style>
+    #table-scroll {
+        height: 300px;
+        overflow-y: auto;
+        margin-top: 20px;
+        width: 1200px;
+    }
+
+    .rowVerde {
+        color: white;
+        background-color: #008000;
+        border-color: #c3e6cb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowAmarillo {
+        color: white;
+        background-color: #ffd11a;
+        border-color: #ffeeba;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowRojo {
+        color: white;
+        background-color: #ff0000;
+        border-color: #f5c6cb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowInfo {
+        color: #000000;
+        background-color: white;
+        border-color: #bee5eb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowMorado {
+        color: #0c5460;
+        background-color: #bf80ff;
+        border-color: #bee5eb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .alingCenter {
+        text-align: center;
+    }
+</style>
+
+
+<div class="row wrapper border-bottom white-bg page-heading" style="padding-top:5px;padding-bottom:10px;">
+    <div class="col-lg-4">
+        @*<h2>Listado Orden</h2>*@
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/ordenes/Index">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                
+                <a href="~/ordenes/Index">Ordenes</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>Listado de Ordenes</strong>
+            </li>
+        </ol>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="input-group">
+            <input type="text" placeholder="Número de Orden" id="OrderSelected" class="form-control form-control-lg">
+            <div class="input-group-btn">
+                <button class="btn btn-lg btn-primary" type="submit" onclick="SearchOrder()">
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div id="topRightSection" class="col-xs-12 col-md-12 text-right ">
+            <button type="button" class="btn btn-default btn btn-xs" data-toggle="modal" data-target="#dlgTraspaso">
+                Traspaso
+            </button>
+            <button type="button" class="btn btn-default btn btn-xs" data-toggle="modal" data-target="#dlgEtiquetas">
+                Etiquetas
+            </button>
+            <button type="button" class="btn btn-white btn btn-xs" data-toggle="modal" data-target="#dlgReportes"> Reportes</button>
+        </div>
+    </div>
+    <div id="tblConsulta_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+        <div class="row">
+            <div class="col col-xs-6">
+                <div class="dt-buttons btn-group flex-wrap">
+                    <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Copy</span></button>
+                    <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>CSV</span></button>
+                    <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Excel</span></button>
+                </div>
+            </div>
+
+        </div>
+        <div id="table-scroll">
+            <div id="tblConsulta_Surtido" class="fixed_header dataTables_wrapper dt-bootstrap4 no-footer" style="height:300px;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer" role="grid" style="width: 1115px;">
+                            <thead class="bg-primary">
+                                <tr role="row">
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 118px;">Orden</th>
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 115px;">Artículos Secos/Frescos</th>
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 111px;">Entrega</th>
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 126px;">Asignación</th>
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 124px;">Surtidor</th>
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 120px;">Inicia Surtido</th>
+
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 128px;">Fin Surtido</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Session["listaOrdersSurtir"] != null)
+                                    {
+
+                                        System.Data.DataSet ds = (System.Data.DataSet)Session["listaOrdersSurtir"];
+
+                                        var dt = ds.Tables[0];
+
+                                        int index = 0;
+
+                                        foreach (System.Data.DataRow p in dt.Rows)
+                                        {
+                                            <tr>
+                                                <td style="text-align:center;">
+                                                    @if (@p["Id_Num_OrdenStat"].ToString() == "4")
+                                                    {
+                                                        <a href="@Url.Action("Embarque", "Ordenes", new { order = @p["Id_Num_Orden"] })" title="Click para ver el detalle de la orden" class="btn btn-link">
+                                                            @p["Id_Num_Orden"]
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("OrdenDetalle", "Ordenes", new { order = @p["Id_Num_Orden"] })" title="Click para ver el detalle de la orden" class="btn btn-link">
+                                                            @p["Id_Num_Orden"]
+                                                        </a>
+                                                    }
+                                                </td>
+                                                <td style="text-align:right">@p["Cant_Art_Frescos"] - @p["Cant_Art_Secos"] </td>
+                                                <td style="text-align:center">@p["Fec_Entrega"]</td>
+                                                @if (string.IsNullOrEmpty(@p["Fec_AsigReal"].ToString()))
+                                                {
+                                                    <td class="@ColoresSemaforo(@p["Color_Asig"].ToString())" style="text-align:center">@p["Fec_AsigEsp"]</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="@ColoresSemaforo(@p["Color_Asig"].ToString())" style="text-align:center">@p["Fec_AsigReal"]</td>
+                                                }
+                                                <td style="text-align:center"> @p["Surtidor"]</td>
+                                                @if (string.IsNullOrEmpty(@p["Fec_SrtReal"].ToString()))
+                                                {
+                                                    <td class="@ColoresSemaforo(@p["Color_Srt"].ToString())" style="text-align:center">@p["Fec_SrtEsp"]</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="@ColoresSemaforo(@p["Color_Srt"].ToString())" style="text-align:center">@p["Fec_SrtReal"]</td>
+                                                }
+                                                @if (string.IsNullOrEmpty(@p["Fec_AsigTraspReal"].ToString()))
+                                                {
+                                                    <td class="@ColoresSemaforo(@p["Color_Pago"].ToString())" style="text-align:center">@p["Fec_AsigTraspEsp"]</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="@ColoresSemaforo(@p["Color_Pago"].ToString())" style="text-align:center">@p["Fec_AsigTraspReal"]</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="tblConsulta_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+        <div class="row">
+            <div class="col col-xs-6">
+                <div class="dt-buttons btn-group flex-wrap">
+                    <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Copy</span></button>
+                    <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>CSV</span></button>
+                    <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Excel</span></button>
+                </div>
+
+                <div class="dt-buttons btn-group flex-wrap">
+
+                    <div class="input-group-prepend">
+
+                        <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button" aria-expanded="false">Asignar Guia de Embarque </button>
+
+                        <ul id="dllTrans" class="dropdown-menu" x-placement="top-start" style="position: absolute; top: -2px; left: 0px; will-change: top, left;">
+
+                            @if (Session["listTrans"] != null)
+
+                            {
+
+                                System.Data.DataSet ds = (System.Data.DataSet)Session["listTrans"];
+
+                                var dt = ds.Tables[0];
+
+                                foreach (System.Data.DataRow p in dt.Rows)
+                                {
+
+                                    <li id="@p["Id_Supplier"]" onclick="onchangeDropTrans(this)"><a>@p["Name"]</a></li>
+
+                                }
+
+                            }
+
+                        </ul>
+
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+        <div id="table-scroll">
+            <div id="tblConsulta_Surtido" class="fixed_header dataTables_wrapper dt-bootstrap4 no-footer" style="height:300px;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer" role="grid" style="width: 1115px;">
+                            <thead class="bg-primary">
+                                <tr role="row">
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 118px;">Orden</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 115px;">Medio Envio</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 120px;">Fin Surtido</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 126px;">Forma Entrega</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 124px;">Forma de Pago</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 120px;">Inicio Cobro</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 120px;">Envio listo para entrega</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="tblServicios" rowspan="1" colspan="1" style="width: 120px;">Confirmacion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @{
+                                                if (Session["listaOrdersEmbarcar"] != null)
+
+                                                {
+
+                                                    System.Data.DataSet ds = (System.Data.DataSet)Session["listaOrdersEmbarcar"];
+
+                                                    var dt = ds.Tables[0];
+
+
+
+                                                    int index = 0;
+
+
+
+                                                    foreach (System.Data.DataRow p in dt.Rows)
+
+                                                    {
+
+                                    <tr>
+
+                                        <td style="text-align:center;">
+
+                                            <a href="@Url.Action("ConsultaDetalle","Ordenes", new { order = @p["Id_Num_Orden"] })"
+                                               title="Click para ver el detalle de la orden" class="btn btn-link">@p["Id_Num_Orden"]</a>
+
+                                        </td>
+
+                                        <td style="text-align:center;">
+
+                                            @if (@p["Id_Num_OrdenStat"].ToString() == "12")
+
+                                            {
+
+                            <input class="form-check-input cbx" type="checkbox" value="@p["Id_Num_Orden"]" id="flexCheckDefault">
+                                                }
+
+                                                else if (@p["Id_Num_OrdenStat"].ToString() == "12" & @p["OrdenStatTda"].ToString() == "11")
+
+                                                {
+
+                            <a href="@Url.Action("CancelarOrden", "Ordenes", new { order = @p["Id_Num_Orden"] })"
+                               title="Click para cancelar de la orden" class="btn btn-link">Cancelada en POS</a>
+                                                }
+
+                                                else
+
+                                                {
+
+                            @p["Nom_Trans"]
+                                                }
+
+                                        </td>
+
+                                        @if (string.IsNullOrEmpty(@p["Fec_SrtReal"].ToString()))
+
+                                        {
+
+                            <td class="@ColoresSemaforo(@p["Color_Srt"].ToString())" style="text-align:center;">@p["Fec_SrtEsp"]</td>
+                                                }
+
+                                                else
+
+                                                {
+
+                            <td class="@ColoresSemaforo(@p["Color_Srt"].ToString())" style="text-align:center;">@p["Fec_SrtReal"]</td>
+                                                }
+
+                                        <td>@p["TipoEntrega"]</td>
+
+                                        <td>@p["FormaPago"]</td>
+
+                                        @if (string.IsNullOrEmpty(@p["Fec_PagoReal"].ToString()))
+
+                                        {
+
+                            <td class="@ColoresSemaforo(@p["Color_Pago"].ToString())" style="text-align:center;">@p["Fec_PagoEsp"]</td>
+                                                }
+
+                                                else
+
+                                                {
+
+                            <td class="@ColoresSemaforo(@p["Color_Pago"].ToString())" style="text-align:center;">@p["Fec_PagoReal"]</td>
+                                                }
+
+                                        @if (string.IsNullOrEmpty(@p["Fec_AsigTraspReal"].ToString()))
+
+                                        {
+
+                            <td class="@ColoresSemaforo(@p["Color_AsigTrasp"].ToString())" style="text-align:center;">@p["Fec_AsigTraspEsp"]</td>
+                                                }
+
+                                                else
+
+                                                {
+
+                            <td class="@ColoresSemaforo(@p["Color_AsigTrasp"].ToString())" style="text-align:center;">@p["Fec_AsigTraspReal"]</td>
+                                                }
+
+                                        <td style="text-align:center">
+
+                                            @if (@p["Id_Num_OrdenStat"].ToString() == "10")
+
+                                            {
+
+                                                <a href="@Url.Action("RecepcionGuiaEmbarque", "Ordenes", new { order = @p["Id_Num_Orden"] })"
+                                                   title="Click para ver el detalle de la orden" class="btn btn-link">@p["Id_Num_GuiaEmb"]</a>
+                                                                    }
+
+                                        </td>
+
+                                    </tr>
+                                                    }
+
+                                                }
+                                }
+
+
+
+                            </tbody>
+
+
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<input id="Orders" name="Orders" value="0" style="visibility:hidden" />
+
+
+
+
+@Html.Partial("Traspaso")
+@Html.Partial("reportes")
+@Html.Partial("etiquetas")
+
+
+
+
+@section scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //GetSuetidores();
+            var values = [];
+
+            $(".cbx").click(function () {
+                values = [];
+                $(".cbx").each(function () {
+                    if ($(this).is(":checked"))
+                        values.push($(this).val());
+                });
+
+                document.getElementById("Orders").value = values;
+                //alert(values);
+            });
+
+            window.setInterval(function () {
+                var date = new Date();
+                //alert(date.getMinutes());
+                if ((date.getMinutes() % 5) == 0) {
+
+                    location.reload();
+                }
+            }, 60000);
+
+        });
+
+        function consulta() {
+
+            debugger;
+            //$("input[type="checkbox"]:checked").each(function () {
+
+            //    // buscamos el td más cercano en el DOM hacia "arriba"
+            //    // luego encontramos los td adyacentes a este
+            //    $(this).closest('td').siblings().each(function () {
+
+            //        // obtenemos el texto del td
+            //        console.log($(this).text());
+            //    });
+            //});
+
+            //var toStore = {};
+            //var i = 0;
+            //$("input[type=\"checkbox\"]:checked").each(function(){
+            //    toStore[i] = {};
+            //    $(this).closest('td').siblings().each(function(){
+            //        $(this).find(':input').each(function() {
+            //            toStore[i][this.name] = this.value;
+            //        });
+            //        console.log($(this).text());
+            //    });
+            //    i++;
+            //});
+
+
+
+
+
+
+        }
+
+        function onchangeDropTrans(el) {
+
+            debugger;
+            var id_categoria = $(el).attr('id');
+
+            if (confirm('Seguro que desea signar el transportista a los pedidos seleccionados?')) {
+                //$('#ConfirmMessageResponse').val('Yes');
+
+
+                FinalizaEmbarque(id_categoria);
+
+
+            } else {
+                //$('#ConfirmMessageResponse').val('No');
+                return false;
+            }
+
+
+        }
+
+
+        function FinalizaEmbarque(tran) {
+
+            debugger;
+
+            var listaO = document.getElementById("Orders").value;
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '@Url.Action("FinalizarTransportista", "Ordenes")',
+                data: {
+                    OrderNo: listaO,
+                    trans: tran
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        location.reload();
+
+                       // window.location.href = '@Url.Content("~/ordenes/OrdenSeleccionada")';
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+
+        }
+
+
+
+        function ShowFilter() {
+            $("#filter").collapse('toggle');
+        };
+
+
+        function SearchOrder() {
+            var noOrden = document.getElementById("OrderSelected").value;
+            if (noOrden.length != 0) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: '@Url.Action("GetOrderDetalle", "Ordenes")',
+                    data: {
+                        order: noOrden,
+
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+
+                            window.location.href = json.message + "?order=" + document.getElementById("OrderSelected").value;
+
+                            return false;
+                        }
+                        else {
+                            alert("La orden seleccionada :" + document.getElementById("OrderSelected").value + " no existe, favor de revisar ")
+                            return false;
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+
+                    }
+                });
+            } else {
+                $("#OrderSelected").focus();
+            }
+        }
+    </script>
+}
+
+@functions{
+
+    public string ColoresSemaforo(string numColor)
+
+    {
+
+        string estilo = string.Empty;
+
+        switch (numColor)
+
+        {
+
+            case "1":
+
+                estilo = "rowVerde";
+
+                break;
+
+            case "2":
+
+                estilo = "rowAmarillo";
+
+                break;
+
+            case "3":
+
+                estilo = "rowRojo";
+
+                break;
+
+
+
+            default:
+
+                estilo = "rowInfo";
+
+                break;
+
+        }
+
+        return estilo;
+
+    }
+
+}

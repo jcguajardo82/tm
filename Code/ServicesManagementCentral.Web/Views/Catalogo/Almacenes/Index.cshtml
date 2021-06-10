@@ -1,0 +1,453 @@
+﻿
+@model IEnumerable<ServicesManagement.Web.Models.CarrierModel>
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.Title = "Almacenes";
+
+}
+
+<style>
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+
+    .red {
+        background-color: red !important;
+    }
+</style>
+
+<link href="view-source:http://webapplayers.com/inspinia_admin-v2.8/sweetalert.html">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>@ViewBag.Title </h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/CPanel/Index">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a>Catalogo</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>Almacenes</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row mt-2 mb-3">
+    <div class="col-12">
+        <div class="collapse" id="filter">
+            <div class="card card-body">
+                <form id="frmFilter">
+                    <div class="row">
+                        <div class="col col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <label>Id Almacen</label>
+                                <input type="text" placeholder="Id del Transportista" name="IdTransportista" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col col-xs-12 col-md-4">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" placeholder="Nombre del Transportista" name="RazSocTransportista" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col col-xs-12 col-md-4 text-right">
+                            <button class="btn btn-success mt-4" type="button" onclick="Servicios.RefreshTable();"><i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">Buscar</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="tblConsulta_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+    <div class="row">
+        <div class="col col-xs-6">
+            <div class="dt-buttons btn-group flex-wrap">
+                <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Copy</span></button>
+                <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>CSV</span></button>
+                <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Excel</span></button>
+            </div>
+        </div>
+
+        <div id="topRightSection" class="col-xs-12 col-md-6 text-right ">
+            <button type="button" class="btn btn-primary btn-circle mr-2" data-toggle="modal" data-target="#modal-CreateAlmacen">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button type="button" class="btn btn-primary btn-circle mr-2" onclick="ShowFilter();">
+                <i class="fa fa-list"></i>
+            </button>
+            <button type="button" class="btn btn-primary btn-circle"> <i class="fa fa-refresh"></i></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer" role="grid" style="width: 1115px;">
+                <thead class="bg-primary">
+                    <tr role="row">
+                        <th class="text-center sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1" style="width: 80px;">Num</th>
+                        <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Nombre</th>
+                        <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Paqueteria</th>
+                        <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Big Ticket</th>
+                        <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Servicio Estandar</th>
+                        <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Servicio Express</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<input id="inTP" name="inTP" value="A" style="visibility:hidden" />
+<input id="Id_Carrier" name="Id_Carrier" value="A" style="visibility:hidden" />
+
+@Html.Partial("Almacenes/Create")
+
+
+@section scripts {
+
+    <script src="~/Content/Inspinia/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="~/Content/Inspinia/Styles/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+    <script type="text/javascript">
+        $('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
+
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        });
+
+        $(document).ready(function () {
+            GetAlmacenes();
+            GetCommonAlmacen();
+            //swal({
+            //    title: "Are you sure?",
+            //    text: "You will not be able to recover this imaginary file!",
+            //    type: "warning",
+            //    showCancelButton: true,
+            //    confirmButtonColor: "#DD6B55",
+            //    confirmButtonText: "Yes, delete it!",
+            //    closeOnConfirm: false
+            //}, function () {
+            //    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+            //});
+        });
+
+        String.prototype.format = function () {
+            var literal = this;
+
+            for (var i = 0; i < arguments.length; i++) {
+                var regex = new RegExp('{' + i + '}', 'g');
+                literal = literal.replace(regex, arguments[i]);
+            }
+
+            return literal;
+        };
+
+        function GetCommonAlmacen() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetCommonAlmacenes", "Catalogo")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        console.log(json);
+                        var dynamicSelect = document.getElementById("AlmacenLista");
+                        console.log(dynamicSelect);
+                        for (var i = 0; i < json.json.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.json[i].NumAlmacen;
+                            newOption.textContent = json.json[i].NombreAlmacen;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                        console.log(dynamicSelect);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function GetCommonProveedor() {
+            var e = document.getElementById("AlmacenLista");
+            var _IdAlmacen = parseInt(e.options[e.selectedIndex].value);
+            console.log(_IdAlmacen);
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetCommonProveedores", "Catalogo")',
+                data: {
+                    IdAlmacen: _IdAlmacen
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        console.log(json);
+                        var dynamicSelect = document.getElementById("ProveedorLista");
+                        dynamicSelect.innerText = null;
+                        console.log(dynamicSelect);
+                        for (var i = 0; i < json.json.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.json[i].NumProveedor;
+                            newOption.textContent = json.json[i].NombreProveedor;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                        console.log(dynamicSelect);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function ShowFilter() {
+            $("#filter").collapse('toggle');
+        };
+
+        function GetAlmacenes() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetAlmacenes", "Catalogo")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+                        $("#tblConsulta tbody tr").remove();
+                        //var tr;
+                        //debugger;
+                        //Append each row to html table
+                        console.log(json);
+                        for (var i = 0; i < json.json.length; i++) {
+                            tr = $('<tr/>');
+                            //tr.append("<td class='row1'>" + json.json[i].Id_Num_Orden + "</td>");
+                            tr.append("<td>" + json.json[i].IdAlmacen + "</td>");
+                            tr.append("<td>" + json.json[i].RazonSocial + "</td>");
+                            if (json.json[i].Paqueteria == true)
+                            {
+                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            }
+                            else
+                            {
+                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            }
+                            if (json.json[i].BigTicket == true)
+                            {
+                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            }
+                            else {
+                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            }
+                            if (json.json[i].ServicioEstandar == true)
+                            {
+                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            }
+                            else {
+                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            }
+                            if (json.json[i].ServicioExpress == true)
+                            {
+                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            }
+                            else {
+                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            }
+
+                            //tr.append("<td><button type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
+                            tr.append("<td><button onclick='EditSurtidores(" + json.json[i].IdAlmacen + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
+                            $('#tblConsulta').append(tr);
+
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function AddSurtidores() {
+            //var _IdAlmacen = parseInt(document.getElementById("IdAlmacen").value);
+            var e = document.getElementById("AlmacenLista");
+            var _IdAlmacen = parseInt(e.options[e.selectedIndex].value);
+            var e = document.getElementById("ProveedorLista");
+            var _IdProveedor = parseInt(e.options[e.selectedIndex].value);
+            var _RazonSocial = document.getElementById("RazonSocial").value;
+            var _Paqueteria = document.getElementById("Paqueteria").value;
+            var _BigTicket = document.getElementById("BigTicket").value;
+            var _ServicioEstandar = document.getElementById("ServicioEstandar").value;
+            var _ServicioExpress = document.getElementById("ServicioExpress").value;
+
+            console.log(_Paqueteria);
+            console.log(_BigTicket);
+            console.log(_ServicioEstandar);
+            console.log(_ServicioExpress);
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '@Url.Action("AddAlmacenes", "Catalogo")',
+                data: {
+                    IdAlmacen: _IdAlmacen,
+                    RazonSocial: _RazonSocial,
+                    IdTipoAlmacen: 1,
+                    Paqueteria: (_Paqueteria == "Y") ? true : false,
+                    BigTicket: (_BigTicket == "Y") ? true : false,
+                    ServicioEstandar: (_ServicioEstandar == "Y") ? true : false,
+                    ServicioExpress: (_ServicioExpress == "Y") ? true : false,
+                    UsuarioCreacion: "ADMIN"
+                },
+                datatype: "html",
+                success: function (json)
+                {
+                    if (json.Success) {
+                        location.reload();
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown)
+                {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function EditSurtidores(IdAlmacen) {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetAlmacenes", "Catalogo")',
+                data: {
+                    IdAlmacen: parseInt(IdAlmacen)
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+                        for (var i = 0; i < json.json.length; i++) {
+                            document.getElementById("IdAlmacen").value = json.json[i].IdAlmacen;
+                            document.getElementById("RazonSocial").value = json.json[i].RazonSocial;
+                            var valPaqueteria = (json.json[i].Paqueteria == true) ? "Y" : "N";
+                            var valBigTicket = (json.json[i].BigTicket == true) ? "Y" : "N";
+                            var valServicioEstandar = (json.json[i].ServicioEstandar == true) ? "Y" : "N";
+                            var valServicioExpress = (json.json[i].ServicioExpress == true) ? "Y" : "N";
+                        }
+
+                        $('a[data-toggle="Paqueteria"][data-title="' + valPaqueteria + '"]').click();
+                        $('a[data-toggle="BigTicket"][data-title="' + valBigTicket + '"]').click();
+                        $('a[data-toggle="ServicioEstandar"][data-title="' + valServicioEstandar + '"]').click();
+                        $('a[data-toggle="ServicioExpress"][data-title="' + valServicioExpress + '"]').click();
+
+                        $("#modal-CreateAlmacen").modal('show');
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function DeleteSurtidores(id) {
+            if (confirm('Esta seguro que desea eliminar el Transportista : ' + id)) {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("DeleteTransportistas", "Catalogo")',
+                    data: {
+                        num: id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            location.reload();
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            }
+        }
+
+
+
+        function saveEditSurtidor() {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("EditTransportistas", "Catalogo")',
+                data: {
+                    num: document.getElementById("Id_Carrier").value
+                    , name: document.getElementById("nameT").value
+                    , un: document.getElementById("Id_Num_Un").value
+                    , status: "1"
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+                        location.reload();
+                    }
+                    else { alert(json.Message) }
+                }
+
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        $('#dlgCreateServicios').on('show.bs.modal', function (e) {
+            LimpiaModal();
+        });
+
+
+
+        function LimpiaModal() {
+            $("#nameT").val("");
+            $("#Id_Num_Un").val("");
+            $("#ddlEstatus").val("1");
+        }
+    </script>
+
+}
+
+
+
+
+

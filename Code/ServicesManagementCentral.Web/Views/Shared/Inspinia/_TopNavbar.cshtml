@@ -1,0 +1,59 @@
+﻿@{
+    string userName = ViewBag.Login != null ? ViewBag.Login.Username : "";
+}
+
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <a href="@Url.Action("DoLogout","Security")">
+                        <i class="fa fa-sign-out"></i> Supplier | 0
+                    </a>
+                </li>
+                <li style="padding-top: 10px;">
+                    <div class="input-group m-b">
+                        <span class="input-group-prepend">
+                            <button type="button" class="btn btn-primary">Go!</button>
+                        </span> <input type="text" class="form-control">
+                    </div>
+                </li>
+                <li  style="padding-left: 20px;padding-bottom: 5px;">
+                    <select class="form-control" id="Id_TipoFolio" name="Id_TipoFolio">
+                        <option selected="selected" value="1">--Filtra Por--</option>
+                        <option value="1">Pickup</option>
+                        <option value="1">Send</option>
+
+                    </select>
+
+                </li>
+                <li>
+                    <a href="@Url.Action("DoLogout","Security")">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+
+        @if (userName != "")
+        {
+            <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <img alt="image-profile" src="@Url.Content("~/Content/images/theme/profile.jpg")" class="rounded img-top-logued" />
+                </li>
+                <li>
+                    <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext" id="usrLuged-Name">@userName</span>
+                </li>
+                <li>
+                    <a href="@Url.Action("DoLogout","Security")">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
+        }
+    </nav>
+</div>
+
