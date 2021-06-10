@@ -1,5 +1,11 @@
-﻿using System;
+﻿using ExcelDataReader;
+using ServicesManagement.Web.DAL;
+using ServicesManagement.Web.Helpers;
+using ServicesManagement.Web.Models.Impex;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -390,11 +396,11 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                 string apiUrl = string.Format("{0}/AddOperador", UrlApi);
+                string apiUrl = string.Format("{0}/AddOperador", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                OperadorModel v = new OperadorModel { Nombre = nombre,Usuario = user,Pass = pass,Matricula = matricula};
+                OperadorModel v = new OperadorModel { Nombre = nombre, Usuario = user, Pass = pass, Matricula = matricula };
 
                 Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
 
@@ -458,7 +464,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> EditOperador(string Id, string nombre,string user,string pass ,string matricula, string estatus)
+        public async Task<JsonResult> EditOperador(string Id, string nombre, string user, string pass, string matricula, string estatus)
         {
             try
             {
@@ -466,7 +472,7 @@ namespace ServicesManagement.Web.Controllers
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                OperadorModel v = new OperadorModel { Id_Transportista = Convert.ToInt32(Id), Matricula = matricula,Usuario = user,Pass = pass, Nombre = nombre, Estatus = estatus.Equals("1") ? true : false };
+                OperadorModel v = new OperadorModel { Id_Transportista = Convert.ToInt32(Id), Matricula = matricula, Usuario = user, Pass = pass, Nombre = nombre, Estatus = estatus.Equals("1") ? true : false };
 
                 Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
 
@@ -514,7 +520,8 @@ namespace ServicesManagement.Web.Controllers
                     var result = new { Success = true, json = listC };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                else {
+                else
+                {
                     var result = new { Success = false, Message = "Error al ejecutar la accion" };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
@@ -573,5 +580,121 @@ namespace ServicesManagement.Web.Controllers
             return View();
         }
 
+        #region ArchivosExcel
+        public ActionResult CobZona()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ImportFileCobZona(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+                var fileData = GetDataFromCSVFileCobZon(importFile.InputStream);
+
+                ViewBag.List = fileData;
+
+                //var dtEmployee = fileData.ToDataTable();
+                //var tblEmployeeParameter = new SqlParameter("tblEmployeeTableType", SqlDbType.Structured)
+                //{
+                //    TypeName = "dbo.tblTypeEmployee",
+                //    Value = dtEmployee
+                //};
+                //await _dbContext.Database.ExecuteSqlCommandAsync("EXEC spBulkImportEmployee @tblEmployeeTableType", tblEmployeeParameter);
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+        #endregion
+        private List<CobZon> GetDataFromCSVFileCobZon(Stream stream)
+        {
+            var List = new List<CobZon>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // To set First Row As Column Names    
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        var dataTable = dataSet.Tables[0];
+                        foreach (DataRow objDataRow in dataTable.Rows)
+                        {
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
+                            var item = new CobZon();
+                            
+
+                            item.NoProveedor = objDataRow[0].ToString();
+                            item.CpOrigen = objDataRow[1].ToString();
+                            item.CoberturaBigT = objDataRow[2].ToString();
+                            item.CoberturaPyM = objDataRow[3].ToString();
+                            item.CodigoPostal = objDataRow[4].ToString();
+                            item.Zonas = objDataRow[5].ToString();
+                            item.TiemposEntregaBT = objDataRow[6].ToString();
+                            item.TiemposEntregaPyM = objDataRow[7].ToString();
+                            item.Municipio = objDataRow[8].ToString();
+                            item.Estado = objDataRow[9].ToString();
+                            item.SiglasPlaza = objDataRow[10].ToString();
+                            item.Lunes = objDataRow[11].ToString();
+                            item.Martes = objDataRow[12].ToString();
+                            item.Miercoles = objDataRow[13].ToString();
+                            item.Jueves = objDataRow[14].ToString();
+                            item.Viernes = objDataRow[15].ToString();
+                            item.Sabado = objDataRow[16].ToString();
+                            item.Domingo = objDataRow[17].ToString();
+                            item.Periodicidad = objDataRow[18].ToString();
+                            item.EsOcurreForzoso = objDataRow[19].ToString();
+                            item.Reexpedicion = objDataRow[20].ToString();
+                            item.GarantiaMax = objDataRow[21].ToString();
+
+                            List.Add(item);
+
+                            DALImpex.CobZon_iUp(item);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return List;
+        }
+
+        public ActionResult GetCobZona()
+        {
+            try
+            {
+                List<CobZon> list = new List<CobZon>();
+
+                var ds = DALImpex.CobZon_sUp();
+
+                if (ds.Tables.Count > 0)
+                {
+                    list = DataTableToModel.ConvertTo<CobZon>(ds.Tables[0]);
+                }
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
