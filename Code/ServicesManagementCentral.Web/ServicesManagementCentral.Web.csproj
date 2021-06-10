@@ -80,7 +80,7 @@
       <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="Soriana.FWK">
-      <HintPath>..\..\..\..\..\..\2020\Soriana\Soriana\SistemasPC\Desarrollo\FWKSORIANA\SorianaFramework\bin\Debug\Soriana.FWK.dll</HintPath>
+      <HintPath>..\..\..\..\DSV2\DSV\ServicesManagementCentral.Web\bin\Soriana.FWK.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -194,6 +194,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TMSController.cs" />
+    <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
