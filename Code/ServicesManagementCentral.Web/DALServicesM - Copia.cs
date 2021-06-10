@@ -128,85 +128,12 @@ namespace ServicesManagement.Web
             }
         }
 
-        public static DataSet GetCommonAlmacenes()
-        {
-            DataSet ds = new DataSet();
-            //string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            //if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            //{
-            //    conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            //}
-            try
-            {
-                //System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-                //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "upCorpOms_Cns_UN", false);
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV3"].ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("common.Warehouses_sUP", cnn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
-                            dataAdapter.Fill(ds);
-                    }
-                }
-                return ds;
-            }
-            catch (SqlException ex)
-            {
-
-                throw ex;
-            }
-            catch (System.Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public static DataSet GetCommonProveedores(string IdAlmacen)
-        {
-            DataSet ds = new DataSet();
-            //string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            //if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            //{
-            //    conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            //}
-            try
-            {
-                //System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-                //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "upCorpOms_Cns_UN", false);
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV3"].ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("common.Suppliers_sUP", cnn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(new SqlParameter("@idSupplierWHCode", IdAlmacen));
-                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
-                            dataAdapter.Fill(ds);
-                    }
-                }
-                return ds;
-            }
-            catch (SqlException ex)
-            {
-
-                throw ex;
-            }
-            catch (System.Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
         public static DataSet GetTmsAlmacenes(int IdAlmacen)
         {
 
             DataSet ds = new DataSet();
             try
-            {
+            {               
                 using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV2"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand("tms.upCorpTms_Cns_AlmacenesById", cnn))
@@ -233,7 +160,7 @@ namespace ServicesManagement.Web
 
         }
 
-        public static int AddAlmacenes(long IdAlmacen, long IdProveedor,
+        public static int AddAlmacenes(int IdAlmacen, string RazonSocial, 
             int IdTipoAlmacen, bool Paqueteria, bool BigTicket, bool ServicioEstandar, bool ServicioExpress, string UsuarioCreacion)
         {
             int iResult;
@@ -246,7 +173,7 @@ namespace ServicesManagement.Web
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@IdAlmacen", IdAlmacen));
-                        cmd.Parameters.Add(new SqlParameter("@IdProveedor", IdProveedor));
+                        cmd.Parameters.Add(new SqlParameter("@RazonSocial", RazonSocial));
                         cmd.Parameters.Add(new SqlParameter("@IdTipoAlmacen", IdTipoAlmacen));
                         cmd.Parameters.Add(new SqlParameter("@Paqueteria", Paqueteria));
                         cmd.Parameters.Add(new SqlParameter("@BigTicket", BigTicket));
@@ -455,7 +382,7 @@ namespace ServicesManagement.Web
                 //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV2"].ConnectionString);
 
                 //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms.upCorpTms_Cns_Trans]", false);
-
+                                
                 using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV2"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand("tms.upCorpTms_Cns_Trans", cnn))
@@ -579,7 +506,7 @@ namespace ServicesManagement.Web
             }
         }
 
-        public static int AddCarriers(long IdTransportista, bool TarifaFija,
+        public static int AddCarriers(int IdTransportista, string RazonSocial, bool TarifaFija,
             decimal CostoTarifaFija, int Prioridad, decimal NivelServicio, decimal FactorPaqueteria, decimal PorcAdicPaquete,
             int IdTipoAlmacen, bool Paqueteria, bool BigTicket, bool ServicioEstandar, bool ServicioExpress, string UsuarioCreacion)
         {
@@ -606,6 +533,7 @@ namespace ServicesManagement.Web
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(new SqlParameter("@IdTransportista", IdTransportista));
+                        cmd.Parameters.Add(new SqlParameter("@RazonSocial", RazonSocial));
                         cmd.Parameters.Add(new SqlParameter("@TarifaFija", TarifaFija));
                         cmd.Parameters.Add(new SqlParameter("@CostoTarifaFija", CostoTarifaFija));
                         cmd.Parameters.Add(new SqlParameter("@Prioridad", Prioridad));
@@ -1095,7 +1023,7 @@ namespace ServicesManagement.Web
 
         #region ActualizaOrden
 
-        public static DataSet GetMotivoCambioFP(int Id_Num_MotCmbFP = 0, bool Bit_Eliminado = false)
+        public static DataSet GetMotivoCambioFP(int Id_Num_MotCmbFP=0, bool Bit_Eliminado = false)
         {
             DataSet ds = new DataSet();
 
@@ -1127,7 +1055,7 @@ namespace ServicesManagement.Web
             }
         }
 
-        public static DataSet UpdFormaPago(int Id_Num_Orden, int Id_Num_MotCmbFP, string Obs_CambioFP)
+        public static DataSet UpdFormaPago(int Id_Num_Orden,int Id_Num_MotCmbFP,string Obs_CambioFP)
         {
             DataSet ds = new DataSet();
 
@@ -1219,7 +1147,7 @@ namespace ServicesManagement.Web
 
                 parametros.Add("@OrderNo", OrderNo);
                 parametros.Add("@Desc_CarObs", Desc_CarObs);
-
+                
 
                 Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[upCorpOms_Ins_OrderComments]", false, parametros);
 

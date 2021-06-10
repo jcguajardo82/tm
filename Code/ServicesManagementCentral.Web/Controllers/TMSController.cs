@@ -34,9 +34,14 @@ namespace ServicesManagement.Web.Controllers
         public string modified_user { get; set; }
 
     }
+
+
+
     public class TMSController : Controller
     {
         string UrlApi = System.Configuration.ConfigurationManager.AppSettings["api_TMS"].ToString();
+
+
         // GET: TMS
         public ActionResult MainSystem()
         {
@@ -92,12 +97,13 @@ namespace ServicesManagement.Web.Controllers
             return View();
         }
 
+
         [HttpGet]
         public async Task<JsonResult> GetVehiculos()
         {
             try
             {
-                string apiUrl = string.Format("{0}/Vehiculo/GetVehiculoAll", UrlApi);
+                string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -131,7 +137,8 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Vehiculo/GetVehiculoAll", UrlApi);
+                //string apiUrl = string.Format("{0}/GetVehiculoById", UrlApi);
+                string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -141,7 +148,13 @@ namespace ServicesManagement.Web.Controllers
                 {
                     List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
 
-                    var result = new { Success = true, json = listC };
+                    List<VehiculoModel> listR = new List<VehiculoModel>();
+
+                    listR.Add(listC.First(c => c.Id_Vehiculo == Convert.ToInt32(Id)));
+
+
+
+                    var result = new { Success = true, json = listR };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -165,7 +178,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Vehiculo/InsVehiculo", UrlApi);
+                string apiUrl = string.Format("{0}/AddVehiculo", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -176,6 +189,7 @@ namespace ServicesManagement.Web.Controllers
                 if (responseApi1.code.Equals("00"))
                 {
                     List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+
 
                     var result = new { Success = true, json = listC };
                     return Json(result, JsonRequestBehavior.AllowGet);
@@ -201,7 +215,8 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Vehiculo/GetVehiculo", UrlApi) + "?Id_Vehiculo=" + Id;
+                //string apiUrl = string.Format("{0}/GetVehiculos", UrlApi) + "?Id_Vehiculo=" + Id;
+                string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -211,9 +226,12 @@ namespace ServicesManagement.Web.Controllers
 
                 if (responseApi1.code.Equals("00"))
                 {
-                    VehiculoModel listC = Newtonsoft.Json.JsonConvert.DeserializeObject<VehiculoModel>(responseApi1.message);
+                    //VehiculoModel listC = Newtonsoft.Json.JsonConvert.DeserializeObject<VehiculoModel>(responseApi1.message);
+                    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
 
-                    var result = new { Success = true, json = listC };
+
+
+                    var result = new { Success = true, json = listC.First(c => c.Id_Vehiculo == Convert.ToInt32(Id)) };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -237,7 +255,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Vehiculo/UpdVehiculo", UrlApi);
+                string apiUrl = string.Format("{0}/UpdVehiculo", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -273,7 +291,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Vehiculo/DelVehiculo", UrlApi);
+                string apiUrl = string.Format("{0}/DelVehiculo", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -309,7 +327,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Operador/GetOperadorAll", UrlApi);
+                string apiUrl = string.Format("{0}/GetOperadores", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -338,7 +356,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Operador/GetOperadorAll", UrlApi);
+                string apiUrl = string.Format("{0}/GetOperadores", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -372,11 +390,11 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Operador/InsOperador", UrlApi);
+                 string apiUrl = string.Format("{0}/AddOperador", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                OperadorModel v = new OperadorModel { Nombre = nombre, Usuario = user, Pass = pass, Matricula = matricula };
+                OperadorModel v = new OperadorModel { Nombre = nombre,Usuario = user,Pass = pass,Matricula = matricula};
 
                 Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
 
@@ -408,7 +426,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Operador/GetOperador", UrlApi) + "?Id_Transportista=" + Id;
+                string apiUrl = string.Format("{0}/GetOperadorById", UrlApi) + "?Id_Transportista=" + Id;
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -440,15 +458,15 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> EditOperador(string Id, string nombre, string user, string pass, string matricula, string estatus)
+        public async Task<JsonResult> EditOperador(string Id, string nombre,string user,string pass ,string matricula, string estatus)
         {
             try
             {
-                string apiUrl = string.Format("{0}/Operador/UpdOperador", UrlApi);
+                string apiUrl = string.Format("{0}/UpdOperador", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                OperadorModel v = new OperadorModel { Id_Transportista = Convert.ToInt32(Id), Matricula = matricula, Usuario = user, Pass = pass, Nombre = nombre, Estatus = estatus.Equals("1") ? true : false };
+                OperadorModel v = new OperadorModel { Id_Transportista = Convert.ToInt32(Id), Matricula = matricula,Usuario = user,Pass = pass, Nombre = nombre, Estatus = estatus.Equals("1") ? true : false };
 
                 Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
 
@@ -481,7 +499,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/Operador/DelOperador", UrlApi);
+                string apiUrl = string.Format("{0}/DelOperador", UrlApi);
 
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -496,8 +514,7 @@ namespace ServicesManagement.Web.Controllers
                     var result = new { Success = true, json = listC };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                else
-                {
+                else {
                     var result = new { Success = false, Message = "Error al ejecutar la accion" };
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
@@ -526,6 +543,33 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Cat_Servicio()
         {
+
+            string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.GET, apiUrl, null, "");
+
+            if (responseApi1.code.Equals("00"))
+            {
+                List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+
+                Session["listaV"] = listC;
+            }
+
+            apiUrl = string.Format("{0}/GetOperadores", UrlApi);
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.GET, apiUrl, null, "");
+
+            if (responseApi1.code.Equals("00"))
+            {
+                List<OperadorModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<OperadorModel>>(responseApi1.message);
+                Session["listaO"] = listC;
+
+            }
+
             return View();
         }
 

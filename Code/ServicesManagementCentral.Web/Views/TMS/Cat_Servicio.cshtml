@@ -26,11 +26,11 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Matricula</th>
-                            <th>Nombre</th>
-                            <th>Usuario</th>
-                            <th>Password</th>
-                            <th>Estatus</th>
+                            <th>Id Operador</th>
+                            <th>Operador</th>
+                            <th>Id Vehiculo</th>
+                            <th>Vehiculo</th>
+                            <th>Guia</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -113,25 +113,60 @@
 
                         <div class="row">
 
-                            <div class="col col-xs-8 col-md-4">
+                            <div class="col col-xs-8 col-md-6">
 
                                 <div class="form-group">
 
-                                    <label>Matricula</label>
-                                    <input type="text" placeholder="Numero de Empleado" id="numE" name="numE" class="form-control" />
+                                    <label>Operador</label>
+                                    <select class="form-control" id="id_operador" name="id_operador">
+                                        <option selected="selected" value="1">--SELECCIONA--</option>
+
+                                        @{
+
+                                            if (Session["listaV"] != null)
+                                            {
+
+                                                foreach (ServicesManagement.Web.Controllers.VehiculoModel v in (List<ServicesManagement.Web.Controllers.VehiculoModel>)(Session["listaV"]))
+                                                {
+                                                    <option value="@v.Id_Vehiculo">@v.Descripcion</option>
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                    </select>
 
                                 </div>
 
                             </div>
-                            
-                            <div class="col col-xs-8 col-md-7">
+
+                            <div class="col col-xs-8 col-md-6">
 
                                 <div class="form-group">
 
-                                    <label>Nombre</label>
+                                    <label>Vehiculo</label>
 
-                                    <input type="text" placeholder="Numero de Empleado" id="numE" name="numE" class="form-control" />
+                                    <select class="form-control" id="id_vehiculo" name="id_vehiculo" onchange="leaveChange(this)">
+                                        <option selected="selected" value="1">--SELECCIONA--</option>
 
+                                        @{
+
+                                            if (Session["listaO"] != null)
+                                            {
+
+                                                foreach (ServicesManagement.Web.Controllers.OperadorModel v in (List<ServicesManagement.Web.Controllers.OperadorModel>)(Session["listaO"]))
+                                                {
+                                                    <option value="@v.Id_Transportista">@v.Nombre</option>
+
+                                                }
+
+                                            }
+
+                                        }
+
+                                    </select>
                                 </div>
 
                             </div>
@@ -144,9 +179,9 @@
 
                                 <div class="form-group">
 
-                                    <label>Usuario</label>
+                                    <label>Matricula</label>
 
-                                    <input type="text" placeholder="Numero de Empleado" id="numE" name="numE" class="form-control" />
+                                    <input disabled type="text" placeholder="Matricula" id="in_matricula" name="in_matricula" class="form-control" />
 
                                 </div>
 
@@ -157,9 +192,9 @@
 
                                 <div class="form-group">
 
-                                    <label>PASSWORD</label>
+                                    <label>Guia</label>
 
-                                    <input type="text" placeholder="Numero de Empleado" id="numE" name="numE" class="form-control" />
+                                    <input type="text" placeholder="Guia" id="in_guia" name="in_guia" class="form-control" />
 
 
                                 </div>
@@ -167,26 +202,6 @@
                             </div>
                         </div>
 
-
-                        <div class="row">
-
-                            <div class="col col-xs-4 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Estatus</label>
-
-                                    <select class="form-control" id="Id_TipoFolio" name="Id_TipoFolio">
-                                        <option selected="selected" value="1">--SELECCIONA--</option>
-                                        <option value="1">ACTIVO</option>
-                                        <option value="2">INACTIVO</option>
-                                    </select>
-
-                                </div>
-
-                            </div>
-
-                        </div>
 
                         @*<div class="row">
                                 <div class="col-12">
@@ -331,83 +346,7 @@
                 }
             );
 
-            //var varUnidadNegocio = $('#tbUnidadNegocio').DataTable();
-            //varUnidadNegocio.draw();
 
-
-            var bounds = new google.maps.LatLngBounds();
-            var center = { lat: 19.181198, lng: -96.161272 };
-
-            var options = {
-                zoom: 12,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                center: center
-            };
-
-            var googleMap = new google.maps.Map($("#map")[0], options);
-            console.log(googleMap);
-            //var infoWindow = new google.maps.InfoWindow({ content: "Cargando..." });
-
-            // Create the initial InfoWindow.
-            let infoWindow = new google.maps.InfoWindow({
-                content: "Da un click al mapa para leer Lat/Lng!",
-                position: center,
-            });
-            infoWindow.open(googleMap);
-
-            const marker = new google.maps.Marker({
-                map: googleMap,
-                draggable: true,
-                position: center,
-                title: 'Ubicación de Inicio'
-            });
-
-            const circle = new google.maps.Circle({
-                map: googleMap,
-                center: center,
-                radius: 10000,
-                fillColor: '#AA0000'
-            });
-
-            circle.bindTo('center', marker, 'position');
-            marker.setVisible(false);
-            circle.setVisible(false);
-
-
-
-            // Configure the click listener.
-            googleMap.addListener("click", (mapsMouseEvent) => {
-                // Close the current InfoWindow.
-                infoWindow.close();
-
-                infoWindow.setPosition(mapsMouseEvent.latLng);
-                infoWindow.setContent(`Latitud: ${mapsMouseEvent.latLng.lat().toFixed(6)} Longitud: ${mapsMouseEvent.latLng.lng().toFixed(6)}`);
-                infoWindow.open(googleMap);
-
-                marker.setVisible(false);
-                marker.setPosition(mapsMouseEvent.latLng);
-                marker.setVisible(true);
-                circle.setVisible(true);
-
-                const parameters = '/Home/GetPostalCodeFromPosition' + `?latitude=${mapsMouseEvent.latLng.lat().toFixed(6)}&longitude=${mapsMouseEvent.latLng.lng().toFixed(6)}`;
-
-                $.ajax({
-                    type: 'GET',
-                    url: parameters,
-                    async: true,
-                    contentType: 'json',
-                    beforeSend: function () {
-                        $(".modal").show();
-                        document.getElementById("postalcode").value = "";
-                    },
-                    success: function (data) {
-                        document.getElementById("postalcode").value = data;
-                        $(".modal").hide();
-                    }
-                });
-            });
-
-            googleMap.fitBounds(bounds);
         });
 
         /* Bootbox Dialog box with custom Value */
@@ -486,6 +425,39 @@
                     bootbox.alert(errorThrown);
                 }
             });
+        }
+
+
+        function leaveChange(control) {
+
+            //var msg = control.value == "100" ? "Having a Baby!!" : "Common message";
+            //alert(msg);
+
+
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetOperadorById", "TMS")',
+                data: {
+                    Id: control.value
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("in_matricula").value = json.json.Matricula;
+                        
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+
         }
 
     </script>
