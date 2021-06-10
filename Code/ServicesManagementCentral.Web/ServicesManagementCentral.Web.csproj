@@ -205,6 +205,7 @@
     <Compile Include="Controllers\TMSController.cs" />
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
+    <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALImpex.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -213,6 +214,8 @@
     <Compile Include="Inspinia\Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
+    <Compile Include="Models\Catalogos\Paqueteria.cs" />
+    <Compile Include="Models\Catalogos\Transportista.cs" />
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\CommonAlmacenModel.cs" />
     <Compile Include="Models\CommonProveedorModel.cs" />
@@ -3613,6 +3616,7 @@
     <Content Include="Views\Config\Usuarios.cshtml" />
     <Content Include="Views\TMS\CobZona.cshtml" />
     <Content Include="Views\TMS\KgDinero.cshtml" />
+    <Content Include="Views\Catalogo\PesoTransportista.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
