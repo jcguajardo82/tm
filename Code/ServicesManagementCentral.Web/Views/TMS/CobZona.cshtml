@@ -46,7 +46,7 @@
                         <th style="text-align:center;">Zonas</th>
                         <th style="text-align:center;">Tiempos de Entrega (BT)</th>
                         <th style="text-align:center;">Tiempos de Entrega (PyM)</th>
-                        <th style="text-align:center;">Municipio</th>
+                        @*<th style="text-align:center;">Municipio</th>
                         <th style="text-align:center;">Estado</th>
                         <th style="text-align:center;">Siglas Plaza</th>
                         <th style="text-align:center;">Lu</th>
@@ -59,7 +59,7 @@
                         <th style="text-align:center;">Periodicidad</th>
                         <th style="text-align:center;">Es Ocurre Forzoso</th>
                         <th style="text-align:center;">Reexpedición</th>
-                        <th style="text-align:center;">Garantía Máxima</th>
+                        <th style="text-align:center;">Garantía Máxima</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -74,7 +74,7 @@
                         <th style="text-align:center;">Zonas</th>
                         <th style="text-align:center;">Tiempos de Entrega (BT)</th>
                         <th style="text-align:center;">Tiempos de Entrega (PyM)</th>
-                        <th style="text-align:center;">Municipio</th>
+                        @*<th style="text-align:center;">Municipio</th>
                         <th style="text-align:center;">Estado</th>
                         <th style="text-align:center;">Siglas Plaza</th>
                         <th style="text-align:center;">Lu</th>
@@ -87,7 +87,7 @@
                         <th style="text-align:center;">Periodicidad</th>
                         <th style="text-align:center;">Es Ocurre Forzoso</th>
                         <th style="text-align:center;">Reexpedición</th>
-                        <th style="text-align:center;">Garantía Máxima</th>
+                        <th style="text-align:center;">Garantía Máxima</th>*@
                     </tr>
                 </tfoot>
             </table>
@@ -135,7 +135,26 @@
 
         $(document).ready(function () {
 
-            $('#tblConsulta').DataTable(
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table =  $('#tblConsulta').DataTable(
                 {
 
                     language:
@@ -189,24 +208,7 @@
 
                 }
             );
-            //$('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
-            //$('#tblConsulta thead tr:eq(0) th').each(function (i) {
-            //    if ($(this).attr('name') != "accion") {
-            //        var title = $(this).text();
-            //        $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
 
-            //        $('input', this).on('keyup change', function () {
-            //            if (table.column(i).search() !== this.value) {
-            //                table
-            //                    .column(i)
-            //                    .search(this.value)
-            //                    .draw();
-            //            }
-            //        });
-            //    } else {
-            //        $(this).empty();
-            //    }
-            //});
 
             //table = $("#tblConsulta").DataTable(
             //    {
@@ -302,20 +304,20 @@
                                 , json.resp[i].Zonas
                                 , json.resp[i].TiemposEntregaBT
                                 , json.resp[i].TiemposEntregaPyM
-                                , json.resp[i].Municipio
-                                , json.resp[i].Estado
-                                , json.resp[i].SiglasPlaza
-                                , json.resp[i].Lunes
-                                , json.resp[i].Martes
-                                , json.resp[i].Miercoles
-                                , json.resp[i].Jueves
-                                , json.resp[i].Viernes
-                                , json.resp[i].Sabado
-                                , json.resp[i].Domingo
-                                , json.resp[i].Periodicidad
-                                , json.resp[i].EsOcurreForzoso
-                                , json.resp[i].Reexpedicion
-                                , json.resp[i].GarantiaMax
+                                //, json.resp[i].Municipio
+                                //, json.resp[i].Estado
+                                //, json.resp[i].SiglasPlaza
+                                //, json.resp[i].Lunes
+                                //, json.resp[i].Martes
+                                //, json.resp[i].Miercoles
+                                //, json.resp[i].Jueves
+                                //, json.resp[i].Viernes
+                                //, json.resp[i].Sabado
+                                //, json.resp[i].Domingo
+                                //, json.resp[i].Periodicidad
+                                //, json.resp[i].EsOcurreForzoso
+                                //, json.resp[i].Reexpedicion
+                                //, json.resp[i].GarantiaMax
 
 
                             ]).draw();
