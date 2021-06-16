@@ -2401,6 +2401,87 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
+        #region Gastos
+
+        public ActionResult Gastos()
+        {
+            return View();
+        }
+
+        public ActionResult ListGastos()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.Gastos_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult AddGasto(string gasto, int Id_gasto)
+        {
+            try
+            {
+                if (Id_gasto.Equals(0))
+                {
+                    DALCatalogo.Gastos_iUp(Id_gasto, gasto);
+                }
+                else { DALCatalogo.Gastos_uUp(gasto, Id_gasto ); }
+
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetGastosId(string Id_gasto)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.GastosById_sUp(int.Parse(Id_gasto)).Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult DelGastos(string Id_gastos)
+        {
+            try
+            {
+                DALCatalogo.Gastos_dUp(int.Parse(Id_gastos));
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        #endregion
 
     }
 

@@ -214,6 +214,7 @@
     <Compile Include="Inspinia\Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
+    <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />
     <Compile Include="Models\CategoriaModel.cs" />
@@ -3617,6 +3618,8 @@
     <Content Include="Views\TMS\CobZona.cshtml" />
     <Content Include="Views\TMS\KgDinero.cshtml" />
     <Content Include="Views\Catalogo\PesoTransportista.cshtml" />
+    <Content Include="Views\Catalogo\Gastos.cshtml" />
+    <Content Include="Views\TMS\Gastosvehículo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

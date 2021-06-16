@@ -1,0 +1,521 @@
+﻿
+@{
+    ViewBag.Title = "Gastos";
+}
+
+
+<style>
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+
+    .red {
+        background-color: red !important;
+    }
+</style>
+
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Gastos</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+
+        @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
+
+
+        <br />
+
+        <div class="row">
+            <div class="col-12">
+                <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id Gasto</th>
+                            <th>Gasto</th>
+                            <th>Fecha de Creación</th>
+                            <th>Fecha de Movimiento</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Id Gasto</th>
+                            <th>Gasto</th>
+                            <th>Fecha de Creación</th>
+                            <th>Fecha de Movimiento</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="frmAltaTrans" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Alta de Gasto</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="frmCreateServicios">
+                        <div class="row">
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input type="text" onchange="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'" placeholder="" min="0" value="0" step="0.01" title="Descripcion" id="txtgasto" name="txtgasto" pattern="^\d+(?:\.\d{1,2})?$" class="form-control" />
+                                </div>
+                            </div>
+                            @*<div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Factor Division Peso Voluntario</label>
+                                        <input type="text" placeholder="Factor Division Peso Voluntario" id="FactorVoluntario" name="FactorVoluntario" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Prioridad</label>
+                                        <input type="text" placeholder="Prioridad" id="Prioridad" name="Prioridad" class="form-control" />
+                                    </div>
+                                </div>*@
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="AddGasto()" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="frmUpdtTrans" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Alta de Gasto</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="frmCreateServicios">
+                        <div class="row">
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input type="text" onchange="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'" placeholder="" min="0" value="0" step="0.01" title="Descripcion" id="txtgastoupdt" name="txtgastoupdte" pattern="^\d+(?:\.\d{1,2})?$" class="form-control" />
+                                    <input type="hidden" placeholder="" min="0" value="0" step="0.01" title="Descripcion" id="txtidgastoupdt" name="txtidgastoupdte" class="form-control" />
+                                </div>
+                            </div>
+                            @*<div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Factor Division Peso Voluntario</label>
+                                        <input type="text" placeholder="Factor Division Peso Voluntario" id="FactorVoluntario" name="FactorVoluntario" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Prioridad</label>
+                                        <input type="text" placeholder="Prioridad" id="Prioridad" name="Prioridad" class="form-control" />
+                                    </div>
+                                </div>*@
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="AddGastoUpdt()" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+
+    <script>
+
+        $('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
+
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        })
+
+
+        $(document).ready(function () {
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table =  $('#tblConsulta').DataTable(
+                {
+
+                    language:
+                        {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                            },
+                            "buttons": {
+                                "print": "Imprimir",
+                                "pageLength": 'Mostrar %d Registros'
+
+                            }
+                        },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                                    [10, 25, 50, -1],
+                                     ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                            { extend: 'pageLength', className: 'btn-primary' },
+                            { extend: 'excel', className: 'btn-primary' },
+                            {
+                                text: 'Alta',
+                                action: function (e, dt, node, config) {
+                                    $("#hddId_gasto").val("0");
+                                    document.getElementById("txtgasto").value = "";
+
+
+                                    $("#frmAltaTrans").modal('show');
+
+                                }
+                                , className: 'btn-primary'
+                            }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
+
+            GetGasto();
+            //GetGasto2();
+        });
+
+        function GetGasto2() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastos", "Catalogo")',
+                data: {
+                    IdAlmacen: null
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        console.log(json);
+                        var dynamicSelect = document.getElementById("ProveedorLista");
+                        dynamicSelect.innerText = null;
+                        console.log(dynamicSelect);
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].IdTransportista;
+                            newOption.textContent = json.resp[i].Nombre;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                        console.log(dynamicSelect);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function EditGasto(IdGasto) {
+            debugger
+            /*$("#hddId_paqueteria").val(Id_paqueteria);*/
+            /*var _Desc = $("#txtgasto").val();*/
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetGastosId", "Catalogo")',
+                data: {
+                    Id_gasto: IdGasto,
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    //debugger;
+                    if (json.Success)
+                    {
+                        console.log(json);
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            debugger;
+                            $("#txtgastoupdt").val(json.resp[i].Desc_Gasto);
+                            $("#txtidgastoupdt").val(json.resp[i].IdGasto);
+
+                        }
+
+
+                        $("#frmUpdtTrans").modal('show');
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function DeleteGasto(IdGasto) {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("DelGastos", "Catalogo")',
+                data: {
+                    Id_gastos: IdGasto
+                },
+                datatype: "html",
+                success: function (json) {
+                    //debugger;
+                    if (json.Success)
+                    {
+                        location.reload();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function AddGastoUpdt() {
+            debugger
+            var _Desc = $("#txtgastoupdt").val();
+            var Id_gasto = $("#txtidgastoupdt").val();
+            //var _Id_Proveedor = $("#ProveedorLista").val();
+            /*var _Id_paqueteria = $("#hddId_paqueteria").val();*/
+            //if (!isNaN(_peso)) {
+            //    $("#txtPeso").val('0.00');
+            //    $("#txtPeso").focus();
+            //    return;
+            //}
+            debugger;
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '@Url.Action("AddGasto", "Catalogo")',
+                data: {
+                    /*Id_Proveedor: _Id_Proveedor,*/
+                    gasto: _Desc,
+                    Id_gasto: Id_gasto
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        location.reload();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+
+        function AddGasto() {
+            debugger
+            var _Desc = $("#txtgasto").val();
+            var Id_gasto = 0;
+            //var _Id_Proveedor = $("#ProveedorLista").val();
+            /*var _Id_paqueteria = $("#hddId_paqueteria").val();*/
+            //if (!isNaN(_peso)) {
+            //    $("#txtPeso").val('0.00');
+            //    $("#txtPeso").focus();
+            //    return;
+            //}
+            debugger;
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '@Url.Action("AddGasto", "Catalogo")',
+                data: {
+                    /*Id_Proveedor: _Id_Proveedor,*/
+                    gasto: _Desc,
+                    Id_gasto: Id_gasto
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        location.reload();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        //<th>Id Transportista</th>
+        //<th>Tarifa Fija</th>
+        //<th>Prioridad</th>
+        //<th>Nivel de Servicio</th>
+        //<th>Factor Division<br /> Peso Voluntario </th>
+        //<th>Paqueteria</th>
+        //<th>Big Ticket</th>
+        //<th>Servicio Estandar</th>
+        //<th>Servicio Express</th>
+        function GetGasto() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastos", "Catalogo")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+                        $("#tblConsulta tbody tr").remove();
+                        //var tr;
+                        //debugger;
+                        //Append each row to html table
+                        console.log(json);
+                        for (var i = 0; i < json.resp.length; i++) {
+                            tr = $('<tr/>');
+
+
+
+                            tr.append("<td>" + json.resp[i].IdGasto + "</td>");
+                            tr.append("<td>" + json.resp[i].Desc_Gasto + "</td>");
+                            tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
+                            tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
+                            tr.append("<td><button onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
+                            $('#tblConsulta').append(tr);
+
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        /* Bootbox Dialog box with custom Value */
+        $('.alert-custom').click(function () {
+            bootbox.dialog({
+                title: "This is a form in a modal.",
+                message: '<div class="row">  ' +
+                '<div class="col-md-12"> ' +
+                '<form class="form-horizontal"> ' +
+                '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="name">Name</label> ' +
+                '<div class="col-md-4"> ' +
+                '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md"> ' +
+                '<span class="help-block">Here goes your name</span> </div> ' +
+                '</div> ' +
+                '<div class="form-group"> ' +
+                '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
+                '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
+                '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
+                'Really awesome </label> ' +
+                '</div><div class="radio"> <label for="awesomeness-1"> ' +
+                '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
+                '</div> ' +
+                '</div> </div>' +
+                '</form> </div>  </div>',
+                buttons: {
+                    success: {
+                        label: "Save",
+                        className: "btn-success",
+                        callback: function () {
+                            var name = $('#name').val();
+                            var answer = $("input[name='awesomeness']:checked").val()
+                            $('.Example').show().html("Hello " + name + ". You've chosen <b>" + answer + "</b").fadeOut(5000);
+                        }
+                    }
+                }
+            }
+                    );
+        })
+    </script>
+
+}

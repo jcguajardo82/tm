@@ -103,6 +103,11 @@ namespace ServicesManagement.Web.Controllers
             return View();
         }
 
+        public ActionResult Gastosvehículo()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         public async Task<JsonResult> GetVehiculos()
