@@ -10,7 +10,8 @@ namespace ServicesManagement.Web.DAL
 {
     public class DALCatalogo
     {
-        public static DataSet Paqueteria_iUp(int Id_Proveedor,decimal peso)
+        #region PAQUETERIA
+        public static DataSet Paqueteria_iUp(int Id_Proveedor, decimal peso)
         {
             DataSet ds = new DataSet();
 
@@ -29,7 +30,7 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@Id_Proveedor", Id_Proveedor);
                 parametros.Add("@peso", peso);
-               
+
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Paqueteria_iUp", false, parametros);
 
@@ -65,7 +66,7 @@ namespace ServicesManagement.Web.DAL
 
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@Id_paqueteria", Id_paqueteria);
-              
+
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Paqueteria_dUp", false, parametros);
 
@@ -82,7 +83,7 @@ namespace ServicesManagement.Web.DAL
                 throw ex;
             }
         }
-        public static DataSet Paqueteria_uUp(int Id_Proveedor, decimal peso,int Id_paqueteria)
+        public static DataSet Paqueteria_uUp(int Id_Proveedor, decimal peso, int Id_paqueteria)
         {
             DataSet ds = new DataSet();
 
@@ -218,7 +219,8 @@ namespace ServicesManagement.Web.DAL
 
                 throw ex;
             }
-        }
+        } 
+        #endregion
 
         #region Gastos
         public static DataSet Gastos_sUp()
@@ -404,5 +406,69 @@ namespace ServicesManagement.Web.DAL
 
         #endregion
 
+
+        public static DataSet TipoEnvio_sUp()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.TipoEnvio_sUp", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet TipoServicio_sUp()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.TipoServicio_sUp", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

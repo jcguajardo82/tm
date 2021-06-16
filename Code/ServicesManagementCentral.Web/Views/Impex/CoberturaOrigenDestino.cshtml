@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "Transportistas Rangos Pesos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+    <div class="row">
+        <div class="col col-xs-12 col col-md-12 col col-lg-12 text-center">
+            <h2>Transportistas Rangos Pesos</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12" style="padding-bottom:20px">
+            <div class="col-sm-2">
+                <span>Seleccione Archivo  :</span>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control" type="file" name="importFile" id="importFile" />
+            </div>
+            <div class="col-sm-3">
+                <input class="btn btn-primary" id="btnUpload" type="button" value="Upload" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-11 col-md-11 col-lg-11">
+            <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">Id Transportista</th>
+                        <th style="text-align:center;">Id Plaza Origen</th>
+                        <th style="text-align:center;">Id Plaza Destino</th>
+                        <th style="text-align:center;">Id Zona</th>
+                        <th style="text-align:center;">Cargado Por</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @*CONFIGURACION DE TABLAS, FILTROS, BOTONES DE EXPORT*@
+    <script>
+
+        $(document).ready(function () {
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#tblConsulta').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                    ],
+                    fixedHeader: {
+                        header: true,
+                        footer: true
+                    },
+                    "scrollX": true
+                    , "scrollY": "500px"
+                    , "scrollCollapse": true
+
+                }
+            );
+            GetConsulta();
+
+          
+
+
+        });
+    </script>
+    <script>
+
+        function GetConsulta(){
+
+            $.ajax({
+                async: false,
+                type: "get",
+                url: '@Url.Action("GetCoberturaOrigenDestino", "Impex")',
+                data: {
+
+                },
+
+                datatype: "json",
+                success: function (json) {
+                    if (json.Success) {
+                        //$('#tblDetalle tbody').empty();
+                        ////var tr;
+                        //debugger;
+                        ////Append each row to html table
+
+                        //for (var i = 0; i < json.resp.length; i++) {
+                        //    tr = $('<tr/>');
+
+                        //    tr.append("<td>" + json.resp[i].EAN + "</td>");
+                        //    tr.append("<td>" + json.resp[i].ID + "</td>");
+                        //    tr.append("<td>" + json.resp[i].Descripcion + "</td>");
+                        //    tr.append("<td>" + json.resp[i].Piezas + "</td>");
+                        //    tr.append("<td>" + json.resp[i].CostoUnitario + "</td>");
+
+                        //    $('#tblDetalle').append(tr);
+                        //}
+                        debugger;
+                        var table = $('#tblConsulta').DataTable();
+
+                        table.clear().draw();
+
+                        //iniciarDetalle();
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            table.row.add([
+                                json.resp[i].IdTransportista
+                                , json.resp[i].IdPlazaOrigen
+                                , json.resp[i].IdPlazaDestino
+                                , json.resp[i].IdZona
+                                , json.resp[i].CreatedId
+
+                            ]).draw();
+                        }
+                        table.columns.adjust().draw();
+
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    //bootbox.alert(errorThrown);
+                    alert("errorThrown");
+                }
+
+            });
+        }
+
+
+        $(document).on("click", "#btnUpload", function () {
+            var files = $("#importFile").get(0).files;
+
+            var formData = new FormData();
+            formData.append('importFile', files[0]);
+
+            $.ajax({
+                url: '/Impex/ImportFileTransRangosPesos',
+                data: formData,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.Status === 1) {
+                        //alert(data.Message);
+                        location.reload();
+                    } else {
+                        alert("Failed to Import");
+                    }
+                }
+            });
+        });
+    </script>  }
+

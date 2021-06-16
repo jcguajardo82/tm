@@ -1,6 +1,7 @@
 ﻿using ExcelDataReader;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
+using ServicesManagement.Web.Models.Catalogos;
 using ServicesManagement.Web.Models.Impex;
 using System;
 using System.Collections.Generic;
@@ -61,12 +62,8 @@ namespace ServicesManagement.Web.Controllers
 
 
                 var dt = fileData.ToDataTable();
-                //var tblEmployeeParameter = new SqlParameter("tblEmployeeTableType", SqlDbType.Structured)
-                //{
-                //    TypeName = "dbo.tblTypeEmployee",
-                //    Value = dtEmployee
-                //};
-                //await _dbContext.Database.ExecuteSqlCommandAsync("EXEC spBulkImportEmployee @tblEmployeeTableType", tblEmployeeParameter);
+
+
                 DALImpex.upCorpTms_Ins_TransportistaPlazas(dt);
                 return Json(new { Status = 1, Message = "File Imported Successfully " });
             }
@@ -117,6 +114,163 @@ namespace ServicesManagement.Web.Controllers
             }
             return List;
         }
+        #endregion
+
+        #region TransportistaRangosPesos
+        public ActionResult TransRangosPesos()
+        {
+            return View();
+        }
+
+        public ActionResult GetTransRangosPesos()
+        {
+            try
+            {
+
+                var list = DataTableToModel.ConvertTo<TransportistaRangosPesos>(DALImpex.upCorpTms_Cns_TransportistaRangosPesos().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ImportFileTransRangosPesos(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+                var fileData = GetDataFromFileTransRangosPesos(importFile.InputStream);
+                DALImpex.upCorpTms_Ins_TransportistaRangosPesos(fileData.ToDataTable());
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+        private List<TransportistaRangosPesos> GetDataFromFileTransRangosPesos(Stream stream)
+        {
+            var List = new List<TransportistaRangosPesos>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // To set First Row As Column Names    
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        var dataTable = dataSet.Tables[0];
+                        foreach (DataRow objDataRow in dataTable.Rows)
+                        {
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
+                            List.Add(new TransportistaRangosPesos()
+                            {
+                                IdTransportista = Convert.ToInt32(objDataRow[0].ToString()),
+                                PesoInicio = Convert.ToDecimal(objDataRow[1].ToString()),
+                                PesoFin = Convert.ToDecimal(objDataRow[2].ToString()),
+                                PorcentajeInicialCliente = Convert.ToDecimal(objDataRow[4].ToString()),
+                                bitDeleted = objDataRow[4].ToString().Equals("0") ? false : true,//Convert.ToBoolean(int.Parse(objDataRow[4].ToString())),
+                                CreatedId = User.Identity.Name
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return List;
+        }
+        #endregion
+
+        #region Cobertura por plaza, de Origen al Destino.
+
+        public ActionResult CoberturaOrigenDestino()
+        {
+            return View();
+        }
+
+        public ActionResult GetCoberturaOrigenDestino()
+        {
+            try
+            {
+
+                var list = DataTableToModel.ConvertTo<Cns_TransportistaDestinosZonas>(DALImpex.upCorpTms_Cns_TransportistaDestinosZonas().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        #endregion
+
+        #region CostoEnvioProveedor
+        public ActionResult CostoEnvioProveedor()
+        {
+           
+            return View();
+        }
+
+        public ActionResult GetCostoEnvioProveedor()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TransportistaZonaCostos>(DALImpex.upCorpTms_Cns_TransportistaZonaCostos().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetCombos()
+        {
+            try
+            {
+                //var list1 = DataTableToModel.ConvertTo<TransportistaZonaCostos>(DALCatalogo.TipoServicio_sUp().Tables[0]);
+                //ViewBag.TipoEnvio = DataTableToModel.ConvertTo<TransportistaZonaCostos>(DALCatalogo.TipoEnvio_sUp().Tables[0]);
+
+                var result = new { Success = true
+                    , servicio = DataTableToModel.ConvertTo<TipoServicio>(DALCatalogo.TipoServicio_sUp().Tables[0])
+                    , envio = DataTableToModel.ConvertTo<TipoEnvio>(DALCatalogo.TipoEnvio_sUp().Tables[0])
+            };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        //ViewBag.TipoServicio = DataTableToModel.ConvertTo<TransportistaZonaCostos>(DALCatalogo.TipoServicio_sUp().Tables[0]);
+        //ViewBag.TipoEnvio = DataTableToModel.ConvertTo<TransportistaZonaCostos>(DALCatalogo.TipoEnvio_sUp().Tables[0]);
         #endregion
     }
 }

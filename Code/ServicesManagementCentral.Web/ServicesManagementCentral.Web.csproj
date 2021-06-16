@@ -218,6 +218,8 @@
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
+    <Compile Include="Models\Catalogos\TipoEnvio.cs" />
+    <Compile Include="Models\Catalogos\TipoServicio.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\CommonAlmacenModel.cs" />
@@ -239,9 +241,12 @@
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionProductoSuministrar.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionSurtidor.cs" />
     <Compile Include="Models\EtiquetaModel.cs" />
+    <Compile Include="Models\Impex\Cns_TransportistaDestinosZonas.cs" />
     <Compile Include="Models\Impex\CobZon.cs" />
     <Compile Include="Models\Impex\KgDinero.cs" />
     <Compile Include="Models\Impex\TransportistaPlazas.cs" />
+    <Compile Include="Models\Impex\TransportistaRangosPesos.cs" />
+    <Compile Include="Models\Impex\TransportistaZonaCostos.cs" />
     <Compile Include="Models\LineaModel.cs" />
     <Compile Include="Models\MotivoCambioFP.cs" />
     <Compile Include="Models\OMSModels.cs" />
@@ -3624,6 +3629,10 @@
     <Content Include="Views\Catalogo\PesoTransportista.cshtml" />
     <Content Include="Views\Catalogo\Gastos.cshtml" />
     <Content Include="Views\TMS\Gastosvehículo.cshtml" />
+    <Content Include="Views\Impex\TransPlazas.cshtml" />
+    <Content Include="Views\Impex\TransRangosPesos.cshtml" />
+    <Content Include="Views\Impex\CoberturaOrigenDestino.cshtml" />
+    <Content Include="Views\Impex\CostoEnvioProveedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

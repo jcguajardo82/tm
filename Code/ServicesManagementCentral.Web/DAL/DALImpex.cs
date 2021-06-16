@@ -366,8 +366,140 @@ namespace ServicesManagement.Web.DAL
 
                 throw ex;
             }
-        } 
+        }
         #endregion
 
+        #region TransportistaRangosPesos
+        public static void upCorpTms_Ins_TransportistaRangosPesos(DataTable TransportistaRangosPesos)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+            {
+                using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Ins_TransportistaRangosPesos", con))
+                {
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+
+
+                    SqlParameter param = new SqlParameter("@TransRangosPesosType", SqlDbType.Structured)
+                    {
+                        TypeName = "tms.TransportistaRangosPesosTableType",
+                        Value = TransportistaRangosPesos
+                    };
+                    sqlComm.Parameters.Add(param);
+
+                    con.Open();
+                    sqlComm.ExecuteReader();
+
+
+
+                    //SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
+                    //adapter.Fill(ds);
+
+
+
+                }
+            }
+        }
+
+        public static DataSet upCorpTms_Cns_TransportistaRangosPesos()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_TransportistaRangosPesos", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Cobertura por plaza, de Origen al Destino.
+        public static DataSet upCorpTms_Cns_TransportistaDestinosZonas()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_TransportistaDestinosZonas", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region Costo envio Proveedor
+        public static DataSet upCorpTms_Cns_TransportistaZonaCostos()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_TransportistaZonaCostos", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
     }
 }
