@@ -187,121 +187,121 @@ namespace ServicesManagement.Web.DAL
         }
 
 
-        public static DataSet upCorpTms_Ins_TransportistaRelacion(List<TransportistaTipoEnvio> TransportistaTipoEnvio
-            , List<TransportistaPlazas> TransportistaPlazas, List<TransportistaZonaPlazas> TransportistaZonaPlazas
-            , List<TransportistaTipoEnvioZona> TransportistaTipoEnvioZona, List<TransportistaTipoServicio> TransportistaTipoServicio
-            , int TipoTran = 1)
-        {
-            DataSet ds = new DataSet();
+        //public static DataSet upCorpTms_Ins_TransportistaRelacion(List<TransportistaTipoEnvio> TransportistaTipoEnvio
+        //    , List<TransportistaPlazas> TransportistaPlazas, List<TransportistaZonaPlazas> TransportistaZonaPlazas
+        //    , List<TransportistaTipoEnvioZona> TransportistaTipoEnvioZona, List<TransportistaTipoServicio> TransportistaTipoServicio
+        //    , int TipoTran = 1)
+        //{
+        //    DataSet ds = new DataSet();
 
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-
-            try
-            {
-                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+        //    string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+        //    if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+        //    {
+        //        conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+        //    }
 
 
-                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                parametros.Add("@TransportistaTipoEnvioTableType", TransportistaTipoEnvio);
-                parametros.Add("@TransportistaPlazasTableType", TransportistaPlazas);
-                parametros.Add("@TransportistaZonaPlazasTableType", TransportistaZonaPlazas);
-                parametros.Add("@TransportistaTipoEnvioZonaTableType", TransportistaTipoEnvioZona);
-                parametros.Add("@TransportistaTipoServicioTableType", TransportistaTipoServicio);
-                parametros.Add("@TipoTran", TipoTran);
+        //    try
+        //    {
+        //        Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
 
-
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Ins_TransportistaRelacion", false, parametros);
-
-                return ds;
-            }
-            catch (SqlException ex)
-            {
-
-                throw ex;
-            }
-            catch (System.Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        public static void insert(DataTable TransportistaTipoEnvio
-            , DataTable TransportistaPlazas, DataTable TransportistaZonaPlazas
-            , DataTable TransportistaTipoEnvioZona, DataTable TransportistaTipoServicio
-            , int TipoTran = 1)
-        {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
-            {
-                using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Ins_TransportistaRelacion", con))
-                {
-                    sqlComm.CommandType = CommandType.StoredProcedure;
+        //        System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+        //        parametros.Add("@TransportistaTipoEnvioTableType", TransportistaTipoEnvio);
+        //        parametros.Add("@TransportistaPlazasTableType", TransportistaPlazas);
+        //        parametros.Add("@TransportistaZonaPlazasTableType", TransportistaZonaPlazas);
+        //        parametros.Add("@TransportistaTipoEnvioZonaTableType", TransportistaTipoEnvioZona);
+        //        parametros.Add("@TransportistaTipoServicioTableType", TransportistaTipoServicio);
+        //        parametros.Add("@TipoTran", TipoTran);
 
 
 
-                    SqlParameter param = new SqlParameter("@TransTipoEnvioType", SqlDbType.Structured)
-                    {
-                        TypeName = "tms.TransportistaTipoEnvioTableType",
-                        Value = TransportistaTipoEnvio
-                    };
-                    sqlComm.Parameters.Add(param);
+        //        ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Ins_TransportistaRelacion", false, parametros);
 
-                    param = new SqlParameter("@TransPlazasType", SqlDbType.Structured)
-                    {
-                        TypeName = "tms.TransportistaPlazasTableType",
-                        Value = TransportistaPlazas
-                    };
-                    sqlComm.Parameters.Add(param);
+        //        return ds;
+        //    }
+        //    catch (SqlException ex)
+        //    {
 
+        //        throw ex;
+        //    }
+        //    catch (System.Exception ex)
+        //    {
 
-                    param = new SqlParameter("@TransZonaPlazasType", SqlDbType.Structured)
-                    {
-                        TypeName = "tms.TransportistaZonaPlazasTableType",
-                        Value = TransportistaZonaPlazas
-                    };
-                    sqlComm.Parameters.Add(param);
+        //        throw ex;
+        //    }
+        //}
 
-
-                    param = new SqlParameter("@TransTipoEnvioZonaType", SqlDbType.Structured)
-                    {
-                        TypeName = "tms.TransportistaTipoEnvioZonaTableType",
-                        Value = TransportistaTipoEnvioZona
-                    };
-
-                    sqlComm.Parameters.Add(param);
-
-
-                    param = new SqlParameter("@TransTipoServicioType", SqlDbType.Structured)
-                    {
-                        TypeName = "tms.TransportistaTipoServicioTableType",
-                        Value = TransportistaTipoServicio
-                    };
-
-                    sqlComm.Parameters.Add(param);
-
-                    param = new SqlParameter("@TipoTran", TipoTran);
-                    sqlComm.Parameters.Add(param);
-
-
-                    con.Open();
-                    sqlComm.ExecuteReader();
+        //public static void insert(DataTable TransportistaTipoEnvio
+        //    , DataTable TransportistaPlazas, DataTable TransportistaZonaPlazas
+        //    , DataTable TransportistaTipoEnvioZona, DataTable TransportistaTipoServicio
+        //    , int TipoTran = 1)
+        //{
+        //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+        //    {
+        //        using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Ins_TransportistaRelacion", con))
+        //        {
+        //            sqlComm.CommandType = CommandType.StoredProcedure;
 
 
 
-                    //SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
-                    //adapter.Fill(ds);
+        //            SqlParameter param = new SqlParameter("@TransTipoEnvioType", SqlDbType.Structured)
+        //            {
+        //                TypeName = "tms.TransportistaTipoEnvioTableType",
+        //                Value = TransportistaTipoEnvio
+        //            };
+        //            sqlComm.Parameters.Add(param);
+
+        //            param = new SqlParameter("@TransPlazasType", SqlDbType.Structured)
+        //            {
+        //                TypeName = "tms.TransportistaPlazasTableType",
+        //                Value = TransportistaPlazas
+        //            };
+        //            sqlComm.Parameters.Add(param);
+
+
+        //            param = new SqlParameter("@TransZonaPlazasType", SqlDbType.Structured)
+        //            {
+        //                TypeName = "tms.TransportistaZonaPlazasTableType",
+        //                Value = TransportistaZonaPlazas
+        //            };
+        //            sqlComm.Parameters.Add(param);
+
+
+        //            param = new SqlParameter("@TransTipoEnvioZonaType", SqlDbType.Structured)
+        //            {
+        //                TypeName = "tms.TransportistaTipoEnvioZonaTableType",
+        //                Value = TransportistaTipoEnvioZona
+        //            };
+
+        //            sqlComm.Parameters.Add(param);
+
+
+        //            param = new SqlParameter("@TransTipoServicioType", SqlDbType.Structured)
+        //            {
+        //                TypeName = "tms.TransportistaTipoServicioTableType",
+        //                Value = TransportistaTipoServicio
+        //            };
+
+        //            sqlComm.Parameters.Add(param);
+
+        //            param = new SqlParameter("@TipoTran", TipoTran);
+        //            sqlComm.Parameters.Add(param);
+
+
+        //            con.Open();
+        //            sqlComm.ExecuteReader();
 
 
 
-                }
-            }
-        }
+        //            //SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
+        //            //adapter.Fill(ds);
+
+
+
+        //        }
+        //    }
+        //}
         #endregion
 
         #region TransportistasZonas

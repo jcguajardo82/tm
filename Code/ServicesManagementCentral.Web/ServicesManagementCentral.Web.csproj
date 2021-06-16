@@ -87,7 +87,7 @@
       <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="Soriana.FWK">
-      <HintPath>..\..\..\..\DSV2\DSV\ServicesManagementCentral.Web\bin\Soriana.FWK.dll</HintPath>
+      <HintPath>..\ThidParts\Soriana.FWK\Soriana.FWK.dll</HintPath>
     </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CatalogoController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
+    <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -211,6 +212,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DataTableToModel.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Inspinia\Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
@@ -239,6 +241,7 @@
     <Compile Include="Models\EtiquetaModel.cs" />
     <Compile Include="Models\Impex\CobZon.cs" />
     <Compile Include="Models\Impex\KgDinero.cs" />
+    <Compile Include="Models\Impex\TransportistaPlazas.cs" />
     <Compile Include="Models\LineaModel.cs" />
     <Compile Include="Models\MotivoCambioFP.cs" />
     <Compile Include="Models\OMSModels.cs" />
@@ -3576,6 +3579,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\tmsmercurio - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\tmsmercurio2 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />

@@ -13,6 +13,7 @@ namespace ServicesManagement.Web.Models.Impex
         public string PostalCode { get; set; }
         public int IdTipoEnvio { get; set; }
         public bool bitDeleted { get; set; }
-        public string CreatedId { get; set; }  
+        public string CreatedId { get; set; }
+        public string DescTipoEnvio { get; set; }
     }
 }
