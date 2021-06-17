@@ -2631,6 +2631,98 @@ namespace ServicesManagement.Web.Controllers
 
         }
         #endregion
+
+        #region Zonas
+        public ActionResult Zonas()
+        {
+            return View();
+        }
+
+        public ActionResult GetZonas()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Zonas>(DALCatalogo.Zonas_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetZonasId(int IdZona)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Zonas>(DALCatalogo.ZonasById_sUp(IdZona).Tables[0]).FirstOrDefault();
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult AddZonas(string Desc_Zona, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.Zonas_iUp(Desc_Zona, Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult UpdZonas(string IdZona, string Desc_Zona, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.Zonas_uUp(int.Parse(IdZona), Desc_Zona, Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult DelZonas(string IdZona)
+        {
+            try
+            {
+                DALCatalogo.Zonas_dUp(int.Parse(IdZona), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
     }
 
 }

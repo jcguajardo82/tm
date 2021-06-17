@@ -221,6 +221,7 @@
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoServicio.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />
+    <Compile Include="Models\Catalogos\Zonas.cs" />
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\CommonAlmacenModel.cs" />
     <Compile Include="Models\CommonProveedorModel.cs" />
@@ -3635,6 +3636,7 @@
     <Content Include="Views\Impex\CostoEnvioProveedor.cshtml" />
     <Content Include="Views\Catalogo\TipoEnvio.cshtml" />
     <Content Include="Views\Catalogo\TipoServicio.cshtml" />
+    <Content Include="Views\Catalogo\Zonas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

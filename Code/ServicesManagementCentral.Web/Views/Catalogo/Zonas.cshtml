@@ -1,0 +1,382 @@
+﻿
+@{
+    ViewBag.Title = "Zonas";
+}
+
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Zonas</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+        <br />
+        <div class="row">
+            <div class="col-12">
+                <table id="example" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id Zona</th>
+                            <th>Desc Zona</th>
+                            <th name="accion">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Zona</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmCreateServicios">
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+
+                                <div class="form-group">
+                                    <label>Zona</label>
+                                    <input type="text" placeholder="Zona" id="txtDesc_Zona" name="txtDesc_Zona" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Estatus</label>
+                                    <select class="form-control" id="id_estatus" name="id_estatus">
+                                        @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                        <option selected="selected" value="1">ACTIVO</option>
+                                        <option value="0">INACTIVO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="ActionUpd()" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="hddId" name="hddId" value="0" style="visibility:hidden" />
+    <input id="flag_edit" name="flag_edit" value="0" style="visibility:hidden" />
+
+}
+
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+
+    <script>
+
+        $('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
+
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        })
+
+
+        $(document).ready(function () {
+
+            $('#example thead tr').clone(true).appendTo('#example thead');
+            $('#example thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#example').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
+
+                                //bootbox.alert("HOLA");
+                                $("#txtDesc_TipoServicio").val('');
+                                $("#modal-form").modal('show');
+
+                            }
+                            , className: 'btn-primary'
+                        }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
+
+            GetConsulta();
+
+        });
+
+        function GetConsulta() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetZonas", "Catalogo")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+
+                        var myTable = $('#example').DataTable();
+                        myTable
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            myTable.row.add([
+                                json.resp[i].IdZona,
+                                json.resp[i].Desc_Zona,
+                                "<button onclick=\"GetById(" + json.resp[i].IdZona + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdZona + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function ActionUpd() {
+            debugger;
+            if (document.getElementById("flag_edit").value == "1") {
+                Edit();
+            }
+            else {
+                Add();
+            }
+        }
+
+        function Add() {
+            _Desc_Zona = $("#txtDesc_Zona").val();
+            _BitActivo = $("#id_estatus").val();
+            if (_Desc_Zona.length == 0) {
+                $("#txtDesc_Zona").focus();
+                return;
+            }
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("AddZonas", "Catalogo")',
+                data: {
+                    Desc_Zona: _Desc_Zona,
+                    BitActivo: _BitActivo
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+                        $("#txtDesc_Zona").val('');
+                        GetConsulta();
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function Edit() {
+            _IdZona = $("#hddId").val();
+            _Desc_Zona = $("#txtDesc_Zona").val();
+            _BitActivo = $("#id_estatus").val();
+
+            if (_Desc_Zona.length == 0) {
+                $("#txtDesc_Zona").focus();
+                return;
+            }
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("UpdZonas", "catalogo")',
+                data: {
+                    IdZona: _IdZona,
+                    Desc_Zona: _Desc_Zona,
+                    BitActivo: _BitActivo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        GetConsulta();
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function Delete(id) {
+            if (confirm('Esta seguro que desea eliminar el registro : ' + id))
+            {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("DelZonas", "catalogo")',
+                    data: {
+                        IdZona: id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            GetConsulta();
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            }
+        }
+
+        function GetById(id) {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetZonasId", "Catalogo")',
+                data: {
+                    IdZona: id
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("hddId").value = json.resp.IdZona;
+                        document.getElementById("txtDesc_Zona").value = json.resp.Desc_Zona;
+                        if (json.resp.BitActivo) {
+                            document.getElementById("id_estatus").value = 1;
+                        } else { document.getElementById("id_estatus").value = 0}
+                        document.getElementById("flag_edit").value = 1;
+
+
+                        $("#modal-form").modal('show');
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                   alert(errorThrown);
+                }
+            });
+
+        }
+
+
+
+    </script>
+
+}
