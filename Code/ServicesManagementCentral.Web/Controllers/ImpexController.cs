@@ -126,7 +126,7 @@ namespace ServicesManagement.Web.Controllers
             try
             {
 
-                var list = DataTableToModel.ConvertTo<TransportistaRangosPesos>(DALImpex.upCorpTms_Cns_TransportistaRangosPesos().Tables[0]);
+                var list = DataTableToModel.ConvertTo<TransportistaRangosPesosShow>(DALImpex.upCorpTms_Cns_TransportistaRangosPesos().Tables[0]);
 
                 var result = new { Success = true, resp = list };
                 return Json(result, JsonRequestBehavior.AllowGet);

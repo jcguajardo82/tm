@@ -27,12 +27,12 @@
             <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
                 <thead>
                     <tr>
-                        <th style="text-align:center;">Id Transportista</th>
-                        <th style="text-align:center;">Peso Inicio</th>
-                        <th style="text-align:center;">Peso Fin</th>
+                        <th style="text-align:center;">Transportista</th>
+                        <th style="text-align:center;">Peso Inicial</th>
+                        <th style="text-align:center;">Peso Final</th>
                         <th style="text-align:center;">Porcentaje Inicial Cliente</th>
                         <th style="text-align:center;">Cargado Por</th>
-
+                        <th style="text-align:center;">Fecha de actualización</th>
 
                     </tr>
                 </thead>
@@ -173,6 +173,7 @@
                                 , json.resp[i].PesoFin
                                 , json.resp[i].PorcentajeInicialCliente
                                 , json.resp[i].CreatedId
+                                , json.resp[i].CreatedDate
 
                             ]).draw();
                         }
