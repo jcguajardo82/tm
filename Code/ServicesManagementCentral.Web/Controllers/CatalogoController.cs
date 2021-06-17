@@ -466,8 +466,8 @@ namespace ServicesManagement.Web.Controllers
 
                 List<EmpleadoModels> list = JsonConvert.DeserializeObject<List<EmpleadoModels>>(r.message);
 
-                
-                var result = new { Success = true, json = list[0].Nombre + " "+ list[0].Apellido_Paterno + " " + list[0].Apellido_Materno };
+
+                var result = new { Success = true, json = list[0].Nombre + " " + list[0].Apellido_Paterno + " " + list[0].Apellido_Materno };
                 return Json(result, JsonRequestBehavior.AllowGet);
 
             }
@@ -665,7 +665,7 @@ namespace ServicesManagement.Web.Controllers
             PostalCodeRepository pcRepository = new PostalCodeRepository();
             try
             {
-                List<int> PostalCodeList = pcRepository.GetPostalCode(Convert.ToDecimal( latitude), Convert.ToDecimal(longitude)).ToList();
+                List<int> PostalCodeList = pcRepository.GetPostalCode(Convert.ToDecimal(latitude), Convert.ToDecimal(longitude)).ToList();
                 var result = new { Success = true, json = PostalCodeList };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -711,7 +711,7 @@ namespace ServicesManagement.Web.Controllers
                 var result = new { Success = false, Message = ex.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-        }       
+        }
 
         public async Task<JsonResult> GetAlmacenes(int IdTransportista)
         {
@@ -732,12 +732,12 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAlmacenes(long IdAlmacen,long IdProveedor, string RazonSocial, 
+        public async Task<ActionResult> AddAlmacenes(long IdAlmacen, long IdProveedor, string RazonSocial,
             int IdTipoAlmacen, bool Paqueteria, bool BigTicket, bool ServicioEstandar, bool ServicioExpress, string UsuarioCreacion)
         {
             try
             {
-                DALServicesM.AddAlmacenes(IdAlmacen, IdProveedor, IdTipoAlmacen, Paqueteria, BigTicket, ServicioEstandar, 
+                DALServicesM.AddAlmacenes(IdAlmacen, IdProveedor, IdTipoAlmacen, Paqueteria, BigTicket, ServicioEstandar,
                     ServicioExpress, UsuarioCreacion);
                 var result = new { Success = true, Message = "Alta exitosa" };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -863,7 +863,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-        
+
 
         [HttpGet]
         public async Task<JsonResult> GetUnidadesNegocios()
@@ -967,7 +967,7 @@ namespace ServicesManagement.Web.Controllers
 
             {
 
-                DALServicesM.AddCarriers(IdTransportista,TarifaFija, CostoTarifaFija, Prioridad, NivelServicio,
+                DALServicesM.AddCarriers(IdTransportista, TarifaFija, CostoTarifaFija, Prioridad, NivelServicio,
                     FactorPaqueteria, PorcAdicPaquete, IdTipoAlmacen, Paqueteria, BigTicket, ServicioEstandar, ServicioExpress, UsuarioCreacion);
 
 
@@ -1184,7 +1184,7 @@ namespace ServicesManagement.Web.Controllers
 
                 List<CarrierModel> listC = ConvertTo<CarrierModel>(ds.Tables[0]);
                 var result = new { Success = true, json = listC };
-                return Json(result, JsonRequestBehavior.AllowGet);                
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
             catch (Exception x)
@@ -2342,13 +2342,13 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-        public ActionResult AddPeso(string Id_Proveedor, string peso,string Id_paqueteria)
+        public ActionResult AddPeso(string Id_Proveedor, string peso, string Id_paqueteria)
         {
             try
             {
                 if (!Id_paqueteria.Equals("0"))
                 {
-                    DALCatalogo.Paqueteria_uUp(int.Parse(Id_Proveedor), decimal.Parse(peso),int.Parse(Id_paqueteria));
+                    DALCatalogo.Paqueteria_uUp(int.Parse(Id_Proveedor), decimal.Parse(peso), int.Parse(Id_paqueteria));
                 }
                 else { DALCatalogo.Paqueteria_iUp(int.Parse(Id_Proveedor), decimal.Parse(peso)); }
 
@@ -2397,7 +2397,7 @@ namespace ServicesManagement.Web.Controllers
                 {
                     DALCatalogo.Gastos_iUp(Id_gasto, gasto);
                 }
-                else { DALCatalogo.Gastos_uUp(gasto, Id_gasto ); }
+                else { DALCatalogo.Gastos_uUp(gasto, Id_gasto); }
 
 
                 var result = new { Success = true };
@@ -2447,6 +2447,98 @@ namespace ServicesManagement.Web.Controllers
 
         #endregion
 
+
+        #region tipoEnvio
+        public ActionResult TipoEnvio()
+        {
+            return View();
+        }
+
+        public ActionResult GetTipoEnvio()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoEnvio>(DALCatalogo.TipoEnvio_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetTipoEnvioId(int IdTipoEnvio)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoEnvio>(DALCatalogo.TipoEnvioById_sUp(IdTipoEnvio).Tables[0]).FirstOrDefault();
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult UpdTipoEnvio(string IdTipoEnvio, string Desc_TipoEnvio, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.TipoEnvio_uUp(int.Parse(IdTipoEnvio), Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult DelTipoEnvio(string IdTipoEnvio)
+        {
+            try
+            {
+                DALCatalogo.TipoEnvio_dUp(int.Parse(IdTipoEnvio), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
     }
 
 }
