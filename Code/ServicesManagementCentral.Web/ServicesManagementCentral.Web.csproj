@@ -3634,6 +3634,7 @@
     <Content Include="Views\Impex\CoberturaOrigenDestino.cshtml" />
     <Content Include="Views\Impex\CostoEnvioProveedor.cshtml" />
     <Content Include="Views\Catalogo\TipoEnvio.cshtml" />
+    <Content Include="Views\Catalogo\TipoServicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

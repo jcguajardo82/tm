@@ -2539,6 +2539,98 @@ namespace ServicesManagement.Web.Controllers
 
         }
         #endregion
+
+        #region tipoServicio
+        public ActionResult TipoServicio()
+        {
+            return View();
+        }
+
+        public ActionResult GetTipoServicio()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoServicio>(DALCatalogo.TipoServicio_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetTipoServicioId(int IdTipoServicio)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoServicio>(DALCatalogo.TipoServicioById_sUp(IdTipoServicio).Tables[0]).FirstOrDefault();
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult AddTipoServicio(string Desc_TipoServicio, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.TipoServicio_iUp(Desc_TipoServicio, Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult UpdTipoServicio(string IdTipoServicio, string Desc_TipoServicio, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.TipoServicio_uUp(int.Parse(IdTipoServicio), Desc_TipoServicio, Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult DelTipoServicio(string IdTipoServicio)
+        {
+            try
+            {
+                DALCatalogo.TipoServicio_dUp(int.Parse(IdTipoServicio), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
     }
 
 }
