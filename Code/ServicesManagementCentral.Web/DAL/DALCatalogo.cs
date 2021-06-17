@@ -962,5 +962,233 @@ namespace ServicesManagement.Web.DAL
             }
         }
         #endregion
+
+
+        #region Plazas
+        public static DataSet Plazas_sUp()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Plazas_sUp", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet Plazas_sUpbyId(int id)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@IdPlaza", id);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.PlazasbyId_sUp", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet Plazas_iUp(string Desc_Plaza, string cve_Plaza, string BitActivo, string UserCreate)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+
+                parametros.Add("@Desc_Plaza", Desc_Plaza);
+                parametros.Add("@cve_Plaza", cve_Plaza);
+                parametros.Add("@BitActivo", BitActivo);
+                parametros.Add("@Created_User", UserCreate);
+
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Plazas_iUp", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet Plazas_uUp(string idPlaza, string Desc_Plaza, string cve_Plaza, string BitActivo, string UserCreate)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@IdPlaza", idPlaza);
+                parametros.Add("@Desc_Plaza", Desc_Plaza);
+                parametros.Add("@cve_Plaza", cve_Plaza);
+                parametros.Add("@BitActivo", BitActivo);
+                parametros.Add("@Modified_User", UserCreate);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Plazas_uUp", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        //public static DataSet GastosById_sUp(int Id_Gasto)
+        //{
+        //    DataSet ds = new DataSet();
+
+        //    string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+        //    if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+        //    {
+        //        conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+        //    }
+
+
+        //    try
+        //    {
+        //        Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+        //        System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+        //        parametros.Add("@IdGasto", Id_Gasto);
+
+
+
+        //        ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.GastosById_sUp", false, parametros);
+
+        //        return ds;
+        //    }
+        //    catch (SqlException ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
+        //public static DataSet Gastos_dUp(int Id_gasto)
+        //{
+        //    DataSet ds = new DataSet();
+
+        //    string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+        //    if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+        //    {
+        //        conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+        //    }
+
+
+        //    try
+        //    {
+        //        Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+        //        System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+        //        parametros.Add("@IdGasto", Id_gasto);
+
+
+        //        ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Gastos_dUp", false, parametros);
+
+        //        return ds;
+        //    }
+        //    catch (SqlException ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
+
+        #endregion
+
     }
 }

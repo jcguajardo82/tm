@@ -1,6 +1,7 @@
 ﻿using ExcelDataReader;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
+using ServicesManagement.Web.Models.Catalogos;
 using ServicesManagement.Web.Models.Impex;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,21 @@ namespace ServicesManagement.Web.Controllers
         public string Pass { get; set; }
         public bool Estatus { get; set; }
         public string Fec_Movto { get; set; }
+        public string created_user { get; set; }
+        public string modified_user { get; set; }
+
+    }
+    public class GastosVehiculoModel
+    {
+        public int IdGasto { get; set; }
+        public int Id_Vehiculo { get; set; }
+        public string FecGasto { get; set; }
+        public string Kilometraje { get; set; }
+        public string CantidadGasto { get; set; }
+        public bool Estatus { get; set; }
+        public bool CreateDate { get; set; }
+        public bool activo { get; set; }
+        public string FecMovto { get; set; }
         public string created_user { get; set; }
         public string modified_user { get; set; }
 
@@ -813,5 +829,91 @@ namespace ServicesManagement.Web.Controllers
             }
         }
         #endregion
+
+        #region Gastos de vehiculo
+
+        //public ActionResult Gastosvehículo()
+        //{
+        //    return View();
+        //}
+
+        public ActionResult ListGastos()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.Gastos_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ListGastosVehiculo(int Id_Vehiculo)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Gastos>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult AddGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        {
+            try
+            {
+
+                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+
+        public ActionResult EditGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        {
+            try
+            {
+
+                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        #endregion
+
+
+
     }
 }

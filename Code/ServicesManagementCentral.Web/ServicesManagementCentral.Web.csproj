@@ -207,6 +207,7 @@
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
     <Compile Include="DAL\DALCatalogo.cs" />
+    <Compile Include="DAL\DALGastosVehiculo.cs" />
     <Compile Include="DAL\DALImpex.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -218,6 +219,7 @@
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
+    <Compile Include="Models\Catalogos\Plazas.cs" />
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoServicio.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />
@@ -3637,6 +3639,7 @@
     <Content Include="Views\Catalogo\TipoEnvio.cshtml" />
     <Content Include="Views\Catalogo\TipoServicio.cshtml" />
     <Content Include="Views\Catalogo\Zonas.cshtml" />
+    <Content Include="Views\Catalogo\Plazas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

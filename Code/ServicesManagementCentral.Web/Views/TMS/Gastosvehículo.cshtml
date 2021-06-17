@@ -44,7 +44,6 @@
 
     </div>
 
-
     <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -179,12 +178,13 @@
     </div>
 
 
-    <div id="modal-form2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
+    <div id="modal-formEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h2 class="modal-title">Modal title</h2>
+                    <h2 id="asd" class="modal-title">Modal title</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -199,77 +199,35 @@
                             <div class="col col-xs-8 col-md-4">
 
                                 <div class="form-group">
-
-                                    <label>Gasolina</label>
-
-                                    <input type="text" placeholder="" id="idGasolina" name="in_desc" class="form-control" />
-
-
+                                    <label>Tipo de gasto</label>
+                                    <select class="form-control" id="idtipogasto" name="tipogasto">
+                                        <option selected="selected" value="0">--Gasto--</option>
+                                    </select>
                                 </div>
+
+                            </div>
+                            <div class="col-4">
                                 <div class="form-group">
 
-                                    <label>Descripcion</label>
+                                    <label>Tipo de Vehículo</label>
 
-                                    <input type="text" placeholder="Descripcion" id="in_desc" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo" name="in_desc" class="form-control" />
 
                                 </div>
 
                             </div>
-                            <div class="col-4"></div>
                             <div class="col col-xs-8 col-md-4">
 
                                 <div class="form-group">
 
                                     <label>Placas</label>
 
-                                    <input type="text" placeholder="Placas" id="in_placas" name="in_placas" class="form-control" />
+                                    <input type="text" placeholder="Placas" id="in_placas2" name="in_placas" class="form-control" />
 
                                 </div>
 
                             </div>
                         </div>
-
-
-                        <div class="row">
-
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Motor</label>
-
-                                    <input type="text" placeholder="Motor" id="in_motor" name="in_motor" class="form-control" />
-
-                                </div>
-
-                            </div>
-                            <div class="col-4"></div>
-
-                            <div class="form-group">
-
-                                <label>Estatus</label>
-
-                                <select class="form-control" id="id_estatus" name="id_estatus">
-                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
-                                    <option selected="selected" value="1">ACTIVO</option>
-                                    <option value="2">INACTIVO</option>
-                                </select>
-
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="col-4">
-
-                                <label>Fecha</label>
-
-                                <input type="text" placeholder="Descripcion" id="idKilometro" name="in_desc" class="form-control" />
-
-                            </div>
-                        </div>
-
 
                         <div class="row">
 
@@ -279,27 +237,67 @@
 
                                     <label>Dinero</label>
 
-                                    <input type="text" placeholder="Descripcion" id="idDinero" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Dinero" id="in_dinero" name="in_desc" class="form-control" />
+
                                 </div>
 
+                                @*<div class="form-group">
+
+                                        <label>Gasolina</label>
+
+                                        <input type="text" placeholder="" id="idGasolina" name="in_descgasolina" class="form-control" />
+
+
+                                    </div>*@
+
+
                             </div>
-
-
-                        </div>
-                        <div class="row">
-
                             <div class="col col-xs-8 col-md-4">
 
                                 <div class="form-group">
 
                                     <label>Kilometraje</label>
 
-                                    <input type="text" placeholder="Descripcion" id="idKilometraje" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Kilometraje" id="idKilometraje" name="in_desc" class="form-control" />
                                 </div>
 
                             </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Fecha</label>
+
+                                    <input type="text" placeholder="Fecha" id="in_fecha" name="in_placas" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
 
 
+                        <div class="row">
+
+                            @*aqui va el grid*@
+
+                            <div class="col-12">
+                                <table id="example2" class="table table-striped dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Id Gasto</th>
+                                            <th>Id Vehiculo</th>
+                                            <th>Fecha Gasto</th>
+                                            <th>Kilometraje</th>
+                                            <th>Cantidad de Gasto</th>
+                                            <th>Fecha de Creacion</th>
+                                            <th>Fecha de modificacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
                         </div>
 
                     </form>
@@ -313,6 +311,147 @@
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 
                     <button type="button" onclick="ActionUpd()" class="btn btn-primary">Guardar</button>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-formAlta" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 id="asd" class="modal-title">Modal title</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="frmCreateServicios">
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+                                    <label>Tipo de gasto</label>
+                                    <select class="form-control" id="idtipogastoalta" name="tipogasto">
+                                        <option selected="selected" value="0">--Gasto--</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+
+                                    <label>Tipo de Vehículo</label>
+
+                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo3" name="in_desc" class="form-control" />
+
+                                </div>
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Placas</label>
+
+                                    <input type="text" placeholder="Placas" id="in_placas3" name="in_placas" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Dinero</label>
+
+                                    <input type="text" placeholder="Dinero" id="in_dinero" name="in_desc" class="form-control" />
+
+                                </div>
+
+                                @*<div class="form-group">
+
+                                        <label>Gasolina</label>
+
+                                        <input type="text" placeholder="" id="idGasolina" name="in_descgasolina" class="form-control" />
+
+
+                                    </div>*@
+
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Kilometraje</label>
+
+                                    <input type="text" placeholder="Kilometraje" id="idKilometraje" name="in_desc" class="form-control" />
+                                </div>
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Fecha</label>
+
+                                    <input type="text" placeholder="Fecha" id="in_fecha" name="in_placas" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            @*aqui va el grid*@
+
+                            <div class="col-12">
+                                <table id="example3" class="table table-striped dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Id Gasto</th>
+                                            <th>Id Vehiculo</th>
+                                            <th>Fecha Gasto</th>
+                                            <th>Kilometraje</th>
+                                            <th>Cantidad de Gasto</th>
+                                            <th>Fecha de Creacion</th>
+                                            <th>Fecha de modificacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                    <button type="button" onclick="AddGastos()" class="btn btn-primary">Guardar</button>
 
                 </div>
 
@@ -412,26 +551,144 @@
                     ],
                     buttons: [
                         { extend: 'pageLength', className: 'btn-primary' },
-                        { extend: 'excel', className: 'btn-primary' },
-                        {
-                            text: 'Alta',
-                            action: function (e, dt, node, config) {
+                        { extend: 'excel', className: 'btn-primary' }
+                        //{
+                        //    /*text: 'Alta',*/
+                        //    action: function (e, dt, node, config) {
 
-                                //bootbox.alert("HOLA");
-                                /*$("#modal-form").modal('show');*/
-                                $("#modal-form2").modal('show');
+                        //        //bootbox.alert("HOLA");
+                        //        /*$("#modal-form").modal('show');*/
+                        //        $("#modal-form2").modal('show');
 
-                            }
-                            , className: 'btn-primary'
-                        }
+                        //    }
+                        //    , className: 'btn-primary'
+                        //}
                     ]
                 }
+
             );
 
             GetTmsUNs();
 
-;
 
+
+            table2 = $('#example2').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' }
+                        /*{ extend: 'excel', className: 'btn-primary' }*/
+                        //{
+                        //    /*text: 'Alta',*/
+                        //    action: function (e, dt, node, config) {
+
+                        //        //bootbox.alert("HOLA");
+                        //        /*$("#modal-form").modal('show');*/
+                        //        $("#modal-form2").modal('show');
+
+                        //    }
+                        //    , className: 'btn-primary'
+                        //}
+                    ]
+                });
+
+
+
+            table3 = $('#example3').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        /*{ extend: 'excel', className: 'btn-primary' }*/
+                        //{
+                        //    /*text: 'Alta',*/
+                        //    action: function (e, dt, node, config) {
+
+                        //        //bootbox.alert("HOLA");
+                        //        /*$("#modal-form").modal('show');*/
+                        //        $("#modal-form2").modal('show');
+
+                        //    }
+                        //    , className: 'btn-primary'
+                        //}
+                    ]
+                }
+
+            );
 
 
         });
@@ -508,7 +765,7 @@
                                 json.json[i].Placas,
                                 json.json[i].Motor,
                                 json.json[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                "<button onclick=\"ModalEdit(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-primary btn-circle\"> <i class=\"fa fa-plus\"></i></button>"
                             ]).draw();
 
                         }
@@ -623,7 +880,7 @@
                                 json.json[i].Placas,
                                 json.json[i].Motor,
                                 json.json[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"AltaGastosVehiculos(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
 
                         }
@@ -683,7 +940,10 @@
             }
         }
 
-        function getVehiculo(id) {
+        function ModalEdit(id) {
+
+
+            $("#modal-formEdit").modal('show');
 
             $.ajax({
                 async: false,
@@ -698,15 +958,213 @@
                     if (json.Success) {
 
                         document.getElementById("Id_Vehiculo").value = json.json.Id_Vehiculo;
-                        document.getElementById("in_desc").value = json.json.Descripcion;
-                        document.getElementById("in_motor").value = json.json.Motor;
-                        document.getElementById("in_placas").value = json.json.Placas;
+                        //document.getElementById("in_desc").value = json.json.Descripcion;
+                        //document.getElementById("in_motor").value = json.json.Motor;
+                        document.getElementById("in_placas2").value = json.json.Placas;
 
                         document.getElementById("id_estatus").value = 1;
                         document.getElementById("flag_edit").value = 1;
 
+                        Llenargastos();
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
 
-                        $("#modal-form2").modal('show');
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                data: {
+                    Id_Vehiculo: Id_Vehiculo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#example3').DataTable();
+
+                        //table.clear().draw();
+                        //table.destroy();
+
+                        //$("#modal-form").modal('hide');
+
+                        var myTable = $('#example3').DataTable();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+
+                            myTable.row.add([
+
+                                json.resp[i].Id_Vehiculo,
+                                "Camioneta",
+                                json.resp[i].Descripcion,
+                                json.resp[i].Placas,
+                                json.resp[i].Motor,
+                                json.resp[i].Estatus,
+                                "<button onclick=\"getVehiculo(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
+
+
+                        }
+
+                        Llenargastosalta();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+
+        }
+
+        function Llenargastos() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastos", "TMS")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var dynamicSelect = document.getElementById("idtipogasto");
+                        dynamicSelect.innerText = null;
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].IdGasto;
+                            newOption.textContent = json.resp[i].Desc_Gasto;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+
+        function Llenargastosalta() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastos", "TMS")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var dynamicSelect = document.getElementById("idtipogastoalta");
+                        dynamicSelect.innerText = null;
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].IdGasto;
+                            newOption.textContent = json.resp[i].Desc_Gasto;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+        }
+
+        function ModalAlta(Id_Vehiculo) {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $("#modal-formAlta").modal('show');
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                data: {
+                    Id_Vehiculo: Id_Vehiculo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#example3').DataTable();
+
+                        //table.clear().draw();
+                        //table.destroy();
+
+                        //$("#modal-form").modal('hide');
+
+                        var myTable = $('#example3').DataTable();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+
+                            myTable.row.add([
+
+                                json.resp[i].Id_Vehiculo,
+                                "Camioneta",
+                                json.resp[i].Descripcion,
+                                json.resp[i].Placas,
+                                json.resp[i].Motor,
+                                json.resp[i].Estatus,
+                                "<button onclick=\"getVehiculo(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
+
+
+                        }
+
+                        Llenargastosalta();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetVehiculoById", "TMS")',
+                data: {
+                    Id: Id_Vehiculo
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("in_tipovehiculo3").value = json.json.Id_Vehiculo;
+                        //document.getElementById("in_desc").value = json.json.Descripcion;
+                        //document.getElementById("in_motor").value = json.json.Motor;
+                        document.getElementById("in_placas3").value = json.json.Placas;
+
+                        document.getElementById("id_estatus").value = 1;
+                        document.getElementById("flag_edit").value = 1;
 
 
                     }
@@ -719,6 +1177,117 @@
 
         }
 
+        function AddGastos() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("AddGastoVehiculo", "TMS")',
+                data: {
+                    IdGasto: document.getElementById("idtipogastoalta").value,
+                    Id_Vehiculo: document.getElementById("in_tipovehiculo").value,
+                    FecGasto: document.getElementById("in_placas").value,
+                    Kilometraje: document.getElementById("in_motor").value,
+                    CantidadGasto: document.getElementById("in_placas").value,
+                    /*created_user: document.getElementById("in_placas").value*/
+                    created_user: "T_pedrocg"
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#example').DataTable();
+
+                        table.clear().draw();
+                        table.destroy();
+
+                        $("#modal-formAlta").modal('hide');
+
+                        //var myTable = $('#example').DataTable();
+
+                        //for (var i = 0; i < json.json.length; i++) {
+
+                        //    myTable.row.add([
+
+                        //        json.json[i].Id_Vehiculo,
+                        //        "Camioneta",
+                        //        json.json[i].Descripcion,
+                        //        json.json[i].Placas,
+                        //        json.json[i].Motor,
+                        //        json.json[i].Estatus,
+                        //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                        //    ]).draw();
+
+                        //}
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function EditGastos() {
+
+            var e = document.getElementById("id_estatus");
+            var strUser = e.value;
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("EditVehiculo", "TMS")',
+                data: {
+                    Id: document.getElementById("Id_Vehiculo").value,
+                    descripcion: document.getElementById("in_desc").value,
+                    motor: document.getElementById("in_motor").value,
+                    placas: document.getElementById("in_placas").value,
+                    estatus : strUser
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#example').DataTable();
+
+                        table.clear().draw();
+                        table.destroy();
+
+                        $("#modal-form").modal('hide');
+
+                        var myTable = $('#example').DataTable();
+
+                        for (var i = 0; i < json.json.length; i++) {
+
+                            myTable.row.add([
+
+                                json.json[i].Id_Vehiculo,
+                                "Camioneta",
+                                json.json[i].Descripcion,
+                                json.json[i].Placas,
+                                json.json[i].Motor,
+                                json.json[i].Estatus,
+                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"AltaGastosVehiculos(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
+
+                        }
+
+                        document.getElementById("flag_edit").value = 0;
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
 
 
     </script>

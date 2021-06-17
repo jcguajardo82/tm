@@ -2723,6 +2723,114 @@ namespace ServicesManagement.Web.Controllers
 
         }
         #endregion
+
+        #region Plazas
+
+        public ActionResult Plazas()
+        {
+            return View();
+        }
+
+        public ActionResult ListPlazas()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Plazas>(DALCatalogo.Plazas_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ListPlazasbyID(int Id)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Plazas>(DALCatalogo.Plazas_sUpbyId(Id).Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult AddPlazas(string Desc_Plaza, string cve_Plaza, string BitActivo)
+        {
+            try
+            {
+                string UserCreate = User.Identity.Name;
+
+                DALCatalogo.Plazas_iUp(Desc_Plaza, cve_Plaza, BitActivo, UserCreate);
+
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+
+        //public ActionResult DelPlazas(string Id_gastos)
+        //{
+        //    try
+        //    {
+        //        DALCatalogo.Gastos_dUp(int.Parse(Id_gastos));
+
+        //        var result = new { Success = true };
+        //        return Json(result, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception x)
+        //    {
+        //        var result = new { Success = false, Message = x.Message };
+        //        return Json(result, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //}
+
+        public ActionResult EditPlazas(string idPlaza, string Desc_Plaza, string cve_Plaza, string BitActivo)
+        {
+            try
+            {
+                string UserCreate = User.Identity.Name;
+
+                DALCatalogo.Plazas_uUp(idPlaza, Desc_Plaza, cve_Plaza, BitActivo, UserCreate);
+
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+
+        #endregion
     }
 
 }

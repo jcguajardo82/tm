@@ -1,0 +1,626 @@
+﻿
+@{
+    ViewBag.Title = "Plazas";
+}
+
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Plazas</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+
+        <br />
+
+        <div class="row">
+            <div class="col-12">
+                <table id="example" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Plaza</th>
+                            <th>fecha de cracion</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha actualizacion</th>
+                            <th>Usuario Actualizacion</th>
+                            <th>Clave Plaza</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="modal-formAlta" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Alta Plaza</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="frmCreateServicios">
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                @*<div class="form-group">
+
+                                        <label>Tipo de Vehiculo</label>
+
+                                        <select class="form-control" id="Id_TipoFolio" name="Id_TipoFolio">
+                                            <option selected="selected" value="1">--Tipo Vehiculo--</option>
+
+                                        </select>
+                                    </div>*@
+                                <div class="form-group">
+
+                                    <label>Nombre plaza</label>
+
+                                    <input type="text" placeholder="" id="in_Plaza" name="in_desc" class="form-control" />
+
+                                </div>
+
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Clave Plaza</label>
+
+                                    <input type="text" placeholder="" id="in_claveplaza" name="in_placas" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            @*<div class="col col-xs-8 col-md-4">
+
+                                    <div class="form-group">
+
+                                        <label>Usuario</label>
+
+                                        <input type="text" placeholder="Motor" id="in_usuario" name="in_motor" class="form-control" />
+
+                                    </div>
+
+                                </div>*@
+                            <div class="col-4"></div>
+
+                            <div class="form-group">
+
+                                <label>Estatus</label>
+
+                                <select class="form-control" id="id_estatus" name="id_estatus">
+                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                    <option selected="selected" value="1">ACTIVO</option>
+                                    <option value="2">INACTIVO</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                    <button type="button" onclick="AddPlazas()" class="btn btn-primary">Guardar</button>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-formEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Modificar Plaza</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="frmCreateServicios">
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                @*<div class="form-group">
+
+                                        <label>Tipo de Vehiculo</label>
+
+                                        <select class="form-control" id="Id_TipoFolio" name="Id_TipoFolio">
+                                            <option selected="selected" value="1">--Tipo Vehiculo--</option>
+
+                                        </select>
+                                    </div>*@
+                                <div class="form-group">
+
+                                    <label>Nombre plaza</label>
+                                    <input type="hidden" placeholder="" id="in_idPlaza2" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="" id="in_Plaza2" name="in_desc" class="form-control" />
+
+                                </div>
+
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Clave Plaza</label>
+
+                                    <input type="text" placeholder="" id="in_claveplaza2" name="in_placas" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            @*<div class="col col-xs-8 col-md-4">
+
+                                    <div class="form-group">
+
+                                        <label>Usuario</label>
+
+                                        <input type="text" placeholder="Motor" id="in_usuario" name="in_motor" class="form-control" />
+
+                                    </div>
+
+                                </div>*@
+                            <div class="col-4"></div>
+
+                            <div class="form-group">
+
+                                <label>Estatus</label>
+
+                                <select class="form-control" id="id_estatus2" name="id_estatus">
+                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                    <option selected="selected" value="1">ACTIVO</option>
+                                    <option value="2">INACTIVO</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                    <button type="button" onclick="EditPlaza()" class="btn btn-primary">Guardar</button>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <input id="Id_Vehiculo" name="Id_Vehiculo" value="0" style="visibility:hidden" />
+    <input id="flag_edit" name="flag_edit" value="0" style="visibility:hidden" />
+}
+
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+
+    <script>
+
+        $('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
+
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        })
+
+
+        $(document).ready(function () {
+
+            $('#example thead tr').clone(true).appendTo('#example thead');
+            $('#example thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#example').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
+
+                                //bootbox.alert("HOLA");
+                                $("#modal-formAlta").modal('show');
+
+                            }
+                            , className: 'btn-primary'
+                        }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
+
+            GetTmsUNs();
+
+            //var varUnidadNegocio = $('#tbUnidadNegocio').DataTable();
+            //varUnidadNegocio.draw();
+
+
+
+        });
+
+        /* Bootbox Dialog box with custom Value */
+        $('.alert-custom').click(function () {
+            bootbox.dialog({
+                title: "This is a form in a modal.",
+                message: '<div class="row">  ' +
+                    '<div class="col-md-12"> ' +
+                    '<form class="form-horizontal"> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="name">Name</label> ' +
+                    '<div class="col-md-4"> ' +
+                    '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md"> ' +
+                    '<span class="help-block">Here goes your name</span> </div> ' +
+                    '</div> ' +
+                    '<div class="form-group"> ' +
+                    '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
+                    '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
+                    'Really awesome </label> ' +
+                    '</div><div class="radio"> <label for="awesomeness-1"> ' +
+                    '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
+                    '</div> ' +
+                    '</div> </div>' +
+                    '</form> </div>  </div>',
+                buttons: {
+                    success: {
+                        label: "Save",
+                        className: "btn-success",
+                        callback: function () {
+                            var name = $('#name').val();
+                            var answer = $("input[name='awesomeness']:checked").val()
+                            $('.Example').show().html("Hello " + name + ". You've chosen <b>" + answer + "</b").fadeOut(5000);
+                        }
+                    }
+                }
+            }
+            );
+        });
+
+        function GetTmsUNs() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListPlazas", "Catalogo")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var myTable = $('#example').DataTable();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            myTable.row.add([
+
+                                json.resp[i].IdPlaza,
+                                json.resp[i].Desc_Plaza,
+                                json.resp[i].CreateDate,
+                                json.resp[i].Created_User,
+                                json.resp[i].FecMovto,
+                                json.resp[i].Modified_User,
+                                json.resp[i].cve_Plaza,
+                                "<button onclick=\"getplaza(" + json.resp[i].IdPlaza + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><i class=\"fa fa-edit\"> "
+                            ]).draw();
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function ActionUpd() {
+            debugger;
+            if (document.getElementById("flag_edit").value == "1") {
+                EditSurtidores();
+            }
+            else {
+                AddSurtidores();
+            }
+        }
+
+        function AddPlazas() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("AddPlazas", "Catalogo")',
+                data: {
+                             
+                    Desc_Plaza: document.getElementById("in_Plaza").value,
+                    cve_Plaza: document.getElementById("in_claveplaza").value,
+                    BitActivo: document.getElementById("id_estatus").value
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#example').DataTable();
+
+                        table.clear().draw();
+                        table.destroy();
+
+                        $("#modal-formAlta").modal('hide');
+
+                        var myTable = $('#example').DataTable();
+
+                        GetTmsUNs()
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function EditPlaza() {
+
+            //var e = document.getElementById("id_estatus");
+            //var strUser = e.value;
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("EditPlazas", "Catalogo")',
+                data: {
+                    idPlaza: document.getElementById("in_idPlaza2").value,
+                    Desc_Plaza: document.getElementById("in_Plaza2").value,
+                    cve_Plaza: document.getElementById("in_claveplaza2").value,
+                    BitActivo: document.getElementById("id_estatus2").value
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#example').DataTable();
+
+                        table.clear().draw();
+                        table.destroy();
+
+                        $("#modal-formEdit").modal('hide');
+
+                        var myTable = $('#example').DataTable();
+
+                        GetTmsUNs()
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function DeleteSurtidores(id) {
+            if (confirm('Esta seguro que desea eliminar el vehiculo : ' + id))
+            {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("DeleteVehiculo", "TMS")',
+                    data: {
+                        Id: id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            var table = $('#example').DataTable();
+
+                            table.clear().draw();
+                            table.destroy();
+
+                            $("#modal-form").modal('hide');
+
+                            var myTable = $('#example').DataTable();
+
+                            for (var i = 0; i < json.json.length; i++) {
+
+                                myTable.row.add([
+
+                                    json.json[i].Id_Vehiculo,
+                                    "Camioneta",
+                                    json.json[i].Descripcion,
+                                    json.json[i].Placas,
+                                    json.json[i].Motor,
+                                    json.json[i].Estatus,
+                                    "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                ]).draw();
+
+                            }
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            }
+        }
+
+        function getplaza(id) {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListPlazasbyID", "Catalogo")',
+                data: {
+                    Id : id
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+                        debugger
+                        document.getElementById("in_idPlaza2").value = json.resp[0].IdPlaza;
+                        document.getElementById("in_Plaza2").value = json.resp[0].Desc_Plaza;
+                        document.getElementById("in_claveplaza2").value = json.resp[0].cve_Plaza;
+                        document.getElementById("id_estatus2").value = json.resp[0].BitActivo ? 1 : 0;
+                        //document.getElementById("in_placas").value = json.resp.CreateDate;
+                        //document.getElementById("in_desc").value = json.resp.Created_User;
+                        //document.getElementById("in_motor").value = json.resp.FecMovto;
+                        //document.getElementById("in_placas").value = json.resp.Modified_User;
+                        //document.getElementById("in_placas").value = json.resp.cve_Plaza;
+
+                        document.getElementById("id_estatus").value = 1;
+                        document.getElementById("flag_edit").value = 1;
+
+
+                        $("#modal-formEdit").modal('show');
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+        }
+
+
+
+    </script>
+
+}
+
