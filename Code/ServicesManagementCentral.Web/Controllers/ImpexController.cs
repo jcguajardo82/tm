@@ -31,13 +31,13 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                List<TransportistaPlazas> list = new List<TransportistaPlazas>();
+                List<TransportistaPlazasShow> list = new List<TransportistaPlazasShow>();
 
                 var ds = DALImpex.upCorpTms_Cns_TransportistaPlazas();
 
                 if (ds.Tables.Count > 0)
                 {
-                    list = DataTableToModel.ConvertTo<TransportistaPlazas>(ds.Tables[0]);
+                    list = DataTableToModel.ConvertTo<TransportistaPlazasShow>(ds.Tables[0]);
                 }
 
                 var result = new { Success = true, resp = list };
@@ -97,11 +97,10 @@ namespace ServicesManagement.Web.Controllers
                             List.Add(new TransportistaPlazas()
                             {
                                 IdTransportista = Convert.ToInt32(objDataRow[0].ToString()),
-                                IdPlaza = Convert.ToInt32(objDataRow[1].ToString()),
-                                Desc_Plaza = objDataRow[2].ToString(),
-                                PostalCode = objDataRow[3].ToString(),
-                                IdTipoEnvio = Convert.ToInt32(objDataRow[4].ToString()),
-                                bitDeleted = Convert.ToBoolean(objDataRow[5].ToString()),
+                                Cve_Plaza = objDataRow[1].ToString(),
+                                PostalCode = objDataRow[2].ToString(),
+                                IdTipoEnvio = Convert.ToInt32(objDataRow[3].ToString()),
+                                bitDeleted = objDataRow[4].ToString().Equals("0") ? false : true, //Convert.ToBoolean(objDataRow[4].ToString()),
                                 CreatedId = User.Identity.Name
                             });
                         }

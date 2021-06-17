@@ -27,12 +27,12 @@
             <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
                 <thead>
                     <tr>
-                        <th style="text-align:center;">Id Transportista</th>
-                        <th style="text-align:center;">Id Plaza</th>
-                        <th style="text-align:center;">Nombre Plaza</th>
+                        <th style="text-align:center;">Transportista</th>
+                        <th style="text-align:center;">Plaza</th>
                         <th style="text-align:center;">Codigo Postal </th>
                         <th style="text-align:center;">Tipo de Envio</th>
-                        <th style="text-align:center;">Cargado Por</th>      
+                        <th style="text-align:center;">Cargado Por</th>
+                        <th style="text-align:center;">Fecha de Actualización</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -167,14 +167,12 @@
 
 
                             table.row.add([
-                                json.resp[i].IdTransportista
-                                , json.resp[i].IdPlaza
-                                , json.resp[i].Desc_Plaza
+                                json.resp[i].Transportista
+                                , json.resp[i].Plaza
                                 , json.resp[i].PostalCode
                                 , json.resp[i].DescTipoEnvio
-                              
                                 , json.resp[i].CreatedId
-  
+                                , json.resp[i].CreatedDate
 
                             ]).draw();
                         }
