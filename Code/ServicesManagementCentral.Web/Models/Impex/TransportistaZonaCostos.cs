@@ -8,6 +8,8 @@ namespace ServicesManagement.Web.Models.Impex
     public class TransportistaZonaCostos
     {
         public int IdZona { get; set; }
+
+        public string NombreZona { get; set; }
         public decimal CargoGasolina { get; set; }
         public decimal PrecioExtraPeso { get; set; }
         public decimal PrecioInicial { get; set; }
@@ -15,10 +17,8 @@ namespace ServicesManagement.Web.Models.Impex
         public int IdTransportista { get; set; }
         public int IdTipoEnvio { get; set; }
         public int IdTipoServicio { get; set; }
-        public int IdTipoenvio { get; set; }
         public int diasEntrega { get; set; }
-        public string CreatedId { get; set; }
-        public string CreatedDate { get; set; }
+
 
                                
     }

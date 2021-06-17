@@ -28,12 +28,39 @@
 
 
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
-
-        @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
-
-
         <br />
+        <div class="row">
 
+            <div class=" col-xs-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label>Tansportista</label>
+                    <select class="form-control" id="ProveedorLista" name="ProveedorLista">
+                        <option selected="selected" value="0">--Transportista--</option>
+                    </select>
+                </div>
+            </div>
+            <div class=" col-xs-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label>Tipo de Servicio</label>
+                    <select class="form-control" id="ddlTipoServicio" name="ddlTipoServicio">
+                        <option selected="selected" value="0">--Tipo de Servicio--</option>
+                    </select>
+                </div>
+            </div>
+            <div class=" col-xs-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label>Tipo Envio</label>
+                    <select class="form-control" id="ddlTipoEnvio" name="ddlTipoEnvio">
+                        <option selected="selected" value="0">--Tipo Envio--</option>
+                    </select>
+                </div>
+            </div>
+            <div class=" col-xs-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <button type="button" onclick="GetConsulta()" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
@@ -44,92 +71,23 @@
                             <th>Precio Extra por Peso</th>
                             <th>Precio Inicial</th>
                             <th>Otros</th>
-                            <th>Días de Entrega</th>          
+                            <th>Días de Entrega</th>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
-
+                    <tfoot>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td> <button type="button" onclick="Guardar()" class="btn btn-primary">Guardar</button>
+                                
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-
     </div>
-
-
-    <div id="frmAltaTrans" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h2 class="modal-title">Alta de Costo Envio Proveedor</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <form id="frmCreateServicios">
-                        <div class="row">
-                            <input type="hidden" id="hddIdZona" />
-                            <div class=" col-xs-4 col-md-4 col-lg-4">
-                                <div class="form-group">
-                                    <label>Tansportista</label>
-                                    <select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                                        <option selected="selected" value="0">--Transportista--</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class=" col-xs-4 col-md-4 col-lg-4">
-                                <div class="form-group">
-                                    <label>Tipo de Servicio</label>
-                                    <select class="form-control" id="ProveedorLista" name="ddlTipoServicio">
-                                        <option selected="selected" value="0">--Tipo de Servicio--</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class=" col-xs-4 col-md-4 col-lg-4">
-                                <div class="form-group">
-                                    <label>Tipo Envio</label>
-                                    <select class="form-control" id="ProveedorLista" name="ddlTipoEnvio">
-                                        <option selected="selected" value="0">--Tipo Envio--</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col col-xs-8 col-md-4">
-                                <div class="form-group">
-                                    <label>Peso</label>
-                                    <input type="text" onchange="this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'"  placeholder="0.00" min="0" value="0" step="0.01" title="Peso" id="txtPeso" name="txtPeso" pattern="^\d+(?:\.\d{1,2})?$" class="form-control" />
-                                </div>
-                            </div>
-                            @*<div class="col col-xs-8 col-md-4">
-                                <div class="form-group">
-                                    <label>Factor Division Peso Voluntario</label>
-                                    <input type="text" placeholder="Factor Division Peso Voluntario" id="FactorVoluntario" name="FactorVoluntario" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="col col-xs-8 col-md-4">
-                                <div class="form-group">
-                                    <label>Prioridad</label>
-                                    <input type="text" placeholder="Prioridad" id="Prioridad" name="Prioridad" class="form-control" />
-                                </div>
-                            </div>*@
-                        </div>
-                    </form>
-                </div>
-
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 }
 
 @section scripts {
@@ -144,15 +102,6 @@
 
 
     <script>
-
-        $('#radioBtn a').on('click', function () {
-            var sel = $(this).data('title');
-            var tog = $(this).data('toggle');
-            $('#' + tog).prop('value', sel);
-
-            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
-            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
-        })
 
 
         $(document).ready(function () {
@@ -217,19 +166,8 @@
                     ],
                     buttons: [
                             { extend: 'pageLength', className: 'btn-primary' },
-                            { extend: 'excel', className: 'btn-primary' },
-                            {
-                                text: 'Alta',
-                                action: function (e, dt, node, config) {
-                                    $("#hddId_paqueteria").val("0");
-                                    document.getElementById("txtPeso").value = "0.00";
+                            { extend: 'excel', className: 'btn-primary' }
 
-
-                                    $("#frmAltaTrans").modal('show');
-
-                                }
-                                , className: 'btn-primary'
-                            }
                     ]
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
@@ -241,9 +179,10 @@
                 }
             );
 
-            GetConsulta();
+            //GetConsulta();
             GetCommonProveedor();
             GetCombos();
+            GetConsulta();
         });
 
         function GetCommonProveedor() {
@@ -279,14 +218,14 @@
             });
         }
 
-               function GetCombos() {
+        function GetCombos() {
 
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetCombos", "Catalogo")',
+                url: '@Url.Action("GetCombos", "Impex")',
                 data: {
-                   
+
                 },
                 datatype: "html",
                 success: function (json) {
@@ -323,114 +262,66 @@
             });
         }
 
-        function EditSurtidores(Id_paqueteria) {
-            $("#hddId_paqueteria").val(Id_paqueteria);
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetPaqueteriasId", "Catalogo")',
-                data: {
-                    Id_paqueteria: Id_paqueteria
-                },
-                datatype: "html",
-                success: function (json) {
-                    //debugger;
-                    if (json.Success)
-                    {
-                        console.log(json);
-                        for (var i = 0; i < json.resp.length; i++) {
+
+        function Guardar() {
+            var list = new Array();
+            $("#tblConsulta TBODY TR").each(function () {
+                var row = $(this);
+                var item = {};
+
+                item.IdZona = row.find("TD input").eq(5).val();
+                item.NombreZona = '';
+                item.CargoGasolina = row.find("TD input").eq(0).val();
+                item.PrecioExtraPeso = row.find("TD input").eq(1).val();
+                item.PrecioInicial = row.find("TD input").eq(2).val();
+                item.Otros = row.find("TD input").eq(3).val();
 
 
-                            debugger;
-                            $("#txtPeso").val(json.resp[i].Peso);
-                            $("#ProveedorLista").val(json.resp[i].Id_Proveedor);
+                item.IdTransportista = $("#ProveedorLista").val();
+                item.IdTipoEnvio = $("#ddlTipoEnvio").val();
+                item.IdTipoServicio = $("#ddlTipoServicio").val();
 
-                        }
+      
 
 
-                        $("#frmAltaTrans").modal('show');
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
+                item.diasEntrega = row.find("TD input").eq(4).val();
+                list.push(item);
             });
-        }
 
-        function DeleteSurtidores(Id_paqueteria) {
-
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("DelPaqueteria", "Catalogo")',
-                data: {
-                    Id_paqueteria: Id_paqueteria
-                },
-                datatype: "html",
-                success: function (json) {
-                    //debugger;
-                    if (json.Success)
-                    {
-                        location.reload();
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
-
-        function AddSurtidores() {
-
-            var _peso = $("#txtPeso").val();
-            var _Id_Proveedor = $("#ProveedorLista").val();
-            var _Id_paqueteria = $("#hddId_paqueteria").val();
-            //if (!isNaN(_peso)) {
-            //    $("#txtPeso").val('0.00');
-            //    $("#txtPeso").focus();
-            //    return;
-            //}
             debugger;
+            //Send the JSON array to Controller using AJAX.
             $.ajax({
-                async: false,
                 type: "POST",
-                url: '@Url.Action("AddPeso", "Catalogo")',
-                data: {
-                    Id_Proveedor: _Id_Proveedor,
-                    peso: _peso,
-                    Id_paqueteria: _Id_paqueteria
-                },
-                datatype: "html",
+                url: '@Url.Action("InsertCustomers", "Impex")',
+                data: JSON.stringify(list),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
                 success: function (json) {
-                    if (json.Success)
-                    {
-                        location.reload();
+                    if (json.Success) {
+                        alert(json.resp + " registro(s) guardados.");
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
+                   alert("Error");
                 }
             });
         }
 
-        //<th>Id Transportista</th>
-        //<th>Tarifa Fija</th>
-        //<th>Prioridad</th>
-        //<th>Nivel de Servicio</th>
-        //<th>Factor Division<br /> Peso Voluntario </th>
-        //<th>Paqueteria</th>
-        //<th>Big Ticket</th>
-        //<th>Servicio Estandar</th>
-        //<th>Servicio Express</th>
+
+
+
         function GetConsulta() {
-            //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
+            var _IdTipoenvio = $("#ddlTipoEnvio").val();
+            var _IdTransportista = $("#ProveedorLista").val();
+            var _IdTipoServicio = $("#ddlTipoServicio").val();
             $.ajax({
                 async: false,
                 type: "GET",
                 url: '@Url.Action("GetCostoEnvioProveedor", "Impex")',
                 data: {
-                    //  Id_Num_UN: _Id_Num_UN
+                    IdTransportista: _IdTransportista,
+                    IdTipoenvio: _IdTipoenvio,
+                    IdTipoServicio: _IdTipoServicio
                 },
                 datatype: "html",
                 success: function (json) {
@@ -445,12 +336,27 @@
 
 
 
-                            tr.append("<td>" + json.resp[i].Id_Proveedor + "</td>");
-                            tr.append("<td>" + json.resp[i].Nombre + "</td>");
-                            tr.append("<td>" + json.resp[i].Peso + "</td>");
-                            tr.append("<td><button onclick='EditSurtidores(" + json.resp[i].Id_paqueteria + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.resp[i].Id_paqueteria + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            $('#tblConsulta').append(tr);
+                            tr.append("<td>" + json.resp[i].NombreZona + "</td>");
+                            tr.append("<td><input type='number' oninput='input(this)' placeholder='0.00' min='0' value='" + json.resp[i].CargoGasolina +"' step='0.01'  id='txtCargoGasolina' name='txtCargoGasolina' pattern='^\d+(?:\.\d{1,2})?$' class='form-control' /></td>");
+                            tr.append("<td><input type='number' oninput='input(this)' placeholder='0.00' min='0' value='" + json.resp[i].PrecioExtraPeso +"' step='0.01'  id='txtCargoGasolina' name='txtCargoGasolina' pattern='^\d+(?:\.\d{1,2})?$' class='form-control' /></td>");
+                            tr.append("<td><input type='number' oninput='input(this)' placeholder='0.00' min='0' value='" + json.resp[i].PrecioInicial +"' step='0.01'  id='txtCargoGasolina' name='txtCargoGasolina' pattern='^\d+(?:\.\d{1,2})?$' class='form-control' /></td>");
+                            tr.append("<td><input type='number' oninput='input2(this)' placeholder='0.00' min='0' value='" + json.resp[i].Otros +"' step='1'  id='txtCargoGasolina' name='txtCargoGasolina' pattern='^\d+(?:\.\d{1,2})?$' class='form-control' /></td>");
+                            tr.append("<td><input type='number' oninput='input2(this)' placeholder='0.00' min='0' value='" + json.resp[i].diasEntrega
+                                + "' step='1'  id='txtCargoGasolina' name='txtCargoGasolina' pattern='^\d+(?:\.\d{1,2})?$' class='form-control' /><input type='number'  style='display: none;' value='" + json.resp[i].IdZona +"'/> </td>");
 
+                            //tr.append("<td>" + json.resp[i].CargoGasolina + "</td>");
+                            //tr.append("<td>" + json.resp[i].PrecioExtraPeso + "</td>");
+                            //tr.append("<td>" + json.resp[i].PrecioInicial + "</td>");
+                            //tr.append("<td>" + json.resp[i].Otros + "</td>");
+                            //tr.append("<td>" + json.resp[i].diasEntrega + "</td>");
+
+                            $('#tblConsulta').append(tr);
+                            //<th>Zona</th>
+                            //<th>Cargo de Gasolina</th>
+                            //<th>Precio Extra por Peso</th>
+                            //<th>Precio Inicial</th>
+                            //<th>Otros</th>
+                            //<th>Días de Entrega</th>
                         }
                     }
                 }
@@ -460,43 +366,20 @@
             });
         }
 
-        /* Bootbox Dialog box with custom Value */
-        $('.alert-custom').click(function () {
-            bootbox.dialog({
-                title: "This is a form in a modal.",
-                message: '<div class="row">  ' +
-                '<div class="col-md-12"> ' +
-                '<form class="form-horizontal"> ' +
-                '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="name">Name</label> ' +
-                '<div class="col-md-4"> ' +
-                '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md"> ' +
-                '<span class="help-block">Here goes your name</span> </div> ' +
-                '</div> ' +
-                '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
-                '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
-                '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
-                'Really awesome </label> ' +
-                '</div><div class="radio"> <label for="awesomeness-1"> ' +
-                '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
-                '</div> ' +
-                '</div> </div>' +
-                '</form> </div>  </div>',
-                buttons: {
-                    success: {
-                        label: "Save",
-                        className: "btn-success",
-                        callback: function () {
-                            var name = $('#name').val();
-                            var answer = $("input[name='awesomeness']:checked").val()
-                            $('.Example').show().html("Hello " + name + ". You've chosen <b>" + answer + "</b").fadeOut(5000);
-                        }
-                    }
-                }
-            }
-                    );
-        })
+        var delayTimer;
+        function input(ele) {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function () {
+                ele.value = parseFloat(ele.value).toFixed(2).toString();
+            }, 1100);
+        }
+
+        function input2(ele) {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function () {
+                ele.value = parseFloat(ele.value).toFixed(0).toString();
+            }, 1100);
+        }
     </script>
 
 }

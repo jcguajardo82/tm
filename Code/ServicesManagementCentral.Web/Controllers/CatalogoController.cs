@@ -13,11 +13,8 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 
 using System.Reflection;
-
-using System.Text;
 
 using System.Threading.Tasks;
 
@@ -484,27 +481,6 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // [HttpGet]
 
         //public async Task<JsonResult> AddSurtidores(string pId_Supplier,string pName,string pId_Num_UN,string pId_Num_Empleado)
@@ -628,10 +604,6 @@ namespace ServicesManagement.Web.Controllers
         //    }
 
         //}
-
-
-
-
 
         #endregion
 
@@ -1228,14 +1200,6 @@ namespace ServicesManagement.Web.Controllers
 
 
         #endregion
-
-
-
-
-
-
-
-
 
 
 

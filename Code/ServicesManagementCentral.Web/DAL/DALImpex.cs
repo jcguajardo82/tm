@@ -469,7 +469,7 @@ namespace ServicesManagement.Web.DAL
         #endregion
 
         #region Costo envio Proveedor
-        public static DataSet upCorpTms_Cns_TransportistaZonaCostos()
+        public static DataSet upCorpTms_Cns_TransportistaZonaCostos(int IdTransportista, int IdTipoenvio, int IdTipoServicio)
         {
             DataSet ds = new DataSet();
 
@@ -484,8 +484,104 @@ namespace ServicesManagement.Web.DAL
             {
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+    
+                parametros.Add("@IdTransportista", IdTransportista);
+                parametros.Add("@IdTipoenvio", IdTipoenvio);
+                parametros.Add("@IdTipoServicio", IdTipoServicio);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_TransportistaZonaCostos", false);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_TransportistaZonaCostos", false,parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet upCorpTms_Ins_TransportistaZonaCostos(int IdZona, decimal CargoGasolina
+            ,decimal PrecioExtraPeso, decimal PrecioInicial, decimal Otros, int IdTransportista, int IdTipoenvio, int IdTipoServicio
+            ,int diasEntrega,string CreatedId)
+        {
+
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@IdZona", IdZona);
+                parametros.Add("@CargoGasolina", CargoGasolina);
+                parametros.Add("@PrecioExtraPeso", PrecioExtraPeso);
+                parametros.Add("@PrecioInicial", PrecioInicial);
+                parametros.Add("@Otros", Otros);
+                parametros.Add("@IdTransportista", IdTransportista);
+                parametros.Add("@IdTipoenvio", IdTipoenvio);
+                parametros.Add("@IdTipoServicio", IdTipoServicio);
+                parametros.Add("@diasEntrega", diasEntrega);
+                parametros.Add("@CreatedId", CreatedId);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Ins_TransportistaZonaCostos", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet upCorpTms_Del_TransportistaZonaCostos(int IdZona,  int IdTransportista, int IdTipoenvio, int IdTipoServicio)
+        {
+
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@IdZona", IdZona);
+                parametros.Add("@IdTransportista", IdTransportista);
+                parametros.Add("@IdTipoenvio", IdTipoenvio);
+                parametros.Add("@IdTipoServicio", IdTipoServicio);
+
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Del_TransportistaZonaCostos", false, parametros);
 
                 return ds;
             }
