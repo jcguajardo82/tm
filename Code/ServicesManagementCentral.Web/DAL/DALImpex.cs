@@ -466,6 +466,44 @@ namespace ServicesManagement.Web.DAL
                 throw ex;
             }
         }
+
+        public static void upCorpTms_Ins_TransportistaDestinosZonas(DataTable TransZonaPlazasType,DataTable TransPlazasDestinosType)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+            {
+                using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Ins_TransportistaDestinosZonas", con))
+                {
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+
+
+                    SqlParameter param = new SqlParameter("@TransZonaPlazasType", SqlDbType.Structured)
+                    {
+                        TypeName = "tms.TransportistaZonaPlazasTableType",
+                        Value = TransZonaPlazasType
+                    };
+                    sqlComm.Parameters.Add(param);
+
+                     param = new SqlParameter("@TransPlazasDestinosType", SqlDbType.Structured)
+                    {
+                        TypeName = "tms.TransportistaPlazasDestinosTableType",
+                        Value = TransPlazasDestinosType
+                     };
+                    sqlComm.Parameters.Add(param);
+
+                    con.Open();
+                    sqlComm.ExecuteReader();
+
+
+
+                    //SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
+                    //adapter.Fill(ds);
+
+
+
+                }
+            }
+        }
         #endregion
 
         #region Costo envio Proveedor

@@ -220,7 +220,123 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult ImportFileCobPlaza(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
 
+            try
+            {
+                List<TransportistaPlazasDestinos> fileData2 = new List<TransportistaPlazasDestinos>();
+                var fileData = GetDataFromFileCobPlaza(importFile.InputStream, ref fileData2);
+
+
+                DALImpex.upCorpTms_Ins_TransportistaDestinosZonas(fileData.ToDataTable(),fileData2.ToDataTable());
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+
+        private List<TransportistaZonaPlazas> GetDataFromFileCobPlaza(Stream stream, ref List<TransportistaPlazasDestinos> TransportistaPlazasDestinos)
+        {
+            var dataTable = new DataTable();
+            var TransportistaZonaPlazas = new List<TransportistaZonaPlazas>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+
+
+                            UseHeaderRow = false // To set First Row As Column Names    
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        dataTable = dataSet.Tables[0];
+
+
+
+
+                        for (int i = 4; i < dataTable.Rows.Count; i++)
+                        {
+                            for (int a = 2; a < dataTable.Rows[i].ItemArray.Length; a++)
+                            {
+                                TransportistaZonaPlazas.Add(new TransportistaZonaPlazas
+                                {
+                                    IdTransportista = int.Parse(dataTable.Rows[0][1].ToString()),
+                                    Cve_PlazaOrigen = dataTable.Rows[i][0].ToString().Trim(),
+                                    Cve_PlazaDestino = dataTable.Rows[1].ItemArray[a].ToString().Trim(),
+                                    IdZona = int.Parse(dataTable.Rows[i].ItemArray[a].ToString()),
+                                    CreatedId = User.Identity.Name
+                                });
+                            }
+
+                            var esDestino = false;
+                            for (int a = 2; a < dataTable.Rows[1].ItemArray.Length; a++)
+                            {
+                                if (dataTable.Rows[i][0].ToString() == dataTable.Rows[1].ItemArray[a].ToString())
+                                {
+
+                                    esDestino = true;
+
+                                }
+                            }
+                            TransportistaPlazasDestinos.Add(new TransportistaPlazasDestinos
+                            {
+                                IdTransportista = int.Parse(dataTable.Rows[0][1].ToString()),
+                                Cve_Plaza = dataTable.Rows[i][0].ToString().Trim(),
+                                EsOrigen = true,
+                                EsDestino = esDestino,
+                                CreatedId = User.Identity.Name
+                            });
+
+
+                        }
+
+
+                        for (int a = 2; a < dataTable.Rows[1].ItemArray.Length; a++)
+                        {
+                            var esOrigen = false;
+
+                            for (int i = 4; i < dataTable.Rows.Count; i++)
+                            {
+                                if (dataTable.Rows[i][0].ToString() == dataTable.Rows[1].ItemArray[a].ToString())
+                                {
+                                    esOrigen = true;
+                                }
+                            }
+                            var item = new TransportistaPlazasDestinos();
+                            item.IdTransportista = int.Parse(dataTable.Rows[0][1].ToString());
+                            item.Cve_Plaza = dataTable.Rows[1][a].ToString();
+                            item.EsOrigen = esOrigen;
+                            item.EsDestino = true;
+                            item.CreatedId = User.Identity.Name;
+
+                            if (item.EsDestino != item.EsOrigen) {
+                                TransportistaPlazasDestinos.Add(item);
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return TransportistaZonaPlazas;
+        }
+
+
+   
         #endregion
 
         #region CostoEnvioProveedor
@@ -271,7 +387,7 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-       
+
         public ActionResult InsertCustomers(List<TransportistaZonaCostos> list)
         {
 
@@ -292,7 +408,8 @@ namespace ServicesManagement.Web.Controllers
                 var result = new
                 {
                     Success = true
-                    ,resp=list.Count
+                    ,
+                    resp = list.Count
                 };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }

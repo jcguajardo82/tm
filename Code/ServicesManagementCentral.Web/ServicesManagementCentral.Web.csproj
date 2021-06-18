@@ -249,8 +249,10 @@
     <Compile Include="Models\Impex\CobZon.cs" />
     <Compile Include="Models\Impex\KgDinero.cs" />
     <Compile Include="Models\Impex\TransportistaPlazas.cs" />
+    <Compile Include="Models\Impex\TransportistaPlazasDestinos.cs" />
     <Compile Include="Models\Impex\TransportistaRangosPesos.cs" />
     <Compile Include="Models\Impex\TransportistaZonaCostos.cs" />
+    <Compile Include="Models\Impex\TransportistaZonaPlazas.cs" />
     <Compile Include="Models\LineaModel.cs" />
     <Compile Include="Models\MotivoCambioFP.cs" />
     <Compile Include="Models\OMSModels.cs" />
