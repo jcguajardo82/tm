@@ -243,6 +243,7 @@
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionProductoSuministrado.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionProductoSuministrar.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionSurtidor.cs" />
+    <Compile Include="Models\EstafetaModel.cs" />
     <Compile Include="Models\EtiquetaModel.cs" />
     <Compile Include="Models\Impex\Cns_TransportistaDestinosZonas.cs" />
     <Compile Include="Models\Impex\CobZon.cs" />
@@ -3587,7 +3588,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Properties\PublishProfiles\tmsmercurio - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\tmsmercurio - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\tmsmercurio2 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\tmsmercurioQA - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -3639,6 +3642,7 @@
     <Content Include="Views\Catalogo\TipoEnvio.cshtml" />
     <Content Include="Views\Catalogo\TipoServicio.cshtml" />
     <Content Include="Views\Catalogo\Zonas.cshtml" />
+    <Content Include="Views\TMS\Cotizacion.cshtml" />
     <Content Include="Views\Catalogo\Plazas.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -3821,7 +3825,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51902</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44370/</IISUrl>
+          <IISUrl>https://localhost:44375/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -8,7 +8,7 @@ using ServicesManagement.Web.Models.Catalogos;
 using System;
 
 using System.Collections.Generic;
-
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -20,11 +20,19 @@ using System.Threading.Tasks;
 
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using TipoEnvio = ServicesManagement.Web.Models.Catalogos.TipoEnvio;
+using TipoServicio = ServicesManagement.Web.Models.Catalogos.TipoServicio;
 
 namespace ServicesManagement.Web.Controllers
 
 {
 
+    public class AlmacenCmb {
+
+        public int IdAlmacen { get; set; }
+        public string NombreAlmacen { get; set; }
+
+    }
 
     public class EmpleadoModels
     {
@@ -635,9 +643,66 @@ namespace ServicesManagement.Web.Controllers
         #endregion
 
         #region Almacenes
+        public DataSet GetProv()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_Suppliers", false, parametros);
+
+
+
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetAlmacenes(string IdProv)
+        {
+            try
+            {
+                DataSet ds = GetAlmacen(IdProv);
+                List<AlmacenCmb> listC = ConvertTo<AlmacenCmb>(ds.Tables[0]);
+                var result = new { Success = true, json = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public DataSet GetAlmacen(string IdProv)
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
+
+
+
+        }
 
         public ActionResult Almacenes()
         {
+            Session["listaProv"] = GetProv();
+
             return View("Almacenes/Index");
         }
 
@@ -1312,7 +1377,7 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-
+        
 
         #region Pasillos
 
@@ -1403,7 +1468,6 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpPost]
-
         public JsonResult AddPasilloUn()
 
         {
@@ -1452,10 +1516,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
         [HttpPost]
-
         public JsonResult DellPasilloUn(string Id_Num_UN, string Id_Cnsc_Pasillo)
 
         {
@@ -1504,10 +1565,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
         [HttpPost]
-
         public JsonResult AddPasilloUnEsp()
 
         {
@@ -1556,10 +1614,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
         [HttpGet]
-
         public JsonResult GetPasilloUnReporteMap(string Id_Num_Un, string Id_Cnsc_Pasillo = "0"
 
             , string Id_Num_Div = "0", string Id_Num_Categ = "0")
@@ -1654,14 +1709,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
-
-
-
-
         [HttpPost]
-
         public JsonResult UpdatePasilloUn(string Id_Num_UN, string Id_Cnsc_Pasillo, string Nom_PasilloTipo, string Num_Orden)
 
         {
@@ -1712,10 +1760,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
         [HttpGet]
-
         public JsonResult PasilloUnEditCateg(string Id_Num_Un, string Id_Cnsc_Pasillo = "0"
 
     , string Id_Num_Div = "0", string Id_Num_Categ = "0")
@@ -1818,10 +1863,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
         [HttpGet]
-
         public JsonResult AddPasilloUnLinea(string Id_Num_UN, string Id_Cnsc_Pasillo, string Id_Num_Lineas)
 
         {
@@ -1890,12 +1932,7 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
-
-
         [HttpGet]
-
         public JsonResult DelPasilloUnLinea(string Id_Num_UN, string Id_Cnsc_Pasillo, string Id_Num_Lineas)
 
         {
@@ -1963,8 +2000,6 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-
-
 
         //================================ exporta a excel ============================================
 

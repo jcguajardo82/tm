@@ -12,23 +12,36 @@
                     <div class="row">
                         <div class="col col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Almacén</label>
-                                <select class="form-control" id="AlmacenLista" name="AlmacenLista" onchange="GetCommonProveedor()">
-                                    <option selected="selected" value="0">--Unidad de Negocio--</option>
+                                <label>Proveedor</label>
+                                <select class="form-control" id="ProveedorLista" name="ProveedorLista">
+                                    <option selected="selected" value="0">--Proveedor--</option>
+                                    @{ if (Session["listaProv"] != null)
+                                        {
+
+                                            var myDataSet = Session["listaProv"] as System.Data.DataSet;
+                                            foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                            {
+                                                <option value="@r["IdProveedor"].ToString()">@r["NombreProveedor"].ToString()</option> }
+                                            } 
+                                        }
+
+
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Proveedor</label>
-                                <select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                                    <option selected="selected" value="0">--Unidad de Negocio--</option>
+                                <label>Almacén</label>
+                                <select class="form-control" id="AlmacenLista" name="AlmacenLista" onchange="GetCommonProveedor()">
+                                    <option selected="selected" value="0">--Almacen--</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="col col-xs-8 col-md-3">
                             <div class="form-group">

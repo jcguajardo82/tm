@@ -1,7 +1,5 @@
 ﻿
-@{
-    ViewBag.Title = "AltaVehiculos";
-}
+@{ ViewBag.Title = "AltaVehiculos"; }
 
 
 
@@ -19,162 +17,186 @@
 
 @using (Html.BeginForm())
 {
-    <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4"><h2>Alta Tipo de Vehiculos</h2></div>
-        <div class="col-4"></div>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4"><h2>Alta Tipo de Vehiculos</h2></div>
+    <div class="col-4"></div>
 
-    </div>
-
-
-    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
-
-        @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
+</div>
 
 
-        <br />
+                <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
 
-        <div class="row">
-            <div class="col-12">
-                <table id="example" class="table table-striped dataTable" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Tipo Vehiculo</th>
-                            <th>Actvo</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1221521-1</td>
-                            <td>SETC</td>
-                            <td>
-                                <button class="btn btn-warning btn-circle" type="button">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                                <button class="btn btn-danger btn-circle" type="button">
-                                    <i class="fa fa-eraser"></i>
-                                </button>
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1221521-2</td>
-                            <td>SETC</td>
-                            <td>
-                                <button class="btn btn-warning btn-circle" type="button">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                                <button class="btn btn-danger btn-circle" type="button">
-                                    <i class="fa fa-eraser"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Tipo Vehiculo</th>
-                            <th>Actvo</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-
-    </div>
+                    @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
 
 
-    <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+                    <br />
 
-                <div class="modal-header">
-                    <h2 class="modal-title">Modal title</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="example" class="table table-striped dataTable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Tipo Vehiculo</th>
+                                        <th>Actvo</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{ if (Session["lista"] != null)
+                                        {
+
+                                            var myDataSet = Session["lista"] as System.Data.DataSet;
+                                            foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                            {
+                                            <tr>
+                                                <td>
+                                                    @r["Id_TipoVehiculo"]
+                                                </td>
+                                                <td>
+                                                    @r["Descipcion"]
+                                                </td>
+                                                <td>
+                                                    @r["Estatus"]
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="SelectOrder(@r["Id_TipoVehiculo"])" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                </td>
+                                            </tr> 
+                                            }
+
+                                        } }
+
+
+                                    @*<tr>
+                                        <td>1221521-1</td>
+                                        <td>SETC</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-circle" type="button">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-circle" type="button">
+                                                <i class="fa fa-eraser"></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>1221521-2</td>
+                                        <td>SETC</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-circle" type="button">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-circle" type="button">
+                                                <i class="fa fa-eraser"></i>
+                                            </button>
+                                        </td>
+                                    </tr>*@
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Tipo Vehiculo</th>
+                                        <th>Actvo</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="modal-body">
 
-                    <form id="frmCreateServicios">
+                                <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
 
-                        <div class="row">
+                                            <div class="modal-header">
+                                                <h2 class="modal-title">Alta de Tipo de Vehiculo</h2>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
 
-                            <div class="col col-xs-8 col-md-4">
+                                            <div class="modal-body">
 
-                                <div class="form-group">
+                                                <form id="frmCreateServicios">
 
-                                    <label>Tipo de Vehiculo</label>
+                                                    <div class="row">
 
-                                    <input type="text" placeholder="Numero de Empleado" id="numE" name="numE" class="form-control" />
+                                                        <div class="col col-xs-8 col-md-4">
 
-                                </div>
+                                                            <div class="form-group">
 
-                            </div>
+                                                                <label>Tipo de Vehiculo</label>
+
+                                                                <input type="text" placeholder="Tipo de Vehiculo" id="in_TV" name="in_TV" class="form-control" />
+
+                                                            </div>
+
+                                                        </div>
 
 
-                        </div>
+                                                    </div>
 
-                        <div class="row">
+                                                    <div class="row">
 
-                            <div class="col col-xs-4 col-md-4">
+                                                        <div class="col col-xs-4 col-md-4">
 
-                                <div class="form-group">
+                                                            <div class="form-group">
 
-                                    <label>Estatus</label>
+                                                                <label>Estatus</label>
 
-                                    <div class="input-group">
-                                        <div id="radioBtn" class="btn-group">
-                                            <a class="btn btn-primary btn-sm active" data-toggle="happy" data-title="Y">ACTIVO</a>
-                                            <a class="btn btn-primary btn-sm notActive" data-toggle="happy" data-title="N">INACTIVO</a>
+                                                                <div class="input-group">
+                                                                    <div id="radioBtn" class="btn-group">
+                                                                        <a class="btn btn-primary btn-sm active" data-toggle="happy" data-title="Y">ACTIVO</a>
+                                                                        <a class="btn btn-primary btn-sm notActive" data-toggle="happy" data-title="N">INACTIVO</a>
+                                                                    </div>
+                                                                    <input type="hidden" name="happy" id="happy">
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">Comentarios</span>
+                                                                </div>
+                                                                <textarea id="comentario" class="form-control" aria-label="With textarea"></textarea>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </form>
+
+                                            </div>
+
+
+                                            <div class="modal-footer">
+
+
+                                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                                <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
+
+                                            </div>
+
+
                                         </div>
-                                        <input type="hidden" name="happy" id="happy">
                                     </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Comentarios</span>
-                                    </div>
-                                    <textarea class="form-control" aria-label="With textarea"></textarea>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                    </form>
-
-                </div>
-
-
-                <div class="modal-footer">
-
-
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-
-                    <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
-
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-
-
-}
+                                </div>}
 
 @section scripts {
 
@@ -188,6 +210,36 @@
 
 
     <script>
+
+        function AddSurtidores() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("SaveTipoVehiculo", "TMS")',
+                data: {
+                    tipoVehiculo: document.getElementById("in_TV").value,
+                    flag : 1,
+                    comentarios: ""
+                },
+                datatype: "html",
+                success: function (json) {
+                    //debugger;
+                    if (json.Success) {
+
+                        alert("Alta con exito");
+
+
+                        $('#modal-form').modal('show');
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+        }
+
 
         $('#radioBtn a').on('click', function () {
             var sel = $(this).data('title');

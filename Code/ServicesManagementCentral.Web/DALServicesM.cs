@@ -105,7 +105,7 @@ namespace ServicesManagement.Web
                 //System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
                 //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "upCorpOms_Cns_UN", false);
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV3"].ConnectionString))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand("tms.upCorpTms_Cns_Almacenes", cnn))
                     {
@@ -141,7 +141,7 @@ namespace ServicesManagement.Web
                 //System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
                 //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "upCorpOms_Cns_UN", false);
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV3"].ConnectionString))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand("common.Warehouses_sUP", cnn))
                     {
@@ -177,7 +177,7 @@ namespace ServicesManagement.Web
                 //System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
                 //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "upCorpOms_Cns_UN", false);
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV3"].ConnectionString))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand("common.Suppliers_sUP", cnn))
                     {

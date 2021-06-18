@@ -1,11 +1,14 @@
 ﻿using ExcelDataReader;
+using Newtonsoft.Json;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
-using ServicesManagement.Web.Models.Catalogos;
+using ServicesManagement.Web.Models.Catalogos;
 using ServicesManagement.Web.Models.Impex;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -15,6 +18,98 @@ using System.Web.Mvc;
 
 namespace ServicesManagement.Web.Controllers
 {
+    public class ResponseModels
+    {
+
+        public string Cve_RespCode { get; set; } = "00";
+        public string Guia { get; set; } = "";
+        public string Desc_MensajeError { get; set; } = "";
+        public byte[] pdf { get; set; }
+    }
+
+    public class EstafetaRequestModel
+    {
+
+        public string aditionalInfo { get; set; } = "Informacion adicional";
+        //Contenido
+        public string content { get; set; } = "Contenido";
+        //Centro de costos
+        public string costCenter { get; set; } = "CCtos";
+        //Ocurre
+        public bool deliveryToEstafetaOffice { get; set; } = false;
+        //En caso de envio a otro pais, solo siglasWS de generación de guías Estafeta Versión 2 Fecha: 31/01/2011
+        //Estafeta Mexicana S.A.de C.V. 36
+        public string destinationCountryId { get; set; } = "MX";
+        //Tipo de envio 1{get; set;} =SOBRE 4{get; set;} =PAQUETE
+        public int parcelTypeId { get; set; } = 4;
+        //Referencia
+        public string reference { get; set; } = "Referencia";
+        //Peso
+        public int weight { get; set; } = 1;
+        //Número de etiquetas solicitadas
+        public int numberOfLabels { get; set; } = 1;
+        //Código postal de Origen para enrutamiento
+        public string originZipCodeForRouting { get; set; } = "62250";
+        //Servicio que se usará
+        public string serviceTypeId { get; set; } = "50";
+        //Numero de oficina que corresponde al cliente
+        public string officeNum { get; set; } = "421";
+        //Documento de retorno
+        public bool returnDocument { get; set; } = true;
+        //Servicio del documento de retorno
+        public string serviceTypeIdDocRet { get; set; } = "50";
+        //Fecha de vigencia
+        public string effectiveDate { get; set; } = "20110525";
+        //Descripcion del contenido
+        public string contentDescription { get; set; } = "Descripcion del contenido del paquete";
+
+        public AddressModel DestinationInfo { get; set; }
+
+        public AddressModel OriginInfo { get; set; }
+
+    }
+
+
+    public class AddressModel
+    {
+
+
+        public string address1 { get; set; } = "public string addr1";
+        public string address2 { get; set; } = "public string Addr2";
+        public string city { get; set; } = "Ciudad";
+        public string contactName { get; set; } = "Cliente";
+        public string corporateName { get; set; } = "Corporate";
+        public string customerNumber { get; set; } = "1234568";
+        public string neighborhood { get; set; } = "neighborhood";
+        public string phoneNumber { get; set; } = "1111111";
+        public string cellPhone { get; set; } = "0447777777777";
+        public string state { get; set; } = "Mexico";
+        //Código postal destino
+        public string zipCode { get; set; } = "01000";
+
+
+    }
+
+
+    public class CotizacionModel
+    {
+
+        public string codigoPostal_origen { get; set; }
+
+        public string codigoPostal_destino { get; set; }
+
+        public bool esPaquete { get; set; }
+
+        public double largo { get; set; }
+
+        public double peso { get; set; }
+
+        public double alto { get; set; }
+
+        public double ancho { get; set; }
+
+    }
+
     public class VehiculoModel
     {
         public int Id_Vehiculo { get; set; }
@@ -25,6 +120,9 @@ namespace ServicesManagement.Web.Controllers
         public string Fec_Movto { get; set; }
         public string created_user { get; set; }
         public string modified_user { get; set; }
+
+        public int Id_TipoVehiculo { get; set; }
+        public string TipoVehiculo { get; set; }
 
     }
 
@@ -40,7 +138,7 @@ namespace ServicesManagement.Web.Controllers
         public string created_user { get; set; }
         public string modified_user { get; set; }
 
-    }
+    }
     public class GastosVehiculoModel
     {
         public int IdGasto { get; set; }
@@ -73,6 +171,9 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult AltaVehiculos()
         {
+
+            Session["lista"] = GetTipoVehiculos();
+
             return View();
         }
 
@@ -117,8 +218,8 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult CPxDisponibilidadTrans()
         {
             return View();
-        }
-
+        }
+
         public ActionResult Gastosvehículo()
         {
             return View();
@@ -156,6 +257,8 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Cat_Vehiculo()
         {
+            Session["lista"] = GetTipoVehiculos();
+
             return View();
         }
 
@@ -571,6 +674,7 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Cat_Servicio()
         {
+            Session["lista"] = GetTipoVehiculos();
 
             string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
 
@@ -600,6 +704,283 @@ namespace ServicesManagement.Web.Controllers
 
             return View();
         }
+
+        public ActionResult Cotizacion()
+        {
+            DataSet ds = GetOrdenes();
+            Session["lisOrdenes"] = ds;
+
+            return View();
+        }
+
+
+        public DataSet GetOrdenes()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[up_Corp_Cns_OrdenesTMS]", false, parametros);
+
+
+                //return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetCotizacion(string cp_o, string cp_d, bool paquete, string alto, string ancho, string largo, string peso)
+        {
+            try
+            {
+                string apiUrl = System.Configuration.ConfigurationManager.AppSettings["api_Cotizacion"].ToString(); //string.Format("{0}/DelOperador", UrlApi);
+
+                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                CotizacionModel v = new CotizacionModel
+                {
+                    codigoPostal_destino = cp_d,
+                    codigoPostal_origen = cp_o,
+                    esPaquete = true,
+                    largo = Convert.ToDouble(largo),
+                    peso = Convert.ToDouble(peso)
+                ,
+                    alto = Convert.ToDouble(alto)
+                ,
+                    ancho = Convert.ToDouble(ancho)
+                };
+
+                Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
+
+                if (responseApi1.code.Equals("00"))
+                {
+                    ServicesManagement.Web.Models.ResponseModels listC = Newtonsoft.Json.JsonConvert.DeserializeObject<ServicesManagement.Web.Models.ResponseModels>(responseApi1.message);
+
+                    listC.cotizacion.TipoServicio = new Models.TipoServicio[1];
+
+                    listC.cotizacion.TipoServicio[0] = new Models.TipoServicio { AplicaCotizacion = "1", CargosExtra = 0, AplicaServicio = "1", CCSobrePeso = 1, CCTarifaBase = 1, CostoTotal = 1, DescripcionServicio = "1", Peso = 1, SobrePeso = 1, TarifaBase = 1, TipoEnvioRes = 1 };
+
+                    if (!string.IsNullOrEmpty(listC.cotizacion.Error))
+                    {
+                        var result2 = new { Success = false, Message = listC.cotizacion.MensajeError };
+                        return Json(result2, JsonRequestBehavior.AllowGet);
+                    }
+
+                    var result = new { Success = true, json = listC };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var result = new { Success = false, Message = "Error al ejecutar la accion" };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> GeneraGuia(string UeNo, string OrderNo, string tipoServicio, string paqueteria)
+        {
+            try
+            {
+
+                DataSet ds = new DataSet();
+                string msgErr = string.Empty;
+
+                string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+                if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+                {
+                    conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+                }
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                    parametros.Add("@UeNo", UeNo);
+                    parametros.Add("@OrderNo", OrderNo);
+
+                    ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Sel_EstafetaInfo]", false, parametros);
+
+                }
+                catch (SqlException ex)
+                {
+                    msgErr = "ERRSQL";
+                    var result = new { Success = false, Message = "ERRSQL" + ex.Message };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                catch (System.Exception ex)
+                {
+                    msgErr = "ERR";
+                    var result = new { Success = false, Message = "ERR" + ex.Message };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+
+
+
+
+                foreach (DataRow r in ds.Tables[0].Rows)
+                {
+
+
+                    System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                    EstafetaRequestModel m = new EstafetaRequestModel();
+
+                    m.serviceTypeId = "1";
+                    m.DestinationInfo = new AddressModel();
+
+                    m.DestinationInfo.address1 = r["Address1"].ToString();
+                    m.DestinationInfo.address2 = r["Address2"].ToString();
+                    m.DestinationInfo.cellPhone = r["Phone"].ToString();
+                    m.DestinationInfo.city = r["City"].ToString();
+                    m.DestinationInfo.contactName = r["CustomerName"].ToString();
+                    m.DestinationInfo.corporateName = r["CustomerName"].ToString();
+                    m.DestinationInfo.customerNumber = r["CustomerNo"].ToString();
+                    m.DestinationInfo.neighborhood = r["NameReceives"].ToString();
+                    m.DestinationInfo.phoneNumber = r["Phone"].ToString();
+                    m.DestinationInfo.state = r["StateCode"].ToString();
+                    m.DestinationInfo.zipCode = r["PostalCode"].ToString();
+
+                    string json2 = JsonConvert.SerializeObject(m);
+
+                    Soriana.FWK.FmkTools.RestResponse r2 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, System.Configuration.ConfigurationSettings.AppSettings["api_Estafeta_Guia"], "", json2);
+
+                    string msg = r2.message;
+
+                    ResponseModels re = JsonConvert.DeserializeObject<ResponseModels>(r2.message);
+
+
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                    parametros.Add("@Id_proveedor", 1);
+                    parametros.Add("@OrderNo", OrderNo);
+                    parametros.Add("@UeNo", UeNo);
+                    parametros.Add("@Guia", re.Guia);
+                    parametros.Add("@pdf", re.pdf);
+
+
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[dbo].[up_Copr_Ins_GuiaPaqueteria]", false, parametros);
+
+                    string pdfS = Convert.ToBase64String(re.pdf);
+
+                    var result4 = new { Success = true , guia = re.Guia, pdf = pdfS};
+                    return Json(result4, JsonRequestBehavior.AllowGet);
+
+                }
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+        [HttpGet]
+        public async Task<JsonResult> SaveCotizacion(string jsonData)
+        {
+            try
+            {
+                List<ServicesManagement.Web.Models.TipoServicio> lis = new List<Models.TipoServicio>();
+                lis = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Models.TipoServicio>>(jsonData);
+
+                string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+                if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+                {
+                    conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+                }
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                    foreach (Models.TipoServicio t in lis)
+                    {
+
+                        System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                        parametros.Add("@Id_proveedor", 1);
+                        parametros.Add("@descripcionServicioField", t.DescripcionServicio);
+                        parametros.Add("@tipoEnvioResField", t.TipoEnvioRes);
+                        parametros.Add("@aplicaCotizacionField", t.AplicaCotizacion);
+                        parametros.Add("@tarifaBaseField", t.TarifaBase);
+                        parametros.Add("@cCTarifaBaseField", t.CCTarifaBase);
+                        parametros.Add("@cargosExtraField", t.CargosExtra);
+                        parametros.Add("@sobrePesoField", t.SobrePeso);
+                        parametros.Add("@cCSobrePesoField", t.CCSobrePeso);
+                        parametros.Add("@costoTotalField", t.CostoTotal);
+                        parametros.Add("@pesoField", t.Peso);
+                        parametros.Add("@aplicaServicioField", t.AplicaServicio);
+
+
+                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[up_Corp_ins_CotizacionPaqueteria]", false, parametros);
+
+                    }
+
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
 
         #region ArchivosExcel
         public ActionResult CobZona()
@@ -790,7 +1171,7 @@ namespace ServicesManagement.Web.Controllers
                             item.B5 = objDataRow[13].ToString();
                             item.B6 = objDataRow[14].ToString();
                             item.B7 = objDataRow[15].ToString();
-                          
+
 
                             List.Add(item);
 
@@ -830,89 +1211,167 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
-        #region Gastos de vehiculo
-
+        #region Gastos de vehiculo
+
         //public ActionResult Gastosvehículo()
         //{
         //    return View();
-        //}
-
-        public ActionResult ListGastos()
-        {
-            try
-            {
-                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.Gastos_sUp().Tables[0]);
-
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        public ActionResult ListGastosVehiculo(int Id_Vehiculo)
-        {
-            try
-            {
-                var list = DataTableToModel.ConvertTo<Gastos>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
-
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-
-        public ActionResult AddGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
-        {
-            try
-            {
-
-                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
-
-                var result = new { Success = true };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-
-
-        public ActionResult EditGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
-        {
-            try
-            {
-
-                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
-
-                var result = new { Success = true };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-
+        //}
+
+        public ActionResult ListGastos()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.Gastos_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult ListGastosVehiculo(int Id_Vehiculo)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<Gastos>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult AddGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        {
+            try
+            {
+
+                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+
+        public ActionResult EditGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        {
+            try
+            {
+
+                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
         #endregion
 
+
+
+
+
+        [HttpGet]
+        public async Task<JsonResult> SaveTipoVehiculo(string tipoVehiculo,string flag,string comentarios)
+        {
+            try
+            {
+                string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+                if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+                {
+                    conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+                }
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                    //parametros.Add("@Id_proveedor", 1);
+                    //parametros.Add("@descripcionServicioField", t.DescripcionServicio);
+                    //parametros.Add("@tipoEnvioResField", t.TipoEnvioRes);
+                    //parametros.Add("@aplicaCotizacionField", t.AplicaCotizacion);
+                    //parametros.Add("@tarifaBaseField", t.TarifaBase);
+                    //parametros.Add("@cCTarifaBaseField", t.CCTarifaBase);
+                    //parametros.Add("@cargosExtraField", t.CargosExtra);
+                    //parametros.Add("@sobrePesoField", t.SobrePeso);
+                    //parametros.Add("@cCSobrePesoField", t.CCSobrePeso);
+                    //parametros.Add("@costoTotalField", t.CostoTotal);
+                    //parametros.Add("@pesoField", t.Peso);
+                    parametros.Add("@Descripcion", tipoVehiculo);
+
+
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[up_CorpTMS_Ins_TipoVehiculo]", false, parametros);
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public DataSet GetTipoVehiculos() {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[up_CorpTMS_Sel_TipoVehiculo]", false, parametros);
+
+
+
+        }
 
 
     }
