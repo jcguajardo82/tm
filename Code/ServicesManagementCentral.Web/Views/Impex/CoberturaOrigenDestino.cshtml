@@ -32,6 +32,10 @@
                         <th style="text-align:center;">Id Plaza Destino</th>
                         <th style="text-align:center;">Id Zona</th>
                         <th style="text-align:center;">Cargado Por</th>
+                        <th style="text-align:center;">Usuario Creacion</th>
+                        <th style="text-align:center;">Fecha Creacion</th>
+                        <th style="text-align:center;">Hora Creacion</th>
+                        <th style="text-align:center;">Activo</th>
 
 
                     </tr>
@@ -173,6 +177,10 @@
                                 , json.resp[i].Cve_PlazaDestino
                                 , json.resp[i].IdZona
                                 , json.resp[i].CreatedId
+                                , ""
+                                , json.resp[i].CreatedDate
+                                , ""
+                                , ""
 
                             ]).draw();
                         }

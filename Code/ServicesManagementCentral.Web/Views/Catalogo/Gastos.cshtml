@@ -20,7 +20,7 @@
 {
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4"><h2>Gastos</h2></div>
+        <div class="col-4"><h2>Gastos de Tienda</h2></div>
         <div class="col-4"></div>
 
     </div>
@@ -42,6 +42,10 @@
                             <th>Gasto</th>
                             <th>Fecha de Creación</th>
                             <th>Fecha de Movimiento</th>
+                            <th>Usuario Creacion</th>
+                          
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -53,6 +57,10 @@
                             <th>Gasto</th>
                             <th>Fecha de Creación</th>
                             <th>Fecha de Movimiento</th>
+                            <th>Usuario Creacion</th>
+                            
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -466,7 +474,10 @@
                             tr.append("<td>" + json.resp[i].IdGasto + "</td>");
                             tr.append("<td>" + json.resp[i].Desc_Gasto + "</td>");
                             tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
-                            tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
+                            tr.append("<td>" + json.resp[i].FecMovto + "</td>");
+                            tr.append("<td>" ,"</td>");                          
+                            tr.append("<td>", "</td>");
+                            tr.append("<td>" + json.resp[i].Activo + "</td>");
                             tr.append("<td><button onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
                             $('#tblConsulta').append(tr);
 

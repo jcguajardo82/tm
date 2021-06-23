@@ -42,6 +42,10 @@
                             <th>Id Transportista</th>
                             <th>Transportista</th>
                             <th>Peso</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
 
 
                             <th>Action</th>
@@ -54,6 +58,10 @@
                             <th>Id Transportista</th>
                             <th>Transportista</th>
                             <th>Peso</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
 
 
                             <th>Action</th>
@@ -396,6 +404,10 @@
                             tr.append("<td>" + json.resp[i].Id_Proveedor + "</td>");
                             tr.append("<td>" + json.resp[i].Nombre + "</td>");
                             tr.append("<td>" + json.resp[i].Peso + "</td>");
+                            tr.append("<td>",  "</td>");
+                            tr.append("<td>",  "</td>");
+                            tr.append("<td>", "</td>");
+                            tr.append("<td>", "</td>");
                             tr.append("<td><button onclick='EditSurtidores(" + json.resp[i].Id_paqueteria + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.resp[i].Id_paqueteria + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
                             $('#tblConsulta').append(tr);
 

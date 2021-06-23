@@ -23,6 +23,13 @@
                         <tr>
                             <th>Id TipoEnvio</th>
                             <th>Desc_TipoEnvio</th>
+                            <th>Activo</th>
+                            <th>Peso Minimo</th>
+                            <th>Peso Maximo</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Creacion</th>
+                            <th>Hora Creacion</th>
+                            
                             <th name="accion">Action</th>
                         </tr>
                     </thead>
@@ -224,7 +231,15 @@
                             myTable.row.add([
                                 json.resp[i].IdTipoEnvio,
                                 json.resp[i].Desc_TipoEnvio,
-                                "<button onclick=\"GetById(" + json.resp[i].IdTipoEnvio + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdTipoEnvio + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                json.resp[i].BitActivo,
+                                " ",
+                                " ",
+                                json.resp[i].Created_User,
+                                json.resp[i].CreateDate,
+                                " ",
+                                //json.resp[i].Desc_TipoEnvio,
+                                //json.resp[i].Desc_TipoEnvio,
+                                "<button onclick=\"GetById(" + json.resp[i].IdTipoEnvio + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><acronym title='Editar' lang='es'> <i class=\"fa fa-edit\"></i></acronym></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdTipoEnvio + ")\" class=\"btn btn-warning btn-circle\"><acronym title='Eliminar' lang='es'> <i class=\"fa fa-minus\"></i></button></acronym>"
                             ]).draw();
                         }
                     }
