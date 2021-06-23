@@ -453,22 +453,106 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-                        $("#tblConsulta tbody tr").remove();
+
+
+                        //$("#tblConsulta tbody tr").remove();
                         //var tr;
                         //debugger;
                         //Append each row to html table
+
+                        var table1 = $('#tblConsulta').DataTable();
+                        table1.clear().draw();
+                        table1.destroy();
+
+                        var table = $('#tblConsulta').DataTable(
+                            {
+
+                                language:
+                                {
+                                    "sProcessing": "Procesando...",
+                                    "sLengthMenu": "Mostrar _MENU_ registros",
+                                    "sZeroRecords": "No se encontraron resultados",
+                                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Buscar:",
+                                    "sUrl": "",
+                                    "sInfoThousands": ",",
+                                    "sLoadingRecords": "Cargando...",
+                                    "oPaginate": {
+                                        "sFirst": "Primero",
+                                        "sLast": "Último",
+                                        "sNext": "Siguiente",
+                                        "sPrevious": "Anterior"
+
+                                    },
+                                    "oAria": {
+                                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                                    },
+                                    "buttons": {
+                                        "print": "Imprimir",
+                                        "pageLength": 'Mostrar %d Registros'
+
+                                    }
+                                },
+                                dom: 'Bfrtip',
+                                lengthMenu: [
+                                    [10, 25, 50, -1],
+                                    ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                                ],
+                                buttons: [
+                                    { extend: 'pageLength', className: 'btn-primary' },
+                                    { extend: 'excel', className: 'btn-primary' },
+                                    {
+                                        text: 'Alta',
+                                        action: function (e, dt, node, config) {
+                                            $("#hddId_gasto").val("0");
+                                            document.getElementById("txtgasto").value = "";
+
+
+                                            $("#frmAltaTrans").modal('show');
+
+                                        }
+                                        , className: 'btn-primary'
+                                    }
+                                ]
+                                //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                                //    if (aData[1] == "SETC") {
+                                //        $('td', nRow).css('background-color', '#B6BF00');
+                                //    } else if (aData[2] == "4") {
+                                //        $('td', nRow).css('background-color', 'Orange');
+                                //    }
+                                //}
+                            }
+                        );
+
+
                         console.log(json);
                         for (var i = 0; i < json.resp.length; i++) {
-                            tr = $('<tr/>');
+                            //tr = $('<tr/>');
 
 
 
-                            tr.append("<td>" + json.resp[i].IdGasto + "</td>");
-                            tr.append("<td>" + json.resp[i].Desc_Gasto + "</td>");
-                            tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
-                            tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
-                            tr.append("<td><button onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            $('#tblConsulta').append(tr);
+                            //tr.append("<td>" + json.resp[i].IdGasto + "</td>");
+                            //tr.append("<td>" + json.resp[i].Desc_Gasto + "</td>");
+                            //tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
+                            //tr.append("<td>" + json.resp[i].FecCreacion + "</td>");
+                            //tr.append("<td><button onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
+                            //$('#tblConsulta').append(tr);
+
+
+                            table.row.add([
+
+                                json.resp[i].IdGasto,
+                                json.resp[i].Desc_Gasto,
+                                json.resp[i].FecCreacion,
+                                json.resp[i].FecCreacion,
+                                "<button onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
+                            ]).draw();
 
                         }
                     }

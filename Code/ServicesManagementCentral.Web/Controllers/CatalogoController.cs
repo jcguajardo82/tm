@@ -20,12 +20,35 @@ using System.Threading.Tasks;
 
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Xml.Linq;
 using TipoEnvio = ServicesManagement.Web.Models.Catalogos.TipoEnvio;
 using TipoServicio = ServicesManagement.Web.Models.Catalogos.TipoServicio;
 
 namespace ServicesManagement.Web.Controllers
 
 {
+
+    public class codigoPostalModels {
+
+        public string d_codigo { get; set; }
+        public string d_asenta { get; set; }
+        public string d_tipo_asenta { get; set; }
+        public string D_mnpio { get; set; }
+        public string d_estado { get; set; }
+        public string d_ciudad { get; set; }
+        public string d_CP { get; set; }
+        public string c_estado { get; set; }
+        public string c_oficina { get; set; }
+        public string c_CP { get; set; }
+        public string c_tipo_asenta { get; set; }
+        public string c_mnpio { get; set; }
+        public string id_asenta_cpcons { get; set; }
+        public string d_zona { get; set; }
+        public string c_cve_ciudad { get; set; }
+
+
+
+    }
 
     public class AlmacenCmb {
 
@@ -145,6 +168,8 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult CodigosPostales()
 
         {
+            Session["listaAL"] = GetAlmacenCP();
+
             return View("CodigosPostales/Index");
         }
 
@@ -663,7 +688,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetAlmacenes(string IdProv)
+        public async Task<JsonResult> GetAlmacenCmb(string IdProv)
         {
             try
             {
@@ -699,6 +724,28 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+
+        public DataSet GetAlmacenCP()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
+
+
+
+        }
+
+
         public ActionResult Almacenes()
         {
             Session["listaProv"] = GetProv();
@@ -706,6 +753,7 @@ namespace ServicesManagement.Web.Controllers
             return View("Almacenes/Index");
         }
 
+        
         [HttpGet]
         public async Task<JsonResult> GetAlmacenes()
         {
@@ -725,12 +773,128 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetPostalCodeFromPosition(string latitude, string longitude)
+        public async Task<JsonResult> GetCPS(string[] in_data)
+        {
+            try
+            {
+                
+                var result = new { Success = true, json = "" };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetPostalCodeFromPosition(string latitude, string longitude,string flagG)
         {
             PostalCodeRepository pcRepository = new PostalCodeRepository();
             try
             {
                 List<int> PostalCodeList = pcRepository.GetPostalCode(Convert.ToDecimal(latitude), Convert.ToDecimal(longitude)).ToList();
+
+
+
+                //string rutaxml = HttpContext.Server.MapPath("~/Content/CPdescarga.xml");
+                //XDocument xmldoc = XDocument.Load(rutaxml);
+
+                var products = new List<codigoPostalModels>();
+                var products2 = new List<codigoPostalModels>();
+
+                switch (flagG) {
+
+                    case "1":
+                        break;
+                    case "2":
+                        DataSet ds = new DataSet();//Using dataset to read xml file  
+                        ds.ReadXml(HttpContext.Server.MapPath("~/Content/CPdescarga.xml"));
+                        products = (from rows in ds.Tables[0].AsEnumerable()
+                                    select new codigoPostalModels
+                                    {
+                                        c_CP = rows["d_Codigo"].ToString(),
+                                        c_mnpio = rows["c_mnpio"].ToString(),
+                                    }).ToList();
+
+
+                        foreach (int c in PostalCodeList)
+                        {
+
+                            var query_where2 = from a in products
+                                               where a.c_CP.Contains(c.ToString())
+                                               select a;
+
+
+                            products = (from a in products
+                                        where a.c_CP.Contains(c.ToString())
+                                        select a).ToList();
+
+                            products2 = (from a in products
+                                         where a.c_mnpio.Contains(products[0].c_mnpio)
+                                         select a).ToList();
+
+
+                            break;
+
+                        }
+
+                        PostalCodeList = new List<int>();
+
+                        foreach (codigoPostalModels co in products2)
+                        {
+
+                            PostalCodeList.Add(Convert.ToInt32(co.d_codigo));
+
+                        }
+                        break;
+                    case "3":
+                        DataSet ds2 = new DataSet();//Using dataset to read xml file  
+                        ds2.ReadXml(HttpContext.Server.MapPath("~/Content/CPdescarga.xml"));
+                        products = (from rows in ds2.Tables[0].AsEnumerable()
+                                    select new codigoPostalModels
+                                    {
+                                        c_CP = rows["d_Codigo"].ToString(),
+                                        c_mnpio = rows["c_mnpio"].ToString(),
+                                        c_estado = rows["c_estado"].ToString()
+                                    }).ToList();
+
+
+                        foreach (int c in PostalCodeList)
+                        {
+
+                            //var query_where2 = from a in products
+                            //                   where a.c_CP.Contains(c.ToString())
+                            //                   select a;
+
+
+                            products = (from a in products
+                                        where a.c_CP.Contains(c.ToString())
+                                        select a).ToList();
+
+                            products2 = (from a in products
+                                         where a.c_estado.Contains(products[0].c_estado)
+                                         select a).ToList();
+                            break;
+
+                        }
+
+                        PostalCodeList = new List<int>();
+
+                        foreach (codigoPostalModels co in products2)
+                        {
+                            PostalCodeList.Add(Convert.ToInt32(co.d_codigo));
+                        }
+                        break;
+
+                }
+
+
+
+                
+
+
                 var result = new { Success = true, json = PostalCodeList };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -2866,6 +3030,30 @@ namespace ServicesManagement.Web.Controllers
 
 
         #endregion
+        
+        public ActionResult TipoLogistica()
+        {
+            
+            return View();
+        }
+
+        public ActionResult AtributosSYE()
+        {
+
+            return View();
+        }
+
+        public ActionResult TipoEntregas()
+        {
+
+            return View();
+        }
+
+
+
+
+
+
     }
 
 }

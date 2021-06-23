@@ -520,63 +520,204 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-                        $("#tblConsulta tbody tr").remove();
-                        //var tr;
-                        //debugger;
+
+
+
+                        var table1 = $('#tblConsulta').DataTable();
+                        table1.clear().draw();
+                        table1.destroy();
+
+                        var table = $('#tblConsulta').DataTable(
+                            {
+
+                                language:
+                                {
+                                    "sProcessing": "Procesando...",
+                                    "sLengthMenu": "Mostrar _MENU_ registros",
+                                    "sZeroRecords": "No se encontraron resultados",
+                                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Buscar:",
+                                    "sUrl": "",
+                                    "sInfoThousands": ",",
+                                    "sLoadingRecords": "Cargando...",
+                                    "oPaginate": {
+                                        "sFirst": "Primero",
+                                        "sLast": "Último",
+                                        "sNext": "Siguiente",
+                                        "sPrevious": "Anterior"
+
+                                    },
+                                    "oAria": {
+                                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                                    },
+                                    "buttons": {
+                                        "print": "Imprimir",
+                                        "pageLength": 'Mostrar %d Registros'
+
+                                    }
+                                },
+                                dom: 'Bfrtip',
+                                lengthMenu: [
+                                    [10, 25, 50, -1],
+                                    ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                                ],
+                                buttons: [
+                                    { extend: 'pageLength', className: 'btn-primary' },
+                                    { extend: 'excel', className: 'btn-primary' },
+                                    {
+                                        text: 'Alta',
+                                        action: function (e, dt, node, config) {
+                                            var e = document.getElementById("ProveedorLista");
+                                            e.disabled = false;
+
+                                            document.getElementById("TarifaFija").value = "SI";
+                                            document.getElementById("CostoTarifaFija").value = '';
+                                            document.getElementById("NivelServicio").value = '';
+                                            document.getElementById("FactorVoluntario").value = '';
+                                            document.getElementById("PorcAdicPaquete").value = '';
+                                            document.getElementById("Prioridad").value = '';
+                                            document.getElementById("Paqueteria").value = "SI";
+                                            document.getElementById("BigTicket").value = "SI";
+                                            document.getElementById("ServicioEstandar").value = "SI";
+                                            document.getElementById("ServicioExpress").value = "SI";
+
+                                            $("#frmAltaTrans").modal('show');
+
+                                        }
+                                        , className: 'btn-primary'
+                                    }
+                                ]
+                                //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                                //    if (aData[1] == "SETC") {
+                                //        $('td', nRow).css('background-color', '#B6BF00');
+                                //    } else if (aData[2] == "4") {
+                                //        $('td', nRow).css('background-color', 'Orange');
+                                //    }
+                                //}
+                            }
+                        );
+                        //$("#tblConsulta tbody tr").remove();
+
                         //Append each row to html table
                         console.log(json);
                         for (var i = 0; i < json.json.length; i++) {
-                            tr = $('<tr/>');
-                            //tr.append("<td class='row1'>" + json.json[i].Id_Num_Orden + "</td>");
-                            tr.append("<td>" + json.json[i].IdTransportista + "</td>");
-                            //tr.append("<td>" + json.json[i].RazonSocial + "</td>");
-                            if (json.json[i].TarifaFija == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            //tr = $('<tr/>');
+                            ////tr.append("<td class='row1'>" + json.json[i].Id_Num_Orden + "</td>");
+                            //tr.append("<td>" + json.json[i].IdTransportista + "</td>");
+                            ////tr.append("<td>" + json.json[i].RazonSocial + "</td>");
+                            //if (json.json[i].TarifaFija == true)
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            //}
+                            //else
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            //}
+
+                            //tr.append("<td>" + json.json[i].Prioridad + "</td>");
+                            //tr.append("<td>" + json.json[i].NivelServicio + "</td>");
+                            //tr.append("<td>" + json.json[i].FactorPaqueteria + "</td>");
+                            //if (json.json[i].Paqueteria == true)
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            //}
+                            //else
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            //}
+                            //if (json.json[i].BigTicket == true)
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            //}
+                            //else
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            //}
+                            //if (json.json[i].ServicioEstandar == true)
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            //}
+                            //else
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            //}
+                            //if (json.json[i].ServicioExpress == true)
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            //}
+                            //else
+                            //{
+                            //    tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            //}
+                            ////tr.append("<td><button type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
+                            //tr.append("<td><button onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
+                            //$('#tblConsulta').append(tr);
+
+                            var TarifaFija_st = "";
+                            var Paqueteria_st = "";
+                            var BigTicket_st = "";
+                            var ServicioEstandar_st = "";
+                            var ServicioExpress_st = "";
+
+
+                            if (json.json[i].TarifaFija == true) {
+                                TarifaFija_st = "<input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked>";
                             }
-                            else
-                            {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            else {
+                                TarifaFija_st = "<input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\">";
                             }
 
-                            tr.append("<td>" + json.json[i].Prioridad + "</td>");
-                            tr.append("<td>" + json.json[i].NivelServicio + "</td>");
-                            tr.append("<td>" + json.json[i].FactorPaqueteria + "</td>");
-                            if (json.json[i].Paqueteria == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+
+                            if (json.json[i].Paqueteria == true) {
+                                Paqueteria_st = "<input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked>";
                             }
-                            else
-                            {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            else {
+                                Paqueteria_st = "<input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\">";
                             }
-                            if (json.json[i].BigTicket == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            if (json.json[i].BigTicket == true) {
+                                BigTicket_st = "<input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked>";
                             }
-                            else
-                            {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            else {
+                                BigTicket_st = "<input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\">";
                             }
-                            if (json.json[i].ServicioEstandar == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            if (json.json[i].ServicioEstandar == true) {
+                                ServicioEstandar_st = "<input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked>";
                             }
-                            else
-                            {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            else {
+                                ServicioEstandar_st = "<input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\">";
                             }
-                            if (json.json[i].ServicioExpress == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
+                            if (json.json[i].ServicioExpress == true) {
+                                ServicioExpress_st = "<input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked>";
                             }
-                            else
-                            {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
+                            else {
+                                ServicioExpress_st = "<input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\">";
                             }
-                            //tr.append("<td><button type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            tr.append("<td><button onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            $('#tblConsulta').append(tr);
+
+                            
+
+
+
+                            table.row.add([
+
+                                json.json[i].IdTransportista,
+                                TarifaFija_st,
+                                json.json[i].Prioridad,
+                                json.json[i].NivelServicio,
+                                json.json[i].FactorPaqueteria,
+                                Paqueteria_st,
+                                BigTicket_st,
+                                ServicioEstandar_st,
+                                ServicioExpress_st,
+                                "<button onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
+
+                            ]).draw();
+
 
                         }
                     }

@@ -285,6 +285,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\CPdescarga.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\DeliveryLineTime.css" />
     <Content Include="Content\icon.ico" />
     <Content Include="Content\images\fondo_login.jpeg" />
@@ -3646,6 +3649,9 @@
     <Content Include="Views\Catalogo\Zonas.cshtml" />
     <Content Include="Views\TMS\Cotizacion.cshtml" />
     <Content Include="Views\Catalogo\Plazas.cshtml" />
+    <Content Include="Views\Catalogo\TipoLogistica.cshtml" />
+    <Content Include="Views\Catalogo\AtributosSYE.cshtml" />
+    <Content Include="Views\Catalogo\TipoEntregas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

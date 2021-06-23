@@ -65,7 +65,7 @@
     </div>
 
     <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg" style="width:1700px">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -79,9 +79,22 @@
                         <div class="row">
                             <div class="col col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <label>Id Almacen</label>
+                                    <label>Almacen</label>
                                     <select class="form-control" id="cmbAlmacen" name="cmbAlmacen">
+
                                         <option selected="selected" value="1">--Almacen--</option>
+
+                                        @{ if (Session["listaAL"] != null)
+                                            {
+                                                var myDataSet = Session["listaAL"] as System.Data.DataSet;
+                                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                                {
+                                                    <option selected="selected" value="@r["IdAlmacen"]">@r["NombreAlmacen"]</option>
+
+                                                }
+                                            }
+                                        }
+
                                     </select>
                                 </div>
                             </div>
@@ -97,27 +110,63 @@
                                 <label class="col-sm-12 control-label">Códigos Postales</label>
                             </div>
                         </div>
-                        <div class="row no-gutters">
-                            <div class="form-group">
-                                <div class="col-sm-10">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="txtCP" name="txtCP"><span class="input-group-btn">
-                                            <button type="button" class="btn btn-primary" onclick="AgregaCP()">
-                                                +
-                                            </button>
-                                        </span>
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="txtCP" name="txtCP"><span class="input-group-btn">
+                                                    <button type="button" class="btn btn-primary" onclick="AgregaCP()">
+                                                        +
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <select class="form-control" id="CPLista" name="CPLista" multiple="">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="row no-gutters">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <select class="form-control" id="CPLista" name="CPLista" multiple="">                                        
+                                    <label class="col-sm-12 control-label">Radio Localizacion(km)</label>
+                                    <input type="text" class="form-control" id="in_radio" name="in_radio" value="10"><span class="input-group-btn">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label">Alcance</label>
+                                    <select class="form-control" id="in_alcance" name="in_alcance" multiple="">
+
+                                        @*<option selected="selected" value="0">---Seleccionar---</option>*@
+                                        <option selected="selected"  value="1">Local</option>
+                                        <option value="2">Regional</option>
+                                        <option value="3">Metropolitano</option>
+
                                     </select>
                                 </div>
                             </div>
                         </div>
+                        @*<div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <select class="form-control" id="CPLista" name="CPLista" multiple="">
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>*@
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -141,6 +190,51 @@
 
 
     <script>
+
+        function AgregaCps() {
+
+            var array = [];
+
+
+            $("#CPLista option").each(function () {
+                var thisOptionValue = $(this).val();
+
+                array.push(thisOptionValue);
+            });
+
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetCPS", "Catalogo")',
+                    data: {
+                        in_data: array
+                    },
+                    datatype: "html",
+                    async: false,
+                    beforeSend: function () {
+                        //$(".modal").show();
+                        //document.getElementById("postalcode").value = "";
+                    },
+                    success: function (data) {
+                        if (data.Success) {
+                            console.log(data);
+                            var dynamicSelect = document.getElementById("CPLista");
+                            console.log(dynamicSelect);
+                            for (var i = 0; i < data.json.length; i++) {
+                                var newOption = document.createElement("option");
+                                newOption.value = data.json[i];
+                                newOption.textContent = data.json[i];//item.whateverProperty
+
+                                dynamicSelect.appendChild(newOption);
+                            }
+                            console.log(dynamicSelect);
+                        }
+                    }
+                });
+        }
+
+
+
 
         $('#radioBtn a').on('click', function () {
             var sel = $(this).data('title');
@@ -298,24 +392,49 @@
                 infoWindow.setContent(`Latitud: ${mapsMouseEvent.latLng.lat().toFixed(6)} Longitud: ${mapsMouseEvent.latLng.lng().toFixed(6)}`);
                 infoWindow.open(googleMap);
 
+                //alert("aqui voy a buscar todo");
+
+                /*circle.setMap(null);*/
+
+                circle.setRadius(parseInt(document.getElementById("in_radio").value) * 1000);
+
+                //remove_circle(circle);
+
+                //const circle = new google.maps.Circle({
+                //    map: googleMap,
+                //    center: center,
+                //    radius: parseInt(document.getElementById("in_radio").value) * 1000,
+                //    fillColor: '#AA0000'
+                //});
+
+                //circle.bindTo('center', marker, 'position');
+
                 marker.setVisible(false);
                 marker.setPosition(mapsMouseEvent.latLng);
                 marker.setVisible(true);
                 circle.setVisible(true);
 
+
                 //const parameters = '/Home/GetPostalCodeFromPosition' + `?latitude=${mapsMouseEvent.latLng.lat().toFixed(6)}&longitude=${mapsMouseEvent.latLng.lng().toFixed(6)}`;
                 var _latitude = mapsMouseEvent.latLng.lat().toFixed(6);
                 var _longitude = mapsMouseEvent.latLng.lng().toFixed(6);
+
+                var e = document.getElementById("in_alcance");
+                var value = e.options[e.selectedIndex].value;
+                var text = e.options[e.selectedIndex].text;
+
+                $("#CPLista").empty();
 
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("GetPostalCodeFromPosition", "Catalogo")',
                     data: {
                         latitude: _latitude,
-                        longitude: _longitude
+                        longitude: _longitude,
+                        flagG:value
                     },
                     datatype: "html",
-                    async: true,
+                    async: false,
                     beforeSend: function () {
                         //$(".modal").show();
                         //document.getElementById("postalcode").value = "";
@@ -340,6 +459,17 @@
 
             googleMap.fitBounds(bounds);
         });
+
+        function remove_circle(circle) {
+            // remove event listers
+            google.maps.event.clearListeners(circle, 'click_handler_name');
+            google.maps.event.clearListeners(circle, 'drag_handler_name');
+            circle.setRadius(0);
+            // if polygon:
+            // polygon_shape.setPath([]);
+            circle.setMap(null);
+        }
+
 
         /* Bootbox Dialog box with custom Value */
         $('.alert-custom').click(function () {
@@ -378,7 +508,7 @@
             }
             );
         });
-        
+
         function AgregaCP() {
             var dynamicSelect = document.getElementById("CPLista");
             var newOption = document.createElement("option");
