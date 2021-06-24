@@ -31,6 +31,9 @@
                             <th>Descripcion</th>
                             <th>Placas</th>
                             <th>Motor</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Creacion</th>
+                            <th>Hora Creacion</th>
                             <th>Estatus</th>
                             <th>Action</th>
                         </tr>
@@ -476,6 +479,9 @@
                                 json.json[i].Descripcion,
                                 json.json[i].Placas,
                                 json.json[i].Motor,
+                                json.json[i].created_user,
+                                "",
+                                "",
                                 json.json[i].Estatus,
                                 "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();

@@ -89,6 +89,10 @@
                                 <th>Costo<br />Total</th>
                                 <th>Peso</th>
                                 <th>Aplica<br />Servicio</th>
+                                <th>Usuario Creacion</th>
+                                <th>Fecha Creacion</th>
+                                <th>Hora Creacion</th>
+                                <th>Activo</th>
                                 <th></th>
 
 
@@ -763,7 +767,11 @@
                                 json.json.cotizacion.TipoServicio[i].CCSobrePeso,
                                 json.json.cotizacion.TipoServicio[i].CostoTotal,
                                 json.json.cotizacion.TipoServicio[i].Peso,
-                                json.json.cotizacion.TipoServicio[i].AplicaServicio
+                                json.json.cotizacion.TipoServicio[i].AplicaServicio,
+                                "",
+                                "",
+                                "",
+                                ""
                                 /*, "<input id=\"radio_TS\" name=\"tipoS\" type=\"radio\" onchange=\"setTS('" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "')\"  value=\"" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "\">"*/
                                 /*, "<button type=\"button\" onclick=\"DeleteSurtidores(undefined)\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"*/
                                 , "<button type=\"button\" onclick=\"GeneraGuia(" + json.json.cotizacion.TipoServicio[i].DescripcionServicio+")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"

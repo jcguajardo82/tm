@@ -93,8 +93,8 @@ namespace ServicesManagement.Web.DAL
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                parametros.Add("@Id_Vehiculo", Id_Vehiculo);
                 parametros.Add("@IdGasto", IdGasto);
+                parametros.Add("@Id_Vehiculo", Id_Vehiculo);              
                 parametros.Add("@FecGasto", FecGasto);
                 parametros.Add("@Kilometraje", Kilometraje);
                 parametros.Add("@CantidadGasto", CantidadGasto);
@@ -138,7 +138,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@FecGasto", FecGasto);
                 parametros.Add("@Kilometraje", Kilometraje);
                 parametros.Add("@CantidadGasto", CantidadGasto);
-                parametros.Add("@created_user", created_user);
+                parametros.Add("@modified_user", created_user);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.GastoVehiculo_dUp", false, parametros);
 

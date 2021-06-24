@@ -217,7 +217,9 @@
     <Compile Include="Inspinia\Helpers\HMTLHelperExtensions.cs" />
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
+    <Compile Include="Models\Catalogos\almacenTMS.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
+    <Compile Include="Models\Catalogos\Owners.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Plazas.cs" />
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />

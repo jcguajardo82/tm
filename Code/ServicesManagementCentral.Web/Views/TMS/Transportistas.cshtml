@@ -48,6 +48,10 @@
                             <th>Big Ticket</th>
                             <th>Servicio Estandar</th>
                             <th>Servicio Express</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
 
                             <th>Action</th>
                         </tr>
@@ -65,6 +69,10 @@
                             <th>Big Ticket</th>
                             <th>Servicio Estandar</th>
                             <th>Servicio Express</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
 
                             <th>Action</th>
                         </tr>
@@ -371,7 +379,7 @@
         });
 
         function GetCommonProveedor() {
-            
+
             $.ajax({
                 async: false,
                 type: "GET",
@@ -699,7 +707,7 @@
                                 ServicioExpress_st = "<input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\">";
                             }
 
-                            
+
 
 
 
@@ -714,6 +722,10 @@
                                 BigTicket_st,
                                 ServicioEstandar_st,
                                 ServicioExpress_st,
+                                "sysAdmin",
+                                "@System.DateTime.Now.ToShortDateString()",
+                                "@System.DateTime.Now.ToShortTimeString()",
+                                "Activo",
                                 "<button onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
 
                             ]).draw();

@@ -32,6 +32,10 @@
                         <th style="text-align:center;">Codigo Postal </th>
                         <th style="text-align:center;">Tipo de Envio</th>
                         <th style="text-align:center;">Cargado Por</th>
+                        <th style="text-align:center;">Usuario Creacion</th>
+                        <th style="text-align:center;">Fecha Creacion</th>
+                        <th style="text-align:center;">Hora Creacion</th>
+                        <th style="text-align:center;">Activo</th>
                         <th style="text-align:center;">Fecha de Actualización</th>
                     </tr>
                 </thead>
@@ -172,6 +176,10 @@
                                 , json.resp[i].PostalCode
                                 , json.resp[i].DescTipoEnvio
                                 , json.resp[i].CreatedId
+                                , ""
+                                , ""
+                                , ""
+                                , ""
                                 , json.resp[i].CreatedDate
 
                             ]).draw();

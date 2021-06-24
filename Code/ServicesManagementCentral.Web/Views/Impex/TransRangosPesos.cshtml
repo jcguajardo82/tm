@@ -32,6 +32,10 @@
                         <th style="text-align:center;">Peso Final</th>
                         <th style="text-align:center;">Porcentaje Inicial Cliente</th>
                         <th style="text-align:center;">Cargado Por</th>
+                        <th style="text-align:center;">Usuario Creacion</th>
+                        <th style="text-align:center;">Fecha Creacion</th>
+                        <th style="text-align:center;">Hora Creacion</th>
+                        <th style="text-align:center;">Activo</th>
                         <th style="text-align:center;">Fecha de actualización</th>
 
                     </tr>
@@ -173,6 +177,10 @@
                                 , json.resp[i].PesoFin
                                 , json.resp[i].PorcentajeInicialCliente
                                 , json.resp[i].CreatedId
+                                , ""
+                                , ""
+                                ,""
+                                , json.resp[i].bitDeleted
                                 , json.resp[i].CreatedDate
 
                             ]).draw();

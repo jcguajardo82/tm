@@ -42,6 +42,10 @@
                             <th>Id Transportista</th>
                             <th>Transportista</th>
                             <th>Peso</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
 
 
                             <th>Action</th>
@@ -54,6 +58,10 @@
                             <th>Id Transportista</th>
                             <th>Transportista</th>
                             <th>Peso</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
 
 
                             <th>Action</th>
@@ -306,7 +314,7 @@
         }
 
         function DeleteSurtidores(Id_paqueteria) {
- 
+
             $.ajax({
                 async: false,
                 type: "GET",
@@ -477,8 +485,12 @@
                                 json.resp[i].Id_Proveedor,
                                 json.resp[i].Nombre,
                                 json.resp[i].Peso,
+                                "sysAdmin",
+                                "@System.DateTime.Now.ToShortDateString()",
+                                "@System.DateTime.Now.ToShortTimeString()",
+                                "Activo",
                                 "<button onclick='EditSurtidores(" + json.resp[i].Id_paqueteria + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.resp[i].Id_paqueteria + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
-                                
+
                             ]).draw();
 
                         }

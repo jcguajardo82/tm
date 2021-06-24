@@ -39,7 +39,10 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Tipo Vehiculo</th>
-                                        <th>Actvo</th>
+                                        <th>Usuario Creacion</th>
+                                        <th>Fecha Creacion</th>
+                                        <th>Hora Creacion</th>
+                                        <th>Activo</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -51,20 +54,29 @@
                                             var myDataSet = Session["lista"] as System.Data.DataSet;
                                             foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                             {
-                                            <tr>
-                                                <td>
-                                                    @r["Id_TipoVehiculo"]
-                                                </td>
-                                                <td>
-                                                    @r["Descipcion"]
-                                                </td>
-                                                <td>
-                                                    @r["Estatus"]
-                                                </td>
-                                                <td>
-                                                    <button type="button" onclick="SelectOrder(@r["Id_TipoVehiculo"])" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
-                                                </td>
-                                            </tr> 
+                                                                        <tr>
+                                                                            <td>
+                                                                                @r["Id_TipoVehiculo"]
+                                                                            </td>
+                                                                            <td>
+                                                                                @r["Descipcion"]
+                                                                            </td>
+                                                                            <td>
+                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                               
+                                                                            </td>
+                                                                            <td>
+                                                                                @r["Estatus"]
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button" onclick="SelectOrder(@r["Id_TipoVehiculo"])" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                                            </td>
+                                                                        </tr> 
                                             }
 
                                         } }
@@ -99,8 +111,12 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th>Id</th>
                                         <th>Tipo Vehiculo</th>
-                                        <th>Actvo</th>
+                                        <th>Usuario Creacion</th>
+                                        <th>Fecha Creacion</th>
+                                        <th>Hora Creacion</th>
+                                        <th>Activo</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>

@@ -23,6 +23,10 @@
                         <tr>
                             <th>Id Zona</th>
                             <th>Desc Zona</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Creacion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
                             <th name="accion">Action</th>
                         </tr>
                     </thead>
@@ -224,6 +228,10 @@
                             myTable.row.add([
                                 json.resp[i].IdZona,
                                 json.resp[i].Desc_Zona,
+                                json.resp[i].Created_User,
+                                json.resp[i].CreateDate,
+                                "",
+                                json.resp[i].BitActivo,
                                 "<button onclick=\"GetById(" + json.resp[i].IdZona + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdZona + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
                         }

@@ -165,6 +165,28 @@ namespace ServicesManagement.Web.Controllers
 
         #region CodigosPostales
 
+        public DataSet GetAlmacenCP()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
+
+
+
+        }
+
+
+
         public ActionResult CodigosPostales()
 
         {
@@ -667,318 +689,6 @@ namespace ServicesManagement.Web.Controllers
 
         #endregion
 
-        #region Almacenes
-        public DataSet GetProv()
-        {
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_Suppliers", false, parametros);
-
-
-
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetAlmacenCmb(string IdProv)
-        {
-            try
-            {
-                DataSet ds = GetAlmacen(IdProv);
-                List<AlmacenCmb> listC = ConvertTo<AlmacenCmb>(ds.Tables[0]);
-                var result = new { Success = true, json = listC };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public DataSet GetAlmacen(string IdProv)
-        {
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            parametros.Add("@idSupplierWH", IdProv);
-
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
-
-
-
-        }
-
-
-        public DataSet GetAlmacenCP()
-        {
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            //parametros.Add("@idSupplierWH", IdProv);
-
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
-
-
-
-        }
-
-
-        public ActionResult Almacenes()
-        {
-            Session["listaProv"] = GetProv();
-
-            return View("Almacenes/Index");
-        }
-
-        
-        [HttpGet]
-        public async Task<JsonResult> GetAlmacenes()
-        {
-            try
-            {
-                string apiUrl = string.Format("{0}api/Ordenes/GetCarrier", UrlApi);
-                DataSet ds = DALServicesM.GetTmsAlmacenes();
-                List<AlmacenModel> listC = ConvertTo<AlmacenModel>(ds.Tables[0]);
-                var result = new { Success = true, json = listC };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> GetCPS(string[] in_data)
-        {
-            try
-            {
-                
-                var result = new { Success = true, json = "" };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> GetPostalCodeFromPosition(string latitude, string longitude,string flagG)
-        {
-            PostalCodeRepository pcRepository = new PostalCodeRepository();
-            try
-            {
-                List<int> PostalCodeList = pcRepository.GetPostalCode(Convert.ToDecimal(latitude), Convert.ToDecimal(longitude)).ToList();
-
-
-
-                //string rutaxml = HttpContext.Server.MapPath("~/Content/CPdescarga.xml");
-                //XDocument xmldoc = XDocument.Load(rutaxml);
-
-                var products = new List<codigoPostalModels>();
-                var products2 = new List<codigoPostalModels>();
-
-                switch (flagG) {
-
-                    case "1":
-                        break;
-                    case "2":
-                        DataSet ds = new DataSet();//Using dataset to read xml file  
-                        ds.ReadXml(HttpContext.Server.MapPath("~/Content/CPdescarga.xml"));
-                        products = (from rows in ds.Tables[0].AsEnumerable()
-                                    select new codigoPostalModels
-                                    {
-                                        c_CP = rows["d_Codigo"].ToString(),
-                                        c_mnpio = rows["c_mnpio"].ToString(),
-                                    }).ToList();
-
-
-                        foreach (int c in PostalCodeList)
-                        {
-
-                            var query_where2 = from a in products
-                                               where a.c_CP.Contains(c.ToString())
-                                               select a;
-
-
-                            products = (from a in products
-                                        where a.c_CP.Contains(c.ToString())
-                                        select a).ToList();
-
-                            products2 = (from a in products
-                                         where a.c_mnpio.Contains(products[0].c_mnpio)
-                                         select a).ToList();
-
-
-                            break;
-
-                        }
-
-                        PostalCodeList = new List<int>();
-
-                        foreach (codigoPostalModels co in products2)
-                        {
-
-                            PostalCodeList.Add(Convert.ToInt32(co.d_codigo));
-
-                        }
-                        break;
-                    case "3":
-                        DataSet ds2 = new DataSet();//Using dataset to read xml file  
-                        ds2.ReadXml(HttpContext.Server.MapPath("~/Content/CPdescarga.xml"));
-                        products = (from rows in ds2.Tables[0].AsEnumerable()
-                                    select new codigoPostalModels
-                                    {
-                                        c_CP = rows["d_Codigo"].ToString(),
-                                        c_mnpio = rows["c_mnpio"].ToString(),
-                                        c_estado = rows["c_estado"].ToString()
-                                    }).ToList();
-
-
-                        foreach (int c in PostalCodeList)
-                        {
-
-                            //var query_where2 = from a in products
-                            //                   where a.c_CP.Contains(c.ToString())
-                            //                   select a;
-
-
-                            products = (from a in products
-                                        where a.c_CP.Contains(c.ToString())
-                                        select a).ToList();
-
-                            products2 = (from a in products
-                                         where a.c_estado.Contains(products[0].c_estado)
-                                         select a).ToList();
-                            break;
-
-                        }
-
-                        PostalCodeList = new List<int>();
-
-                        foreach (codigoPostalModels co in products2)
-                        {
-                            PostalCodeList.Add(Convert.ToInt32(co.d_codigo));
-                        }
-                        break;
-
-                }
-
-
-
-                
-
-
-                var result = new { Success = true, json = PostalCodeList };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-        [HttpGet]
-        public async Task<JsonResult> GetCommonAlmacenes()
-        {
-            try
-            {
-                string apiUrl = string.Format("{0}api/Ordenes/GetCarrier", UrlApi);
-                DataSet ds = DALServicesM.GetCommonAlmacenes();
-                List<CommonAlmacenModel> listC = ConvertTo<CommonAlmacenModel>(ds.Tables[0]);
-                var result = new { Success = true, json = listC };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpGet]
-        public async Task<JsonResult> GetCommonProveedores(string IdAlmacen)
-        {
-            try
-            {
-                string apiUrl = string.Format("{0}api/Ordenes/GetCarrier", UrlApi);
-                DataSet ds = DALServicesM.GetCommonProveedores(IdAlmacen);
-                List<CommonProveedorModel> listC = ConvertTo<CommonProveedorModel>(ds.Tables[0]);
-                var result = new { Success = true, json = listC };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public async Task<JsonResult> GetAlmacenes(int IdTransportista)
-        {
-            try
-            {
-                DataSet ds = DALServicesM.GetTmsAlmacenes(IdTransportista);
-                List<AlmacenModel> listC = ConvertTo<AlmacenModel>(ds.Tables[0]);
-                var result = new { Success = true, json = listC };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AddAlmacenes(long IdAlmacen, long IdProveedor, string RazonSocial,
-            int IdTipoAlmacen, bool Paqueteria, bool BigTicket, bool ServicioEstandar, bool ServicioExpress, string UsuarioCreacion)
-        {
-            try
-            {
-                DALServicesM.AddAlmacenes(IdAlmacen, IdProveedor, IdTipoAlmacen, Paqueteria, BigTicket, ServicioEstandar,
-                    ServicioExpress, UsuarioCreacion);
-                var result = new { Success = true, Message = "Alta exitosa" };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        #endregion
 
         #region Transportistas
 
@@ -3030,10 +2740,10 @@ namespace ServicesManagement.Web.Controllers
 
 
         #endregion
-        
+
         public ActionResult TipoLogistica()
         {
-            
+
             return View();
         }
 
@@ -3048,10 +2758,6 @@ namespace ServicesManagement.Web.Controllers
 
             return View();
         }
-
-
-
-
 
 
     }

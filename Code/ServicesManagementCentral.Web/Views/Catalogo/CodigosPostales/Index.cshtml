@@ -44,7 +44,12 @@
                             <th>Latitud</th>
                             <th>Longitud</th>
                             <th>CP</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Creacion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
                             <th>Action</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +61,10 @@
                             <th>Latitud</th>
                             <th>Longitud</th>
                             <th>CP</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Cracion</th>
+                            <th>Hora Creacion</th>
+                            <th>Activo</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -543,6 +552,14 @@
                             tr.append("<td>" + json.json[i].Latitud + "</td>");
                             tr.append("<td>" + json.json[i].Longitud + "</td>");
                             tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
+                            //nuevas columnas 
+                            tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
+                            tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
+                            tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
+                            tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
+                            //tr.append("<td>" "</td>");
+                            //tr.append("<td>" "</td>");
+                            //tr.append("<td>" "</td>");
                             //tr.append("<td><button type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
                             tr.append("<td><button onclick='EditSurtidores(" + json.json[i].Id_Carrier + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >");
                             $('#tbUnidadNegocio').append(tr);

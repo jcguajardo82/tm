@@ -5,7 +5,7 @@
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    ViewBag.Title = "Almacenes";
+    ViewBag.Title = "Atributos de Almacenes";
 
 }
 
@@ -22,107 +22,35 @@
 
 <link href="view-source:http://webapplayers.com/inspinia_admin-v2.8/sweetalert.html">
 
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>@ViewBag.Title </h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="~/CPanel/Index">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a>Catalogo</a>
-            </li>
-            <li class="breadcrumb-item active">
-                <strong>Almacenes</strong>
-            </li>
-        </ol>
-    </div>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4"><h2>Atributos de Almacenes</h2></div>
+    <div class="col-4"></div>
 </div>
-
-<div class="row mt-2 mb-3">
-    <div class="col-12">
-        <div class="collapse" id="filter">
-            <div class="card card-body">
-                <form id="frmFilter">
-                    <div class="row">
-                        <div class="col col-xs-12 col-md-4">
-                            <div class="form-group">
-                                <label>Id Almacen</label>
-                                <input type="text" placeholder="Id del Transportista" name="IdTransportista" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col col-xs-12 col-md-4">
-                            <div class="form-group">
-                                <label>Nombre</label>
-                                <input type="text" placeholder="Nombre del Transportista" name="RazSocTransportista" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col col-xs-12 col-md-4 text-right">
-                            <button class="btn btn-success mt-4" type="button" onclick="Servicios.RefreshTable();"><i class="fa fa-search"></i>&nbsp;&nbsp;<span class="bold">Buscar</span></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="tblConsulta_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-    <div class="row">
-        <div class="col col-xs-6">
-            <div class="dt-buttons btn-group flex-wrap">
-                @*<button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Copy</span></button>
-                    <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>CSV</span></button>
-                    <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="tblConsulta" type="button"><span>Excel</span></button>*@
-            </div>
-        </div>
-
-        <div id="topRightSection" class="col-xs-12 col-md-6 text-right ">
-            <button type="button" class="btn btn-primary btn-circle mr-2" data-toggle="modal" data-target="#modal-CreateAlmacen">
-                <i class="fa fa-plus"></i>
-            </button>
-            <button type="button" class="btn btn-primary btn-circle mr-2" onclick="ShowFilter();">
-                <i class="fa fa-list"></i>
-            </button>
-            <button type="button" class="btn btn-primary btn-circle"> <i class="fa fa-refresh"></i></button>
-        </div>
-    </div>
-
-    @*<div class="row">
-        <div class="col-sm-12">
-            <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer" role="grid" style="width: 1115px;">*@
+<div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
     <br />
-    <div class="row" id="dualListInvs" style="margin-left: 1%;margin-right: 1%;overflow-x: scroll;">
-        <div class="row" id="gridInvs">
-            <br />
-            <div class="col-12">
+    <div class="row">
+        <div class="col-12">
+            <table id="tblConsulta" class="table table-striped table-bordered table-hover">
+                <thead>
+                    @*<thead class="bg-primary">*@
+                    <tr>
 
-                <table id="tblConsulta" class="table table-striped table-bordered table-hover" style="overflow: scroll;width: 100%">
-
-                    <thead>
-                        @*<thead class="bg-primary">*@
-                        <tr role="row">
-                            <th class="text-center sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1" style="width: 80px;">Num</th>
-                            <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Nombre</th>
-                            <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Paqueteria</th>
-                            <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Big Ticket</th>
-                            <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Servicio Estandar</th>
-                            <th class="sorting" tabindex="0" aria-controls="tblConsulta" rowspan="1" colspan="1">Servicio Express</th>
-                            <th style="width: 50px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+                        <th>OwnerName</th>
+                        <th>SupplierName</th>
+                        <th>SupplierWHName</th>
+                        <th>Servicio Estandar</th>
+                        <th>Servicio Express</th>
+                        <th name="accion">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
-
-
 </div>
 
-
-<input id="inTP" name="inTP" value="A" style="visibility:hidden" />
-<input id="Id_Carrier" name="Id_Carrier" value="A" style="visibility:hidden" />
+<input id="flag_edit" name="flag_edit" value="0" style="visibility:hidden" />
 
 @Html.Partial("Almacenes/Create")
 
@@ -134,25 +62,31 @@
 
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
-    @*CONFIGURACION DE TABLAS, FILTROS, BOTONES DE EXPORT*@
-    <script>
 
+    <script type="text/javascript">
+             $('#radioBtn a').on('click', function () {
+            var sel = $(this).data('title');
+            var tog = $(this).data('toggle');
+            $('#' + tog).prop('value', sel);
 
+            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        });
 
+               $('#ProveedorLista').change(function () {
+                    _IdProveedor = $("#ProveedorLista").val();
+                   CmboAlmacenes(_IdProveedor);
+                });
 
-            function GetCommonProveedor() {
-
-
-                debugger;
-
-                $.ajax({
+        function CmboAlmacenes(_IdProveedor) {
+                                 $.ajax({
                     async: false,
                     type: "GET",
                     url: '@Url.Action("GetAlmacenCmb", "Catalogo")',
                     data: {
-                        IdProv: 14482
+                        IdProv: _IdProveedor
                     },
-                    datatype: "json",
+                    datatype: "html",
                     success: function (json) {
                         if (json.Success)
                         {
@@ -172,103 +106,96 @@
                         }
                     }
                     , error: function (jqXHR, textStatus, errorThrown) {
-                        bootbox.alert(errorThrown);
+                       alert(errorThrown);
                     }
                 });
         }
 
-            $(document).ready(function () {
+        $(document).ready(function () {
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
 
-                $('#ProveedorLista').change(function () {
-                    GetCommonProveedor();
-                    //alert("quiero cambiar");
-                });
-
-                $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
-                $('#tblConsulta thead tr:eq(0) th').each(function (i) {
-                    if ($(this).attr('name') != "accion") {
-                        var title = $(this).text();
-                        $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
-
-                        $('input', this).on('keyup change', function () {
-                            if (table.column(i).search() !== this.value) {
-                                table
-                                    .column(i)
-                                    .search(this.value)
-                                    .draw();
-                            }
-                        });
-                    } else {
-                        $(this).empty();
-                    }
-                });
-
-                table = $("#tblConsulta").DataTable(
-                    {
-                        dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
-                            "<'row'<'col-sm-12'tr>>" +
-                            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
-                        processing: true,
-                        searching: true,
-                        ordering: true,
-                        order: [[1, 'asc']],
-                        filter: true,
-                        info: false,
-                        stateSave: false,
-                        select: false,
-                        select: {
-                            style: 'single'
-                        },
-                        //Paggin
-
-                        paging: true,
-                        pageLength: 10,
-                        lengthMenu: [10, 25, 50, 100, 500],
-
-                        // destroy: true, //destruye automaticamente la referencia a la tabla
-                        //Ajax
-                        //serverSide: true,
-                        //bServerSide: true,
-                        //sServerMethod: "GET",
-                        buttons: ['csv', 'excel'],
-                        orderCellsTop: false,
-                        fixedHeader: {
-                            header: true
-                        },
-                        "scrollX": true
-
-                    }
-                );
-
-
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
             });
 
+            table = $('#tblConsulta').DataTable(
+                {
 
-    </script>
-    <script type="text/javascript">
-        $('#radioBtn a').on('click', function () {
-            var sel = $(this).data('title');
-            var tog = $(this).data('toggle');
-            $('#' + tog).prop('value', sel);
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
 
-            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
-            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
-        });
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
 
-        $(document).ready(function () {
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
+                                document.getElementById("flag_edit").value = 0;
+                                $("#modal-CreateAlmacen").modal('show');
+
+                            }
+                            , className: 'btn-primary'
+                        }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
             GetAlmacenes();
             GetCommonAlmacen();
-            //swal({
-            //    title: "Are you sure?",
-            //    text: "You will not be able to recover this imaginary file!",
-            //    type: "warning",
-            //    showCancelButton: true,
-            //    confirmButtonColor: "#DD6B55",
-            //    confirmButtonText: "Yes, delete it!",
-            //    closeOnConfirm: false
-            //}, function () {
-            //    swal("Deleted!", "Your imaginary file has been deleted.", "success");
-            //});
+            IniciarComboTipoAlmacen();
         });
 
         String.prototype.format = function () {
@@ -281,6 +208,47 @@
 
             return literal;
         };
+
+        function ActionUpd() {
+            debugger;
+            if (document.getElementById("flag_edit").value == "1") {
+                saveEditSurtidor();
+            }
+            else {
+                AddSurtidores();
+            }
+        }
+
+        function IniciarComboTipoAlmacen() {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#lstIdAlmacen");
+                        sel.empty();
+
+                        $('#lstIdAlmacen').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +  '</option>');
+                        }
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+        }
 
         function GetCommonAlmacen() {
             //var _Id_Num_UN = $("#hddTda").val();
@@ -315,49 +283,10 @@
             });
         }
 
-        @*function GetCommonProveedor() {
-            var e = document.getElementById("AlmacenLista");
-            var _IdAlmacen = parseInt(e.options[e.selectedIndex].value);
-            console.log(_IdAlmacen);
-
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetCommonProveedores", "Catalogo")',
-                data: {
-                    IdAlmacen: _IdAlmacen
-                },
-                datatype: "html",
-                success: function (json) {
-                    if (json.Success)
-                    {
-                        console.log(json);
-                        var dynamicSelect = document.getElementById("ProveedorLista");
-                        dynamicSelect.innerText = null;
-                        console.log(dynamicSelect);
-                        for (var i = 0; i < json.json.length; i++) {
-                            var newOption = document.createElement("option");
-                            newOption.value = json.json[i].NumProveedor;
-                            newOption.textContent = json.json[i].NombreProveedor;//item.whateverProperty
-
-                            dynamicSelect.appendChild(newOption);
-                        }
-                        console.log(dynamicSelect);
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }*@
-
-        function ShowFilter() {
-            $("#filter").collapse('toggle');
-        };
-
         function GetAlmacenes() {
             //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
+            debugger;
+
             $.ajax({
                 async: false,
                 type: "GET",
@@ -367,90 +296,59 @@
                 },
                 datatype: "html",
                 success: function (json) {
+                    debugger;
                     if (json.Success) {
-                        $("#tblConsulta tbody tr").remove();
-                        //var tr;
-                        //debugger;
-                        //Append each row to html table
-                        console.log(json);
-                        for (var i = 0; i < json.json.length; i++) {
-                            tr = $('<tr/>');
-                            //tr.append("<td class='row1'>" + json.json[i].Id_Num_Orden + "</td>");
-                            tr.append("<td>" + json.json[i].IdAlmacen + "</td>");
-                            tr.append("<td>" + json.json[i].RazonSocial + "</td>");
-                            if (json.json[i].Paqueteria == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else
-                            {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            if (json.json[i].BigTicket == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            if (json.json[i].ServicioEstandar == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            if (json.json[i].ServicioExpress == true)
-                            {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
+                        var myTable = $('#tblConsulta').DataTable();
+                        myTable
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.resp.length; i++) {
 
-                            //tr.append("<td><button type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            tr.append("<td><button onclick='EditSurtidores(" + json.json[i].IdAlmacen + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            $('#tblConsulta').append(tr);
 
+                            myTable.row.add([
+                                json.resp[i].OwnerName,
+                                json.resp[i].SupplierName,
+                                json.resp[i].SupplierWHName,
+                                "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
+                                "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
+                                "<button title='Editar' onclick=\"GetById(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
                         }
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
+                   alert(errorThrown);
                 }
             });
         }
 
         function AddSurtidores() {
-            //var _IdAlmacen = parseInt(document.getElementById("IdAlmacen").value);
+
             var e = document.getElementById("AlmacenLista");
-            var _IdAlmacen = parseInt(e.options[e.selectedIndex].value);
+            var _idSupplierWHCode = parseInt(e.options[e.selectedIndex].value);
             var e = document.getElementById("ProveedorLista");
-            var _IdProveedor = parseInt(e.options[e.selectedIndex].value);
-            var _RazonSocial = document.getElementById("RazonSocial").value;
-            var _Paqueteria = document.getElementById("Paqueteria").value;
-            var _BigTicket = document.getElementById("BigTicket").value;
+            var _idSupplierWH = parseInt(e.options[e.selectedIndex].value);
+
+
             var _ServicioEstandar = document.getElementById("ServicioEstandar").value;
             var _ServicioExpress = document.getElementById("ServicioExpress").value;
+            var _idOwner = $("#lstIdAlmacen").val();
+            var _TiempoSurtido = 1;
+            var _BitActivo = $("#id_estatus").val();
 
-            console.log(_Paqueteria);
-            console.log(_BigTicket);
-            console.log(_ServicioEstandar);
-            console.log(_ServicioExpress);
 
             $.ajax({
                 async: false,
                 type: "POST",
                 url: '@Url.Action("AddAlmacenes", "Catalogo")',
                 data: {
-                    IdAlmacen: _IdAlmacen,
-                    RazonSocial: _RazonSocial,
-                    IdTipoAlmacen: 1,
-                    Paqueteria: (_Paqueteria == "Y") ? true : false,
-                    BigTicket: (_BigTicket == "Y") ? true : false,
+                    idSupplierWH: _idSupplierWH,
+                    idSupplierWHCode: _idSupplierWHCode,
+                    idOwner: _idOwner,
                     ServicioEstandar: (_ServicioEstandar == "Y") ? true : false,
                     ServicioExpress: (_ServicioExpress == "Y") ? true : false,
-                    UsuarioCreacion: "ADMIN"
+                    TiempoSurtido: _TiempoSurtido,
+                    BitActivo: (_BitActivo == "1") ? true : false
                 },
                 datatype: "html",
                 success: function (json)
@@ -467,32 +365,61 @@
             });
         }
 
-        function EditSurtidores(IdAlmacen) {
+        function GetById(_idOwner, _idSupplierWH, _idSupplierWHCode) {
+            //idOwner, int idSupplierWH, int idSupplierWHCode
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetAlmacenes", "Catalogo")',
+                url: '@Url.Action("GetAlmacenesById", "Catalogo")',
                 data: {
-                    IdAlmacen: parseInt(IdAlmacen)
+                    idOwner: _idOwner,
+                    idSupplierWH: _idSupplierWH,
+                    idSupplierWHCode: _idSupplierWHCode
                 },
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-                        for (var i = 0; i < json.json.length; i++) {
-                            document.getElementById("IdAlmacen").value = json.json[i].IdAlmacen;
-                            document.getElementById("RazonSocial").value = json.json[i].RazonSocial;
-                            var valPaqueteria = (json.json[i].Paqueteria == true) ? "Y" : "N";
-                            var valBigTicket = (json.json[i].BigTicket == true) ? "Y" : "N";
-                            var valServicioEstandar = (json.json[i].ServicioEstandar == true) ? "Y" : "N";
-                            var valServicioExpress = (json.json[i].ServicioExpress == true) ? "Y" : "N";
-                        }
 
-                        $('a[data-toggle="Paqueteria"][data-title="' + valPaqueteria + '"]').click();
-                        $('a[data-toggle="BigTicket"][data-title="' + valBigTicket + '"]').click();
+                            var valServicioEstandar = (json.resp.ServicioEstandar == true) ? "Y" : "N";
+                            var valServicioExpress = (json.resp.ServicioExpress == true) ? "Y" : "N";
+
+                        $("#ProveedorLista").val(json.resp.idSupplierWH);
+                        CmboAlmacenes(json.resp.idSupplierWH);
+                        $("#AlmacenLista").val(json.resp.idSupplierWHCode);
+                        $("#lstIdAlmacen").val(json.resp.idOwner);
                         $('a[data-toggle="ServicioEstandar"][data-title="' + valServicioEstandar + '"]').click();
                         $('a[data-toggle="ServicioExpress"][data-title="' + valServicioExpress + '"]').click();
 
+                        if (json.resp.BitActivo) {
+                            document.getElementById("id_estatus").value = 1;
+                        } else { document.getElementById("id_estatus").value = 0 }
+                        document.getElementById("flag_edit").value = 1;
+
                         $("#modal-CreateAlmacen").modal('show');
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function Delete(_idOwner, _idSupplierWH, _idSupplierWHCode) {
+            //idOwner, int idSupplierWH, int idSupplierWHCode
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '@Url.Action("DelAlmacenes", "Catalogo")',
+                data: {
+                    idOwner: _idOwner,
+                    idSupplierWH: _idSupplierWH,
+                    idSupplierWHCode: _idSupplierWHCode
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        location.reload();
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -523,37 +450,47 @@
             }
         }
 
-
-
         function saveEditSurtidor() {
+            var e = document.getElementById("AlmacenLista");
+            var _idSupplierWHCode = parseInt(e.options[e.selectedIndex].value);
+            var e = document.getElementById("ProveedorLista");
+            var _idSupplierWH = parseInt(e.options[e.selectedIndex].value);
+
+
+            var _ServicioEstandar = document.getElementById("ServicioEstandar").value;
+            var _ServicioExpress = document.getElementById("ServicioExpress").value;
+            var _idOwner = $("#lstIdAlmacen").val();
+            var _TiempoSurtido = 1;
+            var _BitActivo = $("#id_estatus").val();
+
+
             $.ajax({
                 async: false,
-                type: "GET",
-                url: '@Url.Action("EditTransportistas", "Catalogo")',
+                type: "POST",
+                url: '@Url.Action("UpdAlmacenes", "Catalogo")',
                 data: {
-                    num: document.getElementById("Id_Carrier").value
-                    , name: document.getElementById("nameT").value
-                    , un: document.getElementById("Id_Num_Un").value
-                    , status: "1"
+                    idSupplierWH: _idSupplierWH,
+                    idSupplierWHCode: _idSupplierWHCode,
+                    idOwner: _idOwner,
+                    ServicioEstandar: (_ServicioEstandar == "Y") ? true : false,
+                    ServicioExpress: (_ServicioExpress == "Y") ? true : false,
+                    TiempoSurtido: _TiempoSurtido,
+                    BitActivo: (_BitActivo == "1") ? true : false
                 },
-
                 datatype: "html",
-                success: function (json) {
+                success: function (json)
+                {
                     if (json.Success) {
                         location.reload();
                     }
                     else { alert(json.Message) }
                 }
-
-                , error: function (jqXHR, textStatus, errorThrown) {
+                , error: function (jqXHR, textStatus, errorThrown)
+                {
                     bootbox.alert(errorThrown);
                 }
             });
         }
-
-        $('#dlgCreateServicios').on('show.bs.modal', function (e) {
-            LimpiaModal();
-        });
 
 
 

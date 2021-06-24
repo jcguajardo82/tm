@@ -31,6 +31,9 @@
                             <th>Descripcion</th>
                             <th>Placas</th>
                             <th>Motor</th>
+                            <th>Usuario Creacion</th>
+                            <th>Fecha Creacion</th>
+                            <th>Hora Creacion</th>
                             <th>Estatus</th>
                             <th>Action</th>
                         </tr>
@@ -378,7 +381,7 @@
 
                                     <label>Dinero</label>
 
-                                    <input type="text" placeholder="Dinero" id="in_dinero" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Dinero" id="in_dinero3" name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -399,7 +402,7 @@
 
                                     <label>Kilometraje</label>
 
-                                    <input type="text" placeholder="Kilometraje" id="idKilometraje" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Kilometraje" id="idKilometraje3" name="in_desc" class="form-control" />
                                 </div>
 
                             </div>
@@ -408,8 +411,8 @@
                                 <div class="form-group">
 
                                     <label>Fecha</label>
-
-                                    <input type="text" placeholder="Fecha" id="in_fecha" name="in_placas" class="form-control" />
+                                    
+                                    <input type="text" placeholder="Fecha" id="in_fecha3" name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -432,6 +435,7 @@
                                             <th>Cantidad de Gasto</th>
                                             <th>Fecha de Creacion</th>
                                             <th>Fecha de modificacion</th>
+                                            @*<th>Accion</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -764,6 +768,9 @@
                                 json.json[i].Descripcion,
                                 json.json[i].Placas,
                                 json.json[i].Motor,
+                                json.json[i].created_user,
+                                "",
+                                "",
                                 json.json[i].Estatus,
                                 "<button onclick=\"ModalEdit(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-primary btn-circle\"> <i class=\"fa fa-plus\"></i></button>"
                             ]).draw();
@@ -957,7 +964,7 @@
                 success: function (json) {
                     if (json.Success) {
 
-                        document.getElementById("Id_Vehiculo").value = json.json.Id_Vehiculo;
+                        document.getElementById("in_tipovehiculo").value = json.json.Id_Vehiculo;
                         //document.getElementById("in_desc").value = json.json.Descripcion;
                         //document.getElementById("in_motor").value = json.json.Motor;
                         document.getElementById("in_placas2").value = json.json.Placas;
@@ -1126,13 +1133,14 @@
 
                             myTable.row.add([
 
+                                json.resp[i].IdGasto,
                                 json.resp[i].Id_Vehiculo,
-                                "Camioneta",
-                                json.resp[i].Descripcion,
-                                json.resp[i].Placas,
-                                json.resp[i].Motor,
-                                json.resp[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                json.resp[i].FecGasto,
+                                json.resp[i].Kilometraje,
+                                json.resp[i].CantidadGasto,
+                                json.resp[i].CreateDate,
+                                json.resp[i].FecMovto,
+                               /* "<button onclick=\"getVehiculo(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"*/
                             ]).draw();
 
 
@@ -1186,12 +1194,12 @@
                 url: '@Url.Action("AddGastoVehiculo", "TMS")',
                 data: {
                     IdGasto: document.getElementById("idtipogastoalta").value,
-                    Id_Vehiculo: document.getElementById("in_tipovehiculo").value,
-                    FecGasto: document.getElementById("in_placas").value,
-                    Kilometraje: document.getElementById("in_motor").value,
-                    CantidadGasto: document.getElementById("in_placas").value,
+                    Id_Vehiculo: document.getElementById("in_tipovehiculo3").value,                   
+                    CantidadGasto: document.getElementById("in_dinero3").value,
+                    Kilometraje: document.getElementById("idKilometraje3").value,
+                    FecGasto: document.getElementById("in_fecha3").value
                     /*created_user: document.getElementById("in_placas").value*/
-                    created_user: "T_pedrocg"
+                    /*created_user: "T_pedrocg"*/
 
                 },
                 datatype: "html",

@@ -1239,7 +1239,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                var list = DataTableToModel.ConvertTo<Gastos>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
+                var list = DataTableToModel.ConvertTo<GastosVehiculoModel>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
 
                 var result = new { Success = true, resp = list };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -1253,12 +1253,13 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult AddGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        public ActionResult AddGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto )
         {
             try
             {
+                string UserCreate = User.Identity.Name;
 
-                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
+                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -1273,12 +1274,13 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        public ActionResult EditGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        public ActionResult EditGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto)
         {
             try
             {
+                string UserCreate = User.Identity.Name;
 
-                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, created_user);
+                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);

@@ -21,9 +21,10 @@
                                             var myDataSet = Session["listaProv"] as System.Data.DataSet;
                                             foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                             {
-                                                <option value="@r["IdProveedor"].ToString()">@r["NombreProveedor"].ToString()</option> }
-                                            } 
+                                                <option value="@r["IdProveedor"].ToString()">@r["NombreProveedor"].ToString()</option>
+                                            }
                                         }
+                                    }
 
 
                                 </select>
@@ -41,32 +42,17 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="row">
-                        <div class="col col-xs-8 col-md-3">
+                        <div class="col col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Paqueteria</label>
-                                <div class="input-group">
-                                    <div id="radioBtn" class="btn-group">
-                                        <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
-                                        <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
-                                    </div>
-                                    <input type="hidden" name="Paqueteria" id="Paqueteria">
-                                </div>
+                                <label>Tipo de Almacén</label>
+                                <select class="form-control" id="lstIdAlmacen" name="lstIdAlmacen">
+                                    <option selected="selected" value="0">--Tipo de Almacen--</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col col-xs-8 col-md-3">
-                            <div class="form-group">
-                                <label>Big Ticket</label>
-                                <div class="input-group">
-                                    <div id="radioBtn" class="btn-group">
-                                        <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
-                                        <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
-                                    </div>
-                                    <input type="hidden" name="BigTicket" id="BigTicket">
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col col-xs-8 col-md-3">
                             <div class="form-group">
                                 <label>Servicio Estandar</label>
@@ -92,13 +78,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-md-4">
+                            <div class="form-group">
+                                <label>Estatus</label>
+                                <select class="form-control" id="id_estatus" name="id_estatus">
+                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                    <option selected="selected" value="1">ACTIVO</option>
+                                    <option value="0">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
 
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
+                <button type="button" onclick="ActionUpd()" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
