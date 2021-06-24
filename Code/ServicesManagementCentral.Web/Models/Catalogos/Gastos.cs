@@ -10,8 +10,12 @@ namespace ServicesManagement.Web.Models.Catalogos
 
         public int IdGasto { get; set; }     
         public string Desc_Gasto { get; set; }
-        public bool Activo { get; set; }
-        public string FecCreacion { get; set; }
+        public string Activo { get; set; }
+        public string CreateDate { get; set; }
+        public string CreateTime { get; set; }
+        public string Created_User { get; set; }
         public string FecMovto { get; set; }
+        public string TimeMovto { get; set; }
+        public string Modified_User { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace ServicesManagement.Web.Models.Catalogos
     {
         public int IdZona { get; set; }
         public string Desc_Zona { get; set; }
-        public bool BitActivo { get; set; }
+        public string BitActivo { get; set; }
         public string CreateDate { get; set; }
         public string Created_User { get; set; }
         public string FecMovto { get; set; }

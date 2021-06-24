@@ -40,11 +40,11 @@
                         <tr>
                             <th>Id Gasto</th>
                             <th>Gasto</th>
-                            <th>Fecha de Creación</th>
-                            <th>Fecha de Movimiento</th>
-                            <th>Usuario Creacion</th>
-                          
-                            <th>Hora Creacion</th>
+
+                            <th>Fecha de Actualizacion</th>
+                            <th>Hora de Actualizacion</th>
+                            <th>Usuario de Actualizacion</th>
+
                             <th>Activo</th>
                             <th>Action</th>
                         </tr>
@@ -557,12 +557,16 @@
 
                                 json.resp[i].IdGasto,
                                 json.resp[i].Desc_Gasto,
-                                json.resp[i].FecCreacion,
-                                json.resp[i].FecCreacion,
-                                "sysAdmin",
-                                @*"@System.DateTime.Now.ToShortDateString()",*@
-                                "@System.DateTime.Now.ToShortTimeString()",
-                                "Activo",
+                                
+                                json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
+                                json.resp[i].Modified_User,
+
+                                @*"@System.DateTime.Now.ToShortTimeString()",
+                                "sysAdmin",*@
+                                //"Activo",
+
+                                json.resp[i].Activo,
                                 "<button onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
                             ]).draw();
 
