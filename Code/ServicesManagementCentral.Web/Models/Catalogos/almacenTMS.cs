@@ -13,10 +13,11 @@ namespace ServicesManagement.Web.Models.Catalogos
         public bool ServicioEstandar { get; set; }
         public bool ServicioExpress { get; set; }
         public int TiempoSurtido { get; set; }
-        public bool BitActivo { get; set; }
+        public string BitActivo { get; set; }
         public DateTime FechaCreacion { get; set; }
         public string UsuarioCreacion { get; set; }
-        public DateTime FechaUltModif { get; set; }
+        public string FechaUltModif { get; set; }
+        public string HoraUltModif { get; set; }
         public string UsuarioUltModif { get; set; }
         public string OwnerName { get; set; }
         public string SupplierName { get; set; }

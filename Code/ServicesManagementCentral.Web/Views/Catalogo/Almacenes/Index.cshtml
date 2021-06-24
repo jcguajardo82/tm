@@ -36,11 +36,15 @@
                     @*<thead class="bg-primary">*@
                     <tr>
 
-                        <th>OwnerName</th>
-                        <th>SupplierName</th>
-                        <th>SupplierWHName</th>
+                        <th>Proveedor</th>
+                        <th>Nombre Proveedor</th>
+                        <th>Almacen</th>
                         <th>Servicio Estandar</th>
                         <th>Servicio Express</th>
+                        <th>Fecha de Actualizacion</th>
+                        <th>Hora de Actualizacion</th>
+                        <th>Usuario de Actualizacion</th>
+                        <th>Activo</th>
                         <th name="accion">Action</th>
                     </tr>
                 </thead>
@@ -314,6 +318,10 @@
                                 json.resp[i].SupplierWHName,
                                 "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
                                 "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
+                                json.resp[i].FechaUltModif,
+                                json.resp[i].HoraUltModif,
+                                json.resp[i].UsuarioUltModif,
+                                json.resp[i].BitActivo,
                                 "<button title='Editar' onclick=\"GetById(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
                         }
