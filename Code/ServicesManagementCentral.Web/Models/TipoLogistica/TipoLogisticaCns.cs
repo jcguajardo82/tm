@@ -18,5 +18,7 @@ namespace ServicesManagement.Web.Models.TipoLogistica
         public string FechaUltModif { get; set; }
         public string UsuarioUltModif { get; set; }
 
+        public bool IsChecked { get; set; }
+
     }
 }

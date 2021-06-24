@@ -5,6 +5,7 @@ using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
 using ServicesManagement.Web.Models;
 using ServicesManagement.Web.Models.Catalogos;
+using ServicesManagement.Web.Models.TipoLogistica;
 using System;
 
 using System.Collections.Generic;
@@ -28,7 +29,8 @@ namespace ServicesManagement.Web.Controllers
 
 {
 
-    public class codigoPostalModels {
+    public class codigoPostalModels
+    {
 
         public string d_codigo { get; set; }
         public string d_asenta { get; set; }
@@ -50,7 +52,8 @@ namespace ServicesManagement.Web.Controllers
 
     }
 
-    public class AlmacenCmb {
+    public class AlmacenCmb
+    {
 
         public int IdAlmacen { get; set; }
         public string NombreAlmacen { get; set; }
@@ -1251,7 +1254,7 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-        
+
 
         #region Pasillos
 
@@ -2982,6 +2985,60 @@ namespace ServicesManagement.Web.Controllers
 
                 List<AlmacenCmb> listC = ConvertTo<AlmacenCmb>(DALCatalogo.upCorpTms_Cns_SuppliersWarehouses(IdProv).Tables[0]);
                 var result = new { Success = true, json = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetTipoLogisticaAlm(int op, int idSupplierWH, int idSupplierWHCode)
+        {
+            try
+            {
+
+                var listC = ConvertTo<TipoLogisticaCns>(DALTipoLogistica.up_CorpTMS_sel_TipoLogistica().Tables[0]);
+
+
+                foreach (var item in listC)
+                {
+                    if (DALCatalogo.AlmacenTipoLogisticaById_sUp(item.IdTipoLogistica, idSupplierWH, idSupplierWHCode).Tables[0].Rows.Count != 0)
+                    {
+                        item.IsChecked = true;
+                    }
+                    else { item.IsChecked = false; }
+                }
+
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddLogisticaAlm(List<Logistica> logistica)
+        {
+            try
+            {
+                foreach (var item in logistica)
+                {
+                    if (item.IsChecked)
+                    {
+                        DALCatalogo.AlmacenTipoLogistica_iUp(item.IdTipoLogistica, item.idSupplierWH, item.idSupplierWHCode, User.Identity.Name);
+                    }
+                    else
+                    {
+                        DALCatalogo.AlmacenTipoLogistica_dUp(item.IdTipoLogistica, item.idSupplierWH, item.idSupplierWHCode);
+                    }
+                }
+
+                var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

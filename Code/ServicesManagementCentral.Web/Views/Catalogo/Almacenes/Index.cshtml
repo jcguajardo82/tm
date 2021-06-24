@@ -79,10 +79,11 @@
                 });
 
         function CmboAlmacenes(_IdProveedor) {
+            debugger;
                                  $.ajax({
                     async: false,
                     type: "GET",
-                    url: '@Url.Action("GetAlmacenCmb", "Catalogo")',
+                    url: '@Url.Action("GetSuppliersWarehousest", "Catalogo")',
                     data: {
                         IdProv: _IdProveedor
                     },
@@ -177,7 +178,8 @@
                         {
                             text: 'Alta',
                             action: function (e, dt, node, config) {
-                                document.getElementById("flag_edit").value = 0;
+                                document.getElementById("flag_edit").value = 0
+                                iniciaTblLogistica(0, 0, 0);
                                 $("#modal-CreateAlmacen").modal('show');
 
                             }
@@ -211,12 +213,13 @@
 
         function ActionUpd() {
             debugger;
-            if (document.getElementById("flag_edit").value == "1") {
-                saveEditSurtidor();
-            }
-            else {
-                AddSurtidores();
-            }
+            //if (document.getElementById("flag_edit").value == "1") {
+            //    saveEditSurtidor();
+            //}
+            //else {
+            //    AddSurtidores();
+            //}
+            AddSurtidores();
         }
 
         function IniciarComboTipoAlmacen() {
@@ -354,6 +357,7 @@
                 success: function (json)
                 {
                     if (json.Success) {
+                        AddLogistica(_idSupplierWH, _idSupplierWHCode);
                         location.reload();
                     }
                     else { alert(json.Message) }
@@ -394,6 +398,8 @@
                             document.getElementById("id_estatus").value = 1;
                         } else { document.getElementById("id_estatus").value = 0 }
                         document.getElementById("flag_edit").value = 1;
+
+                        iniciaTblLogistica(1, _idSupplierWH, _idSupplierWHCode);
 
                         $("#modal-CreateAlmacen").modal('show');
                     }
@@ -492,13 +498,92 @@
             });
         }
 
+        function iniciaTblLogistica(_op, _idSupplierWH, _idSupplierWHCode) {
 
+            //int op, int idSupplierWH, int idSupplierWHCode
+                 $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoLogisticaAlm", "Catalogo")',
+                data: {
+                    idSupplierWH: _idSupplierWH,
+                    idSupplierWHCode: _idSupplierWHCode,
+                    op: _op,
+
+                },
+                datatype: "html",
+                success: function (json)
+                {
+                    if (json.Success) {
+                        $("#tblLogistica tbody").empty();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+                            tr = $('<tr/>');
+                            //tr.append("<td class='row1'>" + json.json[i].Id_Num_Orden + "</td>");
+
+                            tr.append("<td>" + json.resp[i].TipoLogistica + "</td>");
+
+                            if (json.resp[i].IsChecked) {
+                                tr.append("<td><input checked type='checkbox' id='chLog-" + json.resp[i].IdTipoLogistica + "' value='" + json.resp[i].IdTipoLogistica + "'/></td>");
+                            } else {
+                                tr.append("<td><input type='checkbox' id='chLog-" + json.resp[i].IdTipoLogistica + "' value='" + json.resp[i].IdTipoLogistica + "'/></td>");
+                            }
+                            $('#tblLogistica').append(tr);
+                        }
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown)
+                {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function AddLogistica(_idSupplierWH, _idSupplierWHCode) {
+            debugger;
+            var logistica = new Array();
+            $("#tblLogistica TBODY TR").each(function () {
+                var row = $(this);
+                var item = {};
+                debugger;
+                item.IsChecked = row.find("TD input:checkbox").eq(0).is(':checked');
+                item.IdTipoLogistica = row.find("TD input:checkbox").eq(0).prop('value');
+                item.idSupplierWH = _idSupplierWH;
+                item.idSupplierWHCode = _idSupplierWHCode;
+                //var isChecked = $('#tableData tbody tr:eq(' + row + ') input:checkbox').is(':checked');
+                //var checkBoxValue = $('#tableData tbody tr:eq(' + row + ') input:checkbox').prop('value');
+                logistica.push(item);
+            });
+
+             $.ajax({
+                async: false,
+                type: "POST",
+                url: '@Url.Action("AddLogisticaAlm", "Catalogo")',
+                 data: JSON.stringify(logistica),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                success: function (json)
+                {
+                    if (json.Success) {
+                        //location.reload();
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown)
+                {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
 
         function LimpiaModal() {
             $("#nameT").val("");
             $("#Id_Num_Un").val("");
             $("#ddlEstatus").val("1");
         }
+
+
     </script>
 
 }

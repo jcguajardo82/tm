@@ -209,6 +209,7 @@
     <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALGastosVehiculo.cs" />
     <Compile Include="DAL\DALImpex.cs" />
+    <Compile Include="DAL\DALTipoLogistica.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -219,6 +220,7 @@
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\almacenTMS.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
+    <Compile Include="Models\Catalogos\Logistica.cs" />
     <Compile Include="Models\Catalogos\Owners.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Plazas.cs" />
@@ -277,6 +279,7 @@
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TiendaModel.cs" />
+    <Compile Include="Models\TipoLogistica\TipoLogisticaCns.cs" />
     <Compile Include="Models\UnidadNegocioModel.cs" />
     <Compile Include="Models\UNModel.cs" />
     <Compile Include="PostalCodeRepository.cs" />
