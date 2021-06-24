@@ -24,13 +24,14 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Clave Plaza</th>
                             <th>Plaza</th>
-                            <th>fecha de cracion</th>
-                            <th>Hora Creacion</th>
+                            @*<th>Fecha de creacion</th>
+                            <th>Hora Creacion</th>*@
                             <th>Usuario Creacion</th>
                             <th>Fecha actualizacion</th>
+                            <th>Hora actualizacion</th>
                             <th>Usuario Actualizacion</th>
-                            <th>Clave Plaza</th>
                             <th>Activo</th>
                             <th>Action</th>
                         </tr>
@@ -428,14 +429,14 @@
                             myTable.row.add([
 
                                 json.resp[i].IdPlaza,
+                                json.resp[i].cve_Plaza,
                                 json.resp[i].Desc_Plaza,
-                                json.resp[i].CreateDate,
-                                "",
+                                //json.resp[i].CreateDate,
+                                //json.resp[i].CreateTime,
                                 json.resp[i].Created_User,
                                 json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
                                 json.resp[i].Modified_User,
-                               
-                                json.resp[i].cve_Plaza,
                                 json.resp[i].BitActivo,
                                 "<button onclick=\"getplaza(" + json.resp[i].IdPlaza + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><i class=\"fa fa-edit\"> "
                             ]).draw();
