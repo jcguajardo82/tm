@@ -2760,6 +2760,239 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
+        #region Almacenes 
+
+
+        public DataSet GetProv()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_Suppliers", false, parametros);
+
+
+
+        }
+
+
+
+
+
+        public ActionResult Almacenes()
+        {
+            Session["listaProv"] = GetProv();
+            //ViewBag.Consulta = DataTableToModel.ConvertTo<almacenTMS>(DALCatalogo.almacenTMS_sUp().Tables[0]); 
+            return View("Almacenes/Index");
+        }
+
+
+
+        [HttpPost]
+        public async Task<JsonResult> GetPostalCodeFromPosition(string latitude, string longitude)
+        {
+            PostalCodeRepository pcRepository = new PostalCodeRepository();
+            try
+            {
+                List<int> PostalCodeList = pcRepository.GetPostalCode(Convert.ToDecimal(latitude), Convert.ToDecimal(longitude)).ToList();
+                var result = new { Success = true, json = PostalCodeList };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> GetCommonAlmacenes()
+        {
+            try
+            {
+                string apiUrl = string.Format("{0}api/Ordenes/GetCarrier", UrlApi);
+                DataSet ds = DALServicesM.GetCommonAlmacenes();
+                List<CommonAlmacenModel> listC = ConvertTo<CommonAlmacenModel>(ds.Tables[0]);
+                var result = new { Success = true, json = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetCommonProveedores(string IdAlmacen)
+        {
+            try
+            {
+                string apiUrl = string.Format("{0}api/Ordenes/GetCarrier", UrlApi);
+                DataSet ds = DALServicesM.GetCommonProveedores(IdAlmacen);
+                List<CommonProveedorModel> listC = ConvertTo<CommonProveedorModel>(ds.Tables[0]);
+                var result = new { Success = true, json = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //public async Task<JsonResult> GetAlmacenes(int IdTransportista) 
+        //{ 
+        //    try 
+        //    { 
+        //        DataSet ds = DALServicesM.GetTmsAlmacenes(IdTransportista); 
+        //        List<AlmacenModel> listC = ConvertTo<AlmacenModel>(ds.Tables[0]); 
+        //        var result = new { Success = true, json = listC }; 
+        //        return Json(result, JsonRequestBehavior.AllowGet); 
+        //    } 
+
+        //    catch (Exception x) 
+        //    { 
+        //        var result = new { Success = false, Message = x.Message }; 
+        //        return Json(result, JsonRequestBehavior.AllowGet); 
+        //    } 
+
+        //} 
+        //************************************************************************************************ 
+        //************************************************************************************************ 
+        //************************************************************************************************ 
+        [HttpPost]
+        public ActionResult AddAlmacenes(int idOwner, int idSupplierWH//, string RazonSocial, 
+            , int idSupplierWHCode, bool ServicioEstandar, bool ServicioExpress, int TiempoSurtido, bool BitActivo)
+        {
+
+            try
+            {
+                DALCatalogo.almacenTMS_iUp(idOwner, idSupplierWH, idSupplierWHCode, ServicioEstandar, ServicioExpress, TiempoSurtido, BitActivo, User.Identity.Name);
+                var result = new { Success = true, Message = "Alta exitosa" };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdAlmacenes(int idOwner, int idSupplierWH//, string RazonSocial, 
+    , int idSupplierWHCode, bool ServicioEstandar, bool ServicioExpress, int TiempoSurtido, bool BitActivo)
+        {
+
+            try
+            {
+                DALCatalogo.almacenTMS_uUp(idOwner, idSupplierWH, idSupplierWHCode, ServicioEstandar, ServicioExpress, TiempoSurtido, BitActivo, User.Identity.Name);
+                var result = new { Success = true, Message = "Actualización exitosa" };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DelAlmacenes(int idOwner, int idSupplierWH, int idSupplierWHCode)
+        {
+
+            try
+            {
+                DALCatalogo.almacenTMS_dUp(idOwner, idSupplierWH, idSupplierWHCode, User.Identity.Name);
+                var result = new { Success = true, Message = "Actualización exitosa" };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetAlmacenes()
+        {
+            try
+            {
+
+                var listC = ConvertTo<almacenTMS>(DALCatalogo.almacenTMS_sUp().Tables[0]);
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetAlmacenesById(int idOwner, int idSupplierWH, int idSupplierWHCode)
+        {
+            try
+            {
+
+
+
+                var listC = ConvertTo<almacenTMS>(DALCatalogo.almacenTMSById_sUp(idOwner, idSupplierWH, idSupplierWHCode).Tables[0]).FirstOrDefault();
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult IniciarComboTipoAlmacen()
+        {
+            try
+            {
+                var dropdownVD = DataTableToModel.ConvertTo<Owners>(DALCatalogo.spOwners_sUP().Tables[0]);
+                //DataTableToModel.ConvertTo<ServicesManagement.Web.Models.Almacenes.SPOwners_sUP>(DALAltaProveedor.spOwners_sUP().Tables[0]) 
+                var result = new { Success = true, resp = dropdownVD };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetSuppliersWarehousest(string IdProv)
+        {
+            try
+            {
+
+                List<AlmacenCmb> listC = ConvertTo<AlmacenCmb>(DALCatalogo.upCorpTms_Cns_SuppliersWarehouses(IdProv).Tables[0]);
+                var result = new { Success = true, json = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+
     }
 
 }
