@@ -416,7 +416,46 @@ namespace ServicesManagement.Web.DAL
 
         }
 
-       
+
+        public static DataSet upCorpTms_Cns_SuppliersById(int idOwner)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@idOwner", idOwner);
+
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[upCorpTms_Cns_SuppliersById]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
 
         #endregion
@@ -630,7 +669,7 @@ namespace ServicesManagement.Web.DAL
 
                 throw ex;
             }
-        } 
+        }
         #endregion
 
         #region Gastos
@@ -703,7 +742,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet Gastos_uUp(string gasto,int Id_Gasto)
+        public static DataSet Gastos_uUp(string gasto, int Id_Gasto)
         {
             DataSet ds = new DataSet();
 
@@ -887,7 +926,7 @@ namespace ServicesManagement.Web.DAL
                 throw ex;
             }
         }
-    
+
 
         public static DataSet TipoEnvio_iUp(string Desc_TipoEnvio, bool BitActivo, string Created_User)
         {
@@ -927,7 +966,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet TipoEnvio_uUp(int IdTipoEnvio,string Desc_TipoEnvio, bool BitActivo, string Modified_User)
+        public static DataSet TipoEnvio_uUp(int IdTipoEnvio, string Desc_TipoEnvio, bool BitActivo, string Modified_User)
         {
 
             DataSet ds = new DataSet();
@@ -1058,7 +1097,7 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@IdTipoServicio", IdTipoServicio);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.TipoServicioById_sUp", false,parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.TipoServicioById_sUp", false, parametros);
 
                 return ds;
             }
