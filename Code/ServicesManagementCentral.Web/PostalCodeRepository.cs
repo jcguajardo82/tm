@@ -16,10 +16,12 @@ namespace ServicesManagement.Web
         private decimal _latitude;
         private decimal _longitude;
         private decimal _radius = 30000;
-        private string _Url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input={0}&types=establishment&location={1},{2}&radius={3}&strictbounds&key=AIzaSyBbzO0IdrX-vkGcX5_hXc13QhbaUeBAsII";
-        private string _UrlRegions = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={0},{1}&radius={2}&type=(regions)&keyword=*&key=AIzaSyAe_ToUGyd3KLvDe2cC3FS8xBNmEQeofoE";
-        private string _UrlRegionsAlt = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={0},{1}&radius={2}&type=(regions)&keyword=*&key=AIzaSyAe_ToUGyd3KLvDe2cC3FS8xBNmEQeofoE&pagetoken={3}";
-        private string _UrlDetails = "https://maps.googleapis.com/maps/api/place/details/json?place_id={0}&fields=address_component&key=AIzaSyBbzO0IdrX-vkGcX5_hXc13QhbaUeBAsII";
+        private string _Url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input={0}&types=establishment&location={1},{2}&radius={3}&strictbounds&key=AIzaSyAchdXa-yAYB3weyagh41eJ8O2RXOXqaho";
+        //private string _UrlRegions = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={0},{1}&radius={2}&type=(regions)&keyword=*&key=AIzaSyAchdXa-yAYB3weyagh41eJ8O2RXOXqaho";
+        private string _UrlRegions = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={0},{1}&radius={2}&type=(regions)&keyword=*&key=AIzaSyAchdXa-yAYB3weyagh41eJ8O2RXOXqaho";
+        
+        private string _UrlRegionsAlt = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={0},{1}&radius={2}&type=(regions)&keyword=*&key=AIzaSyAchdXa-yAYB3weyagh41eJ8O2RXOXqaho&pagetoken={3}";
+        private string _UrlDetails = "https://maps.googleapis.com/maps/api/place/details/json?place_id={0}&fields=address_component&key=AIzaSyAchdXa-yAYB3weyagh41eJ8O2RXOXqaho";
         private List<string> PlaceIdList = new List<string>();
         private List<int> PostalCodeList = new List<int>();
         public IList<int> GetPostalCode(decimal latitude, decimal longitude)

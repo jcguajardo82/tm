@@ -463,38 +463,75 @@
         }
 
         function AddSurtidores() {
-            var _IdTransportista = parseInt(document.getElementById("IdTransportista").value);
-            var _RazonSocial = document.getElementById("RazonSocial").value;
-            var _TarifaFija = document.getElementById("TarifaFija").value;
+
+
+            
+            
+            
+            
+            
+
+
+            var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);
+            var _TarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
             var _CostoTarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
+            var _Prioridad = parseFloat(document.getElementById("Prioridad").value);
             var _NivelServicio = parseFloat(document.getElementById("NivelServicio").value);
-            var _FactorVoluntario = parseFloat(document.getElementById("FactorVoluntario").value);
+            var _FactorPaqueteria = parseFloat(document.getElementById("FactorVoluntario").value);
             var _PorcAdicPaquete = parseFloat(document.getElementById("PorcAdicPaquete").value);
-            var _Prioridad = parseInt(document.getElementById("Prioridad").value);
-            var _Paqueteria = document.getElementById("Paqueteria").value;
-            var _BigTicket = document.getElementById("BigTicket").value;
-            var _ServicioEstandar = document.getElementById("ServicioEstandar").value;
-            var _ServicioExpress = document.getElementById("ServicioExpress").value;
+            var _IdTipoAlmacen = 1;
+            var _Paqueteria = true;
+            var _BigTicket = true;
+            var _ServicioEstandar = true;
+            var _ServicioExpress = true;
+            var _UsuarioCreacion = "sysAdmin";
+
+            //var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);
+            //var _RazonSocial = document.getElementById("RazonSocial").value;
+            //var _TarifaFija = document.getElementById("TarifaFija").value;
+            //var _CostoTarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
+            //var _NivelServicio = parseFloat(document.getElementById("NivelServicio").value);
+            //var _FactorVoluntario = parseFloat(document.getElementById("FactorVoluntario").value);
+            //var _PorcAdicPaquete = parseFloat(document.getElementById("PorcAdicPaquete").value);
+            //var _Prioridad = parseInt(document.getElementById("Prioridad").value);
+            //var _Paqueteria = document.getElementById("Paqueteria").value;
+            //var _BigTicket = document.getElementById("BigTicket").value;
+            //var _ServicioEstandar = document.getElementById("ServicioEstandar").value;
+            //var _ServicioExpress = document.getElementById("ServicioExpress").value;
             debugger;
             $.ajax({
                 async: false,
                 type: "POST",
                 url: '@Url.Action("AddTransportistas", "Catalogo")',
                 data: {
-                    IdTransportista: _IdTransportista,
-                    RazonSocial: _RazonSocial,
-                    TarifaFija: (_TarifaFija == "Y") ? true : false,
-                    CostoTarifaFija: _CostoTarifaFija,
-                    Prioridad: _Prioridad,
-                    NivelServicio: _NivelServicio,
-                    FactorPaqueteria: _FactorVoluntario,
-                    PorcAdicPaquete: _PorcAdicPaquete,
-                    IdTipoAlmacen: 4,
-                    Paqueteria: (_Paqueteria == "Y") ? true : false,
-                    BigTicket: (_BigTicket == "Y") ? true : false,
-                    ServicioEstandar: (_ServicioEstandar == "Y") ? true : false,
-                    ServicioExpress: (_ServicioExpress == "Y") ? true : false,
-                    UsuarioCreacion: "ADMIN"
+                    //IdTransportista: _IdTransportista,
+                    //RazonSocial: _RazonSocial,
+                    //TarifaFija: (_TarifaFija == "Y") ? true : false,
+                    //CostoTarifaFija: _CostoTarifaFija,
+                    //Prioridad: _Prioridad,
+                    //NivelServicio: _NivelServicio,
+                    //FactorPaqueteria: _FactorVoluntario,
+                    //PorcAdicPaquete: _PorcAdicPaquete,
+                    //IdTipoAlmacen: 4,
+                    //Paqueteria: (_Paqueteria == "Y") ? true : false,
+                    //BigTicket: (_BigTicket == "Y") ? true : false,
+                    //ServicioEstandar: (_ServicioEstandar == "Y") ? true : false,
+                    //ServicioExpress: (_ServicioExpress == "Y") ? true : false,
+                    //UsuarioCreacion: "ADMIN"
+
+                    IdTransportista : _IdTransportista,
+                    TarifaFija : _TarifaFija,
+                    CostoTarifaFija : _CostoTarifaFija,
+                    Prioridad : _Prioridad,
+                    NivelServicio : _NivelServicio,
+                    FactorPaqueteria:_FactorPaqueteria,
+                    PorcAdicPaquete : _PorcAdicPaquete,
+                    IdTipoAlmacen : _IdTipoAlmacen,
+                    Paqueteria : _Paqueteria,
+                    BigTicket : _BigTicket,
+                    ServicioEstandar : _ServicioEstandar,
+                    ServicioExpress : _ServicioExpress,
+                    UsuarioCreacion : _UsuarioCreacion
                 },
                 datatype: "html",
                 success: function (json) {

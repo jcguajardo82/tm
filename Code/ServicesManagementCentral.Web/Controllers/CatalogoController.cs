@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -2747,8 +2748,46 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult TipoLogistica()
         {
 
+            Session["listaTL"] = GetTipoLogistica();
+
+
             return View();
         }
+
+
+        public DataSet GetTipoLogistica() {
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("up_CorpTMS_sel_TipoLogistica", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+        }
+
 
         public ActionResult AtributosSYE()
         {

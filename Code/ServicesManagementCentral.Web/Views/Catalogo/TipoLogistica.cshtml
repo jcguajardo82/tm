@@ -59,7 +59,39 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+
+                            @{
+
+                                if (Session["listaTL"] != null)
+                                {
+
+                                    var myDataSet = Session["listaTL"] as System.Data.DataSet;
+                                    foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                    {
+                                                        <tr>
+                                                            <td>@r["IdTipoLogistica"]</td>
+                                                            <td>@r["TipoLogistica"]</td>
+                                                            <td>@r["MinPesoVolumetrico"]</td>
+                                                            <td>@r["MaxPesoVolumetrico"]</td>
+                                                            <td>@r["MaxCosto"]</td>
+                                                            <td>@r["TipoArticulo"]</td>
+                                                            <td>@r["UsuarioCreacion"]</td>
+                                                            <td>@r["FechaCreacion"]</td>
+                                                            <td>@r["FechaCreacion"]</td>
+                                                            <td>"Activo"</td>
+                                                            @*<td>@r["Fecha"]</td>*@
+                                                            <td>
+                                                                <button type="button" onclick="SelectOrder('@r["IdTipoLogistica"]','@r["IdTipoLogistica"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                            </td>
+                                                        </tr>
+
+                                    }
+                                }
+                            }
+
+
+                        </tbody>
                         @*<tfoot>
                                 <tr>
                                     <th>DescripcionServicio</th>
