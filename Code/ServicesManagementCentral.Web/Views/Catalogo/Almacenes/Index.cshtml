@@ -183,6 +183,9 @@
                             text: 'Alta',
                             action: function (e, dt, node, config) {
                                 document.getElementById("flag_edit").value = 0
+                                $('#AlmacenLista').attr('disabled', false);
+                                $('#lstIdAlmacen').attr('disabled', false);
+                                $('#ProveedorLista').attr('disabled', false);
                                 iniciaTblLogistica(0, 0, 0);
                                 $("#modal-CreateAlmacen").modal('show');
 
@@ -379,6 +382,10 @@
 
         function GetById(_idOwner, _idSupplierWH, _idSupplierWHCode) {
             //idOwner, int idSupplierWH, int idSupplierWHCode
+
+            $('#AlmacenLista').attr('disabled', true);
+            $('#lstIdAlmacen').attr('disabled', true);
+            $('#ProveedorLista').attr('disabled', true);
             $.ajax({
                 async: false,
                 type: "GET",
