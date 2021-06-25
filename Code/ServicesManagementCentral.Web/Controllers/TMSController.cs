@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
-using ServicesManagement.Web.Models.Catalogos;
-
+using ServicesManagement.Web.Models;
+using ServicesManagement.Web.Models.Catalogos;
 using ServicesManagement.Web.Models.Impex;
 using System;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -227,8 +228,99 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Transportistas()
         {
+            Session["cmbTL"] = cmbTL();
+
             return View();
         }
+
+
+        [HttpPost]
+        public async Task<JsonResult> InsTransportista(string IdTransportista
+                                                        ,string Nombre
+                                                        ,string TarifaFija
+                                                        ,string CostoTarifaFija
+                                                        ,string Prioridad
+                                                        ,string NivelServicio
+                                                        ,string FactorPaqueteria
+                                                        ,string LimitePaqueteria
+                                                        ,string PorcAdicPaquete
+                                                        ,string DiasVigenciaGuias
+                                                        ,string IdTipoLogistica
+                                                        ,string Estatus
+)
+        {
+            try
+            {
+         
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    parametros.Add("@IdTransportista", IdTransportista);
+                    parametros.Add("@Nombre", Nombre);
+                    parametros.Add("@TarifaFija", 1);
+                    parametros.Add("@CostoTarifaFija", CostoTarifaFija);
+                    parametros.Add("@Prioridad", Prioridad);
+                    parametros.Add("@NivelServicio", NivelServicio);
+                    parametros.Add("@FactorPaqueteria", FactorPaqueteria);
+                    parametros.Add("@LimitePaqueteria", LimitePaqueteria);
+                    parametros.Add("@PorcAdicPaquete", PorcAdicPaquete);
+                    parametros.Add("@DiasVigenciaGuias", DiasVigenciaGuias);
+                    parametros.Add("@UsuarioCreacion", "sysAdmin");
+                    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+
+
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Transportista", false, parametros);
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public async Task<JsonResult> GetTransportistas(int IdTransportista)
+        {
+            try
+            {
+                DataSet ds = DALServicesM.GetCarrier(IdTransportista);
+
+                List<CarrierModel2> listC = ConvertTo<CarrierModel2>(ds.Tables[0]);
+                var result = new { Success = true, json = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
 
 
         public ActionResult CPxDisponibilidadTrans()
@@ -276,9 +368,50 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult Cat_Vehiculo()
         {
             Session["lista"] = GetTipoVehiculos();
+            Session["listaV"] = GetVehiculos_index();
 
             return View();
         }
+
+
+        public DataSet GetVehiculos_index() {
+
+            
+
+                DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("up_TMS_sel_Vehiculo", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+
+        } 
+
+
+
 
         [HttpGet]
         public async Task<JsonResult> GetVehiculo(string Id)
@@ -321,32 +454,97 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
+        public DataSet cmbTL() {
+            DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("tms.up_CorpTMS_cmb_TipoLogostica", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+        }
+
+
         [HttpGet]
-        public async Task<JsonResult> InsVehiculo(string descripcion, string motor, string placas)
+        public async Task<JsonResult> InsVehiculo(string descripcion, string motor, string placas,string idTipoVehiculo)
         {
             try
             {
-                string apiUrl = string.Format("{0}/AddVehiculo", UrlApi);
+                //string apiUrl = string.Format("{0}/AddVehiculo", UrlApi);
 
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                VehiculoModel v = new VehiculoModel { Descripcion = descripcion, Placas = placas, Motor = motor };
+                //VehiculoModel v = new VehiculoModel { Descripcion = descripcion, Placas = placas, Motor = motor };
 
-                Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
+                //Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
 
-                if (responseApi1.code.Equals("00"))
+                //if (responseApi1.code.Equals("00"))
+                //{
+                //    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+
+
+                //    var result = new { Success = true, json = listC };
+                //    return Json(result, JsonRequestBehavior.AllowGet);
+                //}
+                //else
+                //{
+                //    var result = new { Success = false, Message = "Error al ejecutar la accion" };
+                //    return Json(result, JsonRequestBehavior.AllowGet);
+                //}
+
+
+                try
                 {
-                    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                        
+                        parametros.Add("@Descripcion", descripcion);
+                        parametros.Add("@Placas", placas);
+                        parametros.Add("@Motor", motor);
+                        parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
+                        parametros.Add("@user", "sysAdmin");
 
 
-                    var result = new { Success = true, json = listC };
-                    return Json(result, JsonRequestBehavior.AllowGet);
+
+                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Vehiculo", false, parametros);
+
+
+                    //return ds;
                 }
-                else
+                catch (SqlException ex)
                 {
-                    var result = new { Success = false, Message = "Error al ejecutar la accion" };
-                    return Json(result, JsonRequestBehavior.AllowGet);
+
+                    throw ex;
                 }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
 
                 var result1 = new { Success = true };
                 return Json(result1, JsonRequestBehavior.AllowGet);
@@ -439,25 +637,49 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/DelVehiculo", UrlApi);
+                //string apiUrl = string.Format("{0}/DelVehiculo", UrlApi);
 
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                VehiculoModel v = new VehiculoModel { Id_Vehiculo = Convert.ToInt32(Id) };
+                //VehiculoModel v = new VehiculoModel { Id_Vehiculo = Convert.ToInt32(Id) };
 
-                Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
+                //Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, apiUrl, null, Newtonsoft.Json.JsonConvert.SerializeObject(v));
 
-                if (responseApi1.code.Equals("00"))
+                //if (responseApi1.code.Equals("00"))
+                //{
+                //    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+
+                //    var result = new { Success = true, json = listC };
+                //    return Json(result, JsonRequestBehavior.AllowGet);
+                //}
+                //else
+                //{
+                //    var result = new { Success = false, Message = "Error al ejecutar la accion" };
+                //    return Json(result, JsonRequestBehavior.AllowGet);
+                //}
+
+                try
                 {
-                    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
-                    var result = new { Success = true, json = listC };
-                    return Json(result, JsonRequestBehavior.AllowGet);
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    parametros.Add("@Id_Vehiculo", Id);
+                    
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_del_Vehiculo", false, parametros);
+
+
+                    //return ds;
                 }
-                else
+                catch (SqlException ex)
                 {
-                    var result = new { Success = false, Message = "Error al ejecutar la accion" };
-                    return Json(result, JsonRequestBehavior.AllowGet);
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
                 }
 
                 var result1 = new { Success = true };
@@ -1473,6 +1695,112 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+        public List<T> ConvertTo<T>(DataTable datatable) where T : new()
 
+        {
+
+            List<T> Temp = new List<T>();
+
+            try
+
+            {
+
+                List<string> columnsNames = new List<string>();
+
+                foreach (DataColumn DataColumn in datatable.Columns)
+
+                    columnsNames.Add(DataColumn.ColumnName);
+
+                Temp = datatable.AsEnumerable().ToList().ConvertAll<T>(row => getObject<T>(row, columnsNames));
+
+                return Temp;
+
+            }
+
+            catch
+
+            {
+
+                return Temp;
+
+            }
+
+
+
+        }
+
+        public T getObject<T>(DataRow row, List<string> columnsName) where T : new()
+
+        {
+
+            T obj = new T();
+
+            try
+
+            {
+
+                string columnname = "";
+
+                string value = "";
+
+                PropertyInfo[] Properties;
+
+                Properties = typeof(T).GetProperties();
+
+                foreach (PropertyInfo objProperty in Properties)
+
+                {
+
+                    columnname = columnsName.Find(name => name.ToLower() == objProperty.Name.ToLower());
+
+                    if (!string.IsNullOrEmpty(columnname))
+
+                    {
+
+                        value = row[columnname].ToString();
+
+                        if (!string.IsNullOrEmpty(value))
+
+                        {
+
+                            if (Nullable.GetUnderlyingType(objProperty.PropertyType) != null)
+
+                            {
+
+                                value = row[columnname].ToString().Replace("$", "").Replace(",", "");
+
+                                objProperty.SetValue(obj, Convert.ChangeType(value, Type.GetType(Nullable.GetUnderlyingType(objProperty.PropertyType).ToString())), null);
+
+                            }
+
+                            else
+
+                            {
+
+                                value = row[columnname].ToString().Replace("%", "");
+
+                                objProperty.SetValue(obj, Convert.ChangeType(value, Type.GetType(objProperty.PropertyType.ToString())), null);
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                return obj;
+
+            }
+
+            catch
+
+            {
+
+                return obj;
+
+            }
+
+        }
     }
 }

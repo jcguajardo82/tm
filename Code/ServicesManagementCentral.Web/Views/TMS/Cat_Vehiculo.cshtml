@@ -40,45 +40,41 @@
                     </thead>
                     <tbody>
 
+                        @{
+
+                            if (Session["listaV"] != null)
+                            {
+
+                                var myDataSet = Session["listaV"] as System.Data.DataSet;
+                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                {
+                                    <tr>
+                                        <td>@r["Id_Vehiculo"]</td>
+                                        <td>@r["TipoVehiculo"]</td>
+                                        <td>@r["Descripcion"]</td>
+                                        <td>
+                                            @r["Placas"]
+                                        </td>
+                                        <td>@r["Motor"]</td>
+                                        <td>@r["created_user"]</td>
+
+                                        <td>@r["FechaUltModif"]</td>
+
+                                        <td>@r["TimeUltModif"]</td>
 
 
+                                        <td>@r["Estatus"]</td>
+                                        <td>
+                                            @*<button type="button" onclick="SelectOrder('@r["Id_Vehiculo"]','@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>*@
 
-                        @*<tr>
-                                <td>Camioneta</td>
-                                <td>SKKEI-99</td>
-                                <td>4 Cil.</td>
-                                <td>FEJJDU-01</td>
-                                <td>Mexico. CD mex.</td>
-                                <td>24</td>
+                                            <button onclick="getVehiculo('@r["Id_Vehiculo"]')" type="button" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button> 
+                                            <button type="button" onclick="DeleteSurtidores('@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                        </td>
+                                    </tr>
 
-                                <td>
-                                    <button class="btn btn-warning btn-circle" type="button">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-circle" type="button">
-                                        <i class="fa fa-eraser"></i>
-                                    </button>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Camioneta</td>
-                                <td>SKKEI-99</td>
-                                <td>4 Cil.</td>
-                                <td>FEJJDU-01</td>
-                                <td>Mexico. CD mex.</td>
-                                <td>24</td>
-
-                                <td>
-                                    <button class="btn btn-warning btn-circle" type="button">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-circle" type="button">
-                                        <i class="fa fa-eraser"></i>
-                                    </button>
-
-                                </td>
-                            </tr>*@
+                                }
+                                                }
+                                            }
 
                     </tbody>
                     @*<tfoot>
@@ -420,7 +416,7 @@
             );
         });
 
-        function GetTmsUNs() {
+        @*function GetTmsUNs() {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
             $.ajax({
@@ -503,7 +499,7 @@
                     bootbox.alert(errorThrown);
                 }
             });
-        }
+        }*@
 
         function ActionUpd() {
             debugger;
@@ -525,7 +521,8 @@
                 data: {
                     descripcion: document.getElementById("in_desc").value,
                     motor: document.getElementById("in_motor").value,
-                    placas: document.getElementById("in_placas").value
+                    placas: document.getElementById("in_placas").value,
+                    idTipoVehiculo: $("#Id_TipoFolio").val()
                 },
                 datatype: "html",
                 success: function (json) {
@@ -541,22 +538,25 @@
 
                         $("#modal-form").modal('hide');
 
-                        var myTable = $('#example').DataTable();
 
-                        for (var i = 0; i < json.json.length; i++) {
+                        location.reload();
 
-                            myTable.row.add([
+                        //var myTable = $('#example').DataTable();
 
-                                json.json[i].Id_Vehiculo,
-                                "Camioneta",
-                                json.json[i].Descripcion,
-                                json.json[i].Placas,
-                                json.json[i].Motor,
-                                json.json[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                            ]).draw();
+                        //for (var i = 0; i < json.json.length; i++) {
 
-                        }
+                        //    myTable.row.add([
+
+                        //        json.json[i].Id_Vehiculo,
+                        //        "Camioneta",
+                        //        json.json[i].Descripcion,
+                        //        json.json[i].Placas,
+                        //        json.json[i].Motor,
+                        //        json.json[i].Estatus,
+                        //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                        //    ]).draw();
+
+                        //}
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -595,24 +595,26 @@
 
                         $("#modal-form").modal('hide');
 
-                        var myTable = $('#example').DataTable();
+                        //var myTable = $('#example').DataTable();
 
-                        for (var i = 0; i < json.json.length; i++) {
+                        //for (var i = 0; i < json.json.length; i++) {
 
-                            myTable.row.add([
+                        //    myTable.row.add([
 
-                                json.json[i].Id_Vehiculo,
-                                "Camioneta",
-                                json.json[i].Descripcion,
-                                json.json[i].Placas,
-                                json.json[i].Motor,
-                                json.json[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                            ]).draw();
+                        //        json.json[i].Id_Vehiculo,
+                        //        "Camioneta",
+                        //        json.json[i].Descripcion,
+                        //        json.json[i].Placas,
+                        //        json.json[i].Motor,
+                        //        json.json[i].Estatus,
+                        //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                        //    ]).draw();
 
-                        }
+                        //}
 
                         document.getElementById("flag_edit").value = 0;
+
+                        location.reload();
 
                     }
                 }
@@ -635,29 +637,32 @@
                     datatype: "html",
                     success: function (json) {
                         if (json.Success) {
-                            var table = $('#example').DataTable();
 
-                            table.clear().draw();
-                            table.destroy();
+                            location.reload();
 
-                            $("#modal-form").modal('hide');
+                            //var table = $('#example').DataTable();
 
-                            var myTable = $('#example').DataTable();
+                            //table.clear().draw();
+                            //table.destroy();
 
-                            for (var i = 0; i < json.json.length; i++) {
+                            //$("#modal-form").modal('hide');
 
-                                myTable.row.add([
+                            //var myTable = $('#example').DataTable();
 
-                                    json.json[i].Id_Vehiculo,
-                                    "Camioneta",
-                                    json.json[i].Descripcion,
-                                    json.json[i].Placas,
-                                    json.json[i].Motor,
-                                    json.json[i].Estatus,
-                                    "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                                ]).draw();
+                            //for (var i = 0; i < json.json.length; i++) {
 
-                            }
+                            //    myTable.row.add([
+
+                            //        json.json[i].Id_Vehiculo,
+                            //        "Camioneta",
+                            //        json.json[i].Descripcion,
+                            //        json.json[i].Placas,
+                            //        json.json[i].Motor,
+                            //        json.json[i].Estatus,
+                            //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            //    ]).draw();
+
+                            //}
                         }
                     }
                     , error: function (jqXHR, textStatus, errorThrown) {

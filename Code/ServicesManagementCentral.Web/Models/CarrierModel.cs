@@ -24,4 +24,28 @@ namespace ServicesManagement.Web.Models
         public DateTime FechaUltModif { get; set; }//varchar
         public string UsuarioUltModif { get; set; }//varchar
     }
+
+
+    public class CarrierModel2
+    {
+
+        public Int32 IdTransportista { get; set; }//int
+        public string Nombre { get; set; }
+        public bool TarifaFija { get; set; }
+        public string CostoTarifaFija { get; set; }
+        public string Prioridad { get; set; }
+        public string NivelServicio { get; set; }
+        public string FactorPaqueteria { get; set; }
+        public string LimitePaqueteria { get; set; }
+        public string PorcAdicPaquete { get; set; }
+        public string DiasVigenciaGuias { get; set; }
+        public string UsuarioCreacion { get; set; }
+        public string FechaUltModif { get; set; }
+        public string UsuarioUltModif { get; set; }
+        public string BitActivo { get; set; }
+        public string IdTipoLogistica { get; set; }
+        public string FechaCreacion { get; set; }
+        public string TipoLogistica { get; set; }
+
+    }
 }

@@ -69,22 +69,22 @@
                                     var myDataSet = Session["listaTL"] as System.Data.DataSet;
                                     foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                     {
-                                                        <tr>
-                                                            <td>@r["IdTipoLogistica"]</td>
-                                                            <td>@r["TipoLogistica"]</td>
-                                                            <td>@r["MinPesoVolumetrico"]</td>
-                                                            <td>@r["MaxPesoVolumetrico"]</td>
-                                                            <td>@r["MaxCosto"]</td>
-                                                            <td>@r["TipoArticulo"]</td>
-                                                            <td>@r["UsuarioCreacion"]</td>
-                                                            <td>@r["FechaCreacion"]</td>
-                                                            <td>@r["FechaCreacion"]</td>
-                                                            <td>"Activo"</td>
-                                                            @*<td>@r["Fecha"]</td>*@
-                                                            <td>
-                                                                <button type="button" onclick="SelectOrder('@r["IdTipoLogistica"]','@r["IdTipoLogistica"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
-                                                            </td>
-                                                        </tr>
+                                        <tr>
+                                            <td>@r["IdTipoLogistica"]</td>
+                                            <td>@r["TipoLogistica"]</td>
+                                            <td>@r["MinPesoVolumetrico"]</td>
+                                            <td>@r["MaxPesoVolumetrico"]</td>
+                                            <td>@r["MaxCosto"]</td>
+                                            <td>@r["TipoArticulo"]</td>
+                                            <td>@r["UsuarioCreacion"]</td>
+                                            <td>@r["FechaUltModif"]</td>
+                                            <td>@r["TimeUltModif"]</td>
+                                            <td>@r["BitActivo"]</td>
+                                            @*<td>@r["Fecha"]</td>*@
+                                            <td>
+                                                <button type="button" onclick="SelectItem('@r["IdTipoLogistica"]','@r["IdTipoLogistica"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                            </td>
+                                        </tr>
 
                                     }
                                 }
@@ -118,7 +118,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title">Alta de Transportistas</h2>
+                        <h2 class="modal-title">Alta de Tipo Logistica</h2>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -126,129 +126,75 @@
                     <div class="modal-body">
                         <form id="frmCreateServicios">
                             @*<div class="row">
-                                    <div class="col col-xs-8 col-md-12">
-                                        <div class="form-group">
-                                            <label>Transportista</label>
-                                            <select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                                                <option selected="selected" value="0">--Transportista--</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>*@
-                            <div class="row">
-                                <div class="col col-xs-8 col-md-4">
-                                    <div class="form-group">
-                                        <label>C.P. ORIGEN</label>
-                                        <input type="text" placeholder="C.P. ORIGEN" id="cp_origen" name="cp_origen" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col col-xs-8 col-md-4">
+                                                                    <div class="col col-xs-8 col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label>Transportista</label>
+                                                                            <select class="form-control" id="ProveedorLista" name="ProveedorLista">
+                                                                                <option selected="selected" value="0">--Transportista--</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
 
-                                </div>
-                                <div class="col col-xs-8 col-md-4">
-                                    <div class="form-group">
-                                        <label>C.P. DESTINO</label>
-                                        <input type="text" placeholder="C.P. DESTINO" id="cp_destino" name="cp_destino" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col col-xs-8 col-md-4">
-                                    <div class="form-group">
-                                        <label>LARGO</label>
-                                        <input type="text" placeholder="LARGO" id="in_largo" name="in_largo" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col col-xs-8 col-md-4">
-                                    <div class="form-group">
-                                        <label>PESO</label>
-                                        <input type="text" placeholder="PESO" id="in_peso" name="in_peso" class="form-control" />
-                                    </div>
-                                </div>
-                                <div class="col col-xs-8 col-md-4">
-                                    <div class="form-group">
-                                        <label>ALTO</label>
-                                        <input type="text" placeholder="ALTO" id="in_alto" name="in_alto" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
+                                                                @Descripcion
+                                                                @TipoCatalogo
+                                                                @Id_TipoAlmacen
+                                                                @Id_CategoriaArt
+                                                                @Peso_min
+                                                                @Peso_max
 
+                                TipoLogistica
+                                MinPesoVolumetrico
+                                MaxPesoVolumetrico
+                                MaxCosto
+                                TipoArticulo
+
+
+                                                                </div>*@
+                            <div class="row">
                                 <div class="col col-xs-8 col-md-4">
                                     <div class="form-group">
-                                        <label>ANCHO</label>
-                                        <input type="text" placeholder="ANCHO" id="in_ancho" name="in_ancho" class="form-control" />
+                                        <label>Tipo Logistica</label>
+                                        <input type="text" placeholder="LOGISTICA" id="in_descripcion" name="in_descripcion" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="col col-xs-8 col-md-4">
-                                    @*<div class="form-group">
-                                            <label>Porc. Adic. Paquete</label>
-                                            <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
-                                        </div>*@
+                                    <div class="form-group">
+                                        <label>Min. Peso Volumetrico</label>
+                                        <input type="text" placeholder="Min. Peso Volumetrico" id="in_MinPesoVolumetrico" name="in_MinPesoVolumetrico" class="form-control" />
+                                    </div>
                                 </div>
                                 <div class="col col-xs-8 col-md-4">
                                     <div class="form-group">
-                                        <label>Es paquete</label>
-                                        <div class="input-group">
-                                            <div id="radioBtn" class="btn-group">
-                                                <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
-                                                <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
-                                            </div>
-                                            <input type="hidden" name="TarifaFija" id="TarifaFija">
-                                        </div>
+                                        <label>Max. Peso Volumetrico</label>
+                                        <input type="text" placeholder="Max. Peso Volumetrico" id="in_MaxPesoVolumetrico" name="in_MaxPesoVolumetrico" class="form-control" />
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="row">
-                                    <div class="col col-xs-8 col-md-3">
-                                        <div class="form-group">
-                                            <label>Paqueteria</label>
-                                            <div class="input-group">
-                                                <div id="radioBtn" class="btn-group">
-                                                    <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
-                                                    <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
-                                                </div>
-                                                <input type="hidden" name="Paqueteria" id="Paqueteria">
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Tipo Articulo</label>
+                                        <input type="text" placeholder="Tipo Articulo" id="in_tipoArticulo" name="in_tipoArticulo" class="form-control" />
                                     </div>
-                                    <div class="col col-xs-8 col-md-3">
-                                        <div class="form-group">
-                                            <label>Big Ticket</label>
-                                            <div class="input-group">
-                                                <div id="radioBtn" class="btn-group">
-                                                    <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
-                                                    <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
-                                                </div>
-                                                <input type="hidden" name="BigTicket" id="BigTicket">
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Max. Costo</label>
+                                        <input type="text" placeholder="Max. Costo" id="in_MaxCosto" name="in_MaxCosto" class="form-control" />
                                     </div>
-                                    <div class="col col-xs-8 col-md-3">
-                                        <div class="form-group">
-                                            <label>Servicio Estandar</label>
-                                            <div class="input-group">
-                                                <div id="radioBtn" class="btn-group">
-                                                    <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
-                                                    <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
-                                                </div>
-                                                <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Estatus</label>
+                                        <select class="form-control" id="in_estatus" name="in_estatus">
+                                            <option selected="selected" value="0">Activo</option>
+                                            <option value="1">Inactivo</option>
+                                            
+                                        </select>
                                     </div>
-                                    <div class="col col-xs-8 col-md-3">
-                                        <div class="form-group">
-                                            <label>Servicio Express</label>
-                                            <div class="input-group">
-                                                <div id="radioBtn" class="btn-group">
-                                                    <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
-                                                    <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
-                                                </div>
-                                                <input type="hidden" name="ServicioExpress" id="ServicioExpress">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>*@
+                                </div>
+                            </div>
+
                         </form>
                     </div>
 
@@ -366,7 +312,7 @@
 
         <input id="filename" name="filename" value="0" style="visibility:hidden" />
 
-        <input id="flagStatus" name="flagStatus" value="" style="visibility:hidden" />
+        <input id="flagStatus" name="flagStatus" value="0" style="visibility:hidden" />
 
     </div>
 }
@@ -391,6 +337,49 @@
 
         }
 
+
+        function SelectItem(item, itemID) {
+
+
+
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoLogistica", "Catalogo")',
+                data: {
+                    IdTipoLogistica: item
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("flagStatus").value = json.Id;
+
+                        document.getElementById("in_tipoEntrega").value = json.des;
+                        document.getElementById("in_tipoCatalogo").value = json.tc;
+                        document.getElementById("tipoAlmacen").value = json.ta;
+                        document.getElementById("in_categoria").value = json.ca;
+                        document.getElementById("in_pesoMin").value = json.pm;
+                        document.getElementById("in_pesoMax").value = json.pmx;
+                        document.getElementById("in_estatus").value = json.e;
+
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+             });
+
+
+
+            $("#frmAltaTrans").modal('show');
+
+
+
+
+
+        }
 
         function SelectOrder(orden,ue) {
 
@@ -524,14 +513,14 @@
                                     //var e = document.getElementById("ProveedorLista");
                                     //e.disabled = false;
 
-                                    document.getElementById("TarifaFija").value = "SI";
-                                    document.getElementById("cp_origen").value = '';
-                                    document.getElementById("cp_destino").value = '';
-                                    document.getElementById("in_ancho").value = '';
-                                    document.getElementById("in_alto").value = '';
-                                    document.getElementById("in_peso").value = '';
-                                    document.getElementById("in_largo").value = '';
-
+                                    //document.getElementById("TarifaFija").value = "SI";
+                                    //document.getElementById("cp_origen").value = '';
+                                    //document.getElementById("cp_destino").value = '';
+                                    //document.getElementById("in_ancho").value = '';
+                                    //document.getElementById("in_alto").value = '';
+                                    //document.getElementById("in_peso").value = '';
+                                    //document.getElementById("in_largo").value = '';
+                                    document.getElementById("flagStatus").value = "0";
                                     $("#frmAltaTrans").modal('show');
 
                                 }
@@ -630,21 +619,21 @@
         }
 
         function AddSurtidores() {
-            var _TarifaFija = document.getElementById("TarifaFija").value;
+           /* var _TarifaFija = document.getElementById("TarifaFija").value;*/
 
             debugger;
             $.ajax({
                 async: false,
-                type: "GET",
-                url: '@Url.Action("GetCotizacion", "TMS")',
+                type: "POST",
+                url: '@Url.Action("InsTipoLogistica", "Catalogo")',
                 data: {
-                    paquete: (_TarifaFija == "Y") ? true : false,
-                    cp_o: document.getElementById("cp_origen").value,
-                    cp_d: document.getElementById("cp_destino").value,
-                    alto: document.getElementById("in_alto").value,
-                    ancho: document.getElementById("in_ancho").value,
-                    largo: document.getElementById("in_largo").value,
-                    peso: document.getElementById("in_peso").value,
+                    IdTipoLogistica : document.getElementById("flagStatus").value,
+                    TipoLogistica: document.getElementById("in_descripcion").value,
+                    MinPesoVolumetrico: document.getElementById("in_MinPesoVolumetrico").value,
+                    MaxPesoVolumetrico: document.getElementById("in_MaxPesoVolumetrico").value,
+                    MaxCosto: document.getElementById("in_MaxCosto").value,
+                    TipoArticulo: document.getElementById("in_tipoArticulo").value,
+                    estatus: document.getElementById("in_estatus").value
                 },
                 datatype: "json",
                 success: function (json) {
@@ -652,121 +641,121 @@
                         debugger;
                         //alert(json.json.cotizacion.TipoServicio[0].DescripcionServicio);
 
-                        var table1 = $('#tblConsulta').DataTable();
-                        table1.clear().draw();
-                        table1.destroy();
+                        //var table1 = $('#tblConsulta').DataTable();
+                        //table1.clear().draw();
+                        //table1.destroy();
 
 
-                        var table = $('#tblConsulta').DataTable(
-                            {
+                        //var table = $('#tblConsulta').DataTable(
+                        //    {
 
-                                language:
-                                {
-                                    "sProcessing": "Procesando...",
-                                    "sLengthMenu": "Mostrar _MENU_ registros",
-                                    "sZeroRecords": "No se encontraron resultados",
-                                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                                    "sInfoPostFix": "",
-                                    "sSearch": "Buscar:",
-                                    "sUrl": "",
-                                    "sInfoThousands": ",",
-                                    "sLoadingRecords": "Cargando...",
-                                    "oPaginate": {
-                                        "sFirst": "Primero",
-                                        "sLast": "Último",
-                                        "sNext": "Siguiente",
-                                        "sPrevious": "Anterior"
+                        //        language:
+                        //        {
+                        //            "sProcessing": "Procesando...",
+                        //            "sLengthMenu": "Mostrar _MENU_ registros",
+                        //            "sZeroRecords": "No se encontraron resultados",
+                        //            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        //            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        //            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        //            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        //            "sInfoPostFix": "",
+                        //            "sSearch": "Buscar:",
+                        //            "sUrl": "",
+                        //            "sInfoThousands": ",",
+                        //            "sLoadingRecords": "Cargando...",
+                        //            "oPaginate": {
+                        //                "sFirst": "Primero",
+                        //                "sLast": "Último",
+                        //                "sNext": "Siguiente",
+                        //                "sPrevious": "Anterior"
 
-                                    },
-                                    "oAria": {
-                                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        //            },
+                        //            "oAria": {
+                        //                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        //                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
 
-                                    },
-                                    "buttons": {
-                                        "print": "Imprimir",
-                                        "pageLength": 'Mostrar %d Registros'
+                        //            },
+                        //            "buttons": {
+                        //                "print": "Imprimir",
+                        //                "pageLength": 'Mostrar %d Registros'
 
-                                    }
-                                },
-                                dom: 'Bfrtip',
-                                lengthMenu: [
-                                    [10, 25, 50, -1],
-                                    ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
-                                ],
-                                buttons: [
-                                    { extend: 'pageLength', className: 'btn-primary' },
-                                    { extend: 'excel', className: 'btn-primary' },
-                                    {
-                                        text: 'Cotizacion',
-                                        action: function (e, dt, node, config) {
-                                            //var e = document.getElementById("ProveedorLista");
-                                            //e.disabled = false;
+                        //            }
+                        //        },
+                        //        dom: 'Bfrtip',
+                        //        lengthMenu: [
+                        //            [10, 25, 50, -1],
+                        //            ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                        //        ],
+                        //        buttons: [
+                        //            { extend: 'pageLength', className: 'btn-primary' },
+                        //            { extend: 'excel', className: 'btn-primary' },
+                        //            {
+                        //                text: 'Cotizacion',
+                        //                action: function (e, dt, node, config) {
+                        //                    //var e = document.getElementById("ProveedorLista");
+                        //                    //e.disabled = false;
 
-                                            document.getElementById("TarifaFija").value = "SI";
-                                            document.getElementById("cp_origen").value = '';
-                                            document.getElementById("cp_destino").value = '';
-                                            document.getElementById("in_ancho").value = '';
-                                            document.getElementById("in_alto").value = '';
-                                            document.getElementById("in_peso").value = '';
-                                            document.getElementById("in_largo").value = '';
+                        //                    //document.getElementById("TarifaFija").value = "SI";
+                        //                    //document.getElementById("cp_origen").value = '';
+                        //                    //document.getElementById("cp_destino").value = '';
+                        //                    //document.getElementById("in_ancho").value = '';
+                        //                    //document.getElementById("in_alto").value = '';
+                        //                    //document.getElementById("in_peso").value = '';
+                        //                    //document.getElementById("in_largo").value = '';
 
-                                            $("#frmAltaTrans").modal('show');
+                        //                    $("#frmAltaTrans").modal('show');
 
-                                        }
-                                        , className: 'btn-primary'
-                                    },
-                                    {
-                                        text: 'Guardar Cotizacion',
-                                        action: function (e, dt, node, config) {
-                                            saveCotizacion()
-                                        }
-                                        , className: 'btn-primary'
-                                    }
+                        //                }
+                        //                , className: 'btn-primary'
+                        //            },
+                        //            {
+                        //                text: 'Guardar Cotizacion',
+                        //                action: function (e, dt, node, config) {
+                        //                    saveCotizacion()
+                        //                }
+                        //                , className: 'btn-primary'
+                        //            }
 
-                                ]
-                                //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                                //    if (aData[1] == "SETC") {
-                                //        $('td', nRow).css('background-color', '#B6BF00');
-                                //    } else if (aData[2] == "4") {
-                                //        $('td', nRow).css('background-color', 'Orange');
-                                //    }
-                                //}
-                            }
-                        );
+                        //        ]
+                        //        //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                        //        //    if (aData[1] == "SETC") {
+                        //        //        $('td', nRow).css('background-color', '#B6BF00');
+                        //        //    } else if (aData[2] == "4") {
+                        //        //        $('td', nRow).css('background-color', 'Orange');
+                        //        //    }
+                        //        //}
+                        //    }
+                        //);
 
-                        //table.clear().draw();
-                        //table.destroy();
+                        ////table.clear().draw();
+                        ////table.destroy();
 
-                        for (var i = 0; i < json.json.cotizacion.TipoServicio.length; i++) {
+                        //for (var i = 0; i < json.json.cotizacion.TipoServicio.length; i++) {
 
 
-                            table.row.add([
-                                json.json.cotizacion.TipoServicio[i].DescripcionServicio,
-                                json.json.cotizacion.TipoServicio[i].TipoEnvioRes,
-                                json.json.cotizacion.TipoServicio[i].AplicaCotizacion,
-                                json.json.cotizacion.TipoServicio[i].TarifaBase,
-                                json.json.cotizacion.TipoServicio[i].CCTarifaBase,
-                                json.json.cotizacion.TipoServicio[i].CargosExtra,
-                                json.json.cotizacion.TipoServicio[i].SobrePeso,
-                                json.json.cotizacion.TipoServicio[i].CCSobrePeso,
-                                json.json.cotizacion.TipoServicio[i].CostoTotal,
-                                json.json.cotizacion.TipoServicio[i].Peso,
-                                json.json.cotizacion.TipoServicio[i].AplicaServicio
-                                /*, "<input id=\"radio_TS\" name=\"tipoS\" type=\"radio\" onchange=\"setTS('" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "')\"  value=\"" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "\">"*/
-                                /*, "<button type=\"button\" onclick=\"DeleteSurtidores(undefined)\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"*/
-                                , "<button type=\"button\" onclick=\"GeneraGuia(" + json.json.cotizacion.TipoServicio[i].DescripcionServicio+")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"
+                        //    table.row.add([
+                        //        json.json.cotizacion.TipoServicio[i].DescripcionServicio,
+                        //        json.json.cotizacion.TipoServicio[i].TipoEnvioRes,
+                        //        json.json.cotizacion.TipoServicio[i].AplicaCotizacion,
+                        //        json.json.cotizacion.TipoServicio[i].TarifaBase,
+                        //        json.json.cotizacion.TipoServicio[i].CCTarifaBase,
+                        //        json.json.cotizacion.TipoServicio[i].CargosExtra,
+                        //        json.json.cotizacion.TipoServicio[i].SobrePeso,
+                        //        json.json.cotizacion.TipoServicio[i].CCSobrePeso,
+                        //        json.json.cotizacion.TipoServicio[i].CostoTotal,
+                        //        json.json.cotizacion.TipoServicio[i].Peso,
+                        //        json.json.cotizacion.TipoServicio[i].AplicaServicio
+                        //        /*, "<input id=\"radio_TS\" name=\"tipoS\" type=\"radio\" onchange=\"setTS('" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "')\"  value=\"" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "\">"*/
+                        //        /*, "<button type=\"button\" onclick=\"DeleteSurtidores(undefined)\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"*/
+                        //        , "<button type=\"button\" onclick=\"GeneraGuia(" + json.json.cotizacion.TipoServicio[i].DescripcionServicio+")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"
 
-                            ]).draw();
+                        //    ]).draw();
 
-                        }
+                        //}
 
 
                         $("#frmAltaTrans").modal('hide');
-
+                        location.reload();
 
                     } else { alert(json.Message);}
                 }

@@ -30,6 +30,8 @@ namespace ServicesManagement.Web.Controllers
 
 {
 
+
+
     public class codigoPostalModels
     {
 
@@ -2755,13 +2757,14 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public DataSet GetTipoLogistica() {
+        public DataSet GetTipoLogistica()
+        {
 
             DataSet ds = new DataSet();
 
             try
             {
-                
+
                 using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand("up_CorpTMS_sel_TipoLogistica", cnn))
@@ -2789,17 +2792,410 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult AtributosSYE()
+        [HttpPost]
+        public async Task<JsonResult> InsTipoLogistica(string TipoLogistica, string MinPesoVolumetrico, string MaxPesoVolumetrico, string MaxCosto, string TipoArticulo, string estatus, string IdTipoLogistica)
+        {
+            try
+            {
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+
+
+                    if (string.IsNullOrEmpty(IdTipoLogistica) || IdTipoLogistica.Equals("0"))
+                    {
+                        parametros.Add("@TipoLogistica", TipoLogistica);
+                        parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
+                        parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
+                        parametros.Add("@MaxCosto", MaxCosto);
+                        parametros.Add("@TipoArticulo", TipoArticulo);
+                        parametros.Add("@UsuarioCreacion", "sysAdmin");
+
+                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_ins_TipoLogistica", false, parametros);
+                    }
+                    else
+                    {
+
+                        parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+                        parametros.Add("@TipoLogistica", TipoLogistica);
+                        parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
+                        parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
+                        parametros.Add("@MaxCosto", MaxCosto);
+                        parametros.Add("@TipoArticulo", TipoArticulo);
+                        parametros.Add("@UsuarioUltModif", "sysAdmin2");
+                        parametros.Add("@BitActivo", estatus.Equals("0") ? 1 : 0);
+
+                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoLogistica", false, parametros);
+
+                    }
+
+
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> GetTipoLogistica(string IdTipoLogistica)
+        {
+            try
+            {
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    //parametros.Add("@TipoLogistica", TipoLogistica);
+
+                    DataSet ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_CorpTMS_sel_TipoLogistica", false, parametros);
+
+
+
+                    string out_IdTipoLogistica = "";
+                    string TipoLogistica = "";
+                    string MinPesoVolumetrico = "";
+                    string MaxPesoVolumetrico = "";
+                    string MaxCosto = "";
+                    string TipoArticulo = "";
+                    string estatus = "";
+
+                    foreach (DataRow r in ds.Tables[0].Rows)
+                    {
+
+                        if (IdTipoLogistica.Equals(r["IdTipoLogistica"].ToString().Trim()))
+                        {
+                            out_IdTipoLogistica = r["IdTipoLogistica"].ToString();
+                            TipoLogistica = r["TipoLogistica"].ToString();
+                            MinPesoVolumetrico = r["MinPesoVolumetrico"].ToString();
+                            MaxPesoVolumetrico = r["MaxPesoVolumetrico"].ToString();
+                            TipoArticulo = r["TipoArticulo"].ToString();
+                            MaxCosto = r["MaxCosto"].ToString();
+                            estatus = r["BitActivo"].ToString();
+                            break;
+                        }
+
+                    }
+
+
+                    var result = new { Success = true, Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e = estatus.ToLower().Equals("false") ? 1: 0 };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public DataSet GetCategSAP()
         {
 
+            DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("tms.up_CorpTMS_cmd_Categ", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+        }
+
+
+
+        public ActionResult AtributosSYE()
+        {
+            Session["listaASYE"] = GetAtributosSYE();
+
             return View();
+        }
+
+        public DataSet GetAtributosSYE()
+        {
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("up_CorpTMS_sel_AtributosSYE", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
         }
 
         public ActionResult TipoEntregas()
         {
+            Session["listaTE"] = GetTipoEntrega();
+
+            Session["listaC"] = GetCategSAP();
 
             return View();
         }
+
+        public DataSet GetTipoEntrega()
+        {
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("up_CorpTMS_sel_TipoEntregas", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+        }
+
+
+        [HttpPost]
+        public async Task<JsonResult> InsTipoEntregas(string Id_TipoEntrega 
+                                                    ,string Descripcion
+                                                    ,string TipoCatalogo
+                                                    ,string Id_TipoAlmacen
+                                                    ,string Id_CategoriaArt
+                                                    ,string Peso_min
+                                                    ,string Peso_max
+                                                    ,string Estatus
+                                                    )
+        {
+            try
+            {
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    parametros.Add("@Descripcion", Descripcion);
+                    parametros.Add("@TipoCatalogo", TipoCatalogo);
+                    parametros.Add("@Id_TipoAlmacen", Id_TipoAlmacen);
+                    parametros.Add("@Id_CategoriaArt", Id_CategoriaArt);
+                    parametros.Add("@Peso_min", Peso_min);
+                    parametros.Add("@Peso_max", Peso_max);
+                    parametros.Add("@Usuario", "sysAdmin");
+
+
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_ins_TipoEntregas", false, parametros);
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> GetTipoEntrega(string IdTipoEntrega)
+        {
+            try
+            {
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    parametros.Add("@Id_TipoEntrega", IdTipoEntrega);
+
+                    DataSet ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[up_CorpTMS_sel_TipoEntregasById]", false, parametros);
+
+                    string out_Id_TipoEntrega = "";
+                    string out_Descripcion = "";
+                    string out_TipoCatalogo = "";
+                    string out_Id_TipoAlmacen = "";
+                    string out_Id_CategoriaArt = "";
+                    string out_Peso_min = "";
+                    string out_Peso_max = "";
+                    string out_estatus = "";
+
+                    foreach (DataRow r in ds.Tables[0].Rows)
+                    {
+
+                        if (IdTipoEntrega.Equals(r["IdTipoLogistica"].ToString().Trim()))
+                        {
+                            out_Id_TipoEntrega = r["Id_TipoEntrega"].ToString();
+                            out_Descripcion = r["Descripcion"].ToString();
+                            out_TipoCatalogo = r["TipoCatalogo"].ToString();
+                            out_Id_TipoAlmacen = r["Id_TipoAlmacen"].ToString();
+                            out_Id_CategoriaArt = r["Id_CategoriaArt"].ToString();
+                            out_Peso_min = r["Peso_min"].ToString();
+                            out_Peso_max = r["Peso_max"].ToString();
+                            out_estatus = r["BitActivo"].ToString();
+
+
+                            break;
+                        }
+
+                    }
+
+
+                    var result = new { Success = true, Id = out_Id_TipoEntrega
+                        , des = out_Descripcion
+                        , tc = out_TipoCatalogo
+                        , ta = out_Id_TipoAlmacen
+                        , ca = out_Id_CategoriaArt
+                        , pm = out_Peso_min
+                        , pmx = out_Peso_max
+                        , e = out_estatus.ToLower().Equals("false") ? 1 : 0 };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
 
         #region Almacenes 

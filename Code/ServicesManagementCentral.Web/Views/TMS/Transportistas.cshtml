@@ -44,10 +44,10 @@
                             <th>Prioridad</th>
                             <th>Nivel de Servicio</th>
                             <th>Factor Division<br /> Peso Voluntario </th>
-                            <th>Paqueteria</th>
-                            <th>Big Ticket</th>
-                            <th>Servicio Estandar</th>
-                            <th>Servicio Express</th>
+                            @*<th>Paqueteria</th>
+                                <th>Big Ticket</th>
+                                <th>Servicio Estandar</th>
+                                <th>Servicio Express</th>*@
                             <th>Usuario Creacion</th>
                             <th>Fecha Cracion</th>
                             <th>Hora Creacion</th>
@@ -59,24 +59,24 @@
                     <tbody>
                     </tbody>
                     @*<tfoot>
-                        <tr>
-                            <th>Id Transportista</th>
-                            <th>Tarifa Fija</th>
-                            <th>Prioridad</th>
-                            <th>Nivel de Servicio</th>
-                            <th>Factor Division<br /> Peso Voluntario </th>
-                            <th>Paqueteria</th>
-                            <th>Big Ticket</th>
-                            <th>Servicio Estandar</th>
-                            <th>Servicio Express</th>
-                            <th>Usuario Creacion</th>
-                            <th>Fecha Cracion</th>
-                            <th>Hora Creacion</th>
-                            <th>Activo</th>
+                            <tr>
+                                <th>Id Transportista</th>
+                                <th>Tarifa Fija</th>
+                                <th>Prioridad</th>
+                                <th>Nivel de Servicio</th>
+                                <th>Factor Division<br /> Peso Voluntario </th>
+                                <th>Paqueteria</th>
+                                <th>Big Ticket</th>
+                                <th>Servicio Estandar</th>
+                                <th>Servicio Express</th>
+                                <th>Usuario Creacion</th>
+                                <th>Fecha Cracion</th>
+                                <th>Hora Creacion</th>
+                                <th>Activo</th>
 
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>*@
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>*@
                 </table>
             </div>
         </div>
@@ -98,14 +98,25 @@
                 <div class="modal-body">
                     <form id="frmCreateServicios">
                         <div class="row">
-                            <div class="col col-xs-8 col-md-12">
+                            <div class="col col-xs-8 col-md-4">
                                 <div class="form-group">
-                                    <label>Transportista</label>
-                                    <select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                                        <option selected="selected" value="0">--Transportista--</option>
-                                    </select>
+                                    <label>Id Transportista</label>
+                                    <input type="text" placeholder="Id Transportista" id="ProveedorLista" name="ProveedorLista" class="form-control" />
+                                    @*<select class="form-control" id="ProveedorLista" name="ProveedorLista">
+            <option selected="selected" value="0">--Transportista--</option>
+
+
+
+        </select>*@
                                 </div>
                             </div>
+                            <div class="col col-xs-8 col-md-8">
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input type="text" placeholder="Nombre" id="in_nombre" name="in_nombre" class="form-control" />
+                                </div>
+                            </div>
+
                         </div>
                         <div class="row">
                             <div class="col col-xs-8 col-md-4">
@@ -125,9 +136,84 @@
                                     <label>Prioridad</label>
                                     <input type="text" placeholder="Prioridad" id="Prioridad" name="Prioridad" class="form-control" />
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
-                        <div class="row">                            
+                        <div class="row">
+                            <div class="col col-xs-8 col-md-4">
+                                @*
+                                            <div class="form-group">
+                    <label>Tarifa Fija</label>
+                    <div class="input-group">
+                        <div id="radioBtn" class="btn-group">
+                            <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
+                            <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
+                        </div>
+                        <input type="hidden" name="TarifaFija" id="TarifaFija">
+                    </div>
+                </div>*@
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+                                @*<div class="form-group">
+                    <label>Tarifa Fija</label>
+                    <input type="text" placeholder="Costo Tarifa Fija" id="CostoTarifaFija" name="CostoTarifaFija" class="form-control" />
+
+                </div>*@
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                @*<div class="form-group">
+
+                    <label>Porc. Adic. Paquete</label>
+
+                    <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
+
+                </div>*@
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+                                    <label>Tipo Logistica</label>
+                                    <select class="form-control" id="tipoLogistica" name="tipoLogistica">
+                                        <option selected="selected" value="0">--Selecciona--</option>
+
+
+                                        @{ if (Session["cmbTL"] != null)
+                                            {
+                                                var myDataSet = Session["cmbTL"] as System.Data.DataSet;
+                                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                                {
+                                                    <option value="@r["IdTipoLogistica"]">@r["TipoLogistica"]</option>
+
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+                                    <label>Limite de paqueteria</label>
+                                    <input type="text" placeholder="Limite de paqueteria" id="in_limite" name="in_limite" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+                                    <label>Vida de Guias</label>
+                                    <input type="text" placeholder="Vida de Guias" id="in_vida" name="in_vida" class="form-control" />
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="row">
                             <div class="col col-xs-8 col-md-4">
                                 <div class="form-group">
                                     <label>Tarifa Fija</label>
@@ -140,33 +226,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col col-xs-8 col-md-4">
-                                <div class="form-group">
-                                    <label>Tarifa Fija</label>
-                                    <input type="text" placeholder="Costo Tarifa Fija" id="CostoTarifaFija" name="CostoTarifaFija" class="form-control" />
-
-                                </div>
-
-                            </div>
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Porc. Adic. Paquete</label>
-
-                                    <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col col-xs-8 col-md-3">
 
                                 <div class="form-group">
 
-                                    <label>Paqueteria</label>
+                                    <label>Estatus</label>
 
                                     <div class="input-group">
                                         <div id="radioBtn" class="btn-group">
@@ -179,59 +243,82 @@
                                 </div>
 
                             </div>
-                            <div class="col col-xs-8 col-md-3">
 
-                                <div class="form-group">
-
-                                    <label>Big Ticket</label>
-
-                                    <div class="input-group">
-                                        <div id="radioBtn" class="btn-group">
-                                            <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
-                                            <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
-                                        </div>
-                                        <input type="hidden" name="BigTicket" id="BigTicket">
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col col-xs-8 col-md-3">
-
-                                <div class="form-group">
-
-                                    <label>Servicio Estandar</label>
-
-                                    <div class="input-group">
-                                        <div id="radioBtn" class="btn-group">
-                                            <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
-                                            <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
-                                        </div>
-                                        <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="col col-xs-8 col-md-3">
-
-                                <div class="form-group">
-
-                                    <label>Servicio Express</label>
-
-                                    <div class="input-group">
-                                        <div id="radioBtn" class="btn-group">
-                                            <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
-                                            <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
-                                        </div>
-                                        <input type="hidden" name="ServicioExpress" id="ServicioExpress">
-                                    </div>
-
-                                </div>
-
-                            </div>
 
                         </div>
+
+
+                        @*<div class="row">
+            <div class="col col-xs-8 col-md-3">
+
+                <div class="form-group">
+
+                    <label>Paqueteria</label>
+
+                    <div class="input-group">
+                        <div id="radioBtn" class="btn-group">
+                            <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
+                            <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
+                        </div>
+                        <input type="hidden" name="Paqueteria" id="Paqueteria">
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col col-xs-8 col-md-3">
+
+                <div class="form-group">
+
+                    <label>Big Ticket</label>
+
+                    <div class="input-group">
+                        <div id="radioBtn" class="btn-group">
+                            <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
+                            <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
+                        </div>
+                        <input type="hidden" name="BigTicket" id="BigTicket">
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col col-xs-8 col-md-3">
+
+                <div class="form-group">
+
+                    <label>Servicio Estandar</label>
+
+                    <div class="input-group">
+                        <div id="radioBtn" class="btn-group">
+                            <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
+                            <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
+                        </div>
+                        <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col col-xs-8 col-md-3">
+
+                <div class="form-group">
+
+                    <label>Servicio Express</label>
+
+                    <div class="input-group">
+                        <div id="radioBtn" class="btn-group">
+                            <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
+                            <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
+                        </div>
+                        <input type="hidden" name="ServicioExpress" id="ServicioExpress">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>*@
                     </form>
 
                 </div>
@@ -344,19 +431,19 @@
                             {
                                 text: 'Alta',
                                 action: function (e, dt, node, config) {
-                                    var e = document.getElementById("ProveedorLista");
-                                    e.disabled = false;
+                                    //var e = document.getElementById("ProveedorLista");
+                                    //e.disabled = false;
 
-                                    document.getElementById("TarifaFija").value = "SI";
-                                    document.getElementById("CostoTarifaFija").value = '';
-                                    document.getElementById("NivelServicio").value = '';
-                                    document.getElementById("FactorVoluntario").value = '';
-                                    document.getElementById("PorcAdicPaquete").value = '';
-                                    document.getElementById("Prioridad").value = '';
-                                    document.getElementById("Paqueteria").value = "SI";
-                                    document.getElementById("BigTicket").value = "SI";
-                                    document.getElementById("ServicioEstandar").value = "SI";
-                                    document.getElementById("ServicioExpress").value = "SI";
+                                    //document.getElementById("TarifaFija").value = "SI";
+                                    ///*document.getElementById("CostoTarifaFija").value = '';*/
+                                    //document.getElementById("NivelServicio").value = '';
+                                    ////document.getElementById("FactorVoluntario").value = '';
+                                    ////document.getElementById("PorcAdicPaquete").value = '';
+                                    //document.getElementById("Prioridad").value = '';
+                                    //document.getElementById("Paqueteria").value = "SI";
+                                    //document.getElementById("BigTicket").value = "SI";
+                                    //document.getElementById("ServicioEstandar").value = "SI";
+                                    //document.getElementById("ServicioExpress").value = "SI";
 
                                     $("#frmAltaTrans").modal('show');
 
@@ -391,18 +478,18 @@
                 success: function (json) {
                     if (json.Success)
                     {
-                        console.log(json);
-                        var dynamicSelect = document.getElementById("ProveedorLista");
-                        dynamicSelect.innerText = null;
-                        console.log(dynamicSelect);
-                        for (var i = 0; i < json.json.length; i++) {
-                            var newOption = document.createElement("option");
-                            newOption.value = json.json[i].NumProveedor;
-                            newOption.textContent = json.json[i].NombreProveedor;//item.whateverProperty
+                        //console.log(json);
+                        //var dynamicSelect = document.getElementById("ProveedorLista");
+                        //dynamicSelect.innerText = null;
+                        //console.log(dynamicSelect);
+                        //for (var i = 0; i < json.json.length; i++) {
+                        //    var newOption = document.createElement("option");
+                        //    newOption.value = json.json[i].NumProveedor;
+                        //    newOption.textContent = json.json[i].NombreProveedor;//item.whateverProperty
 
-                            dynamicSelect.appendChild(newOption);
-                        }
-                        console.log(dynamicSelect);
+                        //    dynamicSelect.appendChild(newOption);
+                        //}
+                        //console.log(dynamicSelect);
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -416,7 +503,7 @@
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetTransportistas", "Catalogo")',
+                url: '@Url.Action("GetTransportistas", "TMS")',
                 data: {
                     IdTransportista: parseInt(IdTransportista)
                 },
@@ -430,26 +517,58 @@
                             //document.getElementById("IdTransportista").value = json.json[i].IdTransportista;
                             //document.getElementById("RazonSocial").value = json.json[i].RazonSocial;
                             var e = document.getElementById("ProveedorLista");
-                            e.value = json.json[i].IdTransportista;
-                            e.disabled = true;
+                            /*e.value = json.json[i].IdTransportista;*/
+                            /*e.disabled = true;*/
 
-                            var valTarifaFija = (json.json[i].TarifaFija == true) ? "Y" : "N";
-                            document.getElementById("CostoTarifaFija").value = json.json[i].CostoTarifaFija;
+                            //var valTarifaFija = (json.json[i].TarifaFija == true) ? "Y" : "N";
+                            //document.getElementById("CostoTarifaFija").value = json.json[i].CostoTarifaFija;
+                            //document.getElementById("NivelServicio").value = json.json[i].NivelServicio;
+                            //document.getElementById("FactorVoluntario").value = json.json[i].FactorVoluntario;
+                            //document.getElementById("PorcAdicPaquete").value = json.json[i].PorcAdicPaquete;
+                            //document.getElementById("Prioridad").value = json.json[i].Prioridad;
+                            //var valPaqueteria = (json.json[i].Paqueteria == true) ? "Y" : "N";
+                            //var valBigTicket = (json.json[i].BigTicket == true) ? "Y" : "N";
+                            //var valServicioEstandar = (json.json[i].ServicioEstandar == true) ? "Y" : "N";
+                            //var valServicioExpress = (json.json[i].ServicioExpress == true) ? "Y" : "N";
+
+                            //IdTransportista { get; set; }//int
+                            //public string Nombre { get; set; }
+                            //public bool TarifaFija { get; set; }
+                            //public string CostoTarifaFija { get; set; }
+                            //public string Prioridad { get; set; }
+                            //public string NivelServicio { get; set; }
+                            //public string FactorPaqueteria { get; set; }
+                            //public string LimitePaqueteria { get; set; }
+                            //public string PorcAdicPaquete { get; set; }
+                            //public string DiasVigenciaGuias { get; set; }
+                            //public string UsuarioCreacion { get; set; }
+                            //public string FechaUltModif { get; set; }
+                            //public string UsuarioUltModif { get; set; }
+                            //public string BitActivo { get; set; }
+                            //public string IdTipoLogistica { get; set; }
+                            //public string FechaCreacion { get; set; }
+                            //public string TipoLogistica
+
+                            document.getElementById("ProveedorLista").value = json.json[i].IdTransportista;
                             document.getElementById("NivelServicio").value = json.json[i].NivelServicio;
-                            document.getElementById("FactorVoluntario").value = json.json[i].FactorVoluntario;
-                            document.getElementById("PorcAdicPaquete").value = json.json[i].PorcAdicPaquete;
+                            document.getElementById("FactorVoluntario").value = json.json[i].FactorPaqueteria;
                             document.getElementById("Prioridad").value = json.json[i].Prioridad;
-                            var valPaqueteria = (json.json[i].Paqueteria == true) ? "Y" : "N";
-                            var valBigTicket = (json.json[i].BigTicket == true) ? "Y" : "N";
-                            var valServicioEstandar = (json.json[i].ServicioEstandar == true) ? "Y" : "N";
-                            var valServicioExpress = (json.json[i].ServicioExpress == true) ? "Y" : "N";
+                            document.getElementById("tipoLogistica").value = json.json[i].IdTipoLogistica;
+                            document.getElementById("in_limite").value = json.json[i].LimitePaqueteria;
+                            document.getElementById("in_vida").value = json.json[i].DiasVigenciaGuias;
+                            document.getElementById("TarifaFija").value = "SI";//json.json[i].ServicioExpress;
+                            document.getElementById("Paqueteria").value = json.json[i].BitActivo;
+                            document.getElementById("in_nombre").value = json.json[i].Nombre
+
+
+
                         }
 
-                        $('a[data-toggle="TarifaFija"][data-title="' + valTarifaFija + '"]').click();
-                        $('a[data-toggle="Paqueteria"][data-title="' + valPaqueteria + '"]').click();
-                        $('a[data-toggle="BigTicket"][data-title="' + valBigTicket + '"]').click();
-                        $('a[data-toggle="ServicioEstandar"][data-title="' + valServicioEstandar + '"]').click();
-                        $('a[data-toggle="ServicioExpress"][data-title="' + valServicioExpress + '"]').click();
+                        //$('a[data-toggle="TarifaFija"][data-title="' + valTarifaFija + '"]').click();
+                        //$('a[data-toggle="Paqueteria"][data-title="' + valPaqueteria + '"]').click();
+                        //$('a[data-toggle="BigTicket"][data-title="' + valBigTicket + '"]').click();
+                        //$('a[data-toggle="ServicioEstandar"][data-title="' + valServicioEstandar + '"]').click();
+                        //$('a[data-toggle="ServicioExpress"][data-title="' + valServicioExpress + '"]').click();
 
                         $("#frmAltaTrans").modal('show');
                     }
@@ -463,20 +582,29 @@
         function AddSurtidores() {
 
 
-            
-            
-            
-            
-            
 
 
-            var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);
-            var _TarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
-            var _CostoTarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
-            var _Prioridad = parseFloat(document.getElementById("Prioridad").value);
-            var _NivelServicio = parseFloat(document.getElementById("NivelServicio").value);
-            var _FactorPaqueteria = parseFloat(document.getElementById("FactorVoluntario").value);
-            var _PorcAdicPaquete = parseFloat(document.getElementById("PorcAdicPaquete").value);
+
+
+
+            var _ProveedorLista = parseInt(document.getElementById("ProveedorLista").value);
+            var _NivelServicio = parseInt(document.getElementById("NivelServicio").value);
+            var _FactorVoluntario = parseInt(document.getElementById("FactorVoluntario").value);
+            var _Prioridad = parseInt(document.getElementById("Prioridad").value);
+            var _tipoLogistica = parseInt(document.getElementById("tipoLogistica").value);
+            var _in_limite = parseInt(document.getElementById("in_limite").value);
+            var _in_vida = parseInt(document.getElementById("in_vida").value);
+            var _TarifaFija = parseInt(document.getElementById("TarifaFija").value);
+            var _Estatus = parseInt(document.getElementById("Paqueteria").value);
+            var _in_nombre = document.getElementById("in_nombre").value;
+
+            //var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);
+            //var _TarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
+            //var _CostoTarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
+            //var _Prioridad = parseFloat(document.getElementById("Prioridad").value);
+            //var _NivelServicio = parseFloat(document.getElementById("NivelServicio").value);
+            //var _FactorPaqueteria = parseFloat(document.getElementById("FactorVoluntario").value);
+            //var _PorcAdicPaquete = parseFloat(document.getElementById("PorcAdicPaquete").value);
             var _IdTipoAlmacen = 1;
             var _Paqueteria = true;
             var _BigTicket = true;
@@ -500,7 +628,8 @@
             $.ajax({
                 async: false,
                 type: "POST",
-                url: '@Url.Action("AddTransportistas", "Catalogo")',
+                //url: '@Url.Action("AddTransportistas", "Catalogo")',
+                url: '@Url.Action("InsTransportista", "TMS")',
                 data: {
                     //IdTransportista: _IdTransportista,
                     //RazonSocial: _RazonSocial,
@@ -517,25 +646,52 @@
                     //ServicioExpress: (_ServicioExpress == "Y") ? true : false,
                     //UsuarioCreacion: "ADMIN"
 
-                    IdTransportista : _IdTransportista,
-                    TarifaFija : _TarifaFija,
-                    CostoTarifaFija : _CostoTarifaFija,
-                    Prioridad : _Prioridad,
-                    NivelServicio : _NivelServicio,
-                    FactorPaqueteria:_FactorPaqueteria,
-                    PorcAdicPaquete : _PorcAdicPaquete,
-                    IdTipoAlmacen : _IdTipoAlmacen,
-                    Paqueteria : _Paqueteria,
-                    BigTicket : _BigTicket,
-                    ServicioEstandar : _ServicioEstandar,
-                    ServicioExpress : _ServicioExpress,
-                    UsuarioCreacion : _UsuarioCreacion
+                    //IdTransportista : _IdTransportista,
+                    //TarifaFija : _TarifaFija,
+                    //CostoTarifaFija : _CostoTarifaFija,
+                    //Prioridad : _Prioridad,
+                    //NivelServicio : _NivelServicio,
+                    //FactorPaqueteria:_FactorPaqueteria,
+                    //PorcAdicPaquete : _PorcAdicPaquete,
+                    //IdTipoAlmacen : _IdTipoAlmacen,
+                    //Paqueteria : _Paqueteria,
+                    //BigTicket : _BigTicket,
+                    //ServicioEstandar : _ServicioEstandar,
+                    //ServicioExpress : _ServicioExpress,
+                    //UsuarioCreacion: _UsuarioCreacion
+
+                    //var _ProveedorLista = parseInt(document.getElementById("ProveedorLista").value);
+                    //var _NivelServicio = parseInt(document.getElementById("NivelServicio").value);
+                    //var _FactorVoluntario = parseInt(document.getElementById("FactorVoluntario").value);
+                    //var _Prioridad = parseInt(document.getElementById("Prioridad").value);
+                    //var _tipoLogistica = parseInt(document.getElementById("tipoLogistica").value);
+                    //var _in_limite = parseInt(document.getElementById("in_limite").value);
+                    //var _in_vida = parseInt(document.getElementById("in_vida").value);
+                    //var _TarifaFija = parseInt(document.getElementById("TarifaFija").value);
+                    //var _Estatus = parseInt(document.getElementById("Paqueteria").value);
+                    //var _in_nombre = document.getElementById("in_nombre").value;
+
+                    IdTransportista : _ProveedorLista,
+                    Nombre: _in_nombre,
+                    TarifaFija: _TarifaFija,
+                    CostoTarifaFija: 0,
+                    Prioridad: _Prioridad,
+                    NivelServicio: _NivelServicio,
+                    FactorPaqueteria: _FactorVoluntario,
+                    LimitePaqueteria: _in_limite,
+                    PorcAdicPaquete: 0,
+                    DiasVigenciaGuias: _in_vida,
+                    IdTipoLogistica: _tipoLogistica,
+                    Estatus: _Estatus
+
                 },
                 datatype: "html",
                 success: function (json) {
-                    if (json.Success)
-                    {
+                    if (json.Success) {
+
+                        location.reload();
                     }
+                    else { bootbox.alert(json.Message);}
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
                     bootbox.alert(errorThrown);
@@ -619,18 +775,18 @@
                                         text: 'Alta',
                                         action: function (e, dt, node, config) {
                                             var e = document.getElementById("ProveedorLista");
-                                            e.disabled = false;
+                                            //e.disabled = false;
 
-                                            document.getElementById("TarifaFija").value = "SI";
-                                            document.getElementById("CostoTarifaFija").value = '';
-                                            document.getElementById("NivelServicio").value = '';
-                                            document.getElementById("FactorVoluntario").value = '';
-                                            document.getElementById("PorcAdicPaquete").value = '';
-                                            document.getElementById("Prioridad").value = '';
-                                            document.getElementById("Paqueteria").value = "SI";
-                                            document.getElementById("BigTicket").value = "SI";
-                                            document.getElementById("ServicioEstandar").value = "SI";
-                                            document.getElementById("ServicioExpress").value = "SI";
+                                            //document.getElementById("TarifaFija").value = "SI";
+                                            //document.getElementById("CostoTarifaFija").value = '';
+                                            //document.getElementById("NivelServicio").value = '';
+                                            ////document.getElementById("FactorVoluntario").value = '';
+                                            ////document.getElementById("PorcAdicPaquete").value = '';
+                                            //document.getElementById("Prioridad").value = '';
+                                            //document.getElementById("Paqueteria").value = "SI";
+                                            //document.getElementById("BigTicket").value = "SI";
+                                            //document.getElementById("ServicioEstandar").value = "SI";
+                                            //document.getElementById("ServicioExpress").value = "SI";
 
                                             $("#frmAltaTrans").modal('show');
 
@@ -755,16 +911,16 @@
                                 json.json[i].Prioridad,
                                 json.json[i].NivelServicio,
                                 json.json[i].FactorPaqueteria,
-                                Paqueteria_st,
-                                BigTicket_st,
-                                ServicioEstandar_st,
-                                ServicioExpress_st,
+                                //Paqueteria_st,
+                                //BigTicket_st,
+                                //ServicioEstandar_st,
+                                //ServicioExpress_st,
                                 "sysAdmin",
                                 "@System.DateTime.Now.ToShortDateString()",
                                 "@System.DateTime.Now.ToShortTimeString()",
                                 "Activo",
-                                "<button onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
-
+                                "<button title=\"Editar\" onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button>"
+                                //<button title=\"Eliminar\" type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>
                             ]).draw();
 
 
