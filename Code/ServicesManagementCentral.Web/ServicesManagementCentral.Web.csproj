@@ -224,6 +224,7 @@
     <Compile Include="Models\Catalogos\Owners.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Plazas.cs" />
+    <Compile Include="Models\Catalogos\SuppliersCmb.cs" />
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoServicio.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />

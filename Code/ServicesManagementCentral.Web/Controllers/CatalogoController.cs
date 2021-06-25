@@ -3086,6 +3086,22 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetProveedoresCmb(int idOwner)
+        {
+            try
+            {
+                var dropdownVD = DataTableToModel.ConvertTo<SuppliersCmb>(DALCatalogo.upCorpTms_Cns_SuppliersById(idOwner).Tables[0]);
+                //DataTableToModel.ConvertTo<ServicesManagement.Web.Models.Almacenes.SPOwners_sUP>(DALAltaProveedor.spOwners_sUP().Tables[0]) 
+                var result = new { Success = true, resp = dropdownVD };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
 

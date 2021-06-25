@@ -77,10 +77,43 @@
             $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
         });
 
-               $('#ProveedorLista').change(function () {
+        $('#ProveedorLista').change(function () {
                     _IdProveedor = $("#ProveedorLista").val();
                    CmboAlmacenes(_IdProveedor);
+        });
+
+        $('#lstIdAlmacen').change(function () {
+            _idOwner = $("#lstIdAlmacen").val();
+            CmboProveedores(_idOwner);
+        });
+
+        function CmboProveedores(_idOwner) {
+
+             $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("GetProveedoresCmb", "Catalogo")',
+                    data: {
+                        idOwner: _idOwner
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success)
+                        {
+                            var sel = $("#ProveedorLista");
+                            sel.empty();
+
+                            $('#ProveedorLista').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                            for (var i = 0; i < json.resp.length; i++) {
+                                sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                            }
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                       alert(errorThrown);
+                    }
                 });
+        }
 
         function CmboAlmacenes(_IdProveedor) {
             debugger;
@@ -95,19 +128,14 @@
                     success: function (json) {
                         if (json.Success)
                         {
-                            console.log(json);
-                            var dynamicSelect = document.getElementById("AlmacenLista");
-                            dynamicSelect.innerText = null;
-                            console.log(dynamicSelect);
+
+                            var sel = $("#AlmacenLista");
+                            sel.empty();
+
+                            $('#AlmacenLista').get(0).options[0] = new Option("--SELECCIONE--", "0");
                             for (var i = 0; i < json.json.length; i++) {
-                                var newOption = document.createElement("option");
-
-                                newOption.value = json.json[i].IdAlmacen;
-                                newOption.textContent = json.json[i].NombreAlmacen;//item.whateverProperty
-
-                                dynamicSelect.appendChild(newOption);
+                                sel.append('<option value="' + json.json[i].IdAlmacen + '">' + json.json[i].NombreAlmacen + '</option>');
                             }
-                            console.log(dynamicSelect);
                         }
                     }
                     , error: function (jqXHR, textStatus, errorThrown) {
@@ -186,6 +214,10 @@
                                 $('#AlmacenLista').attr('disabled', false);
                                 $('#lstIdAlmacen').attr('disabled', false);
                                 $('#ProveedorLista').attr('disabled', false);
+                                $('#ProveedorLista').val("0");
+                                $('#lstIdAlmacen').val("0");
+                                $('#AlmacenLista').val("0");
+
                                 iniciaTblLogistica(0, 0, 0);
                                 $("#modal-CreateAlmacen").modal('show');
 
@@ -350,6 +382,22 @@
             var _TiempoSurtido = 1;
             var _BitActivo = $("#id_estatus").val();
 
+            if (_idOwner == "0") {
+                $("#lstIdAlmacen").focus();
+                return;
+            }
+
+            if (_idSupplierWH == "0") {
+                $("#ProveedorLista").focus();
+                return;
+            }
+
+            if (_idSupplierWHCode == "0") {
+                $("#AlmacenLista").focus();
+                return;
+            }
+
+
 
             $.ajax({
                 async: false,
@@ -402,7 +450,9 @@
                             var valServicioEstandar = (json.resp.ServicioEstandar == true) ? "Y" : "N";
                             var valServicioExpress = (json.resp.ServicioExpress == true) ? "Y" : "N";
 
+                        CmboProveedores(json.resp.idOwner);
                         $("#ProveedorLista").val(json.resp.idSupplierWH);
+
                         CmboAlmacenes(json.resp.idSupplierWH);
                         $("#AlmacenLista").val(json.resp.idSupplierWHCode);
                         $("#lstIdAlmacen").val(json.resp.idOwner);
@@ -415,6 +465,7 @@
                         document.getElementById("flag_edit").value = 1;
 
                         iniciaTblLogistica(1, _idSupplierWH, _idSupplierWHCode);
+                  
 
                         $("#modal-CreateAlmacen").modal('show');
                     }
@@ -602,6 +653,7 @@
     </script>
 
 }
+
 
 
 
