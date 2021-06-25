@@ -124,6 +124,18 @@ namespace ServicesManagement.Web.Controllers
         public int Id_TipoVehiculo { get; set; }
         public string TipoVehiculo { get; set; }
 
+        // Modificar 
+
+        public int IdGasto { get; set; }
+        public string FecGasto { get; set; }
+        public int Kilometraje { get; set; }
+        public decimal CantidadGasto { get; set; }
+
+        public string CreateDate { get; set; }
+        public bool activo { get; set; }
+
+
+
     }
 
     public class OperadorModel
@@ -147,7 +159,7 @@ namespace ServicesManagement.Web.Controllers
         public string Kilometraje { get; set; }
         public string CantidadGasto { get; set; }
         public bool Estatus { get; set; }
-        public bool CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public bool activo { get; set; }
         public string FecMovto { get; set; }
         public string created_user { get; set; }
@@ -1274,7 +1286,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        public ActionResult EditGastoVehiculo(int Id_Vehiculo, int IdGasto, string FecGasto, int Kilometraje, decimal CantidadGasto)
+        public ActionResult EditGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto)
         {
             try
             {

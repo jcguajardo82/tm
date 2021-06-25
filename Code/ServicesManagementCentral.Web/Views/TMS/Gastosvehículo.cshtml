@@ -8,7 +8,7 @@
 {
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4"><h2>Alta Gastos de Vehiculos</h2></div>
+        <div class="col-4"><h2>Gastos de Vehiculos</h2></div>
         <div class="col-4"></div>
 
     </div>
@@ -182,12 +182,12 @@
 
 
 
-    <div id="modal-formEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <!--<div id="modal-formEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h2 id="asd" class="modal-title">Modal title</h2>
+                    <h2 id="asd" class="modal-title">Editar Gastos de Vehiculo</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -203,7 +203,7 @@
 
                                 <div class="form-group">
                                     <label>Tipo de gasto</label>
-                                    <select class="form-control" id="idtipogasto" name="tipogasto">
+                                    <select class="form-control" id="idtipogasto" disabled name="tipogasto">
                                         <option selected="selected" value="0">--Gasto--</option>
                                     </select>
                                 </div>
@@ -214,7 +214,8 @@
 
                                     <label>Tipo de Vehículo</label>
 
-                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo" disabled name="in_desc" class="form-control" />
+                                    <input type="hidden" placeholder="Tipo de Vehículo" id="id_tipovehiculo" disabled name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -225,7 +226,7 @@
 
                                     <label>Placas</label>
 
-                                    <input type="text" placeholder="Placas" id="in_placas2" name="in_placas" class="form-control" />
+                                    <input type="text" placeholder="" id="in_placas2" disabled name="in_placas" class="form-control" />
 
                                 </div>
 
@@ -240,9 +241,9 @@
 
                                     <label>Dinero</label>
 
-                                    <input type="text" placeholder="Dinero" id="in_dinero" name="in_desc" class="form-control" />
+                                    <input min="1" max="99999999999999" step="0.1" type="number" placeholder="" id="in_dinero" name="in_desc" class="form-control" />
 
-                                </div>
+                                </div>-->
 
                                 @*<div class="form-group">
 
@@ -254,14 +255,14 @@
                                     </div>*@
 
 
-                            </div>
+                            <!--</div>
                             <div class="col col-xs-8 col-md-4">
 
                                 <div class="form-group">
 
                                     <label>Kilometraje</label>
 
-                                    <input type="text" placeholder="Kilometraje" id="idKilometraje" name="in_desc" class="form-control" />
+                                    <input min="1" max="99999999999999" step="1" type="number" placeholder="" id="idKilometraje" name="in_desc" class="form-control" />
                                 </div>
 
                             </div>
@@ -271,7 +272,7 @@
 
                                     <label>Fecha</label>
 
-                                    <input type="text" placeholder="Fecha" id="in_fecha" name="in_placas" class="form-control" />
+                                    <input type="date" placeholder="" id="in_fecha" name="in_placas" class="form-control" />
 
                                 </div>
 
@@ -279,11 +280,11 @@
                         </div>
 
 
-                        <div class="row">
+                        <div class="row">-->
 
                             @*aqui va el grid*@
 
-                            <div class="col-12">
+                            <!--<div class="col-12">
                                 <table id="example2" class="table table-striped dataTable" style="width:100%">
                                     <thead>
                                         <tr>
@@ -294,6 +295,8 @@
                                             <th>Cantidad de Gasto</th>
                                             <th>Fecha de Creacion</th>
                                             <th>Fecha de modificacion</th>
+                                            <th>Activo</th>
+                                            <th>Accion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -320,15 +323,15 @@
 
             </div>
         </div>
-    </div>
+    </div>-->
 
 
-    <div id="modal-formAlta" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div id="modal-formEdit2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h2 id="asd" class="modal-title">Modal title</h2>
+                    <h2 id="asd" class="modal-title"> Editar Gastos de Vehiculo</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -344,7 +347,7 @@
 
                                 <div class="form-group">
                                     <label>Tipo de gasto</label>
-                                    <select class="form-control" id="idtipogastoalta" name="tipogasto">
+                                    <select class="form-control" id="idtipogastoedit" disabled name="tipogasto">
                                         <option selected="selected" value="0">--Gasto--</option>
                                     </select>
                                 </div>
@@ -355,7 +358,8 @@
 
                                     <label>Tipo de Vehículo</label>
 
-                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo3" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculoedit" disabled name="in_desc" class="form-control" />
+                                    <input type="hidden" placeholder="Tipo de Vehículo" id="id_tipovehiculoedit" disabled name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -366,7 +370,7 @@
 
                                     <label>Placas</label>
 
-                                    <input type="text" placeholder="Placas" id="in_placas3" name="in_placas" class="form-control" />
+                                    <input type="text" placeholder="Placas" id="in_placasedit" disabled name="in_placas" class="form-control" />
 
                                 </div>
 
@@ -381,7 +385,7 @@
 
                                     <label>Dinero</label>
 
-                                    <input type="text" placeholder="Dinero" id="in_dinero3" name="in_desc" class="form-control" />
+                                    <input min="1" max="99999999999999" step="0.1" type="number" placeholder="" id="in_dineroedit" name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -390,7 +394,8 @@
                                         <label>Gasolina</label>
 
                                         <input type="text" placeholder="" id="idGasolina" name="in_descgasolina" class="form-control" />
-
+                                    onchange="ValidateKm()"
+                                                                 onchange="ValidateMoney()"
 
                                     </div>*@
 
@@ -402,7 +407,7 @@
 
                                     <label>Kilometraje</label>
 
-                                    <input type="text" placeholder="Kilometraje" id="idKilometraje3" name="in_desc" class="form-control" />
+                                    <input min="1" max="99999999999999" step="1" type="number" placeholder="" id="idKilometrajeedit" name="in_desc" class="form-control" />
                                 </div>
 
                             </div>
@@ -411,8 +416,153 @@
                                 <div class="form-group">
 
                                     <label>Fecha</label>
-                                    
-                                    <input type="text" placeholder="Fecha" id="in_fecha3" name="in_desc" class="form-control" />
+
+                                    <input type="date" placeholder="Fecha" id="in_fechaedit" name="in_desc" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            @*aqui va el grid*@
+
+                            <div class="col-12">
+                                <table id="exampleedit" class="table table-striped dataTable" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Id Gasto</th>
+                                            <th>Id Vehiculo</th>
+                                            <th>Fecha Gasto</th>
+                                            <th>Kilometraje</th>
+                                            <th>Cantidad de Gasto</th>
+                                            <th>Fecha de Creacion</th>
+                                            <th>Fecha de modificacion</th>
+                                            <th>Activo</th>
+                                            <th>Accion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                    <button type="button" onclick="EditGastos()" class="btn btn-primary">Guardar</button>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal-formAlta" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 id="asd" class="modal-title"> Alta Gastos de Vehiculo</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="frmCreateServicios">
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+                                    <label>Tipo de gasto</label>
+                                    <select class="form-control" id="idtipogastoalta" disabled name="tipogasto">
+                                        <option selected="selected" value="0">--Gasto--</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+
+                                    <label>Tipo de Vehículo</label>
+
+                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo3" disabled name="in_desc" class="form-control" />
+                                    <input type="hidden" placeholder="Tipo de Vehículo" id="id_tipovehiculo3" disabled name="in_desc" class="form-control" />
+
+                                </div>
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Placas</label>
+
+                                    <input type="text" placeholder="Placas" id="in_placas3" disabled name="in_placas" class="form-control" />
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Dinero</label>
+
+                                    <input min="1" max="99999999999999" step="0.1" type="number" placeholder="" id="in_dinero3" name="in_desc" class="form-control" />
+
+                                </div>
+
+                                @*<div class="form-group">
+
+                                        <label>Gasolina</label>
+
+                                        <input type="text" placeholder="" id="idGasolina" name="in_descgasolina" class="form-control" />
+                                    onchange="ValidateKm()"
+                                                                 onchange="ValidateMoney()"
+
+                                    </div>*@
+
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Kilometraje</label>
+
+                                    <input min="1" max="99999999999999" step="1" type="number" placeholder="" id="idKilometraje3" name="in_desc" class="form-control" />
+                                </div>
+
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Fecha</label>
+
+                                    <input type="date" placeholder="Fecha" id="in_fecha3" name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -435,7 +585,8 @@
                                             <th>Cantidad de Gasto</th>
                                             <th>Fecha de Creacion</th>
                                             <th>Fecha de modificacion</th>
-                                            @*<th>Accion</th>*@
+                                            <th>Activo</th>
+                                            <th>Accion</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -694,6 +845,65 @@
 
             );
 
+            tableedit = $('#exampleedit').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        /*{ extend: 'excel', className: 'btn-primary' }*/
+                        //{
+                        //    /*text: 'Alta',*/
+                        //    action: function (e, dt, node, config) {
+
+                        //        //bootbox.alert("HOLA");
+                        //        /*$("#modal-form").modal('show');*/
+                        //        $("#modal-form2").modal('show');
+
+                        //    }
+                        //    , className: 'btn-primary'
+                        //}
+                    ]
+                }
+
+            );
+
 
         });
 
@@ -764,7 +974,7 @@
                             myTable.row.add([
 
                                 json.json[i].Id_Vehiculo,
-                                "Camioneta",
+                                json.json[i].TipoVehiculo,
                                 json.json[i].Descripcion,
                                 json.json[i].Placas,
                                 json.json[i].Motor,
@@ -772,7 +982,7 @@
                                 "",
                                 "",
                                 json.json[i].Estatus,
-                                "<button onclick=\"ModalEdit(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-primary btn-circle\"> <i class=\"fa fa-plus\"></i></button>"
+                                "<button type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-primary btn-circle\"> <i class=\"fa fa-plus\"></i></button>"
                             ]).draw();
 
                         }
@@ -947,46 +1157,17 @@
             }
         }
 
-        function ModalEdit(id) {
+        @*function ModalEdit(id) {
 
+            $("#modal-formAlta").modal('hide');
+            $("#modal-formEdit2").modal('show');
 
-            $("#modal-formEdit").modal('show');
-
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetVehiculoById", "TMS")',
-                data: {
-                    Id : id
-                },
-
-                datatype: "html",
-                success: function (json) {
-                    if (json.Success) {
-
-                        document.getElementById("in_tipovehiculo").value = json.json.Id_Vehiculo;
-                        //document.getElementById("in_desc").value = json.json.Descripcion;
-                        //document.getElementById("in_motor").value = json.json.Motor;
-                        document.getElementById("in_placas2").value = json.json.Placas;
-
-                        document.getElementById("id_estatus").value = 1;
-                        document.getElementById("flag_edit").value = 1;
-
-                        Llenargastos();
-                    }
-                    else { alert(json.Message) }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-
-            $.ajax({
+                     $.ajax({
                 async: false,
                 type: "GET",
                 url: '@Url.Action("ListGastosVehiculo", "TMS")',
                 data: {
-                    Id_Vehiculo: Id_Vehiculo
+                    Id_Vehiculo: id
                 },
                 datatype: "html",
                 success: function (json) {
@@ -995,32 +1176,32 @@
                     debugger;
                     if (json.Success) {
 
-                        var table = $('#example3').DataTable();
+                        //var table2 = $('example2').DataTable();
 
-                        //table.clear().draw();
-                        //table.destroy();
+                        //table2.clear().draw();
+                        //table2.destroy();
 
-                        //$("#modal-form").modal('hide');
-
-                        var myTable = $('#example3').DataTable();
+                        var myTable2 = $('example2').DataTable();
 
                         for (var i = 0; i < json.resp.length; i++) {
 
-                            myTable.row.add([
+                            myTable2.row.add([
 
+                                json.resp[i].IdGasto,
                                 json.resp[i].Id_Vehiculo,
-                                "Camioneta",
-                                json.resp[i].Descripcion,
-                                json.resp[i].Placas,
-                                json.resp[i].Motor,
-                                json.resp[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                json.resp[i].FecGasto,
+                                json.resp[i].Kilometraje,
+                                json.resp[i].CantidadGasto,
+                                json.resp[i].CreateDate,
+                                json.resp[i].FecMovto,
+                                json.resp[i].activo,
+                                "<button onclick=\"ModalEdit(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
 
 
                         }
 
-                        Llenargastosalta();
+                        /*Llenargastosalta();*/
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -1028,8 +1209,43 @@
                 }
             });
 
+                        $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetVehiculoById", "TMS")',
+                data: {
+                    Id: id
+                },
 
-        }
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("in_tipovehiculo").value = json.json.TipoVehiculo;
+                        document.getElementById("id_tipovehiculo").value = json.json.Id_Vehiculo;
+                      /*  document.getElementById("in_fecha").value = json.json.IdGasto;*/
+                        //document.getElementById("in_dinero").value = json.json.CantidadGasto;
+                        //document.getElementById("idKilometraje").value = json.json.Kilometraje;
+                        //document.getElementById("in_fecha").value = json.json.FecGasto;
+                        document.getElementById("in_placas2").value = json.json.Placas;
+
+                        document.getElementById("id_estatus").value = 1;
+                        document.getElementById("flag_edit").value = 1;
+
+                        limpiarcamposModalAlta()
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+                        });
+
+
+
+        }*@
 
         function Llenargastos() {
             //var _Id_Num_UN = $("#hddTda").val();
@@ -1101,6 +1317,162 @@
 
         }
 
+        function Llenargastosedit() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastos", "TMS")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var dynamicSelect = document.getElementById("idtipogastoedit");
+                        dynamicSelect.innerText = null;
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].IdGasto;
+                            newOption.textContent = json.resp[i].Desc_Gasto;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+        }
+
+        function ModalEdit2(Id_Vehiculo) {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $("#modal-formAlta").modal('hide');
+            $("#modal-formEdit2").modal('show');
+            /*$("#modal-formEdit2").modal('show');*/
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                data: {
+                    Id_Vehiculo: Id_Vehiculo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        var table = $('#exampleedit').DataTable();
+
+                        table.clear().draw();
+                        table.destroy();
+
+                        //$("#modal-form").modal('hide');
+
+                        var myTable = $('#exampleedit').DataTable();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+
+                            myTable.row.add([
+
+                                json.resp[i].IdGasto,
+                                json.resp[i].Id_Vehiculo,
+                                json.resp[i].FecGasto,
+                                json.resp[i].Kilometraje,
+                                json.resp[i].CantidadGasto,
+                                json.resp[i].CreateDate,
+                                json.resp[i].FecMovto,
+                                json.resp[i].activo,
+                                "<button onclick=\"EditGastos()\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                            ]).draw();
+
+
+                        }
+
+                        /*Llenargastosalta();*/
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetVehiculoById", "TMS")',
+                data: {
+                    Id: Id_Vehiculo
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("in_tipovehiculoedit").value = json.json.TipoVehiculo;
+                        document.getElementById("id_tipovehiculoedit").value = json.json.Id_Vehiculo;
+                        //document.getElementById("in_desc").value = json.json.Descripcion;
+                        //document.getElementById("in_motor").value = json.json.Motor;
+                        document.getElementById("in_placasedit").value = json.json.Placas;
+
+                        document.getElementById("id_estatus").value = 1;
+                        document.getElementById("flag_edit").value = 1;
+
+                        /*limpiarcamposModalAlta()*/
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+                        $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                data: {
+                    Id_Vehiculo: Id_Vehiculo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+
+                        Llenargastosedit();
+
+                        document.getElementById("in_dineroedit").value = json.resp[0].CantidadGasto;
+                        document.getElementById("idKilometrajeedit").value = json.resp[0].Kilometraje;
+                        document.getElementById("idtipogastoedit").value = json.json.IdGasto;
+                        //document.getElementById("in_motor").value = json.json.Motor;
+                        document.getElementById("in_fechaedit").value = json.resp[0].CreateDate;
+
+                        /*Llenargastosalta();*/
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+        }
+
         function ModalAlta(Id_Vehiculo) {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
@@ -1122,8 +1494,8 @@
 
                         var table = $('#example3').DataTable();
 
-                        //table.clear().draw();
-                        //table.destroy();
+                        table.clear().draw();
+                        table.destroy();
 
                         //$("#modal-form").modal('hide');
 
@@ -1140,7 +1512,8 @@
                                 json.resp[i].CantidadGasto,
                                 json.resp[i].CreateDate,
                                 json.resp[i].FecMovto,
-                               /* "<button onclick=\"getVehiculo(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"*/
+                                json.resp[i].activo,
+                                "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
 
 
@@ -1166,13 +1539,16 @@
                 success: function (json) {
                     if (json.Success) {
 
-                        document.getElementById("in_tipovehiculo3").value = json.json.Id_Vehiculo;
+                        document.getElementById("in_tipovehiculo3").value = json.json.TipoVehiculo;
+                        document.getElementById("id_tipovehiculo3").value = json.json.Id_Vehiculo;
                         //document.getElementById("in_desc").value = json.json.Descripcion;
                         //document.getElementById("in_motor").value = json.json.Motor;
                         document.getElementById("in_placas3").value = json.json.Placas;
 
                         document.getElementById("id_estatus").value = 1;
                         document.getElementById("flag_edit").value = 1;
+
+                        limpiarcamposModalAlta()
 
 
                     }
@@ -1193,8 +1569,9 @@
                 type: "GET",
                 url: '@Url.Action("AddGastoVehiculo", "TMS")',
                 data: {
+
                     IdGasto: document.getElementById("idtipogastoalta").value,
-                    Id_Vehiculo: document.getElementById("in_tipovehiculo3").value,                   
+                    Id_Vehiculo: document.getElementById("id_tipovehiculo3").value,
                     CantidadGasto: document.getElementById("in_dinero3").value,
                     Kilometraje: document.getElementById("idKilometraje3").value,
                     FecGasto: document.getElementById("in_fecha3").value
@@ -1209,12 +1586,19 @@
                     debugger;
                     if (json.Success) {
 
-                        var table = $('#example').DataTable();
+                        var table = $('#example3').DataTable();
 
                         table.clear().draw();
                         table.destroy();
 
+                        document.getElementById("in_dinero3").value("");
+                        document.getElementById("idKilometraje3").value("");
+                        document.getElementById("in_fecha3").value("");
                         $("#modal-formAlta").modal('hide');
+                        Id_Vehiculo: document.getElementById("id_tipovehiculo3").value;
+                        ModalAlta(Id_Vehiculo);
+
+
 
                         //var myTable = $('#example').DataTable();
 
@@ -1238,23 +1622,25 @@
                     bootbox.alert(errorThrown);
                 }
             });
+
         }
 
         function EditGastos() {
 
-            var e = document.getElementById("id_estatus");
-            var strUser = e.value;
+            //var e = document.getElementById("id_estatus");
+            //var strUser = e.value;
 
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("EditVehiculo", "TMS")',
+                url: '@Url.Action("EditGastoVehiculo", "TMS")',
                 data: {
-                    Id: document.getElementById("Id_Vehiculo").value,
-                    descripcion: document.getElementById("in_desc").value,
-                    motor: document.getElementById("in_motor").value,
-                    placas: document.getElementById("in_placas").value,
-                    estatus : strUser
+
+                    IdGasto: document.getElementById("idtipogastoedit").value,
+                    Id_Vehiculo: document.getElementById("id_tipovehiculoedit").value,
+                    CantidadGasto: document.getElementById("in_dineroedit").value,
+                    Kilometraje: document.getElementById("idKilometrajeedit").value,
+                    FecGasto: document.getElementById("in_fechaedit").value
                 },
                 datatype: "html",
                 success: function (json) {
@@ -1270,24 +1656,34 @@
 
                         $("#modal-form").modal('hide');
 
-                        var myTable = $('#example').DataTable();
+                        var table = $('#exampleedit').DataTable();
 
-                        for (var i = 0; i < json.json.length; i++) {
+                        table.clear().draw();
+                        table.destroy();
 
-                            myTable.row.add([
+                        document.getElementById("in_dineroedit").value("");
+                        document.getElementById("idKilometrajeedit").value("");
+                        document.getElementById("in_fechaedit").value("");
+                        $("#modal-formAlta").modal('hide');
+                        Id_Vehiculo: document.getElementById("id_tipovehiculoedit").value;
+                        ModalAlta(Id_Vehiculo);
 
-                                json.json[i].Id_Vehiculo,
-                                "Camioneta",
-                                json.json[i].Descripcion,
-                                json.json[i].Placas,
-                                json.json[i].Motor,
-                                json.json[i].Estatus,
-                                "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"AltaGastosVehiculos(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                            ]).draw();
+                        //for (var i = 0; i < json.json.length; i++) {
 
-                        }
+                        //    myTable.row.add([
 
-                        document.getElementById("flag_edit").value = 0;
+                        //        json.json[i].Id_Vehiculo,
+                        //        "Camioneta",
+                        //        json.json[i].Descripcion,
+                        //        json.json[i].Placas,
+                        //        json.json[i].Motor,
+                        //        json.json[i].Estatus,
+                        //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"AltaGastosVehiculos(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                        //    ]).draw();
+
+                        //}
+
+                        //document.getElementById("flag_edit").value = 0;
 
                     }
                 }
@@ -1297,6 +1693,44 @@
             });
         }
 
+
+        function ValidateMoney() {
+            var amount = document.getElementById("in_dinero3").value;
+            console.log(amount);
+            //d+ permite caracteres enteros
+            //si hay un caracter que no es dígito entonces evalua lo que está en paréntesis (?) significa opcional
+            var patron = /^(\d+(.{1}\d{2})?)$/;
+            if (!patron.test(amount)) {
+                window.alert('cantidad ingresada incorrectamente');
+                /*document.getElementById("in_dinero3").value = "";*/
+                document.getElementById('in_dinero3').focus();
+                return false;
+            }
+            else
+                return true;
+        }
+
+        function ValidateKm() {
+            var amount = document.getElementById("idKilometraje3").value;
+            console.log(amount);
+            //d+ permite caracteres enteros
+            //si hay un caracter que no es dígito entonces evalua lo que está en paréntesis (?) significa opcional
+            var patron = /^(\d+(.{1}\d{2})?)$/;
+            if (!patron.test(amount)) {
+                window.alert('cantidad ingresada incorrectamente');
+                /*document.getElementById("idKilometraje3").value = "";*/
+                document.getElementById('idKilometraje3').focus();
+                return false;
+            }
+            else
+                return true;
+        }
+
+        function limpiarcamposModalAlta() {
+            document.getElementById("in_dinero3").value = "";
+            document.getElementById("idKilometraje3").value = "";
+            document.getElementById("in_fecha3").value = "";
+        }
 
     </script>
 
