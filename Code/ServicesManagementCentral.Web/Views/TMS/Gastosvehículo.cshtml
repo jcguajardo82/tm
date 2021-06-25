@@ -182,149 +182,6 @@
 
 
 
-    <!--<div id="modal-formEdit" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h2 id="asd" class="modal-title">Editar Gastos de Vehiculo</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-
-                    <form id="frmCreateServicios">
-
-                        <div class="row">
-
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-                                    <label>Tipo de gasto</label>
-                                    <select class="form-control" id="idtipogasto" disabled name="tipogasto">
-                                        <option selected="selected" value="0">--Gasto--</option>
-                                    </select>
-                                </div>
-
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-
-                                    <label>Tipo de Vehículo</label>
-
-                                    <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculo" disabled name="in_desc" class="form-control" />
-                                    <input type="hidden" placeholder="Tipo de Vehículo" id="id_tipovehiculo" disabled name="in_desc" class="form-control" />
-
-                                </div>
-
-                            </div>
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Placas</label>
-
-                                    <input type="text" placeholder="" id="in_placas2" disabled name="in_placas" class="form-control" />
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Dinero</label>
-
-                                    <input min="1" max="99999999999999" step="0.1" type="number" placeholder="" id="in_dinero" name="in_desc" class="form-control" />
-
-                                </div>-->
-
-                                @*<div class="form-group">
-
-                                        <label>Gasolina</label>
-
-                                        <input type="text" placeholder="" id="idGasolina" name="in_descgasolina" class="form-control" />
-
-
-                                    </div>*@
-
-
-                            <!--</div>
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Kilometraje</label>
-
-                                    <input min="1" max="99999999999999" step="1" type="number" placeholder="" id="idKilometraje" name="in_desc" class="form-control" />
-                                </div>
-
-                            </div>
-                            <div class="col col-xs-8 col-md-4">
-
-                                <div class="form-group">
-
-                                    <label>Fecha</label>
-
-                                    <input type="date" placeholder="" id="in_fecha" name="in_placas" class="form-control" />
-
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div class="row">-->
-
-                            @*aqui va el grid*@
-
-                            <!--<div class="col-12">
-                                <table id="example2" class="table table-striped dataTable" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Id Gasto</th>
-                                            <th>Id Vehiculo</th>
-                                            <th>Fecha Gasto</th>
-                                            <th>Kilometraje</th>
-                                            <th>Cantidad de Gasto</th>
-                                            <th>Fecha de Creacion</th>
-                                            <th>Fecha de modificacion</th>
-                                            <th>Activo</th>
-                                            <th>Accion</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-
-                    </form>
-
-                </div>
-
-
-                <div class="modal-footer">
-
-
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-
-                    <button type="button" onclick="ActionUpd()" class="btn btn-primary">Guardar</button>
-
-                </div>
-
-
-            </div>
-        </div>
-    </div>-->
-
 
     <div id="modal-formEdit2" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -429,7 +286,7 @@
 
                             @*aqui va el grid*@
 
-                            <div class="col-12">
+                            <div class="col-12" style="overflow-x:auto;">
                                 <table id="exampleedit" class="table table-striped dataTable" style="width:100%">
                                     <thead>
                                         <tr>
@@ -574,8 +431,8 @@
 
                             @*aqui va el grid*@
 
-                            <div class="col-12">
-                                <table id="example3" class="table table-striped dataTable" style="width:100%">
+                            <div class="col-12" style="overflow-x:auto;">
+                                <table id="example3" class="table table-striped" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Id Gasto</th>
@@ -1457,11 +1314,15 @@
 
                         Llenargastosedit();
 
+                        let fecha = getFecha(json.resp[0].FecGasto);
+
                         document.getElementById("in_dineroedit").value = json.resp[0].CantidadGasto;
                         document.getElementById("idKilometrajeedit").value = json.resp[0].Kilometraje;
-                        document.getElementById("idtipogastoedit").value = json.json.IdGasto;
+                        document.getElementById("idtipogastoedit").value = json.resp[0].IdGasto;
                         //document.getElementById("in_motor").value = json.json.Motor;
-                        document.getElementById("in_fechaedit").value = json.resp[0].CreateDate;
+                        //document.getElementById("in_fechaedit").value = json.resp[0].CreateDate;
+
+                        $("#in_fechaedit").val(fecha);
 
                         /*Llenargastosalta();*/
                     }
@@ -1471,6 +1332,11 @@
                 }
             });
 
+        }
+
+        function getFecha(sFecha) {
+            let fecha = sFecha.substring(0, 10).split('/');
+            return fecha[2] + "-" + fecha[1] + "-" + fecha[0];
         }
 
         function ModalAlta(Id_Vehiculo) {
@@ -1617,6 +1483,9 @@
 
                         //}
                     }
+                    else {
+                        limpiarcamposModalAlta();
+                    }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
                     bootbox.alert(errorThrown);
@@ -1727,6 +1596,7 @@
         }
 
         function limpiarcamposModalAlta() {
+            debugger
             document.getElementById("in_dinero3").value = "";
             document.getElementById("idKilometraje3").value = "";
             document.getElementById("in_fecha3").value = "";
