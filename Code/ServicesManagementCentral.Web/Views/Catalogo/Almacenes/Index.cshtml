@@ -35,7 +35,7 @@
                 <thead>
                     @*<thead class="bg-primary">*@
                     <tr>
-
+                        <th>Tipo de Almacen</th>
                         <th>Proveedor</th>
                         <th>Nombre Proveedor</th>
                         <th>Almacen</th>
@@ -349,6 +349,7 @@
 
                             myTable.row.add([
                                 json.resp[i].OwnerName,
+                                json.resp[i].idSupplierWH,
                                 json.resp[i].SupplierName,
                                 json.resp[i].SupplierWHName,
                                 "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
