@@ -928,7 +928,7 @@ namespace ServicesManagement.Web.DAL
         }
 
 
-        public static DataSet TipoEnvio_iUp(string Desc_TipoEnvio, bool BitActivo, string Created_User)
+        public static DataSet TipoEnvio_iUp(string Desc_TipoEnvio, bool BitActivo, string Created_User, decimal PesoMinimo, decimal PesoMaximo)
         {
             DataSet ds = new DataSet();
 
@@ -948,6 +948,8 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@Desc_TipoEnvio", Desc_TipoEnvio);
                 parametros.Add("@BitActivo", BitActivo);
                 parametros.Add("@Created_User", Created_User);
+                parametros.Add("@PesoMinimo", PesoMinimo);
+                parametros.Add("@PesoMaximo", PesoMaximo);
 
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.TipoEnvio_iUp", false, parametros);

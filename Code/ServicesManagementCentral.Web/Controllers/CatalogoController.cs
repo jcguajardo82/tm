@@ -2400,11 +2400,11 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo)
+        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo)
         {
             try
             {
-                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name);
+                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, PesoMinimo, PesoMaximo);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);

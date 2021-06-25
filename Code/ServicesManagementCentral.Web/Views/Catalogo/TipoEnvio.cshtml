@@ -23,13 +23,13 @@
                         <tr>
                             <th>Id TipoEnvio</th>
                             <th>Desc_TipoEnvio</th>
-                            <th>Activo</th>
                             <th>Peso Minimo</th>
                             <th>Peso Maximo</th>
                             <th>Usuario Creacion</th>
                             <th>Fecha Creacion</th>
                             <th>Hora Creacion</th>
-                            
+
+                            <th>Activo</th>
                             <th name="accion">Action</th>
                         </tr>
                     </thead>
@@ -74,6 +74,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+
+                                <div class="form-group">
+                                    <label>Peso Minimo</label>
+                                    <input type="number" placeholder="Peso Minimo" id="PesoMinimo" name="PesoMinimo" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+
+                                <div class="form-group">
+                                    <label>Peso Maximo</label>
+                                    <input type="number" placeholder="Peso Maximo" id="PesoMaximo" name="PesoMaximo" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -231,14 +250,14 @@
                             myTable.row.add([
                                 json.resp[i].IdTipoEnvio,
                                 json.resp[i].Desc_TipoEnvio,
+
+                                json.resp[i].PesoMinimo,
+                                json.resp[i].PesoMaximo,
+                                json.resp[i].Modified_User,
+                                json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
+
                                 json.resp[i].BitActivo,
-                                " ",
-                                " ",
-                                json.resp[i].Created_User,
-                                json.resp[i].CreateDate,
-                                " ",
-                                //json.resp[i].Desc_TipoEnvio,
-                                //json.resp[i].Desc_TipoEnvio,
                                 "<button onclick=\"GetById(" + json.resp[i].IdTipoEnvio + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><acronym title='Editar' lang='es'> <i class=\"fa fa-edit\"></i></acronym></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdTipoEnvio + ")\" class=\"btn btn-warning btn-circle\"><acronym title='Eliminar' lang='es'> <i class=\"fa fa-minus\"></i></button></acronym>"
                             ]).draw();
                         }
@@ -263,6 +282,8 @@
         function Add() {
             _Desc_TipoEnvio = $("#txtDesc_TipoEnvio").val();
             _BitActivo = $("#id_estatus").val();
+            _PesoMinimo = $("#PesoMinimo").val();
+            _PesoMaximo = $("#PesoMaximo").val();
             if (_Desc_TipoEnvio.length == 0) {
                 $("#txtDesc_TipoEnvio").focus();
                 return;
@@ -274,8 +295,9 @@
                 url: '@Url.Action("AddTipoEnvio", "Catalogo")',
                 data: {
                     Desc_TipoEnvio: _Desc_TipoEnvio,
-                    BitActivo: _BitActivo
-
+                    BitActivo: _BitActivo,
+                    PesoMinimo: _PesoMinimo,
+                    PesoMaximo: _PesoMaximo
                 },
                 datatype: "html",
                 success: function (json) {
