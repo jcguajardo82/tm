@@ -217,6 +217,7 @@
 
                                     <input type="text" placeholder="Tipo de Vehículo" id="in_tipovehiculoedit" disabled name="in_desc" class="form-control" />
                                     <input type="hidden" placeholder="Tipo de Vehículo" id="id_tipovehiculoedit" disabled name="in_desc" class="form-control" />
+                                    <input type="hidden" placeholder="Tipo de Vehículo" id="id_consecutivoedit" disabled name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -290,6 +291,7 @@
                                 <table id="exampleedit" class="table table-striped dataTable" style="width:100%">
                                     <thead>
                                         <tr>
+                                            @*<th type="hidden">Id consecutivo</th>*@
                                             <th>Id Gasto</th>
                                             <th>Id Vehiculo</th>
                                             <th>Fecha Gasto</th>
@@ -302,7 +304,7 @@
                                             <th>Hora de modificacion</th>
 
                                             <th>Activo</th>
-                                            <th>Accion</th>
+                                            @*<th>Accion</th>*@
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -353,7 +355,7 @@
 
                                 <div class="form-group">
                                     <label>Tipo de gasto</label>
-                                    <select class="form-control" id="idtipogastoalta" disabled name="tipogasto">
+                                    <select class="form-control" id="idtipogastoalta"  name="tipogasto">
                                         <option selected="selected" value="0">--Gasto--</option>
                                     </select>
                                 </div>
@@ -439,6 +441,7 @@
                                 <table id="example3" class="table table-striped" style="width:100%">
                                     <thead>
                                         <tr>
+                                            @*<th>Id consecutivo</th>*@
                                             <th>Id Gasto</th>
                                             <th>Id Vehiculo</th>
                                             <th>Fecha Gasto</th>
@@ -483,6 +486,11 @@
 }
 
 
+<style>
+    .modal {
+        overflow: auto !important;
+    }
+</style>
 @section scripts {
 
 
@@ -822,7 +830,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
                         /*$("#tbUnidadNegocio tbody tr").remove();*/
                         //var tr;
@@ -859,7 +866,6 @@
         }
 
         function ActionUpd() {
-            debugger;
             if (document.getElementById("flag_edit").value == "1") {
                 EditSurtidores();
             }
@@ -884,7 +890,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var table = $('#example').DataTable();
@@ -938,7 +943,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var table = $('#example').DataTable();
@@ -1020,96 +1024,6 @@
             }
         }
 
-        @*function ModalEdit(id) {
-
-            $("#modal-formAlta").modal('hide');
-            $("#modal-formEdit2").modal('show');
-
-                     $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("ListGastosVehiculo", "TMS")',
-                data: {
-                    Id_Vehiculo: id
-                },
-                datatype: "html",
-                success: function (json) {
-                    console.log(json);
-
-                    debugger;
-                    if (json.Success) {
-
-                        //var table2 = $('example2').DataTable();
-
-                        //table2.clear().draw();
-                        //table2.destroy();
-
-                        var myTable2 = $('example2').DataTable();
-
-                        for (var i = 0; i < json.resp.length; i++) {
-
-                            myTable2.row.add([
-
-                                json.resp[i].IdGasto,
-                                json.resp[i].Id_Vehiculo,
-                                json.resp[i].FecGasto,
-                                json.resp[i].Kilometraje,
-                                json.resp[i].CantidadGasto,
-                                json.resp[i].CreateDate,
-                                json.resp[i].FecMovto,
-                                json.resp[i].activo,
-                                "<button onclick=\"ModalEdit(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.resp[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                            ]).draw();
-
-
-                        }
-
-                        /*Llenargastosalta();*/
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-
-                        $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetVehiculoById", "TMS")',
-                data: {
-                    Id: id
-                },
-
-                datatype: "html",
-                success: function (json) {
-                    if (json.Success) {
-
-                        document.getElementById("in_tipovehiculo").value = json.json.TipoVehiculo;
-                        document.getElementById("id_tipovehiculo").value = json.json.Id_Vehiculo;
-                      /*  document.getElementById("in_fecha").value = json.json.IdGasto;*/
-                        //document.getElementById("in_dinero").value = json.json.CantidadGasto;
-                        //document.getElementById("idKilometraje").value = json.json.Kilometraje;
-                        //document.getElementById("in_fecha").value = json.json.FecGasto;
-                        document.getElementById("in_placas2").value = json.json.Placas;
-
-                        document.getElementById("id_estatus").value = 1;
-                        document.getElementById("flag_edit").value = 1;
-
-                        limpiarcamposModalAlta()
-
-
-                    }
-                    else { alert(json.Message) }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-                        });
-
-
-
-        }*@
-
         function Llenargastos() {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
@@ -1124,7 +1038,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var dynamicSelect = document.getElementById("idtipogasto");
@@ -1144,7 +1057,6 @@
             });
         }
 
-
         function Llenargastosalta() {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
@@ -1159,7 +1071,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var dynamicSelect = document.getElementById("idtipogastoalta");
@@ -1194,7 +1105,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var dynamicSelect = document.getElementById("idtipogastoedit");
@@ -1215,11 +1125,23 @@
 
         }
 
-        function ModalEdit2(Id_Vehiculo) {
+        $('#modal-formEdit2').on('hidden.bs.modal', function () {
+            $("body").css({
+                overflow: 'auto',
+                height: 'auto'
+            });
+        })
+
+        function ModalEdit2(Id_Vehiculo, IdConsecutivo) {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
+            document.getElementById("id_consecutivoedit").value = IdConsecutivo;
             $("#modal-formAlta").modal('hide');
             $("#modal-formEdit2").modal('show');
+            $("body").css({
+                overflow: 'hidden',
+                height: '100%'
+            });
             /*$("#modal-formEdit2").modal('show');*/
 
             $.ajax({
@@ -1233,7 +1155,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var table = $('#exampleedit').DataTable();
@@ -1249,6 +1170,7 @@
 
                             myTable.row.add([
 
+                                //json.resp[i].IdConsecutivo,
                                 json.resp[i].IdGasto,
                                 json.resp[i].Id_Vehiculo,
                                 json.resp[i].FecGasto,
@@ -1259,7 +1181,7 @@
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
                                 json.resp[i].activo,
-                                "<button onclick=\"EditGastos()\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                               
                             ]).draw();
 
 
@@ -1276,20 +1198,27 @@
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetVehiculoById", "TMS")',
+                url: '@Url.Action("ListGastosVehiculobyID", "TMS")',
                 data: {
-                    Id: Id_Vehiculo
+                    IdConsecutivo: IdConsecutivo
                 },
 
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
 
-                        document.getElementById("in_tipovehiculoedit").value = json.json.TipoVehiculo;
-                        document.getElementById("id_tipovehiculoedit").value = json.json.Id_Vehiculo;
-                        //document.getElementById("in_desc").value = json.json.Descripcion;
-                        //document.getElementById("in_motor").value = json.json.Motor;
-                        document.getElementById("in_placasedit").value = json.json.Placas;
+                        Llenargastosedit();
+
+                        console.log(json)
+                        let fecha = getFecha(json.resp[0].FecGasto);
+                        //document.getElementById("in_tipovehiculoedit").value = json.resp[0].TipoVehiculo;
+                        //document.getElementById("id_tipovehiculoedit").value = json.resp[0].Id_Vehiculo;
+                        document.getElementById("in_dineroedit").value = json.resp[0].CantidadGasto;
+                        document.getElementById("idKilometrajeedit").value = json.resp[0].Kilometraje;
+                        document.getElementById("idtipogastoedit").value = json.resp[0].IdGasto;
+                        /*document.getElementById("in_placasedit").value = json.resp[0].Placas;*/
+                        $("#in_fechaedit").val(fecha);
+
 
                         document.getElementById("id_estatus").value = 1;
                         document.getElementById("flag_edit").value = 1;
@@ -1308,7 +1237,39 @@
                         $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                url: '@Url.Action("GetVehiculoById", "TMS")',
+                data: {
+                    Id: Id_Vehiculo
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("in_tipovehiculoedit").value = json.json.TipoVehiculo;
+                        document.getElementById("id_tipovehiculoedit").value = json.json.Id_Vehiculo;
+                        //document.getElementById("in_desc").value = json.json.Descripcion;
+                        document.getElementById("idtipogastoalta").value = json.json.IdGasto;
+                        document.getElementById("in_placasedit").value = json.json.Placas;
+
+                        document.getElementById("id_estatus").value = 1;
+                        document.getElementById("flag_edit").value = 1;
+
+                        limpiarcamposModalAlta()
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+
+                        @*$.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculobyID", "TMS")',
                 data: {
                     Id_Vehiculo: Id_Vehiculo
                 },
@@ -1322,11 +1283,11 @@
 
                         Llenargastosedit();
 
-                        let fecha = getFecha(json.resp[0].FecGasto);
+                        let fecha = getFecha(json.resp.FecGasto);
 
-                        document.getElementById("in_dineroedit").value = json.resp[0].CantidadGasto;
-                        document.getElementById("idKilometrajeedit").value = json.resp[0].Kilometraje;
-                        document.getElementById("idtipogastoedit").value = json.resp[0].IdGasto;
+                        document.getElementById("in_dineroedit").value = json.resp.CantidadGasto;
+                        document.getElementById("idKilometrajeedit").value = json.resp.Kilometraje;
+                        document.getElementById("idtipogastoedit").value = json.resp.IdGasto;
                         //document.getElementById("in_motor").value = json.json.Motor;
                         //document.getElementById("in_fechaedit").value = json.resp[0].CreateDate;
 
@@ -1338,7 +1299,7 @@
                 , error: function (jqXHR, textStatus, errorThrown) {
                     bootbox.alert(errorThrown);
                 }
-            });
+            });*@
 
         }
 
@@ -1352,7 +1313,7 @@
             //debugger;
             $("#modal-formAlta").modal('show');
 
-            $.ajax({
+     $.ajax({
                 async: false,
                 type: "GET",
                 url: '@Url.Action("ListGastosVehiculo", "TMS")',
@@ -1363,7 +1324,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var table = $('#example3').DataTable();
@@ -1379,6 +1339,7 @@
 
                             myTable.row.add([
 
+                                /*json.resp[i].IdConsecutivo,*/
                                 json.resp[i].IdGasto,
                                 json.resp[i].Id_Vehiculo,
                                 json.resp[i].FecGasto,
@@ -1389,7 +1350,7 @@
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
                                 json.resp[i].activo,
-                                "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                                "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo +")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
 
 
@@ -1418,7 +1379,7 @@
                         document.getElementById("in_tipovehiculo3").value = json.json.TipoVehiculo;
                         document.getElementById("id_tipovehiculo3").value = json.json.Id_Vehiculo;
                         //document.getElementById("in_desc").value = json.json.Descripcion;
-                        //document.getElementById("in_motor").value = json.json.Motor;
+                        document.getElementById("idtipogastoalta").value = json.json.IdGasto;
                         document.getElementById("in_placas3").value = json.json.Placas;
 
                         document.getElementById("id_estatus").value = 1;
@@ -1434,6 +1395,8 @@
                     bootbox.alert(errorThrown);
                 }
             });
+
+
 
         }
 
@@ -1459,7 +1422,6 @@
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
                     if (json.Success) {
 
                         var table = $('#example3').DataTable();
@@ -1467,34 +1429,68 @@
                         table.clear().draw();
                         table.destroy();
 
-                        document.getElementById("in_dinero3").value("");
-                        document.getElementById("idKilometraje3").value("");
-                        document.getElementById("in_fecha3").value("");
-                        $("#modal-formAlta").modal('hide');
-                        Id_Vehiculo: document.getElementById("id_tipovehiculo3").value;
-                        ModalAlta(Id_Vehiculo);
+
+                        Id_Vehiculo = document.getElementById("id_tipovehiculo3").value;
+                        //$("#modal-formAlta").modal('hide');
+                        //ModalAlta(Id_Vehiculo);
+
+                        limpiarcamposModalAlta();
+
+                          $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                data: {
+                    Id_Vehiculo: Id_Vehiculo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    if (json.Success) {
+
+                        var table = $('#example3').DataTable();
+
+                        table.clear().draw();
+                        table.destroy();
+
+                        //$("#modal-form").modal('hide');
+
+                        var myTable = $('#example3').DataTable();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+
+                            myTable.row.add([
+
+                                /*json.resp[i].IdConsecutivo,*/
+                                json.resp[i].IdGasto,
+                                json.resp[i].Id_Vehiculo,
+                                json.resp[i].FecGasto,
+                                json.resp[i].Kilometraje,
+                                json.resp[i].CantidadGasto,
+                                json.resp[i].CreateDate,
+                                json.resp[i].CreateTime,
+                                json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
+                                json.resp[i].activo,
+                                "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo +")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                            ]).draw();
 
 
+                        }
 
-                        //var myTable = $('#example').DataTable();
-
-                        //for (var i = 0; i < json.json.length; i++) {
-
-                        //    myTable.row.add([
-
-                        //        json.json[i].Id_Vehiculo,
-                        //        "Camioneta",
-                        //        json.json[i].Descripcion,
-                        //        json.json[i].Placas,
-                        //        json.json[i].Motor,
-                        //        json.json[i].Estatus,
-                        //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"DeleteSurtidores(" + json.json[i].Id_Vehiculo +")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                        //    ]).draw();
-
-                        //}
+                        Llenargastosalta();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
                     }
                     else {
                         limpiarcamposModalAlta();
+                        $("#modal-formAlta").modal('hide');
+                        ModalAlta(Id_Vehiculo)
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -1519,50 +1515,83 @@
                     Id_Vehiculo: document.getElementById("id_tipovehiculoedit").value,
                     CantidadGasto: document.getElementById("in_dineroedit").value,
                     Kilometraje: document.getElementById("idKilometrajeedit").value,
-                    FecGasto: document.getElementById("in_fechaedit").value
+                    FecGasto: document.getElementById("in_fechaedit").value,
+                    IdConsecutivo: document.getElementById("id_consecutivoedit").value
                 },
                 datatype: "html",
                 success: function (json) {
                     console.log(json);
 
-                    debugger;
+
+
+
+
+
                     if (json.Success) {
 
-                        var table = $('#example').DataTable();
+                        //var table = $('#example').DataTable();
+
+                        //table.clear().draw();
+                        //table.destroy();
+
+                        //$("#modal-form").modal('hide');
+
+                        var table = $('#exampleedit').DataTable();
 
                         table.clear().draw();
-                        table.destroy();
+                        table.destroy();     
+                        Id_Vehiculo = document.getElementById("id_tipovehiculoedit").value;
 
-                        $("#modal-form").modal('hide');
+       $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListGastosVehiculo", "TMS")',
+                data: {
+                    Id_Vehiculo: Id_Vehiculo
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    if (json.Success) {
 
                         var table = $('#exampleedit').DataTable();
 
                         table.clear().draw();
                         table.destroy();
 
-                        document.getElementById("in_dineroedit").value("");
-                        document.getElementById("idKilometrajeedit").value("");
-                        document.getElementById("in_fechaedit").value("");
-                        $("#modal-formAlta").modal('hide');
-                        Id_Vehiculo: document.getElementById("id_tipovehiculoedit").value;
-                        ModalAlta(Id_Vehiculo);
+                        //$("#modal-form").modal('hide');
 
-                        //for (var i = 0; i < json.json.length; i++) {
+                        var myTable = $('#exampleedit').DataTable();
 
-                        //    myTable.row.add([
+                        for (var i = 0; i < json.resp.length; i++) {
 
-                        //        json.json[i].Id_Vehiculo,
-                        //        "Camioneta",
-                        //        json.json[i].Descripcion,
-                        //        json.json[i].Placas,
-                        //        json.json[i].Motor,
-                        //        json.json[i].Estatus,
-                        //        "<button onclick=\"getVehiculo(" + json.json[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"AltaGastosVehiculos(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                        //    ]).draw();
+                            myTable.row.add([
 
-                        //}
+                                /*json.resp[i].IdConsecutivo,*/
+                                json.resp[i].IdGasto,
+                                json.resp[i].Id_Vehiculo,
+                                json.resp[i].FecGasto,
+                                json.resp[i].Kilometraje,
+                                json.resp[i].CantidadGasto,
+                                json.resp[i].CreateDate,
+                                json.resp[i].CreateTime,
+                                json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
+                                json.resp[i].activo
+                               
+                            ]).draw();
 
-                        //document.getElementById("flag_edit").value = 0;
+
+                        }
+
+                        Llenargastosalta();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
 
                     }
                 }
@@ -1571,7 +1600,6 @@
                 }
             });
         }
-
 
         function ValidateMoney() {
             var amount = document.getElementById("in_dinero3").value;
@@ -1606,7 +1634,6 @@
         }
 
         function limpiarcamposModalAlta() {
-            debugger
             document.getElementById("in_dinero3").value = "";
             document.getElementById("idKilometraje3").value = "";
             document.getElementById("in_fecha3").value = "";

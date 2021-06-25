@@ -156,6 +156,7 @@ namespace ServicesManagement.Web.Controllers
 
     public class GastosVehiculoModel
     {
+        public int IdConsecutivo { get; set; }
         public int IdGasto { get; set; }
         public int Id_Vehiculo { get; set; }
         public string FecGasto { get; set; }
@@ -1529,7 +1530,37 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
+        public ActionResult ListGastosVehiculobyID(int IdConsecutivo)
 
+        {
+
+            try
+
+            {
+
+                var list = DataTableToModel.ConvertTo<GastosVehiculoModel>(DALGastosVehiculo.GastoVehiculoById_sUP(IdConsecutivo).Tables[0]);
+
+
+
+                var result = new { Success = true, resp = list };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
 
 
         public ActionResult AddGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto )
@@ -1574,7 +1605,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        public ActionResult EditGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto)
+        public ActionResult EditGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto, int IdConsecutivo)
 
         {
 
@@ -1586,7 +1617,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
+                DALGastosVehiculo.GastoVehiculo_uUp(Id_Vehiculo, IdGasto, IdConsecutivo, FecGasto, Kilometraje, CantidadGasto, UserCreate);
 
 
 
