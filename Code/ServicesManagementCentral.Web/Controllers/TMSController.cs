@@ -2,7 +2,8 @@
 using Newtonsoft.Json;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
-using ServicesManagement.Web.Models.Catalogos;
+using ServicesManagement.Web.Models.Catalogos;
+
 using ServicesManagement.Web.Models.Impex;
 using System;
 using System.Collections.Generic;
@@ -150,7 +151,8 @@ namespace ServicesManagement.Web.Controllers
         public string created_user { get; set; }
         public string modified_user { get; set; }
 
-    }
+    }
+
     public class GastosVehiculoModel
     {
         public int IdGasto { get; set; }
@@ -160,8 +162,10 @@ namespace ServicesManagement.Web.Controllers
         public string CantidadGasto { get; set; }
         public bool Estatus { get; set; }
         public string CreateDate { get; set; }
-        public bool activo { get; set; }
+        public string CreateTime { get; set; }
+        public string activo { get; set; }
         public string FecMovto { get; set; }
+        public string TimeMovto { get; set; }
         public string created_user { get; set; }
         public string modified_user { get; set; }
 
@@ -230,8 +234,10 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult CPxDisponibilidadTrans()
         {
             return View();
-        }
-
+        }
+
+
+
         public ActionResult Gastosvehículo()
         {
             return View();
@@ -1223,89 +1229,169 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
-        #region Gastos de vehiculo
-
+        #region Gastos de vehiculo
+
+
+
         //public ActionResult Gastosvehículo()
         //{
         //    return View();
-        //}
-
-        public ActionResult ListGastos()
-        {
-            try
-            {
-                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.Gastos_sUp().Tables[0]);
-
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        public ActionResult ListGastosVehiculo(int Id_Vehiculo)
-        {
-            try
-            {
-                var list = DataTableToModel.ConvertTo<GastosVehiculoModel>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
-
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-
-        public ActionResult AddGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto )
-        {
-            try
-            {
-                string UserCreate = User.Identity.Name;
-
-                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
-
-                var result = new { Success = true };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-
-
-        public ActionResult EditGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto)
-        {
-            try
-            {
-                string UserCreate = User.Identity.Name;
-
-                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
-
-                var result = new { Success = true };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-
+        //}
+
+
+
+        public ActionResult ListGastos()
+
+        {
+
+            try
+
+            {
+
+                var list = DataTableToModel.ConvertTo<Gastos>(DALCatalogo.Gastos_sUp().Tables[0]);
+
+
+
+                var result = new { Success = true, resp = list };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+
+
+        public ActionResult ListGastosVehiculo(int Id_Vehiculo)
+
+        {
+
+            try
+
+            {
+
+                var list = DataTableToModel.ConvertTo<GastosVehiculoModel>(DALGastosVehiculo.GastoVehiculo_sUp(Id_Vehiculo).Tables[0]);
+
+
+
+                var result = new { Success = true, resp = list };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+
+
+
+
+        public ActionResult AddGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto )
+
+        {
+
+            try
+
+            {
+
+                string UserCreate = User.Identity.Name;
+
+
+
+                DALGastosVehiculo.GastoVehiculo_iUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
+
+
+
+                var result = new { Success = true };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+        public ActionResult EditGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto)
+
+        {
+
+            try
+
+            {
+
+                string UserCreate = User.Identity.Name;
+
+
+
+                DALGastosVehiculo.GastoVehiculo_dUp(Id_Vehiculo, IdGasto, FecGasto, Kilometraje, CantidadGasto, UserCreate);
+
+
+
+                var result = new { Success = true };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+
+
+
+
         #endregion
 
 

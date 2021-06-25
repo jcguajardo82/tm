@@ -295,8 +295,12 @@
                                             <th>Fecha Gasto</th>
                                             <th>Kilometraje</th>
                                             <th>Cantidad de Gasto</th>
+
                                             <th>Fecha de Creacion</th>
+                                            <th>Hora de Creacion</th>
                                             <th>Fecha de modificacion</th>
+                                            <th>Hora de modificacion</th>
+
                                             <th>Activo</th>
                                             <th>Accion</th>
                                         </tr>
@@ -441,7 +445,9 @@
                                             <th>Kilometraje</th>
                                             <th>Cantidad de Gasto</th>
                                             <th>Fecha de Creacion</th>
+                                            <th>Hora de Creacion</th>
                                             <th>Fecha de modificacion</th>
+                                            <th>Hora de modificacion</th>
                                             <th>Activo</th>
                                             <th>Accion</th>
                                         </tr>
@@ -1249,7 +1255,9 @@
                                 json.resp[i].Kilometraje,
                                 json.resp[i].CantidadGasto,
                                 json.resp[i].CreateDate,
+                                json.resp[i].CreateTime,
                                 json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
                                 json.resp[i].activo,
                                 "<button onclick=\"EditGastos()\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
@@ -1377,7 +1385,9 @@
                                 json.resp[i].Kilometraje,
                                 json.resp[i].CantidadGasto,
                                 json.resp[i].CreateDate,
+                                json.resp[i].CreateTime,
                                 json.resp[i].FecMovto,
+                                json.resp[i].TimeMovto,
                                 json.resp[i].activo,
                                 "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
