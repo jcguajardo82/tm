@@ -375,11 +375,11 @@
             var e = document.getElementById("ProveedorLista");
             var _idSupplierWH = parseInt(e.options[e.selectedIndex].value);
 
-
+            
             var _ServicioEstandar = document.getElementById("ServicioEstandar").value;
             var _ServicioExpress = document.getElementById("ServicioExpress").value;
             var _idOwner = $("#lstIdAlmacen").val();
-            var _TiempoSurtido = 1;
+            var _TiempoSurtido = $("#txtTiempoSurtido").val();
             var _BitActivo = $("#id_estatus").val();
 
             if (_idOwner == "0") {
@@ -397,7 +397,10 @@
                 return;
             }
 
-
+            if (_TiempoSurtido.length == 0) {
+                $("#txtTiempoSurtido").focus();
+                return;
+            }
 
             $.ajax({
                 async: false,
@@ -466,6 +469,8 @@
 
                         iniciaTblLogistica(1, _idSupplierWH, _idSupplierWHCode);
                   
+                        $("#txtTiempoSurtido").val(json.resp.TiempoSurtido);
+
 
                         $("#modal-CreateAlmacen").modal('show');
                     }
