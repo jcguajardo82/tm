@@ -346,14 +346,24 @@
                             .draw();
                         for (var i = 0; i < json.resp.length; i++) {
 
+                            ch1 = '';
+                            ch2 = '';
+
+                            if (json.resp[i].ServicioEstandar) {
+                                ch1 = 'checked';
+                            }
+
+                            if (json.resp[i].ServicioExpress) {
+                                ch2= 'checked';
+                            } 
 
                             myTable.row.add([
                                 json.resp[i].OwnerName,
                                 json.resp[i].idSupplierWH,
                                 json.resp[i].SupplierName,
                                 json.resp[i].SupplierWHName,
-                                "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
-                                "<input type='checkbox' class='editor-active\' onclick='return false;' checked>",
+                                "<input type='checkbox' class='editor-active\' onclick='return false;' " + ch1+">",
+                                "<input type='checkbox' class='editor-active\' onclick='return false;' " + ch2+">",
                                 json.resp[i].FechaUltModif,
                                 json.resp[i].HoraUltModif,
                                 json.resp[i].UsuarioUltModif,
