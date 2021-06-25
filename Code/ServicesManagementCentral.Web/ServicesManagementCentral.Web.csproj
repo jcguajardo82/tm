@@ -209,6 +209,7 @@
     <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALGastosVehiculo.cs" />
     <Compile Include="DAL\DALImpex.cs" />
+    <Compile Include="DAL\DALPromocionesCostoEnvio.cs" />
     <Compile Include="DAL\DALTipoLogistica.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
