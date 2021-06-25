@@ -47,32 +47,53 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>
-                                    Número de Categoria 
-                                </th>
-                                <th>
-                                    Nombre de Categoria 
-                                </th>
-                                <th>
-                                    Precio Factura de Proveedor a Soriana 
-                                </th>
-                                <th>
-                                    Seguro Transportista
-                                </th>
-                                <th>
-                                    % Adicional de seguro para incluir en $ <br />(% vs costo de fact. del art. a nivel pza)
-                                </th>
+                                <th>Número de Categoria</th>
+                                <th>Nombre de Categoria</th>
+                                <th>Precio Factura de Proveedor a Soriana</th>
+                                <th>Seguro Transportista</th>
+                                @*<th>% Adicional de seguro para incluir en $ <br />*@
+                                <th>(% vs costo de fact. del art. a nivel pza)</th>
                                 <th>% adicional por empaque </th>
                                 <th>Usuario de Actualizacion</th>
                                 <th>Fecha de Actualizacion</th>
                                 <th>Hora de Actualizacion</th>
                                 <th>Bit Activo</th>
                                 <th></th>
-
-
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+
+                            @{
+
+                                if (Session["listaASYE"] != null)
+                                {
+
+                                    var myDataSet = Session["listaASYE"] as System.Data.DataSet;
+                                    foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                    {
+                                        <tr>
+                                            <td>@r["Id_AtributosSYE"]</td>
+                                            <td>@r["Id_CategoriaArt"]</td>
+                                            <td>@r["Id_CategoriaArt"]</td>
+                                            <td>@r["Precio_Fact"]</td>
+                                            <td>@r["Seguro_Trans"]</td>
+                                            <td>@r["Porc_VS_Costo_Fact"]</td>
+                                            <td>@r["Porc_adic_por_empaque"]</td>
+                                            <td>@r["Usuario"]</td>
+                                            <td>@r["Fec_Movto"]</td>
+                                            <td>@r["Time_Movto"]</td>
+                                            <td>@r["BitActivo"]</td>o
+                                            <td>
+                                                <button type="button" onclick="SelectOrder('@r["Id_AtributosSYE"]','@r["Id_AtributosSYE"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                }
+                            }
+
+
+                        </tbody>
                         @*<tfoot>
                                 <tr>
                                     <th>DescripcionServicio</th>
