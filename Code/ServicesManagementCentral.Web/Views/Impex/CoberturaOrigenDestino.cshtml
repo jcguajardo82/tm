@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewBag.Title = "Transportistas Rangos Pesos";
+    ViewBag.Title = "Zonas origen-destino";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
     <div class="row">
         <div class="col col-xs-12 col col-md-12 col col-lg-12 text-center">
-            <h2>Transportistas Rangos Pesos</h2>
+            <h2>Zonas origen-destino</h2>
         </div>
     </div>
     <div class="row">
@@ -28,15 +28,18 @@
                 <thead>
                     <tr>
                         <th style="text-align:center;">Id Transportista</th>
+                        <th style="text-align:center;">Nombre de Transportista</th>
                         <th style="text-align:center;">Id Plaza Origen</th>
+                        <th style="text-align:center;">Nombre Plaza Origen</th>
                         <th style="text-align:center;">Id Plaza Destino</th>
+                        <th style="text-align:center;">Nombre Plaza Destino</th>
                         <th style="text-align:center;">Id Zona</th>
+                        <th style="text-align:center;">Nombre Zona</th>
                         <th style="text-align:center;">Cargado Por</th>
-                        <th style="text-align:center;">Usuario Creacion</th>
-                        <th style="text-align:center;">Fecha Creacion</th>
-                        <th style="text-align:center;">Hora Creacion</th>
+                        <th style="text-align:center;">Usuario de Actualización</th>
+                        <th style="text-align:center;">Fecha de Actualización</th>
+                        <th style="text-align:center;">Hora de Actualización</th>
                         <th style="text-align:center;">Activo</th>
-
 
                     </tr>
                 </thead>
@@ -173,14 +176,19 @@
 
                             table.row.add([
                                 json.resp[i].IdTransportista
+                                , json.resp[i].NombreTransportista
                                 , json.resp[i].Cve_PlazaOrigen
+                                , json.resp[i].NombrePlazaOrigen
                                 , json.resp[i].Cve_PlazaDestino
+                                , json.resp[i].NombrePlazaDestino
                                 , json.resp[i].IdZona
+                                , json.resp[i].NombreZona
                                 , json.resp[i].CreatedId
-                                , ""
+                                , json.resp[i].CreatedId
                                 , json.resp[i].CreatedDate
-                                , ""
-                                , ""
+                                , json.resp[i].CreatedTime
+                                , json.resp[i].BitActivo
+                                
 
                             ]).draw();
                         }
