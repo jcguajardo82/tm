@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CatalogoController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
+    <Compile Include="Controllers\DefRangosTiempoController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
     <Compile Include="Controllers\PromocionesCostoEnvioController.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
     <Compile Include="DAL\DALCatalogo.cs" />
+    <Compile Include="DAL\DALDefRangosTiempo.cs" />
     <Compile Include="DAL\DALGastosVehiculo.cs" />
     <Compile Include="DAL\DALImpex.cs" />
     <Compile Include="DAL\DALPromocionesCostoEnvio.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
+    <Compile Include="Models\DefRangosTiempo\ParametrosDias.cs" />
     <Compile Include="Models\DivisionModel.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionCliente.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionDetalleOrden.cs" />
@@ -3663,6 +3666,7 @@
     <Content Include="Views\Catalogo\AtributosSYE.cshtml" />
     <Content Include="Views\Catalogo\TipoEntregas.cshtml" />
     <Content Include="Views\PromocionesCostoEnvio\Index.cshtml" />
+    <Content Include="Views\DefRangosTiempo\ParametrosDias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

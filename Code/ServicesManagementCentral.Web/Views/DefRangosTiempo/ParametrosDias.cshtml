@@ -1,0 +1,325 @@
+﻿
+@{
+    ViewBag.Title = "Parametros Dias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Parametros Dias</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+        <br />
+        <div class="row">
+            <div class="col-12">
+                <table id="example" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id Parametro</th>
+                            <th>Días Parametro 1</th>
+                            <th>Días Parametro 2</th>
+                            <th>Días Parametro 3</th>
+                            <th name="accion">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Parametros Días</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmCreateServicios">
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Dias Parametro 1 </label>
+                                    <input type="number"  id="txtParam1"class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Dias Parametro 2 </label>
+                                    <input type="number"  id="txtParam2"  class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Dias Parametro 3 </label>
+                                    <input type="number"  id="txtParam3"  class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="Add()" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="hddId" name="hddId" value="0" style="visibility:hidden" />
+    @section scripts {
+
+
+        <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+        <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+        <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+        <script src="~/Scripts/bootbox.js"></script>
+        <script src="~/Scripts/bootbox.min.js"></script>
+
+
+        <script>
+
+        $(document).ready(function () {
+
+            $('#example thead tr').clone(true).appendTo('#example thead');
+            $('#example thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#example').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
+
+                                 $("#hddId").val("0");
+                                 $("#txtParam1").val("");
+                                 $("#txtParam2").val("");
+                                 $("#txtParam3").val("");
+                                $("#modal-form").modal('show');
+
+                            }
+                            , className: 'btn-primary'
+                        }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
+
+            GetConsulta();
+
+        });
+
+        function GetConsulta() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetParametrosDias", "DefRangosTiempo")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+
+                        var myTable = $('#example').DataTable();
+                        myTable
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            myTable.row.add([
+                                json.resp[i].IdParametro,
+                                json.resp[i].DiasParametro1,
+                                json.resp[i].DiasParametro2,
+                                json.resp[i].DiasParametro3,
+    
+                                "<button onclick=\"GetById(" + json.resp[i].IdParametro + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                            ]).draw();
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function Add() {
+
+            var _IdParametro = $("#hddId").val();
+            var _DiasParametro1 = $("#txtParam1").val();
+            var _DiasParametro2 = $("#txtParam2").val();
+            var _DiasParametro3 = $("#txtParam3").val();
+            //int IdParametro, int DiasParametro1, int DiasParametro2, int DiasParametro3
+            if (_DiasParametro1.length == 0) {
+                $("#txtParam1").focus();
+                return;
+            }
+            if (_DiasParametro2.length == 0) {
+                $("#txtParam2").focus();
+                return;
+            } if (_DiasParametro3.length == 0) {
+                $("#txtParam3").focus();
+                return;
+            }
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("AddarametrosDias", "DefRangosTiempo")',
+                data: {
+                    IdParametro: _IdParametro,
+                    DiasParametro1: _DiasParametro1,
+                    DiasParametro2: _DiasParametro2,
+                    DiasParametro3: _DiasParametro3
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        if (_IdParametro == "0") {
+                            $("#hddId").val("0");
+                            $("#txtParam1").val("");
+                            $("#txtParam2").val("");
+                            $("#txtParam3").val("");
+                        }
+
+                        GetConsulta();
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function GetById(id) {
+            $("#hddId").val(id);
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetParametrosDiasId", "DefRangosTiempo")',
+                data: {
+                    IdParametro: id
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("hddId").value = json.resp.IdParametro;
+                        $("#txtParam1").val(json.resp.DiasParametro1);
+                        $("#txtParam2").val(json.resp.DiasParametro2);
+                        $("#txtParam3").val(json.resp.DiasParametro3);
+                       
+
+
+                        $("#modal-form").modal('show');
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                   alert(errorThrown);
+                }
+            });
+
+        }
+
+        </script>
+
+    }
+
+}
+
