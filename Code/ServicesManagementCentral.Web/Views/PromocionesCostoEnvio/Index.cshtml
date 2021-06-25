@@ -88,7 +88,9 @@
                             <div class="form-group">
                                 <label>Tipo de Catalogo</label>
                                 <select class="form-control" id="ddlCatalogo">
-                                    <option selected="selected" value="0">--Tipo de Almacen--</option>
+                                    <option selected="selected" value="0">--SELECCIONE--</option>
+                                    <option value="1">Super</option>
+                                    <option value="2">Mercancías Generales</option>
                                 </select>
                             </div>
                         </div>
@@ -129,10 +131,7 @@
                                 </select>
                             </div>
                         </div>
-
-
                     </div>
-
                     <div class="row">
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
@@ -189,14 +188,20 @@
                     <div class="row">
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
+                                <label>Número de EAN</label>
+                                <input type="text" id="txtCodBar" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
                                 <label>Peso Minimo</label>
-                                <input type="number" id="txtPesoMin" class="form-control" />
+                                <input type="number" oninput='input(this)' id="txtPesoMin" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Peso Maximo</label>
-                                <input type="number" id="txtPesoMax" class="form-control" />
+                                <input type="number" oninput='input(this)' id="txtPesoMax" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -205,12 +210,7 @@
                                 <input type="number" id="txtMeses" class="form-control" />
                             </div>
                         </div>
-                        @*<div class="col-sm-3 col-md-3 col-lg-3">
-                            <div class="form-group">
-                                <label>SKU</label>
-                                <input type="text" id="txtSKU" class="form-control" />
-                            </div>
-                        </div>*@
+
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -238,6 +238,60 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Número de Categoria (Categoría SAP)</label>
+                                <input type="text" id="txtNoCatSap" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Nombre de Categoria (Categoría SAP)</label>
+                                <input type="text" id="txtNomCatSap" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Número de Subcategoria (Categoría SAP)</label>
+                                <input type="text" id="txtNoSubCatSap" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Nombre de Subcategoria (Categoría SAP)</label>
+                                <input type="text" id="txtNomSubCatSap" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>
+                                    Costo especial ($)
+                                </label>
+                                <input type="number" oninput='input(this)' id="txtCostoEsp" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Aplica tarifa descuento  (%) </label>
+                                <input type="number" oninput='input(this)' id="txtTarifaDesc" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>$ Compras mayor a </label>
+                                <input type="number" oninput='input(this)' id="txtComprasMayor" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>$ Compras menor a</label>
+                                <input type="number" oninput='input(this)' id="txtComprasMenor" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
 
 
                     <div class="row">
@@ -256,7 +310,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" onclick="ActionUpd()" class="btn btn-primary">Guardar</button>
+                <button type="button" onclick="Add()" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -358,6 +412,8 @@
             CmboTipoEnvio();
             CmboTipoServicio();
             CmboTipoLogistica();
+            CmboTransportista();
+            CmboFormatoTienda();
         });
 
         function GetConsulta() {
@@ -414,20 +470,119 @@
         }
 
         function Add() {
-            _Desc_Zona = $("#txtDesc_Zona").val();
-            _BitActivo = $("#id_estatus").val();
-            if (_Desc_Zona.length == 0) {
-                $("#txtDesc_Zona").focus();
+            var _IdTipoCatalogo = $("#ddlTipoCatalogo").val();
+            var _IdOwner = $("#ddlAlmacen").val();
+            var _IdTipoCatalogo = $("#ddlCatalogo").val();
+            var _IdSupplierWH = $("#ddlProveedor").val();
+            var _SupplierName= $("#ddlProveedor :selected").text();
+            var _IdTransportista = $("#ddlTransportista").val();
+            var _NombreTransportista = $("#ddlTransportista :selected").text();
+            var _IdFormatoTienda = $("#ddlFormatoTienda").val();
+            var _IdTipoEnvio = $("#ddlTipoEnvio").val();
+            var _IdTipoServicio = $("#ddlTipoServicio").val();
+            var _IdTipoLogistica = $("#ddlTipoLogistica").val();
+
+            if (_IdTipoCatalogo == "0") {
+                $("#ddlCatalogo").focus();
                 return;
             }
+            if (_IdOwner == "0") {
+                $("#ddlAlmacen").focus();
+                return;
+            }
+            if (_IdSupplierWH == "0") {
+                $("#ddlProveedor").focus();
+                return;
+            }
+            if (_IdTransportista == "0") {
+                $("#ddlTransportista").focus();
+                return;
+            }
+            if (_IdFormatoTienda == "0") {
+                $("#ddlFormatoTienda").focus();
+                return;
+            }
+            if (_IdTipoEnvio == "0") {
+                $("#ddlTipoEnvio").focus();
+                return;
+            }
+            if (_IdTipoServicio == "0") {
+                $("#ddlTipoServicio").focus();
+                return;
+            }
+            if (_IdTipoLogistica == "0") {
+                $("#ddlTipoLogistica").focus();
+                return;
+            }
+
+
+            _BitActivo = $("#id_estatus").val();
+
+            _PostalCodeOrig = $("#txtCpOrigen").val();
+            _PostalCodeDestino = $("#txtCpDestino").val();
+            _CiudadOrig = $("#txtCdOrigen").val();
+            _CiudadDest = $("#txtCdDestino").val();
+            _EdoOrig = $("#txtOrigen").val();
+            _EdoDest = $("#txtDestino").val();
+            _Cve_CategSAP = $("#txtNoCatSap").val();
+            _Desc_CategSAP = $("#txtNomCatSap").val();
+            _Cve_GciaCategSAP = $("#txtNoSubCatSap").val();
+            _Desc_GciaCategSAP = $("#txtNomSubCatSap").val();
+            _Material_MATNR = $("#txtNoMaterial").val();
+            _Id_Num_CodBarra = $("#txtCodBar").val();
+            _nombre_SKU = $("#txtSKU").val();
+            _PesoMinimo = $("#txtPesoMin").val();
+            _PesoMaximo = $("#txtPesoMax").val();
+            _MesesSinIntereses = $("#txtMeses").val();
+            _ComprasMayor = $("#txtComprasMayor").val();
+            _ComprasMenor = $("#txtComprasMenor").val();
+            _FechaInicioPromo = $("#txtFecIniTarifa").val();
+            _HoraInicioPromo = $("#txtHoraIniTarifa").val();
+            _FechaFinPromo = $("#txtFecFinTarifa").val();
+            _HoraFinPromo = $("#txtHoraFinTarifa").val();
+            _CostoEspecial = $("#txtCostoEsp").val();
+            _TarifaDesc = $("#txtTarifaDesc").val();
+
 
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("AddZonas", "Catalogo")',
+                url: '@Url.Action("AddPromociones", "PromocionesCostoEnvio")',
                 data: {
-                    Desc_Zona: _Desc_Zona,
-                    BitActivo: _BitActivo
+                    IdTipoCatalogo: _IdTipoCatalogo
+                    , IdOwner: _IdOwner
+                    , IdFormatoTienda: _IdFormatoTienda
+                    , PostalCodeOrig: _PostalCodeOrig
+                    , PostalCodeDestino: _PostalCodeDestino
+                    , CiudadOrig: _CiudadOrig
+                    , CiudadDest: _CiudadDest
+                    , EdoOrig: _EdoOrig
+                    , EdoDest: _EdoDest
+                    , IdSupplierWH: _IdSupplierWH
+                    , SupplierName: _SupplierName
+                    , IdTransportista: _IdTransportista
+                    , NombreTransportista: _NombreTransportista
+                    , IdTipoEnvio: _IdTipoEnvio
+                    , IdTipoServicio: _IdTipoServicio
+                    , Cve_CategSAP: _Cve_CategSAP
+                    , Desc_CategSAP: _Desc_CategSAP
+                    , Cve_GciaCategSAP: _Cve_GciaCategSAP
+                    , Desc_GciaCategSAP: _Desc_GciaCategSAP
+                    , Material_MATNR: _Material_MATNR
+                    , Id_Num_CodBarra: _Id_Num_CodBarra
+                    , nombre_SKU: _nombre_SKU
+                    , PesoMinimo: _PesoMinimo
+                    , PesoMaximo: _PesoMaximo
+                    , IdTipoLogistica: _IdTipoLogistica
+                    , MesesSinIntereses: _MesesSinIntereses
+                    , ComprasMayor: _ComprasMayor
+                    , ComprasMenor: _ComprasMenor
+                    , FechaInicioPromo: _FechaInicioPromo
+                    , HoraInicioPromo: _HoraInicioPromo
+                    , FechaFinPromo: _FechaFinPromo
+                    , HoraFinPromo: _HoraFinPromo
+                    , CostoEspecial: _CostoEspecial
+                    , TarifaDesc: _TarifaDesc
 
                 },
                 datatype: "html",
@@ -547,7 +702,15 @@
 
     </script>
     @*combos*@
-<script>
+    <script>
+
+        var delayTimer;
+        function input(ele) {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function () {
+                ele.value = parseFloat(ele.value).toFixed(2).toString();
+            }, 1100);
+        }
     function IniciarComboTipoAlmacen() {
     $.ajax({
         async: false,
@@ -631,7 +794,7 @@
 
                         $('#ddlTipoEnvio').get(0).options[0] = new Option("--SELECCIONE--", "0");
                         for (var i = 0; i < json.resp.length; i++) {
-                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                            sel.append('<option value="' + json.resp[i].IdTipoEnvio + '">' + json.resp[i].Desc_TipoEnvio + '</option>');
                         }
 
                     }
@@ -670,7 +833,7 @@
                 }
             });
     }
-        function CmboTipoLogistica() {
+    function CmboTipoLogistica() {
 
             $.ajax({
                 async: false,
@@ -697,8 +860,64 @@
                     alert(errorThrown);
                 }
             });
-    }
-</script>
+        }
+    function CmboTransportista() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListTransportista", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTransportista");
+                        sel.empty();
+
+                        $('#ddlTransportista').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTransportista + '">' + json.resp[i].Nombre + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    function CmboFormatoTienda() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetFormatoTenda", "PromocionesCostoEnvio")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlFormatoTienda");
+                        sel.empty();
+
+                        $('#ddlFormatoTienda').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoFormato + '">' + json.resp[i].Desc_TipoFormato + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    </script>
 }
 
 

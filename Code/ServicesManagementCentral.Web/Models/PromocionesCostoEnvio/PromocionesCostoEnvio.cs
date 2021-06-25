@@ -30,7 +30,7 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
         public string Desc_GciaCategSAP { get; set; }
         public int Material_MATNR { get; set; }
         public int Id_Num_CodBarra { get; set; }
-        public int Id_Num_SKU { get; set; }
+        public int nombre_SKU { get; set; }
         public decimal PesoMinimo { get; set; }
         public decimal PesoMaximo { get; set; }
         public int IdTipoLogistica { get; set; }
