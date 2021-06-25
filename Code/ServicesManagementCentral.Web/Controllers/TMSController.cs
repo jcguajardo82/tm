@@ -133,7 +133,7 @@ namespace ServicesManagement.Web.Controllers
         public decimal CantidadGasto { get; set; }
 
         public string CreateDate { get; set; }
-        public bool activo { get; set; }
+        public string activo { get; set; }
 
 
 
