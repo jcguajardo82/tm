@@ -201,6 +201,7 @@
     <Compile Include="Controllers\CpanelController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
+    <Compile Include="Controllers\PromocionesCostoEnvioController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TMSController.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Models\PassCancelModel.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Prediction.cs" />
+    <Compile Include="Models\PromocionesCostoEnvio\PromocionesCostoEnvio.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TiendaModel.cs" />
@@ -3659,6 +3661,7 @@
     <Content Include="Views\Catalogo\TipoLogistica.cshtml" />
     <Content Include="Views\Catalogo\AtributosSYE.cshtml" />
     <Content Include="Views\Catalogo\TipoEntregas.cshtml" />
+    <Content Include="Views\PromocionesCostoEnvio\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
