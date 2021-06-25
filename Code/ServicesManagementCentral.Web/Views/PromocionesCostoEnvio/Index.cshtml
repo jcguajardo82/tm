@@ -25,15 +25,33 @@
                 <thead>
                     @*<thead class="bg-primary">*@
                     <tr>
-                        <th>Tipo de Almacen</th>
-                        <th>Proveedor</th>
-                        <th>Nombre Proveedor</th>
-                        <th>Almacen</th>
-                        <th>Servicio Estandar</th>
-                        <th>Servicio Express</th>
-                        <th>Fecha de Actualizacion</th>
-                        <th>Hora de Actualizacion</th>
-                        <th>Usuario de Actualizacion</th>
+                        <th>PostalCodeOrig</th>
+                        <th>PostalCodeDestino</th>
+                        <th>CiudadOrig</th>
+                        <th>CiudadDest</th>
+                        <th>EdoOrig</th>
+                        <th>EdoDest</th>
+                        <th>SupplierName</th>
+                        <th>NombreTransportista</th>
+                        <th>Cve_CategSAP</th>
+                        <th>Desc_CategSAP</th>
+                        <th>Cve_GciaCategSAP</th>
+                        <th>Desc_GciaCategSAP</th>
+                        <th>Material_MATNR</th>
+                        <th>Id_Num_CodBarra</th>
+                        <th>Nombre_SKU</th>
+                        <th>PesoMinimo</th>
+                        <th>PesoMaximo</th>
+                        <th>MesesSinIntereses</th>
+                        <th>ComprasMayor</th>
+                        <th>ComprasMenor</th>
+                        <th>FechaInicioPromo</th>
+                        <th>HoraInicioPromo</th>
+                        <th>FechaFinPromo</th>
+                        <th>HoraFinPromo</th>
+                        <th>CostoEspecial</th>
+                        <th>TarifaDesc</th>
+                        <th>UsuarioCreacion</th>
                         <th>Activo</th>
                         <th name="accion">Action</th>
                     </tr>
@@ -43,7 +61,7 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" id="hddId" />
 <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -216,7 +234,12 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Fecha inical de tarifa especial</label>
-                                <input type="date" id="txtFecIniTarifa" class="form-control" />
+                                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                                <div class="input-group date" id="datetimepicker1">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecIniTarifa" name="txtFecIniTarifa"
+                                           type="text" value="">
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -228,7 +251,12 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Fecha final de tarifa especial</label>
-                                <input type="date" id="txtFecFinTarifa" class="form-control" />
+                                @*<input type="date" id="txtFecFinTarifa" class="form-control" />*@
+                                <div class="input-group date" id="datetimepicker1">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecFinTarifa" name="txtFecFinTarifa"
+                                           type="text" value="">
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -321,7 +349,20 @@
 
 
     <script>
-
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "DD/MM/yyyy"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "DD/MM/yyyy"
+            });
+            $('#datetimepicker3').datetimepicker({
+                locale: 'es'
+                , format: "DD/MM/yyyy"
+            });
+        });
         $(document).ready(function () {
 
             $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
@@ -345,7 +386,7 @@
 
             table = $('#tblConsulta').DataTable(
                 {
-
+                    "scrollX": true,
                     language:
                     {
                         "sProcessing": "Procesando...",
@@ -390,7 +431,7 @@
                             text: 'Alta',
                             action: function (e, dt, node, config) {
 
-
+                                $("#hddId").val('0');
                                 $("#modal-form").modal('show');
 
                             }
@@ -407,7 +448,7 @@
                 }
             );
 
-            //GetConsulta();
+            GetConsulta();
             IniciarComboTipoAlmacen();
             CmboTipoEnvio();
             CmboTipoServicio();
@@ -417,12 +458,12 @@
         });
 
         function GetConsulta() {
-            //var _Id_Num_UN = $("#hddTda").val();
+            //var _Id_Num_UN = $("#hddId").val();
             //debugger;
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetZonas", " PromocionesCostoEnvio")',
+                url: '@Url.Action("GetPromociones", "PromocionesCostoEnvio")',
                 data: {
                     //  Id_Num_UN: _Id_Num_UN
                 },
@@ -434,7 +475,7 @@
                     if (json.Success) {
 
 
-                        var myTable = $('#example').DataTable();
+                        var myTable = $('#tblConsulta').DataTable();
                         myTable
                             .clear()
                             .draw();
@@ -442,13 +483,35 @@
 
 
                             myTable.row.add([
-                                json.resp[i].IdZona,
-                                json.resp[i].Desc_Zona,
-                                json.resp[i].Created_User,
-                                json.resp[i].CreateDate,
-                                "",
+                                json.resp[i].PostalCodeOrig,
+                                json.resp[i].PostalCodeDestino,
+                                json.resp[i].CiudadOrig,
+                                json.resp[i].CiudadDest,
+                                json.resp[i].EdoOrig,
+                                json.resp[i].EdoDest,
+                                json.resp[i].SupplierName,
+                                json.resp[i].NombreTransportista,
+                                json.resp[i].Cve_CategSAP,
+                                json.resp[i].Desc_CategSAP,
+                                json.resp[i].Cve_GciaCategSAP,
+                                json.resp[i].Desc_GciaCategSAP,
+                                json.resp[i].Material_MATNR,
+                                json.resp[i].Id_Num_CodBarra,
+                                json.resp[i].Nombre_SKU,
+                                json.resp[i].PesoMinimo,
+                                json.resp[i].PesoMaximo,
+                                json.resp[i].MesesSinIntereses,
+                                json.resp[i].ComprasMayor,
+                                json.resp[i].ComprasMenor,
+                                json.resp[i].FechaInicioPromo,
+                                json.resp[i].HoraInicioPromo,
+                                json.resp[i].FechaFinPromo,
+                                json.resp[i].HoraFinPromo,
+                                json.resp[i].CostoEspecial,
+                                json.resp[i].TarifaDesc,
+                                json.resp[i].UsuarioCreacion,
                                 json.resp[i].BitActivo,
-                                "<button onclick=\"GetById(" + json.resp[i].IdZona + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdZona + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                "<button onclick=\"GetById(" + json.resp[i].cnscPromo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].cnscPromo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
                         }
                     }
@@ -470,7 +533,8 @@
         }
 
         function Add() {
-            var _IdTipoCatalogo = $("#ddlTipoCatalogo").val();
+        /*   var _IdTipoCatalogo = $("#ddlTipoCatalogo").val();*/
+            var _cnscPromo = $("#hddId").val();
             var _IdOwner = $("#ddlAlmacen").val();
             var _IdTipoCatalogo = $("#ddlCatalogo").val();
             var _IdSupplierWH = $("#ddlProveedor").val();
@@ -549,7 +613,8 @@
                 type: "GET",
                 url: '@Url.Action("AddPromociones", "PromocionesCostoEnvio")',
                 data: {
-                    IdTipoCatalogo: _IdTipoCatalogo
+                    cnscPromo: _cnscPromo
+                    ,IdTipoCatalogo: _IdTipoCatalogo
                     , IdOwner: _IdOwner
                     , IdFormatoTienda: _IdFormatoTienda
                     , PostalCodeOrig: _PostalCodeOrig
@@ -591,8 +656,9 @@
 
                     debugger;
                     if (json.Success) {
-                        $("#txtDesc_Zona").val('');
-                        GetConsulta();
+                      
+                        //GetConsulta();
+                        location.reload();
                     }
                     else {
                         alert(json.Message);
@@ -646,9 +712,9 @@
                 $.ajax({
                     async: false,
                     type: "GET",
-                    url: '@Url.Action("DelZonas", "catalogo")',
+                    url: '@Url.Action("DelPromociones", "PromocionesCostoEnvio")',
                     data: {
-                        IdZona: id
+                        cnscPromo: id
                     },
                     datatype: "html",
                     success: function (json) {
@@ -664,25 +730,69 @@
         }
 
         function GetById(id) {
-
+            $("#hddId").val(id);
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetZonasId", "Catalogo")',
+                url: '@Url.Action("GetPromocionesId", "PromocionesCostoEnvio")',
                 data: {
-                    IdZona: id
+                    Id: id
                 },
 
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
 
-                        document.getElementById("hddId").value = json.resp.IdZona;
-                        document.getElementById("txtDesc_Zona").value = json.resp.Desc_Zona;
+                        document.getElementById("hddId").value = json.resp.cnscPromo;
+
+
+                        $("#ddlCatalogo").val(json.resp.IdTipoCatalogo);
+
+                        $("#ddlAlmacen").val(json.resp.IdOwner);
+                        CmboProveedores(json.resp.IdOwner);
+                        $("#ddlProveedor").val(json.resp.IdSupplierWH);
+                        $("#ddlTransportista").val(json.resp.IdTransportista);
+                        $("#ddlFormatoTienda").val(json.resp.IdFormatoTienda);
+                        $("#ddlTipoEnvio").val(json.resp.IdTipoEnvio);
+                        $("#ddlTipoServicio").val(json.resp.IdTipoServicio);
+                        $("#ddlTipoLogistica").val(json.resp.IdTipoLogistica);
+
+
+
+                        $("#txtCpOrigen").val(json.resp.PostalCodeOrig);
+                        $("#txtCpDestino").val(json.resp.PostalCodeDestino);
+                        $("#txtCdOrigen").val(json.resp.CiudadOrig);
+                        $("#txtCdDestino").val(json.resp.CiudadDest);
+                        $("#txtOrigen").val(json.resp.EdoOrig);
+                        $("#txtDestino").val(json.resp.EdoDest);
+                        $("#txtNoCatSap").val(json.resp.Cve_CategSAP);
+                        $("#txtNomCatSap").val(json.resp.Desc_CategSAP);
+                        $("#txtNoSubCatSap").val(json.resp.Cve_GciaCategSAP);
+                        $("#txtNomSubCatSap").val(json.resp.Desc_GciaCategSAP);
+                        $("#txtNoMaterial").val(json.resp.Material_MATNR);
+                        $("#txtCodBar").val(json.resp.Id_Num_CodBarra);
+                        $("#txtSKU").val(json.resp.Nombre_SKU);
+                        $("#txtPesoMin").val(json.resp.PesoMinimo);
+                        $("#txtPesoMax").val(json.resp.PesoMaximo);
+                        $("#txtMeses").val(json.resp.MesesSinIntereses);
+                        $("#txtComprasMayor").val(json.resp.ComprasMayor);
+                        $("#txtComprasMenor").val(json.resp.ComprasMenor);
+
+              
+                        $("#txtFecIniTarifa").val(json.resp.FechaInicioPromo);
+                        $("#txtHoraIniTarifa").val(json.resp.HoraInicioPromo);
+                        $("#txtFecFinTarifa").val(json.resp.FechaFinPromo);
+                        $("#txtHoraFinTarifa").val(json.resp.HoraFinPromo);
+                        $("#txtCostoEsp").val(json.resp.CostoEspecial);
+                        $("#txtTarifaDesc").val(json.resp.TarifaDesc);
+
+
+
+
                         if (json.resp.BitActivo) {
                             document.getElementById("id_estatus").value = 1;
                         } else { document.getElementById("id_estatus").value = 0}
-                        document.getElementById("flag_edit").value = 1;
+
 
 
                         $("#modal-form").modal('show');

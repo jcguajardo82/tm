@@ -14,7 +14,7 @@ namespace ServicesManagement.Web.Models.Catalogos
         public bool ServicioExpress { get; set; }
         public int TiempoSurtido { get; set; }
         public string BitActivo { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public string FechaCreacion { get; set; }
         public string UsuarioCreacion { get; set; }
         public string FechaUltModif { get; set; }
         public string HoraUltModif { get; set; }
