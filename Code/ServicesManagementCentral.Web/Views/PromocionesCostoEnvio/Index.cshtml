@@ -129,8 +129,62 @@
                                 </select>
                             </div>
                         </div>
- 
 
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>C.P. Origen</label>
+                                <input type="number" id="txtCpOrigen" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>C.P. Destino</label>
+                                <input type="number" id="txtCpDestino" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Ciudad Origen</label>
+                                <input type="text" id="txtCdOrigen" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Ciudad Destino</label>
+                                <input type="text" id="txtCdDestino" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Estado Origen</label>
+                                <input type="text" id="txtOrigen" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Estado Destino</label>
+                                <input type="text" id="txtDestino" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Ciudad Origen</label>
+                                <input type="text" id="txtCdOrigen" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Ciudad Destino</label>
+                                <input type="text" id="txtCdDestino" class="form-control" />
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-md-4">
@@ -247,6 +301,9 @@
 
             //GetConsulta();
             IniciarComboTipoAlmacen();
+            CmboTipoEnvio();
+            CmboTipoServicio();
+            CmboTipoLogistica();
         });
 
         function GetConsulta() {
@@ -494,6 +551,92 @@
                             sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
                         }
                         sel.focus();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+    }
+
+    function CmboTipoEnvio() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoEnvio", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTipoEnvio");
+                        sel.empty();
+
+                        $('#ddlTipoEnvio').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+    }
+
+    function CmboTipoServicio() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoServicio", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTipoServicio");
+                        sel.empty();
+
+                        $('#ddlTipoServicio').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoServicio + '">' + json.resp[i].Desc_TipoServicio + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+    }
+        function CmboTipoLogistica() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoLogistica", "PromocionesCostoEnvio")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTipoLogistica");
+                        sel.empty();
+
+                        $('#ddlTipoLogistica').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoLogistica + '">' + json.resp[i].TipoLogistica + '</option>');
+                        }
+
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
