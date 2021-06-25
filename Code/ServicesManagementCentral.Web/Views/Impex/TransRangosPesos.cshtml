@@ -27,16 +27,16 @@
             <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
                 <thead>
                     <tr>
-                        <th style="text-align:center;">Transportista</th>
+                        <th style="text-align:center;">Id Transportista</th>
+                        <th style="text-align:center;">Nombre de Transportista</th>
                         <th style="text-align:center;">Peso Inicial</th>
                         <th style="text-align:center;">Peso Final</th>
                         <th style="text-align:center;">Porcentaje Inicial Cliente</th>
                         <th style="text-align:center;">Cargado Por</th>
-                        <th style="text-align:center;">Usuario Creacion</th>
-                        <th style="text-align:center;">Fecha Creacion</th>
-                        <th style="text-align:center;">Hora Creacion</th>
+                        <th style="text-align:center;">Usuario de Actualización</th>
+                        <th style="text-align:center;">Fecha de Actualización</th>
+                        <th style="text-align:center;">Hora de Actualización</th>
                         <th style="text-align:center;">Activo</th>
-                        <th style="text-align:center;">Fecha de actualización</th>
 
                     </tr>
                 </thead>
@@ -173,15 +173,15 @@
 
                             table.row.add([
                                 json.resp[i].IdTransportista
+                                , json.resp[i].NombreTransportista
                                 , json.resp[i].PesoInicio
                                 , json.resp[i].PesoFin
                                 , json.resp[i].PorcentajeInicialCliente
                                 , json.resp[i].CreatedId
-                                , ""
-                                , ""
-                                ,""
-                                , json.resp[i].bitDeleted
+                                , json.resp[i].CreatedId
                                 , json.resp[i].CreatedDate
+                                , json.resp[i].CreatedTime
+                                , json.resp[i].bitActivo
 
                             ]).draw();
                         }

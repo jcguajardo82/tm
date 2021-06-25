@@ -6,8 +6,9 @@
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+
             <ul class="nav navbar-top-links navbar-right">
-                <li>
+                @*<li>
                     <a href="@Url.Action("DoLogout","Security")">
                         <i class="fa fa-sign-out"></i> Supplier | 0
                     </a>
@@ -27,7 +28,13 @@
 
                     </select>
 
+                </li>*@
+                <li>
+                    <a href="@Url.Content("~/TMS/MainSystem")">
+                        <i class="fa fa-home fa-2x"></i>
+                    </a>
                 </li>
+
                 <li>
                     <a href="@Url.Action("DoLogout","Security")">
                         <i class="fa fa-sign-out"></i> Log out
