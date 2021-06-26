@@ -40,17 +40,22 @@
                     <thead>
                         <tr>
                             <th>Id Transportista</th>
+                            <th>Nombre de Transportista</th>
                             <th>Tarifa Fija</th>
                             <th>Prioridad</th>
                             <th>Nivel de Servicio</th>
                             <th>Factor Division<br /> Peso Voluntario </th>
+                            <th>Tipo de Logistica</th>
+                            <th>Limite de Paqueteria</th>
+                            <th>Vida Guias</th>
+
                             @*<th>Paqueteria</th>
-                                <th>Big Ticket</th>
-                                <th>Servicio Estandar</th>
-                                <th>Servicio Express</th>*@
-                            <th>Usuario Creacion</th>
-                            <th>Fecha Cracion</th>
-                            <th>Hora Creacion</th>
+                            <th>Big Ticket</th>
+                            <th>Servicio Estandar</th>
+                            <th>Servicio Express</th>*@
+                            <th>Usuario de Actualizacion</th>
+                            <th>Fecha de Actualizacion</th>
+                            <th>Hora de Actualizacion</th>
 
                             <th>Activo</th>
                             <th>Action</th>
@@ -907,18 +912,26 @@
                             table.row.add([
 
                                 json.json[i].IdTransportista,
+                                json.json[i].RazonSocial,
                                 TarifaFija_st,
                                 json.json[i].Prioridad,
                                 json.json[i].NivelServicio,
                                 json.json[i].FactorPaqueteria,
+
+                                json.json[i].TipoLogistica,
+                                json.json[i].LimitePaqueteria,
+                                json.json[i].DiasVigenciaGuias,
+
                                 //Paqueteria_st,
                                 //BigTicket_st,
                                 //ServicioEstandar_st,
                                 //ServicioExpress_st,
-                                "sysAdmin",
-                                "@System.DateTime.Now.ToShortDateString()",
-                                "@System.DateTime.Now.ToShortTimeString()",
-                                "Activo",
+
+                                json.json[i].UsuarioUltModif,
+                                json.json[i].FechaUltModif,
+                                json.json[i].HoraUltModif,
+                                json.json[i].BitActivo,
+
                                 "<button title=\"Editar\" onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button>"
                                 //<button title=\"Eliminar\" type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>
                             ]).draw();

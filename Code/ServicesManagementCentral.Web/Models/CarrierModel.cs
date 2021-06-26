@@ -48,4 +48,33 @@ namespace ServicesManagement.Web.Models
         public string TipoLogistica { get; set; }
 
     }
+
+    public class CarrierModelTMS
+    {
+
+        public Int32 IdTransportista { get; set; }//int
+        public string RazonSocial { get; set; }//varchar
+        public bool TarifaFija { get; set; }//int
+        public int Prioridad { get; set; }//smalldatetime
+        public decimal NivelServicio { get; set; }//bit
+        public decimal FactorPaqueteria { get; set; }//bit
+
+        public bool Paqueteria { get; set; }//int
+        public bool BigTicket { get; set; }//int
+        public bool ServicioEstandar { get; set; }//int
+        public bool ServicioExpress { get; set; }//int
+
+        public decimal PorcAdicPaquete { get; set; }//bit
+        public decimal LimitePaqueteria { get; set; }//bit
+        public int DiasVigenciaGuias { get; set; }//bit
+
+        public string UsuarioUltModif { get; set; }//varchar
+        public string FechaUltModif { get; set; }//varchar
+        public string HoraUltModif { get; set; }//varchar
+        public string BitActivo { get; set; }//varchar
+
+        public int IdTipoLogistica { get; set; }//bit
+        public string TipoLogistica { get; set; }//varchar
+    }
+
 }
