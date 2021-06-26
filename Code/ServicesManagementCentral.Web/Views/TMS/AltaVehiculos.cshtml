@@ -1,5 +1,5 @@
 ﻿
-@{ ViewBag.Title = "AltaVehiculos"; }
+@{ ViewBag.Title = "Tipo de vehiculos tiendas"; }
 
 
 
@@ -19,7 +19,7 @@
 {
 <div class="row">
     <div class="col-4"></div>
-    <div class="col-4"><h2>Alta Tipo de Vehiculos</h2></div>
+    <div class="col-4"><h2>Tipo de vehiculos tiendas</h2></div>
     <div class="col-4"></div>
 
 </div>
@@ -39,9 +39,9 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Tipo Vehiculo</th>
-                                        <th>Usuario Creacion</th>
-                                        <th>Fecha Creacion</th>
-                                        <th>Hora Creacion</th>
+                                        <th>Usuario de Actualización</th>
+                                        <th>Fecha de Actualización</th>
+                                        <th>Hora de Actualización</th>
                                         <th>Activo</th>
                                         <th>Action</th>
                                     </tr>
@@ -62,19 +62,19 @@
                                                                                 @r["Descipcion"]
                                                                             </td>
                                                                             <td>
-                                                                                
+                                                                                @r["Modified_User"]
                                                                             </td>
                                                                             <td>
-                                                                                
+                                                                                @r["Fec_Movto"]
                                                                             </td>
                                                                             <td>
-                                                                               
+                                                                                @r["TimeMovto"]
                                                                             </td>
                                                                             <td>
                                                                                 @r["Estatus"]
                                                                             </td>
                                                                             <td>
-                                                                                <button type="button" onclick="SelectOrder(@r["Id_TipoVehiculo"])" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                                                <button title="Editar" type="button" onclick="SelectOrder(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
                                                                             </td>
                                                                         </tr> 
                                             }
@@ -235,8 +235,8 @@
                 url: '@Url.Action("SaveTipoVehiculo", "TMS")',
                 data: {
                     tipoVehiculo: document.getElementById("in_TV").value,
-                    flag : 1,
-                    comentarios: ""
+                    flag: 1, 
+                    comentarios: document.getElementById("comentario").value
                 },
                 datatype: "html",
                 success: function (json) {

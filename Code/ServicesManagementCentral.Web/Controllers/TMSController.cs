@@ -3,7 +3,8 @@ using Newtonsoft.Json;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
 using ServicesManagement.Web.Models;
-using ServicesManagement.Web.Models.Catalogos;
+using ServicesManagement.Web.Models.Catalogos;
+
 using ServicesManagement.Web.Models.Impex;
 using System;
 using System.Collections.Generic;
@@ -1665,6 +1666,8 @@ namespace ServicesManagement.Web.Controllers
 
                 try
                 {
+                    string UserCreate = User.Identity.Name;
+
                     Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
                     System.Collections.Hashtable parametros = new System.Collections.Hashtable();
@@ -1680,7 +1683,8 @@ namespace ServicesManagement.Web.Controllers
                     //parametros.Add("@costoTotalField", t.CostoTotal);
                     //parametros.Add("@pesoField", t.Peso);
                     parametros.Add("@Descripcion", tipoVehiculo);
-
+                    parametros.Add("@comentarios", comentarios);
+                    parametros.Add("@Usuario", UserCreate);
 
                     Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[up_CorpTMS_Ins_TipoVehiculo]", false, parametros);
 

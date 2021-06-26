@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "AtributosSYE";
+    ViewBag.Title = "Atributos de Seguro y Empaque";
 }
 
 <style>
@@ -57,7 +57,7 @@
                                 <th>Usuario de Actualizacion</th>
                                 <th>Fecha de Actualizacion</th>
                                 <th>Hora de Actualizacion</th>
-                                <th>Bit Activo</th>
+                                <th>Activo</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -110,7 +110,7 @@
                                             <td>@r.Time_Movto</td>
                                             <td>@r.BitActivo</td>
                                             <td>
-                                                <button type="button" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                <button type="button" title="Editar" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
                                             </td>
                                         </tr>
 
@@ -527,7 +527,7 @@
                             { extend: 'pageLength', className: 'btn-primary' },
                             { extend: 'excel', className: 'btn-primary' },
                             {
-                                text: 'Agregar',
+                                text: 'Alta',
                                 action: function (e, dt, node, config) {
                                     //var e = document.getElementById("ProveedorLista");
                                     //e.disabled = false;

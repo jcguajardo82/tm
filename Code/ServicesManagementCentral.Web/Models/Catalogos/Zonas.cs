@@ -14,5 +14,7 @@ namespace ServicesManagement.Web.Models.Catalogos
         public string Created_User { get; set; }
         public string FecMovto { get; set; }
         public string Modified_User { get; set; }
+        public string CreateTime { get; set; }
+        public string TimeMovto { get; set; }
     }
 }

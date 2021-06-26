@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Parametros Dias";
+    ViewBag.Title = "Parametros del Rango de Entrega";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -8,7 +8,7 @@
 {
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4"><h2>Parametros Dias</h2></div>
+        <div class="col-4"><h2>Parametros del Rango de Entrega</h2></div>
         <div class="col-4"></div>
 
     </div>
@@ -22,10 +22,10 @@
                     <thead>
                         <tr>
                             <th>Id Parametro</th>
-                            <th>Días Parametro 1</th>
-                            <th>Días Parametro 2</th>
-                            <th>Días Parametro 3</th>
-                            <th name="accion">Action</th>
+                            <th>Días Totales 0 </th>
+                            <th>Días Totales 1 y 2</th>
+                            <th>Días Totales > 2</th>
+                            <th name="Accion">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +41,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">Parametros Días</h2>
+                    <h2 class="modal-title">Parametros del Rango de Entrega</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -216,7 +216,7 @@
                                 json.resp[i].DiasParametro2,
                                 json.resp[i].DiasParametro3,
     
-                                "<button onclick=\"GetById(" + json.resp[i].IdParametro + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                                "<button title='Editar' onclick=\"GetById(" + json.resp[i].IdParametro + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
                         }
                     }

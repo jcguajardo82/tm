@@ -44,7 +44,7 @@ namespace ServicesManagement.Web.Controllers
         public DateTime Fec_Creacion { get; set; }
         public string Fec_Movto { get; set; }
         public string Time_Movto { get; set; }
-        public bool BitActivo { get; set; }
+        public string BitActivo { get; set; }
     }
 
 
@@ -2872,6 +2872,7 @@ namespace ServicesManagement.Web.Controllers
 
         #endregion
 
+        #region TipoLogistica
         public ActionResult TipoLogistica()
         {
 
@@ -3059,7 +3060,9 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
+        #region DatosSAP
         public DataSet GetCategSAP()
         {
 
@@ -3128,9 +3131,10 @@ namespace ServicesManagement.Web.Controllers
             return ds;
 
         }
+        #endregion
 
 
-
+        #region AtributosSYE
         public ActionResult AtributosSYE()
         {
             Session["listaCatSap"] = GetCategSAP2();
@@ -3154,8 +3158,8 @@ namespace ServicesManagement.Web.Controllers
                                Usuario = (string)t2["Usuario"],
                                Fec_Creacion = (DateTime)t2["Fec_Creacion"],
                                Fec_Movto = t2["Fec_Movto"] == DBNull.Value ? "" : (string)t2["Fec_Movto"],
-                               Time_Movto = t2["Time_Movto"] == DBNull.Value ? "00:00:00" : (string)t2["Time_Movto"],
-                               BitActivo = (bool)t2["BitActivo"]
+                               Time_Movto = t2["Time_Movto"] == DBNull.Value ? "" : (string)t2["Time_Movto"],
+                               BitActivo = (string)t2["BitActivo"]
                            }).ToList();
 
             Session["grid"] = results;
@@ -3348,8 +3352,9 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
 
-
+        #region TipoEntrega
         public ActionResult TipoEntregas()
         {
             Session["listaTE"] = GetTipoEntrega();
@@ -3566,7 +3571,7 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-
+        #endregion
 
 
         #region Almacenes 

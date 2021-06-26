@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "TipoEntregas";
+    ViewBag.Title = "Tipo de Entregas";
 }
 
 <style>
@@ -29,7 +29,7 @@
 {
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4"><h2>TIPO DE ENTREGAS</h2></div>
+        <div class="col-4"><h2>Tipo de Entregas</h2></div>
         <div class="col-4"></div>
     </div>
 
@@ -86,7 +86,7 @@
                                             <td>@r["Time_Movto"]</td>
                                             <td>@r["BitActivo"]</td>
                                             <td>
-                                                <button type="button" onclick="SelectItem('@r["Id_TipoEntrega"]','@r["Id_TipoEntrega"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                <button type="button" title="Editar" onclick="SelectItem('@r["Id_TipoEntrega"]','@r["Id_TipoEntrega"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
                                             </td>
                                         </tr>
 
@@ -535,7 +535,7 @@
                             { extend: 'pageLength', className: 'btn-primary' },
                             { extend: 'excel', className: 'btn-primary' },
                             {
-                                text: 'Agregar',
+                                text: 'Alta',
                                 action: function (e, dt, node, config) {
                                     //var e = document.getElementById("ProveedorLista");
                                     //e.disabled = false;
