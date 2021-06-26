@@ -370,22 +370,31 @@
                 type: "GET",
                 url: '@Url.Action("GetTipoEntrega", "Catalogo")',
                 data: {
-                    IdTipoLogistica: item
+                    IdTipoEntrega: item
                 },
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-
+                        debugger;
                         document.getElementById("flagStatus").value = json.Id;
 
-                        document.getElementById("in_descripcion").value = json.tl;
-                        document.getElementById("in_MinPesoVolumetrico").value = json.mp;
-                        document.getElementById("in_MaxPesoVolumetrico").value = json.mxp;
-                        document.getElementById("in_tipoArticulo").value = json.ta;
-                        document.getElementById("in_MaxCosto").value = json.mxp;
+                        document.getElementById("in_tipoEntrega").value = json.des;
+                        document.getElementById("in_pesoMin").value = json.pm;
+                        document.getElementById("in_pesoMax").value = json.pmx;
+                        //document.getElementById("in_tipoArticulo").value = json.ta;
+                        /*document.getElementById("in_MaxCosto").value = json.pmx;*/
                         document.getElementById("in_estatus").value = json.e;
-
-
+                        document.getElementById("tipoAlmacen").value = json.ta;
+                        document.getElementById("in_tipoCatalogo").value = json.tc;
+                        document.getElementById("in_categoria").value = json.ca;
+                        //Id = out_Id_TipoEntrega
+                        //    , des = out_Descripcion
+                        //    , tc = out_TipoCatalogo
+                        //    , ta = out_Id_TipoAlmacen
+                        //    , ca = out_Id_CategoriaArt
+                        //    , pm = out_Peso_min
+                        //    , pmx = out_Peso_max
+                        //    , e
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {

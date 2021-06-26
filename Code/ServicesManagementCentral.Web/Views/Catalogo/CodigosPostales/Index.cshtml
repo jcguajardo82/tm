@@ -53,21 +53,51 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        @{
+
+                            if (Session["listaCPS"] != null)
+                            {
+
+                                var myDataSet = Session["listaCPS"] as System.Data.DataSet;
+                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                {
+                                    <tr>
+                                        <td>@r["Id_CP"]</td>
+                                        <td>@r["Id_Almacen"]</td>
+                                        <td>@r["Latitud"]</td>
+                                        <td>@r["Longitud"]</td>
+                                        <td>@r["CP"]</td>
+                                        <td>@r["Usuario_Creation"]</td>
+                                        <td>@r["Fecha_Modificacion"]</td>
+                                        <td>@r["Fecha_Modificacion"]</td>
+                                        <td>@r["BitActivo"]</td>
+                                        @*<td>@r["Fecha"]</td>*@
+                                        <td>
+                                            <button type="button" onclick="SelectItem('@r["Id_CP"]','@r["Id_CP"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                        </td>
+                                    </tr>
+
+                                }
+                            }
+                        }
+
+
                     </tbody>
                     @*<tfoot>
-                        <tr>
-                            <th>Id</th>
-                            <th>Almacen</th>
-                            <th>Latitud</th>
-                            <th>Longitud</th>
-                            <th>CP</th>
-                            <th>Usuario Creacion</th>
-                            <th>Fecha Cracion</th>
-                            <th>Hora Creacion</th>
-                            <th>Activo</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>*@
+                            <tr>
+                                <th>Id</th>
+                                <th>Almacen</th>
+                                <th>Latitud</th>
+                                <th>Longitud</th>
+                                <th>CP</th>
+                                <th>Usuario Creacion</th>
+                                <th>Fecha Cracion</th>
+                                <th>Hora Creacion</th>
+                                <th>Activo</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>*@
                 </table>
             </div>
         </div>
@@ -159,7 +189,7 @@
                                     <select class="form-control" id="in_alcance" name="in_alcance" multiple="">
 
                                         @*<option selected="selected" value="0">---Seleccionar---</option>*@
-                                        <option selected="selected"  value="1">Local</option>
+                                        <option selected="selected" value="1">Local</option>
                                         <option value="2">Regional</option>
                                         <option value="3">Metropolitano</option>
 
@@ -185,7 +215,13 @@
                 </div>
             </div>
         </div>
-    </div>}
+    </div>
+
+    <input id="in_longitud" name="in_longitud" value="0" style="visibility:hidden" />
+    <input id="in_latitud" name="in_latitud" value="0" style="visibility:hidden" />
+
+
+}
 
 @section scripts {
 
@@ -203,7 +239,7 @@
         function AgregaCps() {
 
             var array = [];
-
+            var concatValor = "";
 
             $("#CPLista option").each(function () {
                 var thisOptionValue = $(this).val();
@@ -212,11 +248,24 @@
             });
 
 
+            $("#CPLista option").each(function () {
+                if ($(this).val() != "") {
+                    //concatValor += $(this).val() + ' - ' + $(this).text() + '\n';
+                    concatValor += $(this).val() + '\n';
+                }
+            });
+
+
             $.ajax({
                     type: 'POST',
-                    url: '@Url.Action("GetCPS", "Catalogo")',
+                    url: '@Url.Action("InsCPS", "Catalogo")',
                     data: {
-                        in_data: array
+                        IdAlmacen: document.getElementById("cmbAlmacen").value,
+                        codigos: concatValor,
+                        lat: document.getElementById("in_latitud").value,
+                        lon: document.getElementById("in_longitud").value
+
+
                     },
                     datatype: "html",
                     async: false,
@@ -226,17 +275,20 @@
                     },
                     success: function (data) {
                         if (data.Success) {
-                            console.log(data);
-                            var dynamicSelect = document.getElementById("CPLista");
-                            console.log(dynamicSelect);
-                            for (var i = 0; i < data.json.length; i++) {
-                                var newOption = document.createElement("option");
-                                newOption.value = data.json[i];
-                                newOption.textContent = data.json[i];//item.whateverProperty
+                            //console.log(data);
+                            //var dynamicSelect = document.getElementById("CPLista");
+                            //console.log(dynamicSelect);
+                            //for (var i = 0; i < data.json.length; i++) {
+                            //    var newOption = document.createElement("option");
+                            //    newOption.value = data.json[i];
+                            //    newOption.textContent = data.json[i];//item.whateverProperty
 
-                                dynamicSelect.appendChild(newOption);
-                            }
-                            console.log(dynamicSelect);
+                            //    dynamicSelect.appendChild(newOption);
+                            //}
+                            //console.log(dynamicSelect);
+
+                            location.reload();
+
                         }
                     }
                 });
@@ -428,6 +480,10 @@
                 var _latitude = mapsMouseEvent.latLng.lat().toFixed(6);
                 var _longitude = mapsMouseEvent.latLng.lng().toFixed(6);
 
+                
+                document.getElementById("in_longitud").value = _longitude;
+                document.getElementById("in_latitud").value = _latitude;
+
                 var e = document.getElementById("in_alcance");
                 var value = e.options[e.selectedIndex].value;
                 var text = e.options[e.selectedIndex].text;
@@ -552,7 +608,7 @@
                             tr.append("<td>" + json.json[i].Latitud + "</td>");
                             tr.append("<td>" + json.json[i].Longitud + "</td>");
                             tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
-                            //nuevas columnas 
+                            //nuevas columnas
                             tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
                             tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
                             tr.append("<td>" + json.json[i].CodigosPostales + "</td>");
