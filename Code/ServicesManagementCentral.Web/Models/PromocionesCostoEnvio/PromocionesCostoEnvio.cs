@@ -30,7 +30,7 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
         public string Desc_GciaCategSAP { get; set; }
         public int Material_MATNR { get; set; }
         public int Id_Num_CodBarra { get; set; }
-        public int Nombre_SKU { get; set; }
+        public string Nombre_SKU { get; set; }
         public decimal PesoMinimo { get; set; }
         public decimal PesoMaximo { get; set; }
         public int IdTipoLogistica { get; set; }
@@ -46,7 +46,7 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
         public string FechaUltModif { get; set; }
         public string HoraUltModif { get; set; }
         public string UsuarioUltModif { get; set; }
-        public bool BitActivo { get; set; }
+        public string BitActivo { get; set; }
         public string FechaCreacion { get; set; }
         public string HoraCreacion { get; set; }
         public string UsuarioCreacion { get; set; }

@@ -5,7 +5,7 @@
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    ViewBag.Title = "Promociones $ Envío";
+    ViewBag.Title = "Promociones Costo de Envío";
 
 }
 
@@ -14,7 +14,7 @@
 
 <div class="row">
     <div class="col-4"></div>
-    <div class="col-4"><h2>Promociones $ Envío</h2></div>
+    <div class="col-4"><h2>Promociones Costo de Envío</h2></div>
     <div class="col-4"></div>
 </div>
 <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
@@ -25,33 +25,35 @@
                 <thead>
                     @*<thead class="bg-primary">*@
                     <tr>
-                        <th>PostalCodeOrig</th>
-                        <th>PostalCodeDestino</th>
-                        <th>CiudadOrig</th>
-                        <th>CiudadDest</th>
-                        <th>EdoOrig</th>
-                        <th>EdoDest</th>
-                        <th>SupplierName</th>
-                        <th>NombreTransportista</th>
-                        <th>Cve_CategSAP</th>
-                        <th>Desc_CategSAP</th>
-                        <th>Cve_GciaCategSAP</th>
-                        <th>Desc_GciaCategSAP</th>
-                        <th>Material_MATNR</th>
-                        <th>Id_Num_CodBarra</th>
-                        <th>Nombre_SKU</th>
-                        <th>PesoMinimo</th>
-                        <th>PesoMaximo</th>
-                        <th>MesesSinIntereses</th>
-                        <th>ComprasMayor</th>
-                        <th>ComprasMenor</th>
-                        <th>FechaInicioPromo</th>
-                        <th>HoraInicioPromo</th>
-                        <th>FechaFinPromo</th>
-                        <th>HoraFinPromo</th>
-                        <th>CostoEspecial</th>
-                        <th>TarifaDesc</th>
-                        <th>UsuarioCreacion</th>
+                        <th>Codigo Postal <br />  Origen</th>
+                        <th>Codigo Postal <br />  Destino</th>
+                        <th>Ciudad <br /> Origen</th>
+                        <th>Ciudad <br /> Destino</th>
+                        <th>Estado <br /> Origen</th>
+                        <th>Estado <br /> Destino</th>
+                        <th>Proveedor</th>
+                        <th>Transportista</th>
+                        <th>Id Categoria <br /> (SAP)</th>
+                        <th>Categoria <br /> (SAP)</th>
+                        <th>Id SubCategoria <br /> (SAP)</th>
+                        <th>SubCategoria <br /> (SAP)</th>
+                        <th>Numero de Material</th>
+                        <th>EAN</th>
+                        <th>Nombre SKU</th>
+                        <th>Peso Mínimo</th>
+                        <th>Peso Máximo</th>
+                        <th>Meses sin <br /> Intereses</th>
+                        <th>Compras <br /> Mayores a </th>
+                        <th>Compras <br /> Menores a </th>
+                        <th>Fecha inical de <br /> tarifa especial</th>
+                        <th>Hora inical de <br /> tarifa especial</th>
+                        <th>Fecha final de <br /> tarifa especial</th>
+                        <th>Hora final de <br /> tarifa especial</th>
+                        <th>Costo <br /> especial ($)</th>
+                        <th>Aplica tarifa <br /> descuento (%)</th>
+                        <th>Usuario de <br /> ultima actualización</th>
+                        <th>Fecha de <br /> ultima actualización</th>
+                        <th>Hora de <br /> ultima actualización</th>
                         <th>Activo</th>
                         <th name="accion">Action</th>
                     </tr>
@@ -510,8 +512,10 @@
                                 json.resp[i].CostoEspecial,
                                 json.resp[i].TarifaDesc,
                                 json.resp[i].UsuarioCreacion,
+                                json.resp[i].FechaUltModif,
+                                json.resp[i].HoraUltModif,
                                 json.resp[i].BitActivo,
-                                "<button onclick=\"GetById(" + json.resp[i].cnscPromo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].cnscPromo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                "<button title='Editar' onclick=\"GetById(" + json.resp[i].cnscPromo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].cnscPromo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
                         }
                     }

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Gastosvehículos";
+    ViewBag.Title = "Registro de gasto distribucion Tienda";
 }
 
 
@@ -8,7 +8,7 @@
 {
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4"><h2>Gastos de Vehiculos</h2></div>
+        <div class="col-4"><h2>Registro de gasto distribucion Tienda</h2></div>
         <div class="col-4"></div>
 
     </div>
@@ -31,10 +31,10 @@
                             <th>Descripcion</th>
                             <th>Placas</th>
                             <th>Motor</th>
-                            <th>Usuario Creacion</th>
-                            <th>Fecha Creacion</th>
-                            <th>Hora Creacion</th>
-                            <th>Estatus</th>
+                            <th>Usuario de Actualización</th>
+                            <th>Fecha de Actualización</th>
+                            <th>Hora de Actualización</th>
+                            <th>Activo</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -52,7 +52,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h2 class="modal-title">Modal title</h2>
+                    <h2 class="modal-title">Modal Title</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -339,7 +339,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h2 id="asd" class="modal-title"> Alta Gastos de Vehiculo</h2>
+                    <h2 id="asd" class="modal-title">Registro de gasto distribucion Tienda</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -851,8 +851,12 @@
                                 json.json[i].created_user,
                                 "",
                                 "",
+                                //Faltan habilitar estas columnas desde el API
+                                //json.json[i].FechaUltModif,
+                                //json.json[i].TimeUltModif,
+                                //Faltan habilitar estas columnas desde el API
                                 json.json[i].Estatus,
-                                "<button type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-primary btn-circle\"> <i class=\"fa fa-plus\"></i></button>"
+                                "<button title='Editar' type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
 
                         }
@@ -1350,7 +1354,7 @@
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
                                 json.resp[i].activo,
-                                "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo +")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                                "<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo +")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
 
 
@@ -1473,7 +1477,7 @@
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
                                 json.resp[i].activo,
-                                "<button onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo +")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
+                                "<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo +")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button>"
                             ]).draw();
 
 

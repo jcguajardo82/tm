@@ -126,6 +126,8 @@ namespace ServicesManagement.Web.Controllers
 
         public int Id_TipoVehiculo { get; set; }
         public string TipoVehiculo { get; set; }
+        public string Marca { get; set; }
+        public string Anio { get; set; }
 
         // Modificar 
 
@@ -519,6 +521,8 @@ namespace ServicesManagement.Web.Controllers
 
                 try
                 {
+                    string CreatedId = User.Identity.Name;
+
                     Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
                     System.Collections.Hashtable parametros = new System.Collections.Hashtable();
@@ -527,11 +531,12 @@ namespace ServicesManagement.Web.Controllers
                         parametros.Add("@Placas", placas);
                         parametros.Add("@Motor", motor);
                         parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
-                        parametros.Add("@user", "sysAdmin");
+                        parametros.Add("@user", CreatedId);
+                        //parametros.Add("@Marca", marca);
+                        //parametros.Add("@Anio", anio);
 
 
-
-                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Vehiculo", false, parametros);
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Vehiculo", false, parametros);
 
 
                     //return ds;

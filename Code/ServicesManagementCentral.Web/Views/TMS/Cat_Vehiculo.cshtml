@@ -27,14 +27,16 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Tipo Vehiculo</th>
-                            <th>Descripcion</th>
+                            <th>Tipo de Vehiculo</th>
+                            <th>Modelo</th>
                             <th>Placas</th>
                             <th>Motor</th>
-                            <th>Usuario Creacion</th>
-                            <th>Fecha Creacion</th>
-                            <th>Hora Creacion</th>
-                            <th>Estatus</th>
+                            <th>Marca</th>
+                            <th>Año</th>
+                            <th>Usuario de Actualización</th>
+                            <th>Fecha de Actualización</th>
+                            <th>Hora de Actualización</th>
+                            <th>Activo</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -48,29 +50,35 @@
                                 var myDataSet = Session["listaV"] as System.Data.DataSet;
                                 foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                 {
-                                    <tr>
-                                        <td>@r["Id_Vehiculo"]</td>
-                                        <td>@r["TipoVehiculo"]</td>
-                                        <td>@r["Descripcion"]</td>
-                                        <td>
-                                            @r["Placas"]
-                                        </td>
-                                        <td>@r["Motor"]</td>
-                                        <td>@r["created_user"]</td>
+                                                <tr>
+                                                    <td>@r["Id_Vehiculo"]</td>
+                                                    <td>@r["TipoVehiculo"]</td>
+                                                    <td>@r["Descripcion"]</td>
+                                                    <td>
+                                                        @r["Placas"]
+                                                    </td>
+                                                    <td>@r["Motor"]</td>
+                                                    @* Falta habilitar Marca y Año, cuando se obtrengan del API *@
+                                                    <td>Marca-Ejemplo</td>
+                                                    <td>2021</td>
+                                                    @*<td>@r["Marca"]</td>*@
+                                                    @*<td>@r["Anio"]</td>*@
+                                                    @*<td>@r["modified_user"]</td>*@
+                                                    @* Falta habilitar Marca y Año, cuando se obtrengan del API *@
 
-                                        <td>@r["FechaUltModif"]</td>
+                                                    <td>@r["created_user"]</td>
+                                                    <td>@r["FechaUltModif"]</td>
+                                                    <td>@r["TimeUltModif"]</td>
 
-                                        <td>@r["TimeUltModif"]</td>
 
+                                                    <td>@r["Estatus"]</td>
+                                                    <td>
+                                                        @*<button type="button" onclick="SelectOrder('@r["Id_Vehiculo"]','@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>*@
 
-                                        <td>@r["Estatus"]</td>
-                                        <td>
-                                            @*<button type="button" onclick="SelectOrder('@r["Id_Vehiculo"]','@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>*@
-
-                                            <button onclick="getVehiculo('@r["Id_Vehiculo"]')" type="button" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button> 
-                                            <button type="button" onclick="DeleteSurtidores('@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
-                                        </td>
-                                    </tr>
+                                                        <button onclick="getVehiculo('@r["Id_Vehiculo"]')" type="button" title="Editar" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                                        <button type="button" title="Eliminar" onclick="DeleteSurtidores('@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                    </td>
+                                                </tr>
 
                                 }
                                                 }
@@ -126,9 +134,9 @@
                                     </div>*@
                                 <div class="form-group">
 
-                                    <label>Descripcion</label>
+                                    <label>Modelo</label>
 
-                                    <input type="text" placeholder="Descripcion" id="in_desc" name="in_desc" class="form-control" />
+                                    <input type="text" placeholder="Modelo" id="in_desc" name="in_desc" class="form-control" />
 
                                 </div>
 
@@ -175,18 +183,33 @@
 
 
                         <div class="row">
-
                             <div class="col col-xs-8 col-md-4">
-
                                 <div class="form-group">
 
                                     <label>Motor</label>
 
                                     <input type="text" placeholder="Motor" id="in_motor" name="in_motor" class="form-control" />
-
                                 </div>
-
                             </div>
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+
+                                    <label>Marca</label>
+
+                                    <input type="text" placeholder="Marca" id="in_marca" name="in_marca" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col col-xs-8 col-md-4">
+                                <div class="form-group">
+
+                                    <label>Año</label>
+
+                                    <input type="text" placeholder="Año" id="in_anio" name="in_anio" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-4"></div>
 
                             <div class="form-group">
@@ -204,39 +227,39 @@
 
 
 
-                        @*<div class="row">
-                                <div class="col-12">
+                            @*<div class="row">
+            <div class="col-12">
 
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Comentarios</span>
-                                        </div>
-                                        <textarea class="form-control" aria-label="With textarea"></textarea>
-                                    </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Comentarios</span>
+                    </div>
+                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                </div>
 
-                                </div>
-                            </div>*@
-                        @*<div class="row">
+            </div>
+        </div>*@
+                            @*<div class="row">
 
-                                <div class="col col-xs-8 col-md-4">
+            <div class="col col-xs-8 col-md-4">
 
-                                    <div class="form-group">
+                <div class="form-group">
 
-                                        <label>Tienda</label>
+                    <label>Tienda</label>
 
-                                        <select class="form-control" id="Id_TipoFolio" name="Id_TipoFolio">
-                                            <option selected="selected" value="1">--Tienda--</option>
-                                            <option value="1">24-CUMBRES</option>
+                    <select class="form-control" id="Id_TipoFolio" name="Id_TipoFolio">
+                        <option selected="selected" value="1">--Tienda--</option>
+                        <option value="1">24-CUMBRES</option>
 
-                                        </select>
-                                    </div>
+                    </select>
+                </div>
 
-                                </div>
+            </div>
 
 
-                            </div>*@
+        </div>*@
 
-                    </form>
+</form>
 
                 </div>
 
@@ -523,6 +546,9 @@
                     motor: document.getElementById("in_motor").value,
                     placas: document.getElementById("in_placas").value,
                     idTipoVehiculo: $("#Id_TipoFolio").val()
+                    //marca: document.getElementById("in_marca").val(),
+                    //anio: document.getElementById("in_anio").val()
+
                 },
                 datatype: "html",
                 success: function (json) {
@@ -579,7 +605,10 @@
                     descripcion: document.getElementById("in_desc").value,
                     motor: document.getElementById("in_motor").value,
                     placas: document.getElementById("in_placas").value,
-                    estatus : strUser
+                    estatus: strUser
+                    //marca: document.getElementById("in_marca").val(),
+                    //anio: document.getElementById("in_anio").val()
+
                 },
                 datatype: "html",
                 success: function (json) {
