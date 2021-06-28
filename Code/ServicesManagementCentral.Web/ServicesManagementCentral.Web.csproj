@@ -3667,6 +3667,9 @@
     <Content Include="Views\Catalogo\TipoEntregas.cshtml" />
     <Content Include="Views\PromocionesCostoEnvio\Index.cshtml" />
     <Content Include="Views\DefRangosTiempo\ParametrosDias.cshtml" />
+    <Content Include="Views\TMS\CostosFijos.cshtml" />
+    <Content Include="Views\Catalogo\TiendasCostoEnvio.cshtml" />
+    <Content Include="Views\Catalogo\CostosFijos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

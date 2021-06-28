@@ -189,7 +189,7 @@
                                         <select class="form-control" id="in_estatus" name="in_estatus">
                                             <option selected="selected" value="0">Activo</option>
                                             <option value="1">Inactivo</option>
-                                            
+
                                         </select>
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@
                                                     @r["UeNo"]
                                                 </td>
                                                 <td>
-                                                    <button type="button" onclick="SelectOrder('@r["OrderNo"]','@r["UeNo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                    <button type="button" onclick="SelectOrder('@r["OrderNo"]','@r["UeNo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-edit"></i></button>
                                                 </td>
                                             </tr>
 
@@ -353,17 +353,25 @@
                 success: function (json) {
                     if (json.Success) {
 
+                        debugger;
                         document.getElementById("flagStatus").value = json.Id;
 
-                        document.getElementById("in_tipoEntrega").value = json.des;
-                        document.getElementById("in_tipoCatalogo").value = json.tc;
-                        document.getElementById("tipoAlmacen").value = json.ta;
-                        document.getElementById("in_categoria").value = json.ca;
-                        document.getElementById("in_pesoMin").value = json.pm;
-                        document.getElementById("in_pesoMax").value = json.pmx;
-                        document.getElementById("in_estatus").value = json.e;
+                        //document.getElementById("in_tipoEntrega").value = json.tl;
+                        //document.getElementById("in_tipoCatalogo").value = json.tc;
+                        //document.getElementById("tipoAlmacen").value = json.ta;
+                        //document.getElementById("in_categoria").value = json.ca;
+                        //document.getElementById("in_pesoMin").value = json.pm;
+                        //document.getElementById("in_pesoMax").value = json.pmx;
+                        //document.getElementById("in_estatus").value = json.e;
 
+                        //Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e 
 
+                            document.getElementById("in_descripcion").value = json.tl;
+                            document.getElementById("in_MinPesoVolumetrico").value = json.mp;
+                            document.getElementById("in_MaxPesoVolumetrico").value = json.mxp;
+                            document.getElementById("in_MaxCosto").value = json.mx;
+                            document.getElementById("in_tipoArticulo").value = json.ta;
+                            document.getElementById("in_estatus").value = json.e;
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {

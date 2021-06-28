@@ -1,7 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "Atributos de Seguro y Empaque";
+    ViewBag.Title = "CostosFijos";
 }
+
 
 <style>
     #radioBtn .notActive {
@@ -29,7 +30,7 @@
 {
     <div class="row">
         <div class="col-4"></div>
-        <div class="col-4"><h2> Atributos de seguro y empaque</h2></div>
+        <div class="col-4"><h2> Costos fijos por Rango al cliente</h2></div>
         <div class="col-4"></div>
     </div>
 
@@ -46,18 +47,16 @@
                     <table id="tblConsulta" class="table table-striped table-bordered table-hover" style="overflow: scroll;width: 100%">
                         <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Número de Categoria</th>
-                                <th>Nombre de Categoria</th>
-                                <th>Precio Factura de Proveedor a Soriana</th>
-                                <th>Seguro Transportista</th>
-                                @*<th>% Adicional de seguro para incluir en $ <br />*@
-                                <th>(% vs costo de fact. del art. a nivel pza)</th>
-                                <th>% adicional por empaque </th>
-                                <th>Usuario de Actualizacion</th>
-                                <th>Fecha de Actualizacion</th>
-                                <th>Hora de Actualizacion</th>
-                                <th>Activo</th>
+                                <th>IdTransportista</th>
+                                <th>NombreTransportista</th>
+                                <th>IdZona</th>
+                                <th>Desc_Zona</th>
+                                <th>PesoInicio</th>
+                                <th>PesoFin</th>
+                                <th>CostoFijo</th>
+                                <th>CreatedDate</th>
+                                <th>CreatedTime</th>
+                                <th>Estatus</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -65,38 +64,12 @@
 
                             @{
 
-                                @*if (Session["listaASYE"] != null)
-                                {
 
-                                    var myDataSet = Session["listaASYE"] as System.Data.DataSet;
-                                    foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                if (Session["grid"] != null)
+                                {
+                                    var myDataSet = Session["grid"] as List<ServicesManagement.Web.Controllers.AtributosModels>;
+                                    foreach (ServicesManagement.Web.Controllers.AtributosModels r in myDataSet)
                                     {
-                                        <tr>
-                                            <td>@r["Id_AtributosSYE"]</td>
-                                            <td>@r["Id_CategoriaArt"]</td>
-                                            <td>@r["Id_CategoriaArt"]</td>
-                                            <td>@r["Precio_Fact"]</td>
-                                            <td>@r["Seguro_Trans"]</td>
-                                            <td>@r["Porc_VS_Costo_Fact"]</td>
-                                            <td>@r["Porc_adic_por_empaque"]</td>
-                                            <td>@r["Usuario"]</td>
-                                            <td>@r["Fec_Movto"]</td>
-                                            <td>@r["Time_Movto"]</td>
-                                            <td>@r["BitActivo"]</td>o
-                                            <td>
-                                                <button type="button" onclick="SelectOrder('@r["Id_AtributosSYE"]','@r["Id_AtributosSYE"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
-                                            </td>
-                                        </tr>
-
-                                    }
-                                }*@
-
-
-                            if (Session["grid"] != null)
-                            {
-                                var myDataSet = Session["grid"] as List<ServicesManagement.Web.Controllers.AtributosModels>;
-                                foreach (ServicesManagement.Web.Controllers.AtributosModels r in myDataSet)
-                                {
                                         <tr>
                                             <td>@r.Id_AtributosSYE</td>
                                             <td>@r.Id_CategoriaArt</td>
@@ -110,7 +83,7 @@
                                             <td>@r.Time_Movto</td>
                                             <td>@r.BitActivo</td>
                                             <td>
-                                                <button type="button" title="Editar" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                                <button type="button" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
                                             </td>
                                         </tr>
 
@@ -120,21 +93,7 @@
 
 
                         </tbody>
-                        @*<tfoot>
-                                <tr>
-                                    <th>DescripcionServicio</th>
-                                    <th>TipoEnvioRes</th>
-                                    <th>AplicaCotizacion</th>
-                                    <th>TarifaBase</th>
-                                    <th>CCTarifaBase</th>
-                                    <th>CargosExtra</th>
-                                    <th>SobrePeso</th>
-                                    <th>CCSobrePeso</th>
-                                    <th>CostoTotal</th>
-                                    <th>Peso</th>
-                                    <th>AplicaServicio</th>
-                                </tr>
-                            </tfoot>*@
+
                     </table>
 
                 </div>
@@ -153,7 +112,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="frmCreateServicios">
-                           
+
                             <div class="row">
                                 <div class="col col-xs-8 col-md-4">
                                     <div class="form-group">
@@ -340,6 +299,8 @@
     </div>
 }
 
+
+
 @section scripts {
 
     <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
@@ -382,7 +343,7 @@
                         document.getElementById("in_porc").value = json.porc;
                         document.getElementById("in_adic").value = json.adic;
                         document.getElementById("in_estatus").value = json.e;
-                        
+
                         //Id = o_id,
                         //    cat = o_cat,
                         //    pre = o_pre,
@@ -401,13 +362,6 @@
         }
 
 
-        function SelectOrder(orden,ue) {
-
-            document.getElementById("NoOrder").value = orden;
-            document.getElementById("UeNo").value = ue;
-
-            $("#buscaOrden").modal('hide');
-        }
 
         function btnOrdenes() {
 
@@ -415,74 +369,9 @@
 
         }
 
-        $('#radioBtn a').on('click', function () {
-            var sel = $(this).data('title');
-            var tog = $(this).data('toggle');
-            $('#' + tog).prop('value', sel);
-
-            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
-            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
-        })
-
 
         $(document).ready(function () {
 
-            $('input[type=checkbox]').change(function () { alert(document.getElementById("id_TS").value) });
-
-            $('#Table_Inv').DataTable(
-                {
-
-                    language:
-                    {
-                        "sProcessing": "Procesando...",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
-                        "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "Ningún dato disponible en esta tabla",
-                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Buscar:",
-                        "sUrl": "",
-                        "sInfoThousands": ",",
-                        "sLoadingRecords": "Cargando...",
-                        "oPaginate": {
-                            "sFirst": "Primero",
-                            "sLast": "Último",
-                            "sNext": "Siguiente",
-                            "sPrevious": "Anterior"
-
-                        },
-                        "oAria": {
-                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-                        },
-                        "buttons": {
-                            "print": "Imprimir",
-                            "pageLength": 'Mostrar %d Registros'
-
-                        }
-                    },
-                    dom: 'Bfrtip',
-                    lengthMenu: [
-                        [10, 25, 50, -1],
-                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
-                    ],
-                    buttons: [
-                        { extend: 'pageLength', className: 'btn-primary' },
-                        { extend: 'excel', className: 'btn-primary' }
-
-                    ]
-                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                    //    if (aData[1] == "SETC") {
-                    //        $('td', nRow).css('background-color', '#B6BF00');
-                    //    } else if (aData[2] == "4") {
-                    //        $('td', nRow).css('background-color', 'Orange');
-                    //    }
-                    //}
-                }
-            );
 
             $('#tblConsulta').DataTable(
                 {
@@ -835,212 +724,6 @@
             }
         }
 
-
-        function setTS(servicio) {
-
-            //$('input:checkbox').prop('checked', false)
-            debugger;
-            var nameChk = "#chk_" + document.getElementById("flagStatus").value.replace(/\s+/g, '');
-
-            $(nameChk).prop("checked", false);
-
-            document.getElementById("flagStatus").value = servicio;
-
-        }
-
-        function articulo(codigo, descripcion, unidad) {
-            this.Codigo = codigo;
-            this.Descripcion = descripcion;
-            this.Unidad = unidad;
-        }
-
-        function captura(guid, codigo, cantidad) {
-            this.idCaptura = 0;
-            this.guid = guid;
-            this.Codigo = codigo;
-            this.Cantidad = cantidad;
-        }
-
-
-        function cotizacion(DescripcionServicio
-                            ,TipoEnvioRes
-                            ,AplicaCotizacion
-                            ,TarifaBase
-                            ,CCTarifaBase
-                            ,CargosExtra
-                            ,SobrePeso
-                            ,CCSobrePeso
-                            ,CostoTotal
-                            ,Peso
-                            ,AplicaServicio) {
-
-            this.DescripcionServicio = DescripcionServicio
-            this.TipoEnvioRes = TipoEnvioRes
-            this.AplicaCotizacion = AplicaCotizacion
-            this.TarifaBase = TarifaBase
-            this.CCTarifaBase = CCTarifaBase
-            this.CargosExtra = CargosExtra
-            this.SobrePeso = SobrePeso
-            this.CCSobrePeso = CCSobrePeso
-            this.CostoTotal = CostoTotal
-            this.Peso = Peso
-            this.AplicaServicio = AplicaServicio
-
-        }
-
-        function saveCotizacion() {
-
-            debugger;
-
-            alert("TS" + document.getElementById("flagStatus").value);
-
-
-            var dtTable12 = $('#tblConsulta').DataTable();
-
-            var catalogo = [];
-            var capturas = [];
-
-            dtTable12.rows().data().toArray().forEach(function (row) {
-                var item = {}
-                debugger;
-                lastInventoryCapture = new cotizacion(row[0]
-                            , row[1]
-                            , row[2]
-                            , row[3]
-                            , row[4]
-                            , row[5]
-                            , row[6]
-                            , row[7]
-                            , row[8]
-                            , row[9]
-                            , row[10]);
-
-                capturas.push(lastInventoryCapture);
-
-                //var indexC = 0;
-                //row.forEach(function (content, index) {
-                //    item[fieldNames[index]] = content;
-
-
-                //    indexC++;
-                //})
-                //json2.push(item)
-            })
-            debugger;
-            //alert('capturas' + JSON.stringify(capturas));
-
-            //var data = dtTable12.rows().data().toArray();
-            //var json = JSON.stringify(data);
-
-            //alert(json);
-
-            //alert($('#tblConsulta').DataTable().rows().data().toArray());
-
-
-            @*$.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("SaveCotizacion", "TMS")',
-                data: {
-                    jsonData: JSON.stringify(capturas)
-                },
-                datatype: "html",
-                success: function (json) {
-                    //debugger;
-                    if (json.Success) {
-
-                        alert("Cotizacion Guardada con exito");
-
-                    }
-                }
-               , error: function (jqXHR, textStatus, errorThrown) {
-                   bootbox.alert(errorThrown);
-               }
-            });*@
-
-        }
-
-
-
-        //<th>Id Transportista</th>
-        //<th>Tarifa Fija</th>
-        //<th>Prioridad</th>
-        //<th>Nivel de Servicio</th>
-        //<th>Factor Division<br /> Peso Voluntario </th>
-        //<th>Paqueteria</th>
-        //<th>Big Ticket</th>
-        //<th>Servicio Estandar</th>
-        //<th>Servicio Express</th>
-        function GetTrans() {
-            //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetTransportistas", "Catalogo")',
-                data: {
-                    //  Id_Num_UN: _Id_Num_UN
-                },
-                datatype: "html",
-                success: function (json) {
-                    if (json.Success) {
-                        $("#tblConsulta tbody tr").remove();
-                        //var tr;
-                        //debugger;
-                        //Append each row to html table
-                        console.log(json);
-                        for (var i = 0; i < json.json.length; i++) {
-                            tr = $('<tr/>');
-                            //tr.append("<td class='row1'>" + json.json[i].Id_Num_Orden + "</td>");
-                            tr.append("<td>" + json.json[i].IdTransportista + "</td>");
-                            //tr.append("<td>" + json.json[i].RazonSocial + "</td>");
-                            if (json.json[i].TarifaFija == true) {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-
-                            tr.append("<td>" + json.json[i].Prioridad + "</td>");
-                            tr.append("<td>" + json.json[i].NivelServicio + "</td>");
-                            tr.append("<td>" + json.json[i].FactorPaqueteria + "</td>");
-                            if (json.json[i].Paqueteria == true) {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            if (json.json[i].BigTicket == true) {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            if (json.json[i].ServicioEstandar == true) {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            if (json.json[i].ServicioExpress == true) {
-                                tr.append("<td><input type=\"checkbox\" class=\"editor - active\" onclick=\"return false;\" checked></td>");
-                            }
-                            else {
-                                tr.append("<td><input type=\"checkbox\" onclick=\"return false;\" class=\"editor - active\"></td>");
-                            }
-                            //tr.append("<td><button type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            tr.append("<td><button onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button></td >")
-                            $('#tblConsulta').append(tr);
-
-                        }
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
-
         /* Bootbox Dialog box with custom Value */
         $('.alert-custom').click(function () {
             bootbox.dialog({
@@ -1080,3 +763,5 @@
         })
     </script>
 }
+
+

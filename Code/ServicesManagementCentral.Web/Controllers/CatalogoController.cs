@@ -3158,7 +3158,7 @@ namespace ServicesManagement.Web.Controllers
                                Usuario = (string)t2["Usuario"],
                                Fec_Creacion = (DateTime)t2["Fec_Creacion"],
                                Fec_Movto = t2["Fec_Movto"] == DBNull.Value ? "" : (string)t2["Fec_Movto"],
-                               Time_Movto = t2["Time_Movto"] == DBNull.Value ? "" : (string)t2["Time_Movto"],
+                               Time_Movto = t2["Time_Movto"] == DBNull.Value ? "00:00:00" : (string)t2["Time_Movto"],
                                BitActivo = (string)t2["BitActivo"]
                            }).ToList();
 
@@ -3876,6 +3876,21 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
+
+
+        public ActionResult TiendasCostoEnvio() {
+
+            return View();
+        
+        }
+
+        public ActionResult CostosFijos()
+        {
+
+
+            return View();
+
+        }
 
     }
 

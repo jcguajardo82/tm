@@ -1842,5 +1842,15 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
+
+
+        public ActionResult CostosFijos() {
+
+
+            return View();
+        
+        }
+
+
     }
 }
