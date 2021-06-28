@@ -82,7 +82,7 @@
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
             {
-                using (SqlCommand sqlComm = new SqlCommand("tms.PromocionesCostoEnvio_dUp", con))
+                using (SqlCommand sqlComm = new SqlCommand("tms.RangosTiemposExcepciones_dUp", con))
                 {
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
@@ -108,7 +108,7 @@
 
         }
 
-        public static void RangosTiemposExcepciones_iUp(int Prioridad, int IdTipoCatalogo, int IdOwner, string IdSupplierWH, string IdTipoLogistica
+        public static void RangosTiemposExcepciones_iUp(int Prioridad, int IdTipoCatalogo, int IdOwner, int IdSupplierWH,string SupplierName, int IdTipoLogistica
     , int IdTransportista, string NombreTransportista, int DiasExtra, DateTime FechaInicioPromo, TimeSpan HoraInicioPromo, DateTime FechaFinPromo, TimeSpan HoraFinPromo
     , DateTime FechaCreacion, TimeSpan HoraCreacion, string UsuarioCreacion, bool BitActivo)
 
@@ -139,6 +139,7 @@
                     sqlComm.Parameters.AddWithValue("@FechaCreacion", FechaCreacion);
                     sqlComm.Parameters.AddWithValue("@HoraCreacion", HoraCreacion);
                     sqlComm.Parameters.AddWithValue("@UsuarioCreacion", UsuarioCreacion);
+                    sqlComm.Parameters.AddWithValue("@SupplierName", SupplierName);
                     sqlComm.Parameters.AddWithValue("@BitActivo", BitActivo);
 
 
@@ -152,16 +153,16 @@
 
         }
 
-        public static void RangosTiemposExcepciones_dUp(int cnscDef,int Prioridad, int IdTipoCatalogo, int IdOwner, string IdSupplierWH, string IdTipoLogistica
+        public static void RangosTiemposExcepciones_uUp(int cnscDef,int Prioridad, int IdTipoCatalogo, int IdOwner, int IdSupplierWH,string SupplierName, int IdTipoLogistica
 , int IdTransportista, string NombreTransportista, int DiasExtra, DateTime FechaInicioPromo, TimeSpan HoraInicioPromo, DateTime FechaFinPromo, TimeSpan HoraFinPromo
-, DateTime FechaCreacion, TimeSpan HoraCreacion, string UsuarioCreacion, bool BitActivo)
+, DateTime FechaUltModif, TimeSpan HoraUltModif, string UsuarioUltModif, bool BitActivo)
 
 
 
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
             {
-                using (SqlCommand sqlComm = new SqlCommand("tms.RangosTiemposExcepciones_dUp", con))
+                using (SqlCommand sqlComm = new SqlCommand("tms.RangosTiemposExcepciones_uUp", con))
                 {
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
@@ -173,6 +174,7 @@
                     sqlComm.Parameters.AddWithValue("@IdTipoCatalogo", IdTipoCatalogo);
                     sqlComm.Parameters.AddWithValue("@IdOwner", IdOwner);
                     sqlComm.Parameters.AddWithValue("@IdSupplierWH", IdSupplierWH);
+                    sqlComm.Parameters.AddWithValue("@SupplierName", SupplierName);
                     sqlComm.Parameters.AddWithValue("@IdTipoLogistica", IdTipoLogistica);
                     sqlComm.Parameters.AddWithValue("@IdTransportista", IdTransportista);
                     sqlComm.Parameters.AddWithValue("@NombreTransportista", NombreTransportista);
@@ -181,10 +183,11 @@
                     sqlComm.Parameters.AddWithValue("@HoraInicioPromo", HoraInicioPromo);
                     sqlComm.Parameters.AddWithValue("@FechaFinPromo", FechaFinPromo);
                     sqlComm.Parameters.AddWithValue("@HoraFinPromo", HoraFinPromo);
-                    sqlComm.Parameters.AddWithValue("@FechaCreacion", FechaCreacion);
-                    sqlComm.Parameters.AddWithValue("@HoraCreacion", HoraCreacion);
-                    sqlComm.Parameters.AddWithValue("@UsuarioCreacion", UsuarioCreacion);
+                    sqlComm.Parameters.AddWithValue("@FechaUltModif", FechaUltModif);
+                    sqlComm.Parameters.AddWithValue("@HoraUltModif", HoraUltModif);
+                    sqlComm.Parameters.AddWithValue("@UsuarioUltModif", UsuarioUltModif);
                     sqlComm.Parameters.AddWithValue("@BitActivo", BitActivo);
+ 
 
 
 

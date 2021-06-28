@@ -203,11 +203,13 @@
     <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
     <Compile Include="Controllers\PromocionesCostoEnvioController.cs" />
+    <Compile Include="Controllers\RangosTiemposExcepcionesController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TMSController.cs" />
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
+    <Compile Include="DAL\DALRangosTiemposExcepciones.cs" />
     <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALDefRangosTiempo.cs" />
     <Compile Include="DAL\DALGastosVehiculo.cs" />
@@ -242,6 +244,7 @@
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
     <Compile Include="Models\DefRangosTiempo\ParametrosDias.cs" />
+    <Compile Include="Models\DefRangosTiempo\RangosTiemposExcepciones.cs" />
     <Compile Include="Models\DivisionModel.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionCliente.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionDetalleOrden.cs" />
@@ -3673,6 +3676,7 @@
     <Content Include="Views\TMS\CostosFijos.cshtml" />
     <Content Include="Views\Catalogo\TiendasCostoEnvio.cshtml" />
     <Content Include="Views\Impex\CostosFijos.cshtml" />
+    <Content Include="Views\RangosTiemposExcepciones\RangosTiemposExcepciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

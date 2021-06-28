@@ -1,0 +1,748 @@
+﻿
+@{
+    ViewBag.Title = "Rangos de Tiempos Excepciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4"><h2>Rangos de Tiempos Excepciones</h2></div>
+    <div class="col-4"></div>
+</div>
+<div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <table id="tblConsulta" class="table table-striped table-bordered table-hover">
+                <thead>
+                    @*<thead class="bg-primary">*@
+                    <tr>
+
+                        <th>Proveedor</th>
+                        <th>Transportista</th>
+                        <th>Dias Extra</th>
+                        <th>Prioridad</th>
+                        <th>Fecha inical de <br /> tarifa especial</th>
+                        <th>Hora inical de <br /> tarifa especial</th>
+                        <th>Fecha final de <br /> tarifa especial</th>
+                        <th>Hora final de <br /> tarifa especial</th>                     
+                        <th>Usuario de <br /> ultima actualización</th>
+                        <th>Fecha de <br /> ultima actualización</th>
+                        <th>Hora de <br /> ultima actualización</th>
+                        <th>Activo</th>
+                        <th name="accion">Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hddId" />
+<div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Rangos de Tiempos Excepciones</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmCreateServicios">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label>Tipo de Almacén</label>
+                                <select class="form-control" id="ddlAlmacen">
+                                    <option selected="selected" value="0">--Tipo de Almacen--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label>Proveedor</label>
+                                <select class="form-control" id="ddlProveedor">
+                                    <option selected="selected" value="0">--Proveedor--</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label>Transportista</label>
+                                <select class="form-control" id="ddlTransportista">
+                                    <option selected="selected" value="0">--Transportista--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label>Tipo de Catalogo</label>
+                                <select class="form-control" id="ddlCatalogo">
+                                    <option selected="selected" value="0">--SELECCIONE--</option>
+                                    <option value="1">Super</option>
+                                    <option value="2">Mercancías Generales</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group">
+                                <label>Tipo Logistica</label>
+                                <select class="form-control" id="ddlTipoLogistica">
+                                    <option selected="selected" value="0">--Tipo Logistica--</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Prioridad</label>
+                                <input type="number" id="txtPrioridad" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Días Extra</label>
+                                <input type="number" id="txtDiasExtra" class="form-control" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Fecha inical de tarifa especial</label>
+                                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                                <div class="input-group date" id="datetimepicker1">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecIniTarifa" name="txtFecIniTarifa"
+                                           type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Hora inical de tarifa especial</label>
+                                <input type="time" id="txtHoraIniTarifa" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Fecha final de tarifa especial</label>
+                                @*<input type="date" id="txtFecFinTarifa" class="form-control" />*@
+                                <div class="input-group date" id="datetimepicker1">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecFinTarifa" name="txtFecFinTarifa"
+                                           type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Hora final de tarifa especial</label>
+                                <input type="time" id="txtHoraFinTarifa" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xs-4 col-md-4">
+                            <div class="form-group">
+                                <label>Estatus</label>
+                                <select class="form-control" id="id_estatus" name="id_estatus">
+                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                    <option selected="selected" value="1">ACTIVO</option>
+                                    <option value="0">INACTIVO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" onclick="Add()" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "DD/MM/yyyy"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "DD/MM/yyyy"
+            });
+            $('#datetimepicker3').datetimepicker({
+                locale: 'es'
+                , format: "DD/MM/yyyy"
+            });
+        });
+        $(document).ready(function () {
+
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#tblConsulta').DataTable(
+                {
+                    "scrollX": true,
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
+
+                                $("#hddId").val('0');
+                                $("#modal-form").modal('show');
+
+                            }
+                            , className: 'btn-primary'
+                        }
+                    ]
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
+
+            GetConsulta();
+            IniciarComboTipoAlmacen();
+          
+            CmboTipoLogistica();
+            CmboTransportista();
+        
+        });
+
+        function GetConsulta() {
+            //var _Id_Num_UN = $("#hddId").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetRangosTiemposExcepciones", "RangosTiemposExcepciones")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+
+                        var myTable = $('#tblConsulta').DataTable();
+                        myTable
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            myTable.row.add([
+                             
+                                json.resp[i].SupplierName,
+                                json.resp[i].NombreTransportista,
+                                json.resp[i].DiasExtra ,
+                                json.resp[i].Prioridad,
+                                                          
+                                json.resp[i].FechaInicioPromo,
+                                json.resp[i].HoraInicioPromo,
+                                json.resp[i].FechaFinPromo,
+                                json.resp[i].HoraFinPromo,
+                               
+                                json.resp[i].UsuarioCreacion,
+                                json.resp[i].FechaUltModif,
+                                json.resp[i].HoraUltModif,
+                                json.resp[i].BitActivo,
+                                "<button title='Editar' onclick=\"GetById(" + json.resp[i].cnscDef + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].cnscDef + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function Add() {
+        /*   var _IdTipoCatalogo = $("#ddlTipoCatalogo").val();*/
+            var _cnscDef = $("#hddId").val();
+            var _IdOwner = $("#ddlAlmacen").val();
+            var _IdTipoCatalogo = $("#ddlCatalogo").val();
+            var _IdSupplierWH = $("#ddlProveedor").val();
+            var _SupplierName= $("#ddlProveedor :selected").text();
+            var _IdTransportista = $("#ddlTransportista").val();
+            var _NombreTransportista = $("#ddlTransportista :selected").text();          
+            var _IdTipoLogistica = $("#ddlTipoLogistica").val();
+
+            debugger;
+
+
+            _FechaInicioPromo = $("#txtFecIniTarifa").val();
+            _HoraInicioPromo = $("#txtHoraIniTarifa").val();
+            _FechaFinPromo = $("#txtFecFinTarifa").val();
+            _HoraFinPromo = $("#txtHoraFinTarifa").val();
+            _CostoEspecial = $("#txtCostoEsp").val();
+            _DiasExtra = $("#txtDiasExtra").val();
+            _Prioridad = $("#txtPrioridad").val();
+            _BitActivo = $("#id_estatus").val();
+
+
+
+            if (_IdOwner == "0") {
+                $("#ddlAlmacen").focus();
+                return;
+            }
+          
+           
+            if (_IdSupplierWH == "0") {
+                $("#ddlProveedor").focus();
+                return;
+            }
+            if (_IdTransportista == "0") {
+                $("#ddlTransportista").focus();
+                return;
+            }    
+            if (_IdTipoCatalogo == "0") {
+                $("#ddlCatalogo").focus();
+                return;
+            }
+            if (_IdTipoLogistica == "0") {
+                $("#ddlTipoLogistica").focus();
+                return;
+            }
+
+            if (_Prioridad.length == 0) {
+                $("#txtPrioridad").focus();
+                return;
+            }
+            if (_DiasExtra.length == 0) {
+                $("#txtDiasExtra").focus();
+                return;
+            }
+           
+
+
+
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("AddRangosTiemposExcepciones", "RangosTiemposExcepciones")',
+                data: {
+                    cnscDef: _cnscDef
+                    ,IdTipoCatalogo: _IdTipoCatalogo
+                    , IdOwner: _IdOwner                                    
+                    , IdSupplierWH: _IdSupplierWH
+                    , SupplierName: _SupplierName
+                    , IdTransportista: _IdTransportista
+                    , NombreTransportista: _NombreTransportista
+                    , IdTipoLogistica: _IdTipoLogistica
+                    , FechaInicioPromo: _FechaInicioPromo
+                    , HoraInicioPromo: _HoraInicioPromo
+                    , FechaFinPromo: _FechaFinPromo
+                    , HoraFinPromo: _HoraFinPromo
+                    , DiasExtra: _DiasExtra
+                    , Prioridad: _Prioridad
+                    ,BitActivo: (_BitActivo == "1") ? true : false
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+                        //GetConsulta();
+                        location.reload();
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+
+        function Delete(id) {
+            if (confirm('Esta seguro que desea eliminar el registro : ' + id))
+            {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("DelRangosTiemposExcepciones", "RangosTiemposExcepciones")',
+                    data: {
+                        cnscDef: id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            GetConsulta();
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            }
+        }
+
+        function GetById(id) {
+            $("#hddId").val(id);
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetRangosTiemposExcepcionesId", "RangosTiemposExcepciones")',
+                data: {
+                    Id: id
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        
+
+
+                        $("#ddlCatalogo").val(json.resp.IdTipoCatalogo);
+
+                        $("#txtDiasExtra").val(json.resp.DiasExtra);
+                        $("#txtPrioridad").val(json.resp.Prioridad);
+
+                        $("#ddlAlmacen").val(json.resp.IdOwner);
+                        CmboProveedores(json.resp.IdOwner);
+                        $("#ddlProveedor").val(json.resp.IdSupplierWH);
+                        $("#ddlTransportista").val(json.resp.IdTransportista);
+                        $("#ddlTipoLogistica").val(json.resp.IdTipoLogistica);
+                        $("#ddlTipoLogistica").val(json.resp.IdTipoLogistica);
+                        $("#ddlTipoLogistica").val(json.resp.IdTipoLogistica);
+                        $("#txtFecIniTarifa").val(json.resp.FechaInicioPromo);
+                        $("#txtHoraIniTarifa").val(json.resp.HoraInicioPromo);
+                        $("#txtFecFinTarifa").val(json.resp.FechaFinPromo);
+                        $("#txtHoraFinTarifa").val(json.resp.HoraFinPromo);
+   
+
+
+
+
+                        if (json.resp.BitActivo) {
+                            document.getElementById("id_estatus").value = 1;
+                        } else { document.getElementById("id_estatus").value = 0}
+
+
+
+                        $("#modal-form").modal('show');
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                   alert(errorThrown);
+                }
+            });
+
+        }
+
+
+
+    </script>
+    @*combos*@
+    <script>
+
+        var delayTimer;
+        function input(ele) {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function () {
+                ele.value = parseFloat(ele.value).toFixed(2).toString();
+            }, 1100);
+        }
+    function IniciarComboTipoAlmacen() {
+    $.ajax({
+        async: false,
+        type: "GET",
+        url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+        data: {
+
+        },
+        datatype: "html",
+        success: function (json) {
+            debugger;
+            if (json.Success) {
+                var sel = $("#ddlAlmacen");
+                sel.empty();
+
+                $('#ddlAlmacen').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                for (var i = 0; i < json.resp.length; i++) {
+                    sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +  '</option>');
+                }
+            }
+            else {
+                alert(json.Message);
+            }
+        }
+        , error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+
+        }
+    });
+    }
+
+    $('#ddlAlmacen').change(function () {
+        _idOwner = $("#ddlAlmacen").val();
+            CmboProveedores(_idOwner);
+    });
+
+    function CmboProveedores(_idOwner) {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetProveedoresCmb", "Catalogo")',
+                data: {
+                    idOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlProveedor");
+                        sel.empty();
+
+                        $('#ddlProveedor').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+                        sel.focus();
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+    }
+
+    function CmboTipoEnvio() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoEnvio", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTipoEnvio");
+                        sel.empty();
+
+                        $('#ddlTipoEnvio').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoEnvio + '">' + json.resp[i].Desc_TipoEnvio + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+    }
+
+    function CmboTipoServicio() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoServicio", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTipoServicio");
+                        sel.empty();
+
+                        $('#ddlTipoServicio').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoServicio + '">' + json.resp[i].Desc_TipoServicio + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+    }
+    function CmboTipoLogistica() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoLogistica", "PromocionesCostoEnvio")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTipoLogistica");
+                        sel.empty();
+
+                        $('#ddlTipoLogistica').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoLogistica + '">' + json.resp[i].TipoLogistica + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    function CmboTransportista() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListTransportista", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTransportista");
+                        sel.empty();
+
+                        $('#ddlTransportista').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTransportista + '">' + json.resp[i].Nombre + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    function CmboFormatoTienda() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetFormatoTenda", "PromocionesCostoEnvio")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlFormatoTienda");
+                        sel.empty();
+
+                        $('#ddlFormatoTienda').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoFormato + '">' + json.resp[i].Desc_TipoFormato + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+    </script>
+}
+
