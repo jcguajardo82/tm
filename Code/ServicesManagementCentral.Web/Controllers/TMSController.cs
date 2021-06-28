@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Globalization;
 
 namespace ServicesManagement.Web.Controllers
 {
@@ -1606,11 +1607,6 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-
-
-
-
-
         public ActionResult EditGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto, int IdConsecutivo)
 
         {
@@ -1648,6 +1644,80 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
+        public ActionResult DeleteGastoVehiculo( decimal CantidadGasto, int Kilometraje, string FecGasto, int IdConsecutivo)
+
+        {
+
+            try
+
+            {
+
+                string UserCreate = User.Identity.Name;
+
+
+
+                DALGastosVehiculo.DeleteGastoVehiculo_uUp( IdConsecutivo, FecGasto, Kilometraje, CantidadGasto, UserCreate);
+
+
+
+                var result = new { Success = true };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+        public ActionResult DeleteGastoVehiculo2(decimal CantidadGasto, int Kilometraje, int IdConsecutivo, string FecGasto)
+
+        {
+
+            try
+
+            {
+                string FecGastos = FecGasto.Substring(0, 10);
+
+                string UserCreate = User.Identity.Name;
+                string formato = "dd/MM/yyyy";
+                DateTime FecGasto2 = DateTime.ParseExact(FecGastos, formato, CultureInfo.InvariantCulture);
+                
+
+
+                DALGastosVehiculo.DeleteGastoVehiculo_uUp2(IdConsecutivo, UserCreate, Kilometraje, CantidadGasto, FecGasto2);
+
+
+
+                var result = new { Success = true };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
 
 
 

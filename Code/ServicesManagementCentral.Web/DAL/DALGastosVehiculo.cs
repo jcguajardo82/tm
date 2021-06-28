@@ -194,7 +194,89 @@ namespace ServicesManagement.Web.DAL
         }
 
 
+        public static DataSet DeleteGastoVehiculo_uUp( int IdConsecutivo, string FecGasto, int Kilometraje, decimal CantidadGasto, string created_user)
+        {
+            DataSet ds = new DataSet();
 
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                /*parametros.Add("@Id_Vehiculo", Id_Vehiculo);*/
+                //parametros.Add("@IdGasto", IdGasto);
+                parametros.Add("@FecGasto", FecGasto);
+                parametros.Add("@Kilometraje", Kilometraje);
+                parametros.Add("@CantidadGasto", CantidadGasto);
+                parametros.Add("@created_user", created_user);
+                parametros.Add("@IdConsecutivo", IdConsecutivo);
+                parametros.Add("@activo", 0);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.GastoVehiculo_uUp", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static DataSet DeleteGastoVehiculo_uUp2(int IdConsecutivo, string created_user, int Kilometraje, decimal CantidadGasto, DateTime FecGasto)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                /*parametros.Add("@Id_Vehiculo", Id_Vehiculo);*/
+                //parametros.Add("@IdGasto", IdGasto);
+                parametros.Add("@FecGasto", FecGasto);
+                parametros.Add("@Kilometraje", Kilometraje);
+                parametros.Add("@CantidadGasto", CantidadGasto);
+                parametros.Add("@created_user", created_user);
+                parametros.Add("@IdConsecutivo", IdConsecutivo);
+                parametros.Add("@activo", 0);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.GastoVehiculo_uUp", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
     }
 
