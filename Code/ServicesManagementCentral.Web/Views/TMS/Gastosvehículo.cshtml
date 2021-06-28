@@ -324,7 +324,7 @@
 
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 
-                    <button type="button" onclick="EditGastos()" class="btn btn-primary">Guardar</button>
+                    <button type="button" onclick="validaredit()" class="btn btn-primary">Guardar</button>
 
                 </div>
 
@@ -472,7 +472,7 @@
 
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 
-                    <button type="button" onclick="AddGastos()" class="btn btn-primary">Guardar</button>
+                    <button type="button" onclick="validaralta()" class="btn btn-primary">Guardar</button>
 
                 </div>
 
@@ -1406,7 +1406,7 @@
 
         function AddGastos() {
 
-            validaralta();
+           /* validaralta();*/
 
                 //var _Id_Num_UN = $("#hddTda").val();
                 //debugger;
@@ -1510,7 +1510,7 @@
 
         function EditGastos() {
 
-            validaredit();
+            /*validaredit();*/
 
             //var e = document.getElementById("id_estatus");
             //var strUser = e.value;
@@ -1878,11 +1878,12 @@
             if (FecGasto.length == 0) {
                 document.getElementById("in_fecha3").focus();
                 window.alert('campos vacios');
+                document.getElementById("in_fecha3").focus();
                 return false;
             }
             
             else {
-                return true;
+                AddGastos();
             }
         }
 
@@ -1906,11 +1907,12 @@
             if (FecGasto.length == 0) {
                 document.getElementById("in_fechaedit").focus();
                 window.alert('campos vacios');
+                document.getElementById("in_fechaedit").focus();
                 return false;
             }
 
             else {
-                return true;
+                EditGastos();
             }
         }
 
