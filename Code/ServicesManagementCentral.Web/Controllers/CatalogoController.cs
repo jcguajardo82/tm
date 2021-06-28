@@ -3145,22 +3145,22 @@ namespace ServicesManagement.Web.Controllers
             DataSet ds2 = GetAtributosSYE();
 
             List<AtributosModels> results = (from t1 in ds.Tables[0].AsEnumerable()
-                           join t2 in ds2.Tables[0].AsEnumerable() on (string)t1["Cve_CategSAP"] equals (string)t2["Id_CategoriaArt"]
-                           select new AtributosModels()
-                           {
-                               Id_AtributosSYE = t2.Field<Int32>("Id_AtributosSYE"),
-                               Id_CategoriaArt = t2.Field<string>("Id_CategoriaArt"),
-                               CategoriaArt = t1.Field<string>("Desc_CategSAP"),
-                               Precio_Fact = t2.Field<decimal>("Precio_Fact"),
-                               Seguro_Trans = (string)t2["Seguro_Trans"],
-                               Porc_VS_Costo_Fact = (decimal)t2["Porc_VS_Costo_Fact"],
-                               Porc_adic_por_empaque = (decimal)t2["Porc_adic_por_empaque"],
-                               Usuario = (string)t2["Usuario"],
-                               Fec_Creacion = (DateTime)t2["Fec_Creacion"],
-                               Fec_Movto = t2["Fec_Movto"] == DBNull.Value ? "" : (string)t2["Fec_Movto"],
-                               Time_Movto = t2["Time_Movto"] == DBNull.Value ? "00:00:00" : (string)t2["Time_Movto"],
-                               BitActivo = (string)t2["BitActivo"]
-                           }).ToList();
+                                             join t2 in ds2.Tables[0].AsEnumerable() on (string)t1["Cve_CategSAP"] equals (string)t2["Id_CategoriaArt"]
+                                             select new AtributosModels()
+                                             {
+                                                 Id_AtributosSYE = t2.Field<Int32>("Id_AtributosSYE"),
+                                                 Id_CategoriaArt = t2.Field<string>("Id_CategoriaArt"),
+                                                 CategoriaArt = t1.Field<string>("Desc_CategSAP"),
+                                                 Precio_Fact = t2.Field<decimal>("Precio_Fact"),
+                                                 Seguro_Trans = (string)t2["Seguro_Trans"],
+                                                 Porc_VS_Costo_Fact = (decimal)t2["Porc_VS_Costo_Fact"],
+                                                 Porc_adic_por_empaque = (decimal)t2["Porc_adic_por_empaque"],
+                                                 Usuario = (string)t2["Usuario"],
+                                                 Fec_Creacion = (DateTime)t2["Fec_Creacion"],
+                                                 Fec_Movto = t2["Fec_Movto"] == DBNull.Value ? "" : (string)t2["Fec_Movto"],
+                                                 Time_Movto = t2["Time_Movto"] == DBNull.Value ? "00:00:00" : (string)t2["Time_Movto"],
+                                                 BitActivo = (string)t2["BitActivo"]
+                                             }).ToList();
 
             Session["grid"] = results;
 
@@ -3294,7 +3294,7 @@ namespace ServicesManagement.Web.Controllers
                     string o_porc = "";
                     string o_adic = "";
                     string o_est = "";
-                    
+
                     foreach (DataRow r in ds.Tables[0].Rows)
                     {
 
@@ -3307,7 +3307,7 @@ namespace ServicesManagement.Web.Controllers
                             o_porc = r["Porc_VS_Costo_Fact"].ToString();
                             o_adic = r["Porc_adic_por_empaque"].ToString();
                             o_est = r["BitActivo"].ToString();
-                            
+
 
                             break;
                         }
@@ -3878,20 +3878,109 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        public ActionResult TiendasCostoEnvio() {
-
-            return View();
-        
-        }
-
-        public ActionResult CostosFijos()
+        #region TiendasCostoEnvio
+        public ActionResult TiendasCostoEnvio()
         {
 
-
             return View();
 
         }
 
+
+        public ActionResult GetTiendasCostoEnvio()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TiendaCostoEnvio>(DALCatalogo.upCorpTms_Cns_TiendasCostoEnvio().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetTiendasCostoEnvioId(int IdConsecutivo)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TiendaCostoEnvio>(DALCatalogo.upCorpTms_Cns_TiendasCostoEnvioById(IdConsecutivo).Tables[0]).FirstOrDefault();
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult AddTiendasCostoEnvio(int IdConsecutivo, int StoreNum, string Direccion, int IdTipoFormato, string Director, string Region
+            , decimal CostoEnvio, bool BitActivo)
+        {
+            try
+            {
+                if (IdConsecutivo == 0)
+                {
+                    DALCatalogo.upCorpTms_Ins_TiendasCostoEnvio(StoreNum, Direccion, IdTipoFormato, Director, Region
+            , CostoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, User.Identity.Name);
+                }
+                else
+                {
+                    DALCatalogo.upCorpTms_Upd_TiendasCostoEnvio(IdConsecutivo, StoreNum, Direccion, IdTipoFormato, Director, Region
+                , CostoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name);
+                }
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult DelTiendasCostoEnvio(int IdConsecutivo)
+        {
+            try
+            {
+                DALCatalogo.upCorpTms_Del_TiendasCostoEnvio(IdConsecutivo, User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult CmbUN()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<upCorpOms_Cns_UN>(DALServicesM.GetTmsUN().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
     }
 
 }

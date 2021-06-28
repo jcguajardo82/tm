@@ -1,31 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "TiendasCostoEnvio";
+    ViewBag.Title = "Costos de envio por Tienda";
 }
 
 
 
-<style>
-    #radioBtn .notActive {
-        color: #3276b1;
-        background-color: #fff;
-    }
-
-    .red {
-        background-color: red !important;
-    }
-
-    #table-scroll {
-        height: 600px;
-        overflow: auto;
-        margin-top: 20px;
-    }
-
-    .modalPdfContainer {
-        width: 100%;
-        height: calc(100vh);
-    }
-</style>
 
 @using (Html.BeginForm())
 {
@@ -38,7 +17,6 @@
 
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
         <br />
-
         @*<table id="tblConsulta" class="table table-striped dataTable" style="width:100%">*@
         <div class="row" id="dualListInvs" style="margin-left: 1%;margin-right: 1%;overflow-x: scroll;">
             <div class="row" id="gridInvs">
@@ -64,50 +42,20 @@
                                 <th>FechaUltModif</th>
                                 <th>HoraUltModif</th>
                                 <th>UsuarioUltModif</th>
-                                <th></th>
+                                <th>Action</th>
+
+
+
                             </tr>
                         </thead>
                         <tbody>
-
-                            @{
-
-                                
-                                if (Session["grid"] != null)
-                                {
-                                    var myDataSet = Session["grid"] as List<ServicesManagement.Web.Controllers.AtributosModels>;
-                                    foreach (ServicesManagement.Web.Controllers.AtributosModels r in myDataSet)
-                                    {
-                                        <tr>
-                                            <td>@r.Id_AtributosSYE</td>
-                                            <td>@r.Id_CategoriaArt</td>
-                                            <td>@r.Id_CategoriaArt</td>
-                                            <td>@r.Precio_Fact</td>
-                                            <td>@r.Seguro_Trans</td>
-                                            <td>@r.Porc_VS_Costo_Fact</td>
-                                            <td>@r.Porc_adic_por_empaque</td>
-                                            <td>@r.Usuario</td>
-                                            <td>@r.Fec_Movto</td>
-                                            <td>@r.Time_Movto</td>
-                                            <td>@r.BitActivo</td>
-                                            <td>
-                                                <button type="button" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                            </td>
-                                        </tr>
-
-                                    }
-                                }
-                            }
-
-
                         </tbody>
-                       
+
                     </table>
 
                 </div>
             </div>
         </div>
-
-
         <div id="frmAltaTrans" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -119,54 +67,49 @@
                     </div>
                     <div class="modal-body">
                         <form id="frmCreateServicios">
-
                             <div class="row">
-                                <div class="col col-xs-8 col-md-4">
+                                <div class="col-sm-4 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label>Categoria</label>
-                                        <select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                                            <option selected="selected" value="0">--Seleccionar--</option>
-                                            @{ if (Session["listaCatSap"] != null)
-                                                {
-                                                    var myDataSet = Session["listaCatSap"] as System.Data.DataSet;
-                                                    foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
-                                                    {
-                                                        <option value="@r["Cve_CategSAP"]">@r["Desc_CategSAP"]</option>
-
-                                                    }
-                                                }
-                                            }
+                                        <label>Tiendas</label>
+                                        <select class="form-control" id="ddlTiendas">
+                                            <option selected="selected" value="0">--SELECCIONE--</option>
 
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col col-xs-8 col-md-4">
-
-                                </div>
-                                <div class="col col-xs-8 col-md-4">
+                                <div class="col-sm-4 col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label>Precio Fact.</label>
-                                        <input type="text" placeholder="Precio Fact." id="in_precio" name="in_precio" class="form-control" />
+                                        <label>Formato Tienda</label>
+                                        <select class="form-control" id="ddlFormatoTienda">
+                                            <option selected="selected" value="0">--Proveedor--</option>
+
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col col-xs-8 col-md-4">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label>Seguro</label>
-                                        <input type="text" placeholder="Seguro" id="in_seguro" name="in_seguro" class="form-control" />
+                                        <label>Dirección</label>
+                                        <input type="text" placeholder="Seguro" id="txtDireccion" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="col col-xs-8 col-md-4">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label>Porc. vs Costo Fact.</label>
-                                        <input type="text" placeholder="" id="in_porc" name="in_porc" class="form-control" />
+                                        <label>Director</label>
+                                        <input type="text" placeholder="" id="txtDirector" class="form-control" />
                                     </div>
                                 </div>
-                                <div class="col col-xs-8 col-md-4">
+                                <div class="col-sm-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label>Porc. Adic. Por Empaque</label>
-                                        <input type="text" placeholder="" id="in_adic" name="in_adic" class="form-control" />
+                                        <label>Región</label>
+                                        <input type="text" placeholder="" id="txtRegion" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        <label>Costo de Envio</label>
+                                        <input type="number" oninput='input(this)' placeholder="" id="txtCostoEnvio" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -175,8 +118,8 @@
                                     <div class="form-group">
                                         <label>Estatus</label>
                                         <select class="form-control" id="in_estatus" name="in_estatus">
-                                            <option selected="selected" value="0">Activo</option>
-                                            <option value="1">Inactivo</option>
+                                            <option selected="selected" value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
 
                                         </select>
                                     </div>
@@ -190,258 +133,104 @@
                     <div class="modal-footer">
 
                         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
+                        <button type="button" onclick="Add()" class="btn btn-primary">Guardar</button>
                     </div>
 
                 </div>
             </div>
         </div>
-
-        <div id="buscaOrden" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title">Lista de Ordenes</h2>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <table id="Table_Inv" class="table table-striped table-bordered table-hover" style="overflow: scroll">
-                            <thead>
-                                <tr>
-                                    <th>OrderNo</th>
-                                    <th>UeNo</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @{
-
-                                    if (Session["lisOrdenes"] != null)
-                                    {
-
-                                        var myDataSet = Session["lisOrdenes"] as System.Data.DataSet;
-                                        foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @r["OrderNo"]
-                                                </td>
-                                                <td>
-                                                    @r["UeNo"]
-                                                </td>
-                                                <td>
-                                                    <button type="button" onclick="SelectOrder('@r["OrderNo"]','@r["UeNo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
-                                                </td>
-                                            </tr>
-
-                                        }
-                                    }
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-
-                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                        <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade bd-example-modal-lg" id="myProduccion" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content" style="height:650px">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Reporte de Consulta de Asignacion de Dueño de Pasillo</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe width="100%" height="550px" id="frameReporte" src="" frameborder="0" allowfullscreen></iframe>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade bd-example-modal-lg" id="dlgReporteador" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="titleReporteador">Mostrando el reporte</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div style="position:inherit">
-                            <div class="lockPdf"></div>
-                            <embed class="modalPdfContainer" src="data:application/pdf;base64,'" type="application/pdf" id="objPDF" />
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <input id="filename" name="filename" value="0" style="visibility:hidden" />
-
-        <input id="flagStatus" name="flagStatus" value="" style="visibility:hidden" />
-
     </div>
+
+    <input type="hidden" id="hddId" />
 }
 
 
 
 @section scripts {
 
-    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
-    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
-    <script src="~/Content/plugins/datatables/datatables.js"></script>
-    <script src="~/Scripts/bootbox.js"></script>
-    <script src="~/Scripts/bootbox.min.js"></script>
-
     <script>
-        function changeSrcEmbed(element, src) {
-            var id = element.id;
-            element.src = src;
-            var embedOld = document.getElementById(id);
-            var parent = embedOld.parentElement;
-            var newElement = element;
-            document.getElementById(id).remove();
-            //parent.append(newElement);
-            parent.appendChild(newElement);
-
-        }
-
-        function SelectItem(item, itemId) {
-
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetAtributosSYE", "Catalogo")',
-                data: {
-                    Id_AtributosSYE: item
-                },
-                datatype: "html",
-                success: function (json) {
-                    if (json.Success) {
-                        debugger;
-                        document.getElementById("flagStatus").value = json.Id;
-
-                        document.getElementById("ProveedorLista").value = json.cat;
-                        document.getElementById("in_precio").value = json.pre;
-                        document.getElementById("in_seguro").value = json.seg;
-                        document.getElementById("in_porc").value = json.porc;
-                        document.getElementById("in_adic").value = json.adic;
-                        document.getElementById("in_estatus").value = json.e;
-
-                        //Id = o_id,
-                        //    cat = o_cat,
-                        //    pre = o_pre,
-                        //    seg = o_seg,
-                        //    porc = o_porc,
-                        //    adic = o_adic,
-                        //    e = o_est.ToLower().Equals("false") ? 1 : 0
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-             });
-
-            $("#frmAltaTrans").modal('show');
-        }
-
-
-    
-        function btnOrdenes() {
-
-            $("#buscaOrden").modal('show');
-
-        }
-
 
         $(document).ready(function () {
 
-          
-            $('#tblConsulta').DataTable(
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#tblConsulta').DataTable(
                 {
 
                     language:
-                        {
-                            "sProcessing": "Procesando...",
-                            "sLengthMenu": "Mostrar _MENU_ registros",
-                            "sZeroRecords": "No se encontraron resultados",
-                            "sEmptyTable": "Ningún dato disponible en esta tabla",
-                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                            "sInfoPostFix": "",
-                            "sSearch": "Buscar:",
-                            "sUrl": "",
-                            "sInfoThousands": ",",
-                            "sLoadingRecords": "Cargando...",
-                            "oPaginate": {
-                                "sFirst": "Primero",
-                                "sLast": "Último",
-                                "sNext": "Siguiente",
-                                "sPrevious": "Anterior"
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
 
-                            },
-                            "oAria": {
-                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-                            },
-                            "buttons": {
-                                "print": "Imprimir",
-                                "pageLength": 'Mostrar %d Registros'
-
-                            }
                         },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
                     dom: 'Bfrtip',
                     lengthMenu: [
-                                    [10, 25, 50, -1],
-                                     ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
                     ],
                     buttons: [
-                            { extend: 'pageLength', className: 'btn-primary' },
-                            { extend: 'excel', className: 'btn-primary' },
-                            {
-                                text: 'Alta',
-                                action: function (e, dt, node, config) {
-                                    //var e = document.getElementById("ProveedorLista");
-                                    //e.disabled = false;
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
 
-                                    //document.getElementById("TarifaFija").value = "SI";
-                                    //document.getElementById("cp_origen").value = '';
-                                    //document.getElementById("cp_destino").value = '';
-                                    //document.getElementById("in_ancho").value = '';
-                                    //document.getElementById("in_alto").value = '';
-                                    //document.getElementById("in_peso").value = '';
-                                    //document.getElementById("in_largo").value = '';
-                                    document.getElementById("flagStatus").value = "0";
-                                    $("#frmAltaTrans").modal('show');
 
-                                }
-                                , className: 'btn-primary'
+                                $("#hddId").val('0');
+                                $("#txtDireccion").val('');
+                                $("#txtDirector").val('');
+                                $("#txtRegion").val('');
+                                $("#txtCostoEnvio").val('');
+                                $("#ddlTiendas").val("0");
+                                $("#ddlFormatoTienda").val("0");
+
+                                $("#frmAltaTrans").modal('show');
                             }
+                            , className: 'btn-primary'
+                        }
                     ]
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
@@ -452,32 +241,60 @@
                     //}
                 }
             );
+
+            GetConsulta();
+            CmboTienda();
+            CmboFormatoTienda();
         });
 
-        function GetCommonProveedor() {
-
+        function GetConsulta() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("GetCommonProveedores", "Catalogo")',
+                url: '@Url.Action("GetTiendasCostoEnvio", "Catalogo")',
                 data: {
-                    IdAlmacen: null
+                    //  Id_Num_UN: _Id_Num_UN
                 },
                 datatype: "html",
                 success: function (json) {
-                    if (json.Success) {
-                        console.log(json);
-                        var dynamicSelect = document.getElementById("ProveedorLista");
-                        dynamicSelect.innerText = null;
-                        console.log(dynamicSelect);
-                        for (var i = 0; i < json.json.length; i++) {
-                            var newOption = document.createElement("option");
-                            newOption.value = json.json[i].NumProveedor;
-                            newOption.textContent = json.json[i].NombreProveedor;//item.whateverProperty
+                    console.log(json);
 
-                            dynamicSelect.appendChild(newOption);
+                    debugger;
+                    if (json.Success) {
+
+
+                        var myTable = $('#tblConsulta').DataTable();
+                        myTable
+                            .clear()
+                            .draw();
+                        debugger;
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            myTable.row.add([
+                                json.resp[i].IdConsecutivo,
+                                json.resp[i].StoreNum,
+                                json.resp[i].NomTienda,
+                                json.resp[i].Direccion,
+
+                                json.resp[i].IdTipoFormato,
+                                json.resp[i].Desc_TipoFormato,
+                                json.resp[i].Director,
+                                json.resp[i].Region,
+                                json.resp[i].CostoEnvio,
+                                json.resp[i].BitActivo,
+                                json.resp[i].FechaCreacion,
+                                json.resp[i].HoraCreacion,
+                                json.resp[i].UsuarioCreacion,
+                                json.resp[i].FechaUltModif,
+                                json.resp[i].HoraUltModif,
+                                json.resp[i].UsuarioUltModif,
+
+                                "<button title='Editar' onclick=\"GetById(" + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].IdConsecutivo + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            ]).draw();
                         }
-                        console.log(dynamicSelect);
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -486,231 +303,80 @@
             });
         }
 
-        function EditSurtidores(IdTransportista) {
-
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetTransportistas", "Catalogo")',
-                data: {
-                    IdTransportista: parseInt(IdTransportista)
-                },
-                datatype: "html",
-                success: function (json) {
-                    //debugger;
-                    if (json.Success) {
-                        console.log(json);
-                        for (var i = 0; i < json.json.length; i++) {
-                            //document.getElementById("IdTransportista").value = json.json[i].IdTransportista;
-                            //document.getElementById("RazonSocial").value = json.json[i].RazonSocial;
-                            var e = document.getElementById("ProveedorLista");
-                            e.value = json.json[i].IdTransportista;
-                            e.disabled = true;
-
-                            var valTarifaFija = (json.json[i].TarifaFija == true) ? "Y" : "N";
-                            document.getElementById("CostoTarifaFija").value = json.json[i].CostoTarifaFija;
-                            document.getElementById("NivelServicio").value = json.json[i].NivelServicio;
-                            document.getElementById("FactorVoluntario").value = json.json[i].FactorVoluntario;
-                            document.getElementById("PorcAdicPaquete").value = json.json[i].PorcAdicPaquete;
-                            document.getElementById("Prioridad").value = json.json[i].Prioridad;
-                            var valPaqueteria = (json.json[i].Paqueteria == true) ? "Y" : "N";
-                            var valBigTicket = (json.json[i].BigTicket == true) ? "Y" : "N";
-                            var valServicioEstandar = (json.json[i].ServicioEstandar == true) ? "Y" : "N";
-                            var valServicioExpress = (json.json[i].ServicioExpress == true) ? "Y" : "N";
-                        }
-
-                        $('a[data-toggle="TarifaFija"][data-title="' + valTarifaFija + '"]').click();
-                        $('a[data-toggle="Paqueteria"][data-title="' + valPaqueteria + '"]').click();
-                        $('a[data-toggle="BigTicket"][data-title="' + valBigTicket + '"]').click();
-                        $('a[data-toggle="ServicioEstandar"][data-title="' + valServicioEstandar + '"]').click();
-                        $('a[data-toggle="ServicioExpress"][data-title="' + valServicioExpress + '"]').click();
-
-                        $("#frmAltaTrans").modal('show');
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
+        function ActionUpd() {
+            debugger;
+            if (document.getElementById("flag_edit").value == "1") {
+                Edit();
+            }
+            else {
+                Add();
+            }
         }
 
-        function AddSurtidores() {
+        function Add() {
+            _IdConsecutivo = $("#hddId").val();
+            _Direccion = $("#txtDireccion").val();
+            _Director = $("#txtDirector").val();
+            _Region = $("#txtRegion").val();
+            _CostoEnvio = $("#txtCostoEnvio").val();
+            _NomTienda =  $("#ddlTiendas :selected").text();
+            _StoreNum = $("#ddlTiendas").val();
+            _IdTipoFormato = $("#ddlFormatoTienda").val();
+            _BitActivo = $("#in_estatus").val();
 
+            if (_StoreNum == "0") {
+                $("#ddlTiendas").focus();
+                return;
+            }
+            if (_IdTipoFormato == "0") {
+                $("#ddlFormatoTienda").focus();
+                return;
+            }
 
+            if (_Direccion.length == 0) {
+                $("#txtDireccion").focus();
+                return;
+            }
+            if (_Director.length == 0) {
+                $("#txtDirector").focus();
+                return;
+            }
+            if (_Region.length == 0) {
+                $("#txtRegion").focus();
+                return;
+            }
+            if (_CostoEnvio.length == 0) {
+                $("#txtCostoEnvio").focus();
+                return;
+            }
             debugger;
             $.ajax({
                 async: false,
-                type: "POST",
-                url: '@Url.Action("InsAtributosSYE", "Catalogo")',
-                data: {
-                    Id_AtributosSYE: document.getElementById("flagStatus").value
-                    , Id_CategoriaArt: document.getElementById("ProveedorLista").value
-                    , Precio_Fact: document.getElementById("in_precio").value
-                    , Seguro_Trans: document.getElementById("in_seguro").value
-                    , Porc_VS_Costo_Fact: document.getElementById("in_porc").value
-                    , Porc_adic_por_empaque: document.getElementById("in_adic").value
-                    , Estatus: document.getElementById("in_estatus").value
-                },
-                datatype: "json",
-                success: function (json) {
-                    if (json.Success) {
-                        debugger;
-                        //alert(json.json.cotizacion.TipoServicio[0].DescripcionServicio);
-
-                        //var table1 = $('#tblConsulta').DataTable();
-                        //table1.clear().draw();
-                        //table1.destroy();
-
-
-                        //var table = $('#tblConsulta').DataTable(
-                        //    {
-
-                        //        language:
-                        //        {
-                        //            "sProcessing": "Procesando...",
-                        //            "sLengthMenu": "Mostrar _MENU_ registros",
-                        //            "sZeroRecords": "No se encontraron resultados",
-                        //            "sEmptyTable": "Ningún dato disponible en esta tabla",
-                        //            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        //            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        //            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        //            "sInfoPostFix": "",
-                        //            "sSearch": "Buscar:",
-                        //            "sUrl": "",
-                        //            "sInfoThousands": ",",
-                        //            "sLoadingRecords": "Cargando...",
-                        //            "oPaginate": {
-                        //                "sFirst": "Primero",
-                        //                "sLast": "Último",
-                        //                "sNext": "Siguiente",
-                        //                "sPrevious": "Anterior"
-
-                        //            },
-                        //            "oAria": {
-                        //                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        //                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-                        //            },
-                        //            "buttons": {
-                        //                "print": "Imprimir",
-                        //                "pageLength": 'Mostrar %d Registros'
-
-                        //            }
-                        //        },
-                        //        dom: 'Bfrtip',
-                        //        lengthMenu: [
-                        //            [10, 25, 50, -1],
-                        //            ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
-                        //        ],
-                        //        buttons: [
-                        //            { extend: 'pageLength', className: 'btn-primary' },
-                        //            { extend: 'excel', className: 'btn-primary' },
-                        //            {
-                        //                text: 'Cotizacion',
-                        //                action: function (e, dt, node, config) {
-                        //                    //var e = document.getElementById("ProveedorLista");
-                        //                    //e.disabled = false;
-
-                        //                    document.getElementById("TarifaFija").value = "SI";
-                        //                    document.getElementById("cp_origen").value = '';
-                        //                    document.getElementById("cp_destino").value = '';
-                        //                    document.getElementById("in_ancho").value = '';
-                        //                    document.getElementById("in_alto").value = '';
-                        //                    document.getElementById("in_peso").value = '';
-                        //                    document.getElementById("in_largo").value = '';
-
-                        //                    $("#frmAltaTrans").modal('show');
-
-                        //                }
-                        //                , className: 'btn-primary'
-                        //            },
-                        //            {
-                        //                text: 'Guardar Cotizacion',
-                        //                action: function (e, dt, node, config) {
-                        //                    saveCotizacion()
-                        //                }
-                        //                , className: 'btn-primary'
-                        //            }
-
-                        //        ]
-                        //        //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                        //        //    if (aData[1] == "SETC") {
-                        //        //        $('td', nRow).css('background-color', '#B6BF00');
-                        //        //    } else if (aData[2] == "4") {
-                        //        //        $('td', nRow).css('background-color', 'Orange');
-                        //        //    }
-                        //        //}
-                        //    }
-                        //);
-
-                        ////table.clear().draw();
-                        ////table.destroy();
-
-                        //for (var i = 0; i < json.json.cotizacion.TipoServicio.length; i++) {
-
-
-                        //    table.row.add([
-                        //        json.json.cotizacion.TipoServicio[i].DescripcionServicio,
-                        //        json.json.cotizacion.TipoServicio[i].TipoEnvioRes,
-                        //        json.json.cotizacion.TipoServicio[i].AplicaCotizacion,
-                        //        json.json.cotizacion.TipoServicio[i].TarifaBase,
-                        //        json.json.cotizacion.TipoServicio[i].CCTarifaBase,
-                        //        json.json.cotizacion.TipoServicio[i].CargosExtra,
-                        //        json.json.cotizacion.TipoServicio[i].SobrePeso,
-                        //        json.json.cotizacion.TipoServicio[i].CCSobrePeso,
-                        //        json.json.cotizacion.TipoServicio[i].CostoTotal,
-                        //        json.json.cotizacion.TipoServicio[i].Peso,
-                        //        json.json.cotizacion.TipoServicio[i].AplicaServicio
-                        //        /*, "<input id=\"radio_TS\" name=\"tipoS\" type=\"radio\" onchange=\"setTS('" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "')\"  value=\"" + json.json.cotizacion.TipoServicio[i].DescripcionServicio + "\">"*/
-                        //        /*, "<button type=\"button\" onclick=\"DeleteSurtidores(undefined)\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"*/
-                        //        , "<button type=\"button\" onclick=\"GeneraGuia(" + json.json.cotizacion.TipoServicio[i].DescripcionServicio+")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-pencil\"></i></button>"
-
-                        //    ]).draw();
-
-                        //}
-
-
-                        $("#frmAltaTrans").modal('hide');
-
-                        location.reload();
-
-                    } else { alert(json.Message);}
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
-
-        function GeneraGuia(desc) {
-
-             $.ajax({
-                async: false,
                 type: "GET",
-                url: '@Url.Action("GeneraGuia", "TMS")',
+                url: '@Url.Action("AddTiendasCostoEnvio", "Catalogo")',
                 data: {
-                    UeNo: document.getElementById("UeNo").value,
-                    OrderNo: document.getElementById("NoOrder").value,
-                    tipoServicio: desc, //document.getElementById("flagStatus").value,
-                    paqueteria: "1"
+                    IdConsecutivo: _IdConsecutivo,
+                    StoreNum: _StoreNum,
+                    Direccion: _Direccion,
+                    IdTipoFormato: _IdTipoFormato,
+                    Director: _Director,
+                    Region: _Region,
+                    CostoEnvio: _CostoEnvio,       
+                    BitActivo: (_BitActivo == "1") ? true : false
 
                 },
                 datatype: "html",
                 success: function (json) {
-                    //debugger;
+                    console.log(json);
+
+                    debugger;
                     if (json.Success) {
-
-                        alert("Cotizacion Guardada con exito");
-
-
-                        @*$('#frameReporte').attr('src', '@Url.Action("DownLoad", "IntegridadAnaquel")?filename=' + data.Object.ruta);
-
-                        $('#myProduccion').modal('show');*@
-
-
-                        var element = document.getElementById('objPDF');
-                        changeSrcEmbed(element, 'data:application/pdf;base64,' + json.pdf);//+ '#toolbar=0&navpanes=0&scrollbar=0');
-                        $('#dlgReporteador').modal('show');
+                        //$("#txtDesc_Zona").val('');
+                        //GetConsulta();
+                        location.reload();
+                    }
+                    else {
+                        alert(json.Message);
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -719,55 +385,136 @@
             });
         }
 
-        function DisplayError(xhr) {
 
-            if (xhr.responseText == "Solicitud incorrecta") {
-                var msg = JSON.parse(xhr.statusText);
-                bootbox.alert("<h4>" + msg + "</h4>");
-            }
-            else {
-                var msg = JSON.parse(xhr.responseText);
-                bootbox.alert("<h4>" + msg.Message + "</h4>");
+
+        function Delete(id) {
+            if (confirm('Esta seguro que desea eliminar el registro : ' + id))
+            {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("DelTiendasCostoEnvio", "catalogo")',
+                    data: {
+                        IdConsecutivo: id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            GetConsulta();
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
             }
         }
 
-        /* Bootbox Dialog box with custom Value */
-        $('.alert-custom').click(function () {
-            bootbox.dialog({
-                title: "This is a form in a modal.",
-                message: '<div class="row">  ' +
-                '<div class="col-md-12"> ' +
-                '<form class="form-horizontal"> ' +
-                '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="name">Name</label> ' +
-                '<div class="col-md-4"> ' +
-                '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md"> ' +
-                '<span class="help-block">Here goes your name</span> </div> ' +
-                '</div> ' +
-                '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
-                '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
-                '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
-                'Really awesome </label> ' +
-                '</div><div class="radio"> <label for="awesomeness-1"> ' +
-                '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
-                '</div> ' +
-                '</div> </div>' +
-                '</form> </div>  </div>',
-                buttons: {
-                    success: {
-                        label: "Save",
-                        className: "btn-success",
-                        callback: function () {
-                            var name = $('#name').val();
-                            var answer = $("input[name='awesomeness']:checked").val()
-                            $('.Example').show().html("Hello " + name + ". You've chosen <b>" + answer + "</b").fadeOut(5000);
+        function GetById(id) {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTiendasCostoEnvioId", "Catalogo")',
+                data: {
+                    IdConsecutivo: id
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        document.getElementById("hddId").value = json.resp.IdConsecutivo;
+                        $("#txtDireccion").val(json.resp.Direccion);
+                        $("#txtDirector").val(json.resp.Director);
+                        $("#txtRegion").val(json.resp.Region);
+                        $("#txtCostoEnvio").val(json.resp.CostoEnvio);
+                        $("#ddlTiendas").val(json.resp.StoreNum);
+                        $("#ddlFormatoTienda").val(json.resp.IdTipoFormato);
+                        debugger;
+                        if (json.resp.BitActivo=="1") {
+                            document.getElementById("in_estatus").value = 1;
+                        } else { document.getElementById("in_estatus").value = 0}
+                  
+
+
+                        $("#frmAltaTrans").modal('show');
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                   alert(errorThrown);
+                }
+            });
+
+        }
+
+        function CmboTienda() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("CmbUN", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlTiendas");
+                        sel.empty();
+
+                        $('#ddlTiendas').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].Id_num_un + '">' + json.resp[i].Centros + '</option>');
                         }
+
                     }
                 }
-            }
-                    );
-        })
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+        function CmboFormatoTienda() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetFormatoTenda", "PromocionesCostoEnvio")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlFormatoTienda");
+                        sel.empty();
+
+                        $('#ddlFormatoTienda').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoFormato + '">' + json.resp[i].Desc_TipoFormato + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
+
+        var delayTimer;
+        function input(ele) {
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function () {
+                ele.value = parseFloat(ele.value).toFixed(2).toString();
+            }, 1100);
+        }
     </script>
 }
 
