@@ -260,6 +260,7 @@
     <Compile Include="Models\Impex\KgDinero.cs" />
     <Compile Include="Models\Impex\TransportistaPlazas.cs" />
     <Compile Include="Models\Impex\TransportistaPlazasDestinos.cs" />
+    <Compile Include="Models\Impex\TransportistaRangosFijos.cs" />
     <Compile Include="Models\Impex\TransportistaRangosPesos.cs" />
     <Compile Include="Models\Impex\TransportistaZonaCostos.cs" />
     <Compile Include="Models\Impex\TransportistaZonaPlazas.cs" />
@@ -3669,7 +3670,7 @@
     <Content Include="Views\DefRangosTiempo\ParametrosDias.cshtml" />
     <Content Include="Views\TMS\CostosFijos.cshtml" />
     <Content Include="Views\Catalogo\TiendasCostoEnvio.cshtml" />
-    <Content Include="Views\Catalogo\CostosFijos.cshtml" />
+    <Content Include="Views\Impex\CostosFijos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

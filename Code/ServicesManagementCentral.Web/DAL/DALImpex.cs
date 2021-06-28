@@ -635,5 +635,71 @@ namespace ServicesManagement.Web.DAL
             }
         }
         #endregion
+
+        #region TransportistaRangosFijos
+        public static DataSet upCorpTms_Cns_TransportistaRangosFijos()
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_TransportistaRangosFijos", false);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public static void upCorpTms_Ins_TransportistaRangosFijos(DataTable TransportistaRangosFijos)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+            {
+                using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Ins_TransportistaRangosFijos", con))
+                {
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+
+
+                    SqlParameter param = new SqlParameter("@TransRangosFijosType", SqlDbType.Structured)
+                    {
+                        TypeName = "tms.TransportistaRangosFijosTableType",
+                        Value = TransportistaRangosFijos
+                    };
+                    sqlComm.Parameters.Add(param);
+
+                    con.Open();
+                    sqlComm.ExecuteNonQuery();
+
+
+
+                    //SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
+                    //adapter.Fill(ds);
+
+
+
+                }
+            }
+        }
+        #endregion
+
+
     }
 }

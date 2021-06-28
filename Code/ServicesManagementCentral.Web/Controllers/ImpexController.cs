@@ -231,7 +231,7 @@ namespace ServicesManagement.Web.Controllers
                 var fileData = GetDataFromFileCobPlaza(importFile.InputStream, ref fileData2);
 
 
-                DALImpex.upCorpTms_Ins_TransportistaDestinosZonas(fileData.ToDataTable(),fileData2.ToDataTable());
+                DALImpex.upCorpTms_Ins_TransportistaDestinosZonas(fileData.ToDataTable(), fileData2.ToDataTable());
                 return Json(new { Status = 1, Message = "File Imported Successfully " });
             }
             catch (Exception ex)
@@ -320,7 +320,8 @@ namespace ServicesManagement.Web.Controllers
                             item.EsDestino = true;
                             item.CreatedId = User.Identity.Name;
 
-                            if (item.EsDestino != item.EsOrigen) {
+                            if (item.EsDestino != item.EsOrigen)
+                            {
                                 TransportistaPlazasDestinos.Add(item);
                             }
 
@@ -336,7 +337,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-   
+
         #endregion
 
         #region CostoEnvioProveedor
@@ -421,6 +422,95 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+        #endregion
+
+
+        #region TransportistaRangosFijos
+        public ActionResult CostosFijos()
+        {
+
+
+            return View();
+
+        }
+
+
+        public ActionResult GetCostosFijos()
+        {
+            try
+            {
+
+                var list = DataTableToModel.ConvertTo<TransportistaRangosFijosShow>(DALImpex.upCorpTms_Cns_TransportistaRangosFijos().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ImportCostosFijos(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+                
+                DALImpex.upCorpTms_Ins_TransportistaRangosFijos(GetDataFromFileCostosFijos(importFile.InputStream).ToDataTable());
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+
+        private List<TransportistaRangosFijos> GetDataFromFileCostosFijos(Stream stream)
+        {
+            var List = new List<TransportistaRangosFijos>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // To set First Row As Column Names    
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        var dataTable = dataSet.Tables[0];
+                        foreach (DataRow objDataRow in dataTable.Rows)
+                        {
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
+                            List.Add(new TransportistaRangosFijos()
+                            {
+                                IdTransportista = Convert.ToInt32(objDataRow[0].ToString()),
+                                IdZona = int.Parse(objDataRow[1].ToString()),
+                                PesoInicio = decimal.Parse(objDataRow[2].ToString()),
+                                PesoFin = Convert.ToInt32(objDataRow[3].ToString()),
+                                CostoFijo =decimal.Parse( objDataRow[4].ToString()),
+                                bitDeleted = objDataRow[5].ToString().Equals("0") ? false : true, //Convert.ToBoolean(objDataRow[4].ToString()),
+                                CreatedId = User.Identity.Name
+
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return List;
+        }
         #endregion
     }
 }
