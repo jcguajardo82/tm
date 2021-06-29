@@ -34,7 +34,7 @@
                             <th>Usuario de Actualización</th>
                             <th>Fecha de Actualización</th>
                             <th>Hora de Actualización</th>
-                            <th>Activo</th>
+                            <th>Estado</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -451,7 +451,7 @@
                                             <th>Hora de Creacion</th>
                                             <th>Fecha de modificacion</th>
                                             <th>Hora de modificacion</th>
-                                            <th>Activo</th>
+                                            <th>Estado</th>
                                             <th>Accion</th>
                                         </tr>
                                     </thead>
@@ -638,8 +638,8 @@
                         ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
                     ],
                     buttons: [
-                        { extend: 'pageLength', className: 'btn-primary' }
-                        /*{ extend: 'excel', className: 'btn-primary' }*/
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
                         //{
                         //    /*text: 'Alta',*/
                         //    action: function (e, dt, node, config) {
@@ -698,7 +698,7 @@
                     ],
                     buttons: [
                         { extend: 'pageLength', className: 'btn-primary' },
-                        /*{ extend: 'excel', className: 'btn-primary' }*/
+                        { extend: 'excel', className: 'btn-primary' }
                         //{
                         //    /*text: 'Alta',*/
                         //    action: function (e, dt, node, config) {
@@ -839,6 +839,12 @@
 
                         for (var i = 0; i < json.json.length; i++) {
 
+                            if (json.json[i].Estatus == true) {
+                                var estado = "Activo";
+                            }
+                            else {
+                                var estado = "Inactivo";
+                            }
 
                             myTable.row.add([
 
@@ -854,7 +860,8 @@
                                 //json.json[i].FechaUltModif,
                                 //json.json[i].TimeUltModif,
                                 //Faltan habilitar estas columnas desde el API
-                                json.json[i].Estatus,
+                                estado,
+                                /*json.json[i].Estatus,*/
                             "<button title='Alta' type=\"button\" onclick=\"ModalAlta(" + json.json[i].Id_Vehiculo + ")\" class=\"btn btn-primary btn-circle\"> <i class=\"fa fa-plus\"></i></button>"
                             ]).draw();
 
@@ -1340,7 +1347,16 @@
 
                         for (var i = 0; i < json.resp.length; i++) {
 
+                            if (json.resp[i].activo == 1) {
+                                var estadoalt = "Activo";
+                            }
+                            else {
+                                var estadoalt = "Inactivo";
+                            }
+
                             myTable.row.add([
+
+
 
                                 /*json.resp[i].IdConsecutivo,*/
                                 json.resp[i].IdGasto,
@@ -1352,8 +1368,12 @@
                                 json.resp[i].CreateTime,
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
-                                json.resp[i].activo,
-                                "<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                estadoalt,
+                                /*json.resp[i].activo*/
+                                //"<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                            
+
+                     "<button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
 
 
