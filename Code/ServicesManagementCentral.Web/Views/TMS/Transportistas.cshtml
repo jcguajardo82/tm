@@ -107,7 +107,7 @@
                             <div class="col col-xs-8 col-md-4">
                                 <div class="form-group">
                                     <label>Id Transportista</label>
-                                    <input type="text" placeholder="Id Transportista" id="ProveedorLista" name="ProveedorLista" class="form-control" />
+                                    <input type="text" placeholder="Id Transportista" id="ProveedorLista" name="ProveedorLista" class="form-control" readonly />
                                     @*<select class="form-control" id="ProveedorLista" name="ProveedorLista">
             <option selected="selected" value="0">--Transportista--</option>
 
@@ -119,7 +119,7 @@
                             <div class="col col-xs-8 col-md-8">
                                 <div class="form-group">
                                     <label>Nombre</label>
-                                    <input type="text" placeholder="Nombre" id="in_nombre" name="in_nombre" class="form-control" />
+                                    <input type="text" placeholder="Nombre" id="in_nombre" name="in_nombre" class="form-control" readonly/>
                                 </div>
                             </div>
 
@@ -391,71 +391,73 @@
                 }
             });
 
-            table =$('#tblConsulta').DataTable(
+            table = $('#tblConsulta').DataTable(
                 {
 
                     language:
-                        {
-                            "sProcessing": "Procesando...",
-                            "sLengthMenu": "Mostrar _MENU_ registros",
-                            "sZeroRecords": "No se encontraron resultados",
-                            "sEmptyTable": "Ningún dato disponible en esta tabla",
-                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                            "sInfoPostFix": "",
-                            "sSearch": "Buscar:",
-                            "sUrl": "",
-                            "sInfoThousands": ",",
-                            "sLoadingRecords": "Cargando...",
-                            "oPaginate": {
-                                "sFirst": "Primero",
-                                "sLast": "Último",
-                                "sNext": "Siguiente",
-                                "sPrevious": "Anterior"
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
 
-                            },
-                            "oAria": {
-                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-                            },
-                            "buttons": {
-                                "print": "Imprimir",
-                                "pageLength": 'Mostrar %d Registros'
-
-                            }
                         },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
                     dom: 'Bfrtip',
                     lengthMenu: [
-                                    [10, 25, 50, -1],
-                                     ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
                     ],
                     buttons: [
-                            { extend: 'pageLength', className: 'btn-primary' },
-                            { extend: 'excel', className: 'btn-primary' },
-                            {
-                                text: 'Alta',
-                                action: function (e, dt, node, config) {
-                                    //var e = document.getElementById("ProveedorLista");
-                                    //e.disabled = false;
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            text: 'Alta',
+                            action: function (e, dt, node, config) {
+                                var e = document.getElementById("ProveedorLista");
+                                document.getElementById("ProveedorLista").readOnly = false;
+                                document.getElementById("in_nombre").readOnly = false;
+                                //e.disabled = false;
 
-                                    //document.getElementById("TarifaFija").value = "SI";
-                                    ///*document.getElementById("CostoTarifaFija").value = '';*/
-                                    //document.getElementById("NivelServicio").value = '';
-                                    ////document.getElementById("FactorVoluntario").value = '';
-                                    ////document.getElementById("PorcAdicPaquete").value = '';
-                                    //document.getElementById("Prioridad").value = '';
-                                    //document.getElementById("Paqueteria").value = "SI";
-                                    //document.getElementById("BigTicket").value = "SI";
-                                    //document.getElementById("ServicioEstandar").value = "SI";
-                                    //document.getElementById("ServicioExpress").value = "SI";
+                                //document.getElementById("TarifaFija").value = "SI";
+                                //document.getElementById("CostoTarifaFija").value = '';
+                                //document.getElementById("NivelServicio").value = '';
+                                ////document.getElementById("FactorVoluntario").value = '';
+                                ////document.getElementById("PorcAdicPaquete").value = '';
+                                //document.getElementById("Prioridad").value = '';
+                                //document.getElementById("Paqueteria").value = "SI";
+                                //document.getElementById("BigTicket").value = "SI";
+                                //document.getElementById("ServicioEstandar").value = "SI";
+                                //document.getElementById("ServicioExpress").value = "SI";
 
-                                    $("#frmAltaTrans").modal('show');
+                                $("#frmAltaTrans").modal('show');
 
-                                }
-                                , className: 'btn-primary'
                             }
+                            , className: 'btn-primary'
+                        }
                     ]
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
@@ -466,7 +468,7 @@
                     //}
                 }
             );
-
+           
             GetTrans();
             GetCommonProveedor();
         });
@@ -522,7 +524,8 @@
                         for (var i = 0; i < json.json.length; i++) {
                             //document.getElementById("IdTransportista").value = json.json[i].IdTransportista;
                             //document.getElementById("RazonSocial").value = json.json[i].RazonSocial;
-                            var e = document.getElementById("ProveedorLista");
+                            var proveedor = document.getElementById("ProveedorLista").readOnly = true;
+                            var nombre = document.getElementById("in_nombre").readOnly = true;
                             /*e.value = json.json[i].IdTransportista;*/
                             /*e.disabled = true;*/
 
@@ -731,84 +734,10 @@
 
 
                         var table1 = $('#tblConsulta').DataTable();
-                        table1.clear().draw();
-                        table1.destroy();
+                        //table1.clear().draw();
+                        //table1.destroy();
 
-                        var table = $('#tblConsulta').DataTable(
-                            {
-
-                                language:
-                                {
-                                    "sProcessing": "Procesando...",
-                                    "sLengthMenu": "Mostrar _MENU_ registros",
-                                    "sZeroRecords": "No se encontraron resultados",
-                                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                                    "sInfoPostFix": "",
-                                    "sSearch": "Buscar:",
-                                    "sUrl": "",
-                                    "sInfoThousands": ",",
-                                    "sLoadingRecords": "Cargando...",
-                                    "oPaginate": {
-                                        "sFirst": "Primero",
-                                        "sLast": "Último",
-                                        "sNext": "Siguiente",
-                                        "sPrevious": "Anterior"
-
-                                    },
-                                    "oAria": {
-                                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-                                    },
-                                    "buttons": {
-                                        "print": "Imprimir",
-                                        "pageLength": 'Mostrar %d Registros'
-
-                                    }
-                                },
-                                dom: 'Bfrtip',
-                                lengthMenu: [
-                                    [10, 25, 50, -1],
-                                    ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
-                                ],
-                                buttons: [
-                                    { extend: 'pageLength', className: 'btn-primary' },
-                                    { extend: 'excel', className: 'btn-primary' },
-                                    {
-                                        text: 'Alta',
-                                        action: function (e, dt, node, config) {
-                                            var e = document.getElementById("ProveedorLista");
-                                            //e.disabled = false;
-
-                                            //document.getElementById("TarifaFija").value = "SI";
-                                            //document.getElementById("CostoTarifaFija").value = '';
-                                            //document.getElementById("NivelServicio").value = '';
-                                            ////document.getElementById("FactorVoluntario").value = '';
-                                            ////document.getElementById("PorcAdicPaquete").value = '';
-                                            //document.getElementById("Prioridad").value = '';
-                                            //document.getElementById("Paqueteria").value = "SI";
-                                            //document.getElementById("BigTicket").value = "SI";
-                                            //document.getElementById("ServicioEstandar").value = "SI";
-                                            //document.getElementById("ServicioExpress").value = "SI";
-
-                                            $("#frmAltaTrans").modal('show');
-
-                                        }
-                                        , className: 'btn-primary'
-                                    }
-                                ]
-                                //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                                //    if (aData[1] == "SETC") {
-                                //        $('td', nRow).css('background-color', '#B6BF00');
-                                //    } else if (aData[2] == "4") {
-                                //        $('td', nRow).css('background-color', 'Orange');
-                                //    }
-                                //}
-                            }
-                        );
+                        
                         //$("#tblConsulta tbody tr").remove();
 
                         //Append each row to html table
