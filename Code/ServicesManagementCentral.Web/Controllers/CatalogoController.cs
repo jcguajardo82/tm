@@ -45,6 +45,7 @@ namespace ServicesManagement.Web.Controllers
         public string Fec_Movto { get; set; }
         public string Time_Movto { get; set; }
         public string BitActivo { get; set; }
+        public string CategoriaArt2 { get; set; }
     }
 
 
@@ -3159,7 +3160,8 @@ namespace ServicesManagement.Web.Controllers
                                                  Fec_Creacion = (DateTime)t2["Fec_Creacion"],
                                                  Fec_Movto = t2["Fec_Movto"] == DBNull.Value ? "" : (string)t2["Fec_Movto"],
                                                  Time_Movto = t2["Time_Movto"] == DBNull.Value ? "00:00:00" : (string)t2["Time_Movto"],
-                                                 BitActivo = (string)t2["BitActivo"]
+                                                 BitActivo = (string)t2["BitActivo"],
+                                                 CategoriaArt2 = t1.Field<string>("Desc_CategSAP2")
                                              }).ToList();
 
             Session["grid"] = results;

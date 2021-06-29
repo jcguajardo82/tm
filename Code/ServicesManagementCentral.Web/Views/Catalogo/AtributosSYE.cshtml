@@ -100,7 +100,7 @@
                                         <tr>
                                             <td>@r.Id_AtributosSYE</td>
                                             <td>@r.Id_CategoriaArt</td>
-                                            <td>@r.Id_CategoriaArt</td>
+                                            <td>@r.CategoriaArt</td>
                                             <td>@r.Precio_Fact</td>
                                             <td>@r.Seguro_Trans</td>
                                             <td>@r.Porc_VS_Costo_Fact</td>
@@ -165,7 +165,7 @@
                                                     var myDataSet = Session["listaCatSap"] as System.Data.DataSet;
                                                     foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                                     {
-                                                        <option value="@r["Cve_CategSAP"]">@r["Desc_CategSAP"]</option>
+                                                        <option value="@r["Cve_CategSAP"]">@r["Desc_CategSAP2"]</option>
 
                                                     }
                                                 }

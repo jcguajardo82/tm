@@ -78,7 +78,7 @@
                                             <td>@r["Descripcion"]</td>
                                             <td>@r["TipoCatalogo"]</td>
                                             <td>@r["Id_TipoAlmacen"]</td>
-                                            <td>@r["Id_CategoriaArt"]</td>
+                                            <td>@r["CategoriaArt"]</td>
                                             <td>@r["Peso_min"]</td>
                                             <td>@r["Peso_max"]</td>
                                             <td>@r["Usuario"]</td>
@@ -184,7 +184,7 @@
                                                         var myDataSet = Session["listaC"] as System.Data.DataSet;
                                                         foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                                         {
-                                                            <option value="@r["Id_Num_Categ"]">@r["Desc_Categ"]</option>
+                                                            <option value="@r["Id_Num_Categ"]">@r["Desc_Categ2"]</option>
 
                                                         }
                                                     }
