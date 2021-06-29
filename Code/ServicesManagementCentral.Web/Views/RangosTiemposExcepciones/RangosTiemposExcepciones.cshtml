@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewBag.Title = "Rangos de Tiempos Excepciones";
+    ViewBag.Title = "Definicion Rangos de tiempo y extraordinarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row">
     <div class="col-4"></div>
-    <div class="col-4"><h2>Rangos de Tiempos Excepciones</h2></div>
+    <div class="col-4"><h2>Definicion Rangos de tiempo y extraordinarios</h2></div>
     <div class="col-4"></div>
 </div>
 <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
@@ -43,7 +43,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Rangos de Tiempos Excepciones</h2>
+                <h2 class="modal-title">Definicion Rangos de tiempo y extraordinarios</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -83,8 +83,8 @@
                             <div class="form-group">
                                 <label>Tipo de Catalogo</label>
                                 <select class="form-control" id="ddlCatalogo">
-                                    <option selected="selected" value="0">--SELECCIONE--</option>
-                                    <option value="1">Super</option>
+                                    @*<option selected="selected" value="0">--SELECCIONE--</option>
+                                    <option value="1">Super</option>*@
                                     <option value="2">Mercancías Generales</option>
                                 </select>
                             </div>
@@ -138,7 +138,7 @@
                             <div class="form-group">
                                 <label>Fecha final de tarifa especial</label>
                                 @*<input type="date" id="txtFecFinTarifa" class="form-control" />*@
-                                <div class="input-group date" id="datetimepicker1">
+                                <div class="input-group date" id="datetimepicker2">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input class="form-control datepicker" id="txtFecFinTarifa" name="txtFecFinTarifa"
                                            type="text" value="">
@@ -262,7 +262,7 @@
                         {
                             text: 'Alta',
                             action: function (e, dt, node, config) {
-
+                                IniciarControles(1);
                                 $("#hddId").val('0');
                                 $("#modal-form").modal('show');
 
@@ -379,10 +379,10 @@
                 $("#ddlTransportista").focus();
                 return;
             }    
-            if (_IdTipoCatalogo == "0") {
-                $("#ddlCatalogo").focus();
-                return;
-            }
+            //if (_IdTipoCatalogo == "0") {
+            //    $("#ddlCatalogo").focus();
+            //    return;
+            //}
             if (_IdTipoLogistica == "0") {
                 $("#ddlTipoLogistica").focus();
                 return;
@@ -469,6 +469,7 @@
 
         function GetById(id) {
             $("#hddId").val(id);
+            IniciarControles(2);
             $.ajax({
                 async: false,
                 type: "GET",
@@ -524,7 +525,44 @@
 
         }
 
+        function IniciarControles(op) {
+            $("#ddlAlmacen").val('0');   
+            $("#ddlProveedor").val('0');         
+            $("#ddlTransportista").val('0');     
+            $("#ddlTipoLogistica").val('0');
 
+            $("#txtFecIniTarifa").val('');
+            $("#txtHoraIniTarifa").val('');
+            $("#txtFecFinTarifa").val('');
+            $("#txtHoraFinTarifa").val('');
+            $("#txtCostoEsp").val('');
+            $("#txtDiasExtra").val('');
+            $("#txtPrioridad").val('');
+
+            if (op == 1) {
+                $("#ddlAlmacen").prop("disabled", false);
+                $("#ddlProveedor").prop("disabled", false);
+                $("#ddlTransportista").prop("disabled", false);
+                $("#ddlTipoLogistica").prop("disabled", false);
+
+                $("#txtFecIniTarifa").prop("readonly", false);
+                $("#txtHoraIniTarifa").prop("readonly", false);
+                $("#txtCostoEsp").prop("readonly", false);
+                $("#txtDiasExtra").prop("readonly", false);
+                $("#txtPrioridad").prop("readonly", false);
+            } else {
+                $("#ddlAlmacen").prop("disabled", true);
+                $("#ddlProveedor").prop("disabled", true);
+                $("#ddlTransportista").prop("disabled", true);
+                $("#ddlTipoLogistica").prop("disabled", true);
+
+                $("#txtFecIniTarifa").prop("readonly", true);
+                $("#txtHoraIniTarifa").prop("readonly", true);
+                $("#txtCostoEsp").prop("readonly", true);
+                $("#txtDiasExtra").prop("readonly", true);
+                $("#txtPrioridad").prop("readonly", true);
+            }
+        }
 
     </script>
     @*combos*@
