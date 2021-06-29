@@ -168,13 +168,13 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Ciudad Origen</label>
-                                <input type="text" id="txtCdOrigen" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtCdOrigen" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Ciudad Destino</label>
-                                <input type="text" id="txtCdDestino" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtCdDestino" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -195,13 +195,13 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Número de Material</label>
-                                <input type="text" id="txtNoMaterial" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtNoMaterial" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
-                                <label>SKU</label>
-                                <input type="text" id="txtSKU" class="form-control" />
+                                <label>Nombre SKU</label>
+                                <input type="text" readonly id="txtSKU" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -209,25 +209,25 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Número de EAN</label>
-                                <input type="text" id="txtCodBar" class="form-control" />
+                                <input type="number" min="0" onkeypress="return event.charCode >= 48" id="txtCodBar" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Peso Minimo</label>
-                                <input type="number" oninput='input(this)' id="txtPesoMin" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" oninput='input(this)' id="txtPesoMin" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Peso Maximo</label>
-                                <input type="number" oninput='input(this)' id="txtPesoMax" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" oninput='input(this)' id="txtPesoMax" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Meses Sin Intereses</label>
-                                <input type="number" id="txtMeses" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtMeses" class="form-control" />
                             </div>
                         </div>
 
@@ -254,7 +254,7 @@
                             <div class="form-group">
                                 <label>Fecha final de tarifa especial</label>
                                 @*<input type="date" id="txtFecFinTarifa" class="form-control" />*@
-                                <div class="input-group date" id="datetimepicker1">
+                                <div class="input-group date" id="datetimepicker2">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input class="form-control datepicker" id="txtFecFinTarifa" name="txtFecFinTarifa"
                                            type="text" value="">
@@ -434,6 +434,11 @@
                             action: function (e, dt, node, config) {
 
                                 $("#hddId").val('0');
+
+
+                                IniciarControles(1);
+
+
                                 $("#modal-form").modal('show');
 
                             }
@@ -458,6 +463,53 @@
             CmboTransportista();
             CmboFormatoTienda();
         });
+
+        $('#txtNoMaterial').on('keypress', function (e) {
+            debugger;
+            if (e.which === 13) {
+
+                GetArt(1);
+            }
+        });
+
+        $('#txtCodBar').on('keypress', function (e) {
+            debugger;
+            if (e.which === 13) {
+
+                GetArt(2);
+            }
+        });
+
+        function GetArt(op) {
+            _Material_MATNR = $('#txtNoMaterial').val();
+            _Id_Num_CodBarra = $('#txtCodBar').val();
+
+                 $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("GetArt", "PromocionesCostoEnvio")',
+                    data: {
+                        Material_MATNR: _Material_MATNR
+                        , Id_Num_CodBarra: _Id_Num_CodBarra
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            $("#txtSKU").val(json.resp);
+                            if (json.resp.length == 0) {
+                                alert("El articulo no existe");
+                                if (op == 1) { $('#txtNoMaterial').focus(); } else { $('#txtCodBar').focus(); }
+                            }
+
+                        } else {
+                            alert(json.Message);
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+        }
 
         function GetConsulta() {
             //var _Id_Num_UN = $("#hddId").val();
@@ -660,7 +712,7 @@
 
                     debugger;
                     if (json.Success) {
-                      
+
                         //GetConsulta();
                         location.reload();
                     }
@@ -735,6 +787,7 @@
 
         function GetById(id) {
             $("#hddId").val(id);
+            IniciarControles(0);
             $.ajax({
                 async: false,
                 type: "GET",
@@ -782,7 +835,7 @@
                         $("#txtComprasMayor").val(json.resp.ComprasMayor);
                         $("#txtComprasMenor").val(json.resp.ComprasMenor);
 
-              
+
                         $("#txtFecIniTarifa").val(json.resp.FechaInicioPromo);
                         $("#txtHoraIniTarifa").val(json.resp.HoraInicioPromo);
                         $("#txtFecFinTarifa").val(json.resp.FechaFinPromo);
@@ -813,7 +866,115 @@
         }
 
 
+        function IniciarControles(op) {
 
+
+
+
+            $("#ddlAlmacen").val('0');
+            $("#ddlCatalogo").val('0');
+            $("#ddlProveedor").val('0');
+            $("#ddlTransportista").val('0');
+            $("#ddlTipoEnvio").val('0');
+            $("#ddlTipoServicio").val('0');
+            $("#ddlTipoLogistica").val('0');
+            $("#ddlFormatoTienda").val('0');
+
+
+            $("#txtCpOrigen").val('');
+            $("#txtCpDestino").val('');
+            $("#txtCdOrigen").val('');
+            $("#txtCdDestino").val('');
+            $("#txtOrigen").val('');
+            $("#txtDestino").val('');
+            $("#txtNoCatSap").val('');
+            $("#txtNomCatSap").val('');
+            $("#txtNoSubCatSap").val('');
+            $("#txtNomSubCatSap").val('');
+            $("#txtNoMaterial").val('');
+            $("#txtCodBar").val('');
+            $("#txtSKU").val('');
+            $("#txtPesoMin").val('');
+            $("#txtPesoMax").val('');
+            $("#txtMeses").val('');
+            $("#txtComprasMayor").val('');
+            $("#txtComprasMenor").val('');
+            $("#txtFecIniTarifa").val('');
+            $("#txtHoraIniTarifa").val('');
+            $("#txtFecFinTarifa").val('');
+            $("#txtHoraFinTarifa").val('');
+            $("#txtCostoEsp").val('');
+            $("#txtTarifaDesc").val('');
+
+            if (op == 1) {
+
+                $("#ddlAlmacen").prop("disabled", false);
+                $("#ddlCatalogo").prop("disabled", false);
+                $("#ddlProveedor").prop("disabled", false);
+                $("#ddlTransportista").prop("disabled", false);
+                $("#ddlTipoEnvio").prop("disabled", false);
+                $("#ddlTipoServicio").prop("disabled", false);
+                $("#ddlTipoLogistica").prop("disabled", false);
+                $("#ddlFormatoTienda").prop("disabled", false);
+
+
+                $("#txtCpOrigen").prop("readonly", false);
+                $("#txtCpDestino").prop("readonly", false);
+                $("#txtCdOrigen").prop("readonly", false);
+                $("#txtCdDestino").prop("readonly", false);
+                $("#txtOrigen").prop("readonly", false);
+                $("#txtDestino").prop("readonly", false);
+                $("#txtNoCatSap").prop("readonly", false);
+                $("#txtNomCatSap").prop("readonly", false);
+                $("#txtNoSubCatSap").prop("readonly", false);
+                $("#txtNomSubCatSap").prop("readonly", false);
+                $("#txtNoMaterial").prop("readonly", false);
+                $("#txtCodBar").prop("readonly", false);
+                $("#txtSKU").prop("readonly", true);
+                $("#txtPesoMin").prop("readonly", false);
+                $("#txtPesoMax").prop("readonly", false);
+                $("#txtMeses").prop("readonly", false);
+                $("#txtComprasMayor").prop("readonly", false);
+                $("#txtComprasMenor").prop("readonly", false);
+                $("#txtFecIniTarifa").prop("readonly", false);
+                $("#txtHoraIniTarifa").prop("readonly", false);
+                $("#txtCostoEsp").prop("readonly", false);
+                $("#txtTarifaDesc").prop("readonly", false);
+            } else {
+
+                $("#ddlAlmacen").prop("disabled", true);
+                $("#ddlCatalogo").prop("disabled", true);
+                $("#ddlProveedor").prop("disabled", true);
+                $("#ddlTransportista").prop("disabled", true);
+                $("#ddlTipoEnvio").prop("disabled", true);
+                $("#ddlTipoServicio").prop("disabled", true);
+                $("#ddlTipoLogistica").prop("disabled", true);
+                $("#ddlFormatoTienda").prop("disabled", true);
+
+                $("#txtCpOrigen").prop("readonly", true);
+                $("#txtCpDestino").prop("readonly", true);
+                $("#txtCdOrigen").prop("readonly", true);
+                $("#txtCdDestino").prop("readonly", true);
+                $("#txtOrigen").prop("readonly", true);
+                $("#txtDestino").prop("readonly", true);
+                $("#txtNoCatSap").prop("readonly", true);
+                $("#txtNomCatSap").prop("readonly", true);
+                $("#txtNoSubCatSap").prop("readonly", true);
+                $("#txtNomSubCatSap").prop("readonly", true);
+                $("#txtNoMaterial").prop("readonly", true);
+                $("#txtCodBar").prop("readonly", true);
+                $("#txtSKU").prop("readonly", true);
+                $("#txtPesoMin").prop("readonly", true);
+                $("#txtPesoMax").prop("readonly", true);
+                $("#txtMeses").prop("readonly", true);
+                $("#txtComprasMayor").prop("readonly", true);
+                $("#txtComprasMenor").prop("readonly", true);
+                $("#txtFecIniTarifa").prop("readonly", true);
+                $("#txtHoraIniTarifa").prop("readonly", true);
+                $("#txtCostoEsp").prop("readonly", true);
+                $("#txtTarifaDesc").prop("readonly", true);
+            }
+        }
     </script>
     @*combos*@
     <script>

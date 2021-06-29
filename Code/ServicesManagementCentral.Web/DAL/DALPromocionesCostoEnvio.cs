@@ -6,6 +6,7 @@
     using System.Data.SqlClient;
     public class DALPromocionesCostoEnvio
     {
+
         public static DataSet PromocionesCostoEnvio_sUp()
         {
 
@@ -25,6 +26,45 @@
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[PromocionesCostoEnvio_sUp]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public static DataSet up_CorpTMS_cmd_SKU(string Material_MATNR, decimal? Id_Num_CodBarra)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV3"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                if (!string.IsNullOrEmpty(Material_MATNR))
+                    parametros.Add("@Material_MATNR", Material_MATNR);
+                if (Id_Num_CodBarra != null)
+                    parametros.Add("@Id_Num_CodBarra", Id_Num_CodBarra);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[up_CorpTMS_cmd_SKU]", false, parametros);
 
                 return ds;
             }
@@ -77,7 +117,7 @@
 
         }
 
-        public static void PromocionesCostoEnvio_dUp(int cnscPromo,DateTime FechaUltModif,TimeSpan HoraUltModif,string UsuarioUltModif)
+        public static void PromocionesCostoEnvio_dUp(int cnscPromo, DateTime FechaUltModif, TimeSpan HoraUltModif, string UsuarioUltModif)
         {
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
@@ -87,11 +127,11 @@
                     sqlComm.CommandType = CommandType.StoredProcedure;
 
 
-                    sqlComm.Parameters.AddWithValue("@cnscPromo", cnscPromo);    
+                    sqlComm.Parameters.AddWithValue("@cnscPromo", cnscPromo);
                     sqlComm.Parameters.AddWithValue("@FechaUltModif", FechaUltModif);
                     sqlComm.Parameters.AddWithValue("@HoraUltModif", HoraUltModif);
                     sqlComm.Parameters.AddWithValue("@UsuarioUltModif", UsuarioUltModif);
-             
+
 
 
 
@@ -108,13 +148,13 @@
 
         }
 
-        public static void PromocionesCostoEnvio_iUp(int IdTipoCatalogo,int IdOwner,int IdFormatoTienda,string PostalCodeOrig,string PostalCodeDestino
-            ,string CiudadOrig,string CiudadDest,string EdoOrig ,string EdoDest,int IdSupplierWH,string SupplierName,int IdTransportista,string NombreTransportista
-            ,int IdTipoEnvio, int IdTipoServicio,string Cve_CategSAP,string Desc_CategSAP,string Cve_GciaCategSAP,string Desc_GciaCategSAP
-            ,string Material_MATNR,int Id_Num_CodBarra,string nombre_SKU, decimal PesoMinimo, decimal PesoMaximo,int IdTipoLogistica,int MesesSinIntereses
-            ,decimal ComprasMayor,decimal ComprasMenor,DateTime FechaInicioPromo,TimeSpan HoraInicioPromo,DateTime FechaFinPromo,TimeSpan HoraFinPromo
-            ,decimal CostoEspecial,decimal TarifaDesc,DateTime FechaCreacion,TimeSpan HoraCreacion,string UsuarioCreacion,bool BitActivo)
-            
+        public static void PromocionesCostoEnvio_iUp(int IdTipoCatalogo, int IdOwner, int IdFormatoTienda, string PostalCodeOrig, string PostalCodeDestino
+            , string CiudadOrig, string CiudadDest, string EdoOrig, string EdoDest, int IdSupplierWH, string SupplierName, int IdTransportista, string NombreTransportista
+            , int IdTipoEnvio, int IdTipoServicio, string Cve_CategSAP, string Desc_CategSAP, string Cve_GciaCategSAP, string Desc_GciaCategSAP
+            , string Material_MATNR, int Id_Num_CodBarra, string nombre_SKU, decimal PesoMinimo, decimal PesoMaximo, int IdTipoLogistica, int MesesSinIntereses
+            , decimal ComprasMayor, decimal ComprasMenor, DateTime FechaInicioPromo, TimeSpan HoraInicioPromo, DateTime FechaFinPromo, TimeSpan HoraFinPromo
+            , decimal CostoEspecial, decimal TarifaDesc, DateTime FechaCreacion, TimeSpan HoraCreacion, string UsuarioCreacion, bool BitActivo)
+
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
             {
@@ -124,7 +164,7 @@
 
 
 
-                   
+
                     sqlComm.Parameters.AddWithValue("@IdTipoCatalogo", IdTipoCatalogo);
                     sqlComm.Parameters.AddWithValue("@IdOwner", IdOwner);
                     sqlComm.Parameters.AddWithValue("@IdFormatoTienda", IdFormatoTienda);
@@ -252,7 +292,7 @@
 
         }
 
-        public static void PromocionesCostoEnvio_uUp(int cnscPromo,int IdTipoCatalogo, int IdOwner, int IdFormatoTienda, string PostalCodeOrig, string PostalCodeDestino
+        public static void PromocionesCostoEnvio_uUp(int cnscPromo, int IdTipoCatalogo, int IdOwner, int IdFormatoTienda, string PostalCodeOrig, string PostalCodeDestino
       , string CiudadOrig, string CiudadDest, string EdoOrig, string EdoDest, int IdSupplierWH, string SupplierName, int IdTransportista, string NombreTransportista
       , int IdTipoEnvio, int IdTipoServicio, string Cve_CategSAP, string Desc_CategSAP, string Cve_GciaCategSAP, string Desc_GciaCategSAP
       , string Material_MATNR, int Id_Num_CodBarra, string nombre_SKU, decimal PesoMinimo, decimal PesoMaximo, int IdTipoLogistica, int MesesSinIntereses
@@ -324,7 +364,7 @@
 
         }
 
-        public static DataSet FormatoTiendaByBit_sUp(bool BitActivo=true)
+        public static DataSet FormatoTiendaByBit_sUp(bool BitActivo = true)
         {
             DataSet ds = new DataSet();
 

@@ -147,5 +147,29 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public ActionResult GetArt(string Material_MATNR, decimal? Id_Num_CodBarra)
+        {
+            try
+            {
+
+               var dt= DALPromocionesCostoEnvio.up_CorpTMS_cmd_SKU(Material_MATNR, Id_Num_CodBarra);
+                var descArt = string.Empty;
+
+                if (dt.Tables[0].Rows.Count > 0) {
+                    descArt = dt.Tables[0].Rows[0][0].ToString();
+                }
+
+                var result = new { Success = true, resp=descArt };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
