@@ -156,25 +156,25 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>C.P. Origen</label>
-                                <input type="number" id="txtCpOrigen" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtCpOrigen" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>C.P. Destino</label>
-                                <input type="number" id="txtCpDestino" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtCpDestino" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Ciudad Origen</label>
-                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtCdOrigen" class="form-control" />
+                                <input type="text" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Ciudad Destino</label>
-                                <input type="number" onkeypress="return event.charCode >= 48" min="0" id="txtCdDestino" class="form-control" />
+                                <input type="text" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -300,25 +300,25 @@
                                 <label>
                                     Costo especial ($)
                                 </label>
-                                <input type="number" oninput='input(this)' id="txtCostoEsp" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" oninput='input(this)' id="txtCostoEsp" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Aplica tarifa descuento  (%) </label>
-                                <input type="number" oninput='input(this)' id="txtTarifaDesc" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" oninput='input(this)' id="txtTarifaDesc" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>$ Compras mayor a </label>
-                                <input type="number" oninput='input(this)' id="txtComprasMayor" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" oninput='input(this)' id="txtComprasMayor" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>$ Compras menor a</label>
-                                <input type="number" oninput='input(this)' id="txtComprasMenor" class="form-control" />
+                                <input type="number" onkeypress="return event.charCode >= 48" min="0" oninput='input(this)' id="txtComprasMenor" class="form-control" />
                             </div>
                         </div>
                     </div>
