@@ -31,6 +31,8 @@
                             <th>Descripcion</th>
                             <th>Placas</th>
                             <th>Motor</th>
+                            <th>Marca</th>
+                            <th>Año</th>
                             <th>Usuario de Actualización</th>
                             <th>Fecha de Actualización</th>
                             <th>Hora de Actualización</th>
@@ -656,6 +658,64 @@
 
 
 
+            table4 = $('#example4').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                        //{
+                        //    /*text: 'Alta',*/
+                        //    action: function (e, dt, node, config) {
+
+                        //        //bootbox.alert("HOLA");
+                        //        /*$("#modal-form").modal('show');*/
+                        //        $("#modal-form2").modal('show');
+
+                        //    }
+                        //    , className: 'btn-primary'
+                        //}
+                    ]
+                }
+
+            );
             table3 = $('#example3').DataTable(
                 {
 
@@ -853,6 +913,8 @@
                                 json.json[i].Descripcion,
                                 json.json[i].Placas,
                                 json.json[i].Motor,
+                                "Marca-Ejemplo",
+                                "2021",
                                 json.json[i].created_user,
                                 "",
                                 "",
@@ -1486,6 +1548,14 @@
 
                                         for (var i = 0; i < json.resp.length; i++) {
 
+
+                                            if (json.resp[i].activo == 1) {
+                                                var estadoalt = "Activo";
+                                            }
+                                            else {
+                                                var estadoalt = "Inactivo";
+                                            }
+
                                             myTable.row.add([
 
                                                 /*json.resp[i].IdConsecutivo,*/
@@ -1498,8 +1568,12 @@
                                                 json.resp[i].CreateTime,
                                                 json.resp[i].FecMovto,
                                                 json.resp[i].TimeMovto,
-                                                json.resp[i].activo,
-                                                "<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                                /* json.resp[i].activo,*/
+                                                estadoalt,
+
+                                                //"<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+
+                                                "<button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                                             ]).draw();
 
 
@@ -1790,6 +1864,13 @@
 
                         for (var i = 0; i < json.resp.length; i++) {
 
+                            if (json.resp[i].activo == 1) {
+                                var estadoalt = "Activo";
+                            }
+                            else {
+                                var estadoalt = "Inactivo";
+                            }
+
                             myTable.row.add([
 
                                 /*json.resp[i].IdConsecutivo,*/
@@ -1802,8 +1883,10 @@
                                 json.resp[i].CreateTime,
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
-                                json.resp[i].activo,
-                                "<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                /*json.resp[i].activo,*/
+                                estadoalt,
+                                //"<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                "<button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
 
 
