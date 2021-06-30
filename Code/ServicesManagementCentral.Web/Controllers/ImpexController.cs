@@ -422,6 +422,106 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+
+
+
+        public FileResult CostoEnvioProveedorExcel(int op , int IdTransportista, int IdTipoenvio, int IdTipoServicio)
+
+        {
+
+            var d = new DataSet();
+
+            string nombreArchivo = "TransportistaZonaCostos";
+
+            //Excel to create an object file
+
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+
+            //Add a sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+
+            //Here you can set a variety of styles seemingly font color backgrounds, but not very convenient, there is not set
+            //Sheet1 head to add the title of the first row
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+
+
+            if (op == 1)
+            {
+                d = DALImpex.upCorpTms_Cns_TransportistaZonaCostos(IdTransportista, IdTipoenvio, IdTipoServicio);
+            }
+            else {
+                d = DALImpex.upCorpTms_Cns_TransportistaZonaCostosTodos();
+                nombreArchivo = "TransportistaZonaCostosTodos";
+            }
+           
+
+     
+
+
+
+            row1.CreateCell(0).SetCellValue("IdZona");
+            row1.CreateCell(1).SetCellValue("NombreZona");
+            row1.CreateCell(2).SetCellValue("CargoGasolina");
+            row1.CreateCell(3).SetCellValue("PrecioExtraPeso");
+            row1.CreateCell(4).SetCellValue("PrecioInicial");
+            row1.CreateCell(5).SetCellValue("Otros");
+            row1.CreateCell(6).SetCellValue("IdTransportista");
+            row1.CreateCell(7).SetCellValue("NombreTransportista");
+            row1.CreateCell(8).SetCellValue("IdTipoEnvio");
+            row1.CreateCell(9).SetCellValue("NombreTipoEnvio");
+            row1.CreateCell(10).SetCellValue("IdTipoServicio");
+            row1.CreateCell(11).SetCellValue("NombreTipoServicio");
+            row1.CreateCell(12).SetCellValue("diasEntrega");
+            row1.CreateCell(13).SetCellValue("CreatedId");
+            row1.CreateCell(14).SetCellValue("CreatedDate");
+
+
+
+            //                                                
+            //The data is written progressively sheet1 each row
+
+            for (int i = 0; i < d.Tables[0].Rows.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(d.Tables[0].Rows[i][0].ToString());
+                rowtemp.CreateCell(1).SetCellValue(d.Tables[0].Rows[i][1].ToString());
+                rowtemp.CreateCell(2).SetCellValue(d.Tables[0].Rows[i][2].ToString());
+                rowtemp.CreateCell(3).SetCellValue(d.Tables[0].Rows[i][3].ToString());
+                rowtemp.CreateCell(4).SetCellValue(d.Tables[0].Rows[i][4].ToString());
+                rowtemp.CreateCell(5).SetCellValue(d.Tables[0].Rows[i][5].ToString());
+                rowtemp.CreateCell(6).SetCellValue(d.Tables[0].Rows[i][6].ToString());
+                rowtemp.CreateCell(7).SetCellValue(d.Tables[0].Rows[i][7].ToString());
+                rowtemp.CreateCell(8).SetCellValue(d.Tables[0].Rows[i][8].ToString());
+                rowtemp.CreateCell(9).SetCellValue(d.Tables[0].Rows[i][9].ToString());
+                rowtemp.CreateCell(10).SetCellValue(d.Tables[0].Rows[i][10].ToString());
+                rowtemp.CreateCell(11).SetCellValue(d.Tables[0].Rows[i][11].ToString());
+                rowtemp.CreateCell(12).SetCellValue(d.Tables[0].Rows[i][12].ToString());
+                rowtemp.CreateCell(13).SetCellValue(d.Tables[0].Rows[i][13].ToString());
+                rowtemp.CreateCell(14).SetCellValue(d.Tables[0].Rows[i][14].ToString());
+            }
+
+
+  
+            //  Write to the client 
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            book.Write(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            DateTime dt = DateTime.Now;
+
+            string dateTime = dt.ToString("yyyyMMddHHmmssfff");
+
+            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+
+            return File(ms, "application/vnd.ms-excel", fileName);
+
+        }
+
+
         #endregion
 
 

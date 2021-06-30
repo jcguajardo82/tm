@@ -3,91 +3,81 @@
     ViewBag.Title = "Costos y tiempos de envío por transportista";
 }
 
-
-
-<style>
-    #radioBtn .notActive {
-        color: #3276b1;
-        background-color: #fff;
-    }
-
-    .red {
-        background-color: red !important;
-    }
-</style>
-
-
 @using (Html.BeginForm())
 {
     <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4" align="center"><h2>Costos y tiempos de envío por transportista</h2></div>
-        <div class="col-4"></div>
+        <div class="col-3"></div>
+        <div class="col-6" align="center"><h2>Costos y tiempos de envío por transportista</h2></div>
+        <div class="col-3"></div>
 
     </div>
+    <form id="myForm">
 
+        <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+            <br />
+            <div class="row">
 
-    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
-        <br />
-        <div class="row">
-
-            <div class=" col-xs-3 col-md-3 col-lg-3">
-                <div class="form-group">
-                    <label>Transportista</label>
-                    <select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                        <option selected="selected" value="0">--Transportista--</option>
-                    </select>
+                <div class=" col-xs-3 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <label>Transportista</label>
+                        <select class="form-control" id="ProveedorLista" name="ProveedorLista">
+                            <option selected="selected" value="0">--Transportista--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=" col-xs-3 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <label>Tipo de Servicio</label>
+                        <select class="form-control" id="ddlTipoServicio" name="ddlTipoServicio">
+                            <option selected="selected" value="0">--Tipo de Servicio--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=" col-xs-3 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <label>Tipo Envio</label>
+                        <select class="form-control" id="ddlTipoEnvio" name="ddlTipoEnvio">
+                            <option selected="selected" value="0">--Tipo Envio--</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=" col-xs-3 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <button type="button" onclick="GetConsulta()" class="btn btn-primary">Buscar</button>
+                    </div>
                 </div>
             </div>
-            <div class=" col-xs-3 col-md-3 col-lg-3">
-                <div class="form-group">
-                    <label>Tipo de Servicio</label>
-                    <select class="form-control" id="ddlTipoServicio" name="ddlTipoServicio">
-                        <option selected="selected" value="0">--Tipo de Servicio--</option>
-                    </select>
-                </div>
-            </div>
-            <div class=" col-xs-3 col-md-3 col-lg-3">
-                <div class="form-group">
-                    <label>Tipo Envio</label>
-                    <select class="form-control" id="ddlTipoEnvio" name="ddlTipoEnvio">
-                        <option selected="selected" value="0">--Tipo Envio--</option>
-                    </select>
-                </div>
-            </div>
-            <div class=" col-xs-3 col-md-3 col-lg-3">
-                <div class="form-group">
-                    <button type="button" onclick="GetConsulta()" class="btn btn-primary">Buscar</button>
+            <div class="row">
+                <div class="col-12">
+                    <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Zona</th>
+                                <th>Cargo de Gasolina</th>
+                                <th>Precio Extra por Peso</th>
+                                <th>Precio Inicial</th>
+                                <th>Otros</th>
+                                <th>Días de Entrega</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"></td>
+                                <td style="text-align:right;">
+                                    <button type="button" onclick="Editar()" class="btn btn-primary">Editar</button>
+                                </td>
+                                <td>
+                                    <button type="button" onclick="Guardar()" class="btn btn-primary">Guardar</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Zona</th>
-                            <th>Cargo de Gasolina</th>
-                            <th>Precio Extra por Peso</th>
-                            <th>Precio Inicial</th>
-                            <th>Otros</th>
-                            <th>Días de Entrega</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5"></td>
-                            <td> <button type="button" onclick="Guardar()" class="btn btn-primary">Guardar</button>
-                                
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </div>
+    </form>
 }
 
 @section scripts {
@@ -105,6 +95,8 @@
 
 
         $(document).ready(function () {
+
+
             $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
             $('#tblConsulta thead tr:eq(0) th').each(function (i) {
                 if ($(this).attr('name') != "accion") {
@@ -166,8 +158,20 @@
                     ],
                     buttons: [
                             { extend: 'pageLength', className: 'btn-primary' },
-                            { extend: 'excel', className: 'btn-primary' }
-
+                            {
+                                text: 'Excel',
+                                action: function (e, dt, node, config) {
+                                    Excel(1);
+                                }
+                                , className: 'btn-primary'
+                            },
+                            {
+                                text: 'Excel General',
+                                action: function (e, dt, node, config) {
+                                    Excel(0);
+                                }
+                                , className: 'btn-primary'
+                            }
                     ]
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
@@ -183,6 +187,7 @@
             GetCommonProveedor();
             GetCombos();
             GetConsulta();
+          
         });
 
         function GetCommonProveedor() {
@@ -246,7 +251,7 @@
                         dynamicSelect = document.getElementById("ddlTipoEnvio");
                         dynamicSelect.innerText = null;
                         console.log(dynamicSelect);
-                        for (var i = 0; i < json.servicio.length; i++) {
+                        for (var i = 0; i < json.envio.length; i++) {
                             var newOption = document.createElement("option");
                             newOption.value = json.envio[i].IdTipoEnvio;
                             newOption.textContent = json.envio[i].Desc_TipoEnvio;//item.whateverProperty
@@ -281,7 +286,7 @@
                 item.IdTipoEnvio = $("#ddlTipoEnvio").val();
                 item.IdTipoServicio = $("#ddlTipoServicio").val();
 
-      
+
 
 
                 item.diasEntrega = row.find("TD input").eq(4).val();
@@ -306,9 +311,6 @@
                 }
             });
         }
-
-
-
 
         function GetConsulta() {
             var _IdTipoenvio = $("#ddlTipoEnvio").val();
@@ -358,6 +360,8 @@
                             //<th>Otros</th>
                             //<th>Días de Entrega</th>
                         }
+
+                        $(':input[type="number"]').attr('readonly', true);
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -379,6 +383,20 @@
             delayTimer = setTimeout(function () {
                 ele.value = parseFloat(ele.value).toFixed(0).toString();
             }, 1100);
+        }
+
+        function Excel(_op) {
+            //
+            var _IdTipoenvio = $("#ddlTipoEnvio").val();
+            var _IdTransportista = $("#ProveedorLista").val();
+            var _IdTipoServicio = $("#ddlTipoServicio").val();
+
+            window.location = window.location.origin + '/Impex/CostoEnvioProveedorExcel?op=' + _op + "&IdTipoenvio=" + _IdTipoenvio
+                + "&IdTransportista=" + _IdTransportista + "&IdTipoServicio=" + _IdTipoServicio;
+        }
+
+        function Editar() {
+            $(':input[type="number"]').attr('readonly', false);
         }
     </script>
 
