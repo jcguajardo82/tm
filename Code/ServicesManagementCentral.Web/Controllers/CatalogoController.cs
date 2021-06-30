@@ -25,6 +25,7 @@ using System.Web.Script.Serialization;
 using System.Xml.Linq;
 using TipoEnvio = ServicesManagement.Web.Models.Catalogos.TipoEnvio;
 using TipoServicio = ServicesManagement.Web.Models.Catalogos.TipoServicio;
+using TipoEntregaSETC = ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC;
 
 namespace ServicesManagement.Web.Controllers
 
@@ -3983,6 +3984,102 @@ namespace ServicesManagement.Web.Controllers
 
         }
         #endregion
+
+
+        #region tipoEntregasSETC
+        public ActionResult TipoEntregaSETC()
+        {
+            return View();
+        }
+
+        public ActionResult GetEntregaSETC()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.TipoEntregaSETC_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetTipoEntregaSETCId(int IdTipoEntrega)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.TipoEntregaSETCById_sUp(IdTipoEntrega).Tables[0]).FirstOrDefault();
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult AddTipoEntregaSETC(string StoreNum, string IdTipoEnvio, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.TipoEntregaSETC_iUp(int.Parse(StoreNum), int.Parse(IdTipoEnvio), Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+
+        public ActionResult UpdTipoEntregaSETC(int IdTipoEntrega, string StoreNum, string IdTipoEnvio, int BitActivo)
+        {
+            try
+            {
+                DALCatalogo.TipoEntregaSETC_uUp(IdTipoEntrega, int.Parse(StoreNum), int.Parse(IdTipoEnvio), Convert.ToBoolean(BitActivo), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult DelTipoEntregaSETC(string IdTipoEntrega)
+        {
+            try
+            {
+                DALCatalogo.TipoEntregaSETC_dUp(int.Parse(IdTipoEntrega), User.Identity.Name);
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        #endregion
+
+
+
     }
 
 }

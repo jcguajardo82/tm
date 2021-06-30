@@ -232,6 +232,7 @@
     <Compile Include="Models\Catalogos\Plazas.cs" />
     <Compile Include="Models\Catalogos\SuppliersCmb.cs" />
     <Compile Include="Models\Catalogos\TiendaCostoEnvio.cs" />
+    <Compile Include="Models\Catalogos\TipoEntrega.cs" />
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoServicio.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />
@@ -3677,6 +3678,7 @@
     <Content Include="Views\Catalogo\TiendasCostoEnvio.cshtml" />
     <Content Include="Views\Impex\CostosFijos.cshtml" />
     <Content Include="Views\RangosTiemposExcepciones\RangosTiemposExcepciones.cshtml" />
+    <Content Include="Views\Catalogo\TipoEntregaSETC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
