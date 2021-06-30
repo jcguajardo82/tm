@@ -4043,11 +4043,11 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult UpdTipoEntregaSETC(int IdTipoEntrega, string StoreNum, string IdTipoEnvio, int BitActivo)
+        public ActionResult UpdTipoEntregaSETC(string IdTipoEntrega, string StoreNum, string IdTipoEnvio, int BitActivo)
         {
             try
             {
-                DALCatalogo.TipoEntregaSETC_uUp(IdTipoEntrega, int.Parse(StoreNum), int.Parse(IdTipoEnvio), Convert.ToBoolean(BitActivo), User.Identity.Name);
+                DALCatalogo.TipoEntregaSETC_uUp(int.Parse(IdTipoEntrega), int.Parse(StoreNum), int.Parse(IdTipoEnvio), Convert.ToBoolean(BitActivo), User.Identity.Name);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);

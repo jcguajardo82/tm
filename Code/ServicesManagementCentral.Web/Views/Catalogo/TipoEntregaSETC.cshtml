@@ -387,7 +387,7 @@
                         document.getElementById("hddId").value = json.resp.IdTipoEntrega;
                         document.getElementById("txtStoreNum").value = json.resp.StoreNum;
                         document.getElementById("txtTipoEnvio").value = json.resp.IdTipoEnvio;
-                        if (json.resp.BitActivo) {
+                        if (json.resp.BitActivo == 1) {
                             document.getElementById("id_estatus").value = 1;
                         } else { document.getElementById("id_estatus").value = 0}
                         document.getElementById("flag_edit").value = 1;

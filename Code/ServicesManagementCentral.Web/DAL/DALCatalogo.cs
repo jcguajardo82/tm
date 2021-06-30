@@ -1920,18 +1920,15 @@ namespace ServicesManagement.Web.DAL
                 conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
             }
 
-
             try
             {
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
 
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@StoreNum", StoreNum);
                 parametros.Add("@IdTipoEnvio", IdTipoEnvio);
                 parametros.Add("@BitActivo", BitActivo);
                 parametros.Add("@Created_User", Created_User);
-
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Ins_TipoEntregaSETC", false, parametros);
 
@@ -1973,7 +1970,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@Modified_User", Modified_User);
 
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Uup_TipoEntregaSETC", false, parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Upd_TipoEntregaSETC", false, parametros);
 
                 return ds;
             }
@@ -2011,7 +2008,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@Modified_User", Modified_User);
 
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Dup_TipoEntregaSETC", false, parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Del_TipoEntregaSETC", false, parametros);
 
                 return ds;
             }

@@ -7,7 +7,7 @@ namespace ServicesManagement.Web.Models.Catalogos
 {
     public class TipoEntregaSETC
     {
-        public int IdTipoEnvioIdTipoEntrega { get; set; }
+        public int IdTipoEntrega { get; set; }
         public int StoreNum { get; set; }
         public string Desc_UN { get; set; }
         public int IdTipoEnvio { get; set; }
