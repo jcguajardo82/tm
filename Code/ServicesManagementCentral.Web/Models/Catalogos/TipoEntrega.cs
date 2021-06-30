@@ -20,6 +20,13 @@ namespace ServicesManagement.Web.Models.Catalogos
         public string FechaUltModif { get; set; }
         public string HoraUltModif { get; set; }
 
+        //llenado de combobox tipo tienda y tipo entrega
+        //public string IdTipoEnvio { get; set; }
+        //public string Desc_TipoEnvio { get; set; }
+        public string NumeroTienda { get; set; }
+        public string NomTienda { get; set; }
+        public string NomTiendaLargo { get; set; }
+
     }
 
 

@@ -3132,7 +3132,6 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
-
         #region AtributosSYE
         public ActionResult AtributosSYE()
         {
@@ -3573,7 +3572,6 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
-
         #region Almacenes 
 
 
@@ -3876,8 +3874,6 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
-
-
         #region TiendasCostoEnvio
         public ActionResult TiendasCostoEnvio()
         {
@@ -3982,7 +3978,6 @@ namespace ServicesManagement.Web.Controllers
         }
         #endregion
 
-
         #region tipoEntregasSETC
         public ActionResult TipoEntregaSETC()
         {
@@ -4073,7 +4068,72 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
+
+        public ActionResult ListEntrega()
+
+        {
+
+            try
+
+            {
+
+                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.upCorpTms_Cns_TipoEnvioSETC().Tables[0]);
+
+
+
+                var result = new { Success = true, resp = list };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+        public ActionResult ListTienda()
+
+        {
+
+            try
+
+            {
+
+                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.upCorpTms_Cns_UNList().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+
+
         #endregion
+
 
 
 

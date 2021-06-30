@@ -62,11 +62,17 @@
                             <div class="col-xs-4 col-md-4">
                                 <div class="form-group">
                                     <label>Tipo de Entrega</label>
-                                    <input type="text" placeholder="Tipo de Entrega" id="txtTipoEnvio" name="txtTipoEnvio" class="form-control" />
+                                    @*<input type="text" placeholder="Tipo de Entrega" id="txtTipoEnvio" name="txtTipoEnvio" class="form-control" />*@
+                                    <select class="form-control" id="txtTipoEnvio" name="txtTipoEnvio">
+                                        <option selected="selected" value="0">--Entrega--</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Tienda</label>
-                                    <input type="text" placeholder="Tienda" id="txtStoreNum" name="txtStoreNum" class="form-control" />
+                                    @*<input type="text" placeholder="Tienda" id="txtStoreNum" name="txtStoreNum" class="form-control" />*@
+                                    <select class="form-control" id="txtStoreNum" name="txtStoreNum">
+                                        <option selected="selected" value="0">--Tienda--</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -193,6 +199,8 @@
                                 //bootbox.alert("HOLA");
                                 $("#txtTipoEnvio").val('');
                                 $("#modal-form").modal('show');
+                                LlenarTiendasSelect();
+                                LlenarTipoEntregasSelect();
 
                             }
                             , className: 'btn-primary'
@@ -372,6 +380,9 @@
 
         function GetById(id) {
 
+            LlenarTiendasSelect();
+            LlenarTipoEntregasSelect();
+
             $.ajax({
                 async: false,
                 type: "GET",
@@ -402,6 +413,72 @@
                 }
             });
 
+        }
+
+        function LlenarTiendasSelect() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListTienda", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    if (json.Success) {
+
+                        var dynamicSelect = document.getElementById("txtStoreNum");
+                        dynamicSelect.innerText = null;
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].NumeroTienda;
+                            newOption.textContent = json.resp[i].NomTienda;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function LlenarTipoEntregasSelect() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListEntrega", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    if (json.Success) {
+
+                        var dynamicSelect = document.getElementById("txtTipoEnvio");
+                        dynamicSelect.innerText = null;
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].IdTipoEnvio;
+                            newOption.textContent = json.resp[i].Desc_TipoEnvio;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
         }
 
 
