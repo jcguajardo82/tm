@@ -2921,7 +2921,7 @@ namespace ServicesManagement.Web.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> InsTipoLogistica(string TipoLogistica, string MinPesoVolumetrico, string MaxPesoVolumetrico, string MaxCosto, string TipoArticulo, string estatus, string IdTipoLogistica)
+        public async Task<JsonResult> InsTipoLogistica(string TipoLogistica, string MinPesoVolumetrico, string MaxPesoVolumetrico, string MaxCosto, string estatus, string IdTipoLogistica, string tipoCatalago)
         {
             try
             {
@@ -2941,8 +2941,8 @@ namespace ServicesManagement.Web.Controllers
                         parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
                         parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
                         parametros.Add("@MaxCosto", MaxCosto);
-                        parametros.Add("@TipoArticulo", TipoArticulo);
                         parametros.Add("@UsuarioCreacion", "sysAdmin");
+                        parametros.Add("@TipoCatalogo", tipoCatalago);
 
                         Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_ins_TipoLogistica", false, parametros);
                     }
@@ -2954,9 +2954,9 @@ namespace ServicesManagement.Web.Controllers
                         parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
                         parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
                         parametros.Add("@MaxCosto", MaxCosto);
-                        parametros.Add("@TipoArticulo", TipoArticulo);
                         parametros.Add("@UsuarioUltModif", "sysAdmin2");
                         parametros.Add("@BitActivo", estatus.Equals("0") ? 1 : 0);
+                        parametros.Add("@TipoCatalogo", tipoCatalago);
 
                         Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoLogistica", false, parametros);
 
@@ -2999,14 +2999,7 @@ namespace ServicesManagement.Web.Controllers
 
                 try
                 {
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-
-                    //parametros.Add("@TipoLogistica", TipoLogistica);
-
-                    DataSet ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_CorpTMS_sel_TipoLogistica", false, parametros);
-
+                    DataSet ds = (DataSet)Session["listaTL"];
 
 
                     string out_IdTipoLogistica = "";
@@ -3015,6 +3008,7 @@ namespace ServicesManagement.Web.Controllers
                     string MaxPesoVolumetrico = "";
                     string MaxCosto = "";
                     string TipoArticulo = "";
+                    string TipoCatalogo = string.Empty;
                     string estatus = "";
 
                     foreach (DataRow r in ds.Tables[0].Rows)
@@ -3029,13 +3023,16 @@ namespace ServicesManagement.Web.Controllers
                             TipoArticulo = r["TipoArticulo"].ToString();
                             MaxCosto = r["MaxCosto"].ToString();
                             estatus = r["BitActivo"].ToString();
+                            TipoCatalogo = r["TipoCatalagos"].ToString();
                             break;
                         }
 
                     }
 
 
-                    var result = new { Success = true, Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e = estatus.ToLower().Equals("false") ? 1 : 0 };
+                    var result = new { Success = true, Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, 
+                                        mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e = estatus.ToLower().Equals("false") ? 1 : 0, 
+                                        tipoCat = TipoCatalogo };
                     return Json(result, JsonRequestBehavior.AllowGet);
 
 

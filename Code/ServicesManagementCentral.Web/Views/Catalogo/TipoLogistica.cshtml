@@ -75,7 +75,7 @@
                                             <td>@r["MinPesoVolumetrico"]</td>
                                             <td>@r["MaxPesoVolumetrico"]</td>
                                             <td>@r["MaxCosto"]</td>
-                                            <td>@r["TipoArticulo"]</td>
+                                            <td>@r["TipoCatalagos"]</td>
                                             <td>@r["UsuarioCreacion"]</td>
                                             <td>@r["FechaUltModif"]</td>
                                             <td>@r["TimeUltModif"]</td>
@@ -118,7 +118,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title">Alta de Tipo Logistica</h2>
+                        <h2 id="idTitulo" class="modal-title"></h2>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -173,8 +173,16 @@
                             <div class="row">
                                 <div class="col col-xs-8 col-md-4">
                                     <div class="form-group">
-                                        <label>Tipo Articulo</label>
-                                        <input type="text" placeholder="Tipo Articulo" id="in_tipoArticulo" name="in_tipoArticulo" class="form-control" />
+                                        <label>Tipo Catalogo</label>
+                                        <br />
+                   
+                                            <input name="tipoCatalogo" type="checkbox" t value="grocery"/>
+                                            <label for="tipoCatalogo" >Grocery</label>
+                                        
+                                            <input name="tipoCatalogo" type="checkbox" value="non-grocery"/>
+                                            <label for="tipoCatalogo">Non-Grocery</label>
+                                        
+
                                     </div>
                                 </div>
                                 <div class="col col-xs-8 col-md-4">
@@ -340,8 +348,6 @@
 
         function SelectItem(item, itemID) {
 
-
-
              $.ajax({
                 async: false,
                 type: "GET",
@@ -353,9 +359,10 @@
                 success: function (json) {
                     if (json.Success) {
 
-                        debugger;
+                       // debugger;
+                        checkedTipoCatalogo(json.tipoCat);
                         document.getElementById("flagStatus").value = json.Id;
-
+                        document.getElementById("idTitulo").innerHTML  = 'Edición de Tipo de Logistica';
                         //document.getElementById("in_tipoEntrega").value = json.tl;
                         //document.getElementById("in_tipoCatalogo").value = json.tc;
                         //document.getElementById("tipoAlmacen").value = json.ta;
@@ -371,7 +378,8 @@
                             document.getElementById("in_MaxPesoVolumetrico").value = json.mxp;
                             document.getElementById("in_MaxCosto").value = json.mx;
                             document.getElementById("in_tipoArticulo").value = json.ta;
-                            document.getElementById("in_estatus").value = json.e;
+                        document.getElementById("in_estatus").value = json.e;
+                        
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -412,9 +420,42 @@
             $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
         })
 
+        function checkedTipoCatalogo(item)
+        {
+            var checkboxes = document.getElementsByName('tipoCatalogo');
+            //inicializa los checks
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked)
+                    checkboxes[i].checked = false;
+            }
+
+            var _array = item.split(',');
+            //console.log(_array);
+            
+            var selected = [];
+            _array.forEach(x => {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    console.log(checkboxes[i]);
+                    if (checkboxes[i].value == x)
+                        checkboxes[i].checked = true;
+                }
+            });
+            
+
+        }
 
         $(document).ready(function () {
 
+            //var checkboxes = document.getElementsByName('tipoCatalogo');
+            //var selected = [];
+            //for (var i = 0; i < checkboxes.length; i++) {
+            //    console.log(checkboxes[i]);
+            //    if (checkboxes[i].value == 'grocery')
+            //        checkboxes[i].checked = true;
+            //    //if (checkboxes[i].checked) {
+            //    //    selected.push(checkboxes[i].value);
+            //    //}
+            //}
             $('input[type=checkbox]').change(function () { alert(document.getElementById("id_TS").value) });
 
             $('#Table_Inv').DataTable(
@@ -472,7 +513,26 @@
                 }
             );
 
-            $('#tblConsulta').DataTable(
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#tblConsulta').DataTable(
                 {
 
                     language:
@@ -528,6 +588,7 @@
                                     //document.getElementById("in_alto").value = '';
                                     //document.getElementById("in_peso").value = '';
                                     //document.getElementById("in_largo").value = '';
+                                    document.getElementById("idTitulo").innerHTML = 'Alta de Tipo de Logistica';
                                     document.getElementById("flagStatus").value = "0";
                                     $("#frmAltaTrans").modal('show');
 
@@ -628,8 +689,25 @@
 
         function AddSurtidores() {
            /* var _TarifaFija = document.getElementById("TarifaFija").value;*/
+            var checkboxes = document.querySelectorAll('input[name="tipoCatalogo"]:checked'), values = [];
+            Array.prototype.forEach.call(checkboxes, function (el) {
+                values.push(el.value);
+            });
+            console.log(values);
+            var count = 1;
+            var _tipoCat = '';
 
-            debugger;
+            values.forEach(x => {
+
+                if (count > 1)
+                    _tipoCat = _tipoCat + ',' + x;
+                else
+                    _tipoCat = x;
+
+                count++;
+            });
+        
+            //alert(_tipoCat);
             $.ajax({
                 async: false,
                 type: "POST",
@@ -640,8 +718,8 @@
                     MinPesoVolumetrico: document.getElementById("in_MinPesoVolumetrico").value,
                     MaxPesoVolumetrico: document.getElementById("in_MaxPesoVolumetrico").value,
                     MaxCosto: document.getElementById("in_MaxCosto").value,
-                    TipoArticulo: document.getElementById("in_tipoArticulo").value,
-                    estatus: document.getElementById("in_estatus").value
+                    estatus: document.getElementById("in_estatus").value,
+                    tipoCatalago: _tipoCat == '' ? null : _tipoCat
                 },
                 datatype: "json",
                 success: function (json) {
