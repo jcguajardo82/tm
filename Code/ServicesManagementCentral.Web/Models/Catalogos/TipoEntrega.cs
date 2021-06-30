@@ -21,4 +21,6 @@ namespace ServicesManagement.Web.Models.Catalogos
         public string HoraUltModif { get; set; }
 
     }
+
+
 }

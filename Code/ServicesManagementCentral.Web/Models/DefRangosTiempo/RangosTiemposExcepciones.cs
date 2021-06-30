@@ -29,11 +29,6 @@ namespace ServicesManagement.Web.Models.DefRangosTiempo
         public string HoraUltModif { get; set; }
         public string UsuarioUltModif { get; set; }
 
-
-
-
-
-
         public string BitActivo { get; set; }
 
     }
