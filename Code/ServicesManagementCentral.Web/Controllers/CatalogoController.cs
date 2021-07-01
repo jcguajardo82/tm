@@ -3358,7 +3358,7 @@ namespace ServicesManagement.Web.Controllers
         {
             Session["listaTE"] = GetTipoEntrega();
 
-            Session["listaC"] = GetCategSAP();
+            Session["listaC"] = GetCategSAP2();
 
             return View();
         }
@@ -3487,13 +3487,7 @@ namespace ServicesManagement.Web.Controllers
 
                 try
                 {
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-
-                    parametros.Add("@Id_TipoEntrega", IdTipoEntrega);
-
-                    DataSet ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[up_CorpTMS_sel_TipoEntregasById]", false, parametros);
+                    DataSet ds = (DataSet)Session["listaTE"];
 
                     string out_Id_TipoEntrega = "";
                     string out_Descripcion = "";
