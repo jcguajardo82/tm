@@ -86,6 +86,9 @@
     <Reference Include="NPOI.OpenXmlFormats, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.0.6\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=105.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.0.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Soriana.FWK">
       <HintPath>..\ThidParts\Soriana.FWK\Soriana.FWK.dll</HintPath>
     </Reference>
@@ -201,6 +204,7 @@
     <Compile Include="Controllers\CpanelController.cs" />
     <Compile Include="Controllers\DefRangosTiempoController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
+    <Compile Include="Controllers\OpUltMillaController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
     <Compile Include="Controllers\PromocionesCostoEnvioController.cs" />
     <Compile Include="Controllers\RangosTiemposExcepcionesController.cs" />
@@ -3679,6 +3683,7 @@
     <Content Include="Views\Impex\CostosFijos.cshtml" />
     <Content Include="Views\RangosTiemposExcepciones\RangosTiemposExcepciones.cshtml" />
     <Content Include="Views\Catalogo\TipoEntregaSETC.cshtml" />
+    <Content Include="Views\OpUltMilla\Cobertura.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
