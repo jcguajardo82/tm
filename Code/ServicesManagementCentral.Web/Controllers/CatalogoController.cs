@@ -3536,7 +3536,7 @@ namespace ServicesManagement.Web.Controllers
                         ,
                         pmx = out_Peso_max
                         ,
-                        e = out_estatus.ToLower().Equals("false") ? 1 : 0
+                        e = out_estatus
                     };
                     return Json(result, JsonRequestBehavior.AllowGet);
 
