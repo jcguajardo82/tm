@@ -30,7 +30,7 @@ namespace ServicesManagement.Web.DAL
 
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[common].[spOwners_sUP]", false, parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[common].[spOwners_v2_sUP]", false, parametros);
 
                 return ds;
             }
