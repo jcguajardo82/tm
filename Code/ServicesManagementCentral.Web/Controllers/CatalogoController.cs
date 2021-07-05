@@ -857,8 +857,6 @@ namespace ServicesManagement.Web.Controllers
                 // List<CarrierModel> listC = ConvertTo<CarrierModel>(ds.Tables[0]);
                 List<CarrierModelTMS> listC = ConvertTo<CarrierModelTMS>(ds.Tables[0]);
 
-
-
                 var result = new { Success = true, json = listC };
 
                 return Json(result, JsonRequestBehavior.AllowGet);

@@ -73,7 +73,7 @@ namespace ServicesManagement.Web.Models
         public string HoraUltModif { get; set; }//varchar
         public string BitActivo { get; set; }//varchar
 
-        public int IdTipoLogistica { get; set; }//bit
+        public string IdTipoLogistica { get; set; }//bit
         public string TipoLogistica { get; set; }//varchar
     }
 

@@ -6,6 +6,278 @@
 
 
 <style>
+    .hidden-search {
+        display: none !important;
+    }
+
+
+    li[data-parent].closed {
+        display: none !important;
+    }
+
+    li[data-parent].open:not(.hidden-search) {
+        display: block !important;
+    }
+
+    .vsb-menu {
+        cursor: pointer;
+        z-index: 1000;
+        display: block;
+        visibility: hidden;
+        position: absolute; /*Don't change*/
+        border: 1px solid #B2B2B2;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        border-radius: 4px;
+        font-size: 11px;
+        width: 450px
+    }
+
+    .vsb-js-search-zone {
+        position: absolute; /*Don't change*/
+        z-index: 1001;
+        width: 80%;
+        min-height: 1.8em;
+        padding: 2px;
+        background-color: #fff;
+    }
+
+        .vsb-js-search-zone input {
+            border: 1px solid grey;
+            margin-left: 2px;
+            width: 96%;
+            border-radius: 4px;
+            height: 25px !important;
+        }
+
+    .vsb-main {
+        position: relative; /*Don't change*/
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        width: 100%;
+    }
+
+    .vsb-menu li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-menu ul {
+        user-select: none;
+        list-style: none;
+        white-space: nowrap;
+        margin: 0px;
+        margin-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3px;
+        color: black;
+        cursor: pointer;
+        overflow: scroll;
+    }
+
+    li.disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.overflow {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.short {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vsb-main button {
+        min-width: 120px;
+        border-radius: 0;
+        width: 100%;
+        text-align: left;
+        z-index: 1;
+        color: yellow;
+        background: red !important;
+        border: 1px solid #999 !important;
+        line-height: 20px;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+        .vsb-main button.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+    .vsb-main .title {
+        margin-right: 6px;
+        user-select: none;
+    }
+
+    .vsb-main li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-main ul {
+        white-space: nowrap;
+    }
+
+    .vsb-menu li {
+        font-size: 14px;
+        background-color: #fff;
+        min-height: 1.4em;
+        padding: 0.2em 2em 0.2em 1em;
+    }
+
+        .vsb-menu li.grouped-option b {
+            display: inline-block;
+            font-size: 15px;
+            margin-left: 10px;
+            transform: translate(-18px);
+        }
+
+        .vsb-menu li.grouped-option.open span {
+            display: inline-block;
+            font-size: inherit;
+            margin-top: -2px;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option.closed span {
+            display: inline-block;
+            font-size: inherit;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(-45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option i {
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: 22px;
+            margin-right: 2px;
+            height: 11px;
+            width: 8px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 1px 3px 2px 3px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu li.grouped-option.checked i::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: 0px;
+            display: inline-block;
+            transform: rotate(45deg);
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .vsb-menu :not(.multi) li.active {
+        margin-left: 7px;
+    }
+
+        .vsb-menu :not(.multi) li.active::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            margin-left: -18px;
+            transform: rotate(45deg);
+            height: 10px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+    .vsb-menu .multi li {
+        font-size: 14px;
+        background-color: #fff;
+        width: 600px;
+    }
+
+        .vsb-menu .multi li.grouped-option {
+            font-size: 15px;
+            padding-left: 5px;
+        }
+
+
+            .vsb-menu .multi li.grouped-option:hover {
+                font-weight: bold;
+                text-decoration: underline;
+                color: rgb(52, 31, 112);
+            }
+
+        .vsb-menu .multi li:not(.grouped-option)::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: -22px;
+            margin-right: 2px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 7px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu .multi li:not(.grouped-option).active::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: -18px;
+            display: inline-block;
+            transform: rotate(45deg);
+            margin-top: 1px;
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+
+    li[data-parent] {
+        padding-left: 50px !important;
+    }
+
     #radioBtn .notActive {
         color: #3276b1;
         background-color: #fff;
@@ -109,17 +381,17 @@
                                     <label>Id Transportista</label>
                                     <input type="text" placeholder="Id Transportista" id="ProveedorLista" name="ProveedorLista" class="form-control" readonly />
                                     @*<select class="form-control" id="ProveedorLista" name="ProveedorLista">
-            <option selected="selected" value="0">--Transportista--</option>
+                                            <option selected="selected" value="0">--Transportista--</option>
 
 
 
-        </select>*@
+                                        </select>*@
                                 </div>
                             </div>
                             <div class="col col-xs-8 col-md-8">
                                 <div class="form-group">
                                     <label>Nombre</label>
-                                    <input type="text" placeholder="Nombre" id="in_nombre" name="in_nombre" class="form-control" readonly/>
+                                    <input type="text" placeholder="Nombre" id="in_nombre" name="in_nombre" class="form-control" readonly />
                                 </div>
                             </div>
 
@@ -147,34 +419,34 @@
                         <div class="row">
                             <div class="col col-xs-8 col-md-4">
                                 @*
-                                            <div class="form-group">
-                    <label>Tarifa Fija</label>
-                    <div class="input-group">
-                        <div id="radioBtn" class="btn-group">
-                            <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
-                            <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
-                        </div>
-                        <input type="hidden" name="TarifaFija" id="TarifaFija">
-                    </div>
-                </div>*@
+                                                                <div class="form-group">
+                                        <label>Tarifa Fija</label>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="TarifaFija" id="TarifaFija">
+                                        </div>
+                                    </div>*@
                             </div>
                             <div class="col col-xs-8 col-md-4">
                                 @*<div class="form-group">
-                    <label>Tarifa Fija</label>
-                    <input type="text" placeholder="Costo Tarifa Fija" id="CostoTarifaFija" name="CostoTarifaFija" class="form-control" />
+                                        <label>Tarifa Fija</label>
+                                        <input type="text" placeholder="Costo Tarifa Fija" id="CostoTarifaFija" name="CostoTarifaFija" class="form-control" />
 
-                </div>*@
+                                    </div>*@
 
                             </div>
                             <div class="col col-xs-8 col-md-4">
 
                                 @*<div class="form-group">
 
-                    <label>Porc. Adic. Paquete</label>
+                                        <label>Porc. Adic. Paquete</label>
 
-                    <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
+                                        <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
 
-                </div>*@
+                                    </div>*@
 
                             </div>
                         </div>
@@ -186,10 +458,7 @@
                             <div class="col col-xs-8 col-md-4">
                                 <div class="form-group">
                                     <label>Tipo Logistica</label>
-                                    <select class="form-control" id="tipoLogistica" name="tipoLogistica">
-                                        <option selected="selected" value="0">--Selecciona--</option>
-
-
+                                    <select class="form-control" id="tipoLogistica" name="tipoLogistica" multiple size="3">
                                         @{ if (Session["cmbTL"] != null)
                                             {
                                                 var myDataSet = Session["cmbTL"] as System.Data.DataSet;
@@ -218,7 +487,7 @@
                             </div>
 
                         </div>
-                        
+
                         <div class="row">
                             <div class="col col-xs-8 col-md-4">
                                 <div class="form-group">
@@ -255,76 +524,76 @@
 
 
                         @*<div class="row">
-            <div class="col col-xs-8 col-md-3">
+                                <div class="col col-xs-8 col-md-3">
 
-                <div class="form-group">
+                                    <div class="form-group">
 
-                    <label>Paqueteria</label>
+                                        <label>Paqueteria</label>
 
-                    <div class="input-group">
-                        <div id="radioBtn" class="btn-group">
-                            <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
-                            <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
-                        </div>
-                        <input type="hidden" name="Paqueteria" id="Paqueteria">
-                    </div>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="Paqueteria" id="Paqueteria">
+                                        </div>
 
-                </div>
+                                    </div>
 
-            </div>
-            <div class="col col-xs-8 col-md-3">
+                                </div>
+                                <div class="col col-xs-8 col-md-3">
 
-                <div class="form-group">
+                                    <div class="form-group">
 
-                    <label>Big Ticket</label>
+                                        <label>Big Ticket</label>
 
-                    <div class="input-group">
-                        <div id="radioBtn" class="btn-group">
-                            <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
-                            <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
-                        </div>
-                        <input type="hidden" name="BigTicket" id="BigTicket">
-                    </div>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="BigTicket" id="BigTicket">
+                                        </div>
 
-                </div>
+                                    </div>
 
-            </div>
-            <div class="col col-xs-8 col-md-3">
+                                </div>
+                                <div class="col col-xs-8 col-md-3">
 
-                <div class="form-group">
+                                    <div class="form-group">
 
-                    <label>Servicio Estandar</label>
+                                        <label>Servicio Estandar</label>
 
-                    <div class="input-group">
-                        <div id="radioBtn" class="btn-group">
-                            <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
-                            <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
-                        </div>
-                        <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
-                    </div>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
+                                        </div>
 
-                </div>
+                                    </div>
 
-            </div>
-            <div class="col col-xs-8 col-md-3">
+                                </div>
+                                <div class="col col-xs-8 col-md-3">
 
-                <div class="form-group">
+                                    <div class="form-group">
 
-                    <label>Servicio Express</label>
+                                        <label>Servicio Express</label>
 
-                    <div class="input-group">
-                        <div id="radioBtn" class="btn-group">
-                            <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
-                            <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
-                        </div>
-                        <input type="hidden" name="ServicioExpress" id="ServicioExpress">
-                    </div>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="ServicioExpress" id="ServicioExpress">
+                                        </div>
 
-                </div>
+                                    </div>
 
-            </div>
+                                </div>
 
-        </div>*@
+                            </div>*@
                     </form>
 
                 </div>
@@ -356,7 +625,7 @@
 
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
-
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
 
     <script>
 
@@ -371,7 +640,7 @@
 
 
         $(document).ready(function () {
-
+            init("tipoLogistica");
             $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
             $('#tblConsulta thead tr:eq(0) th').each(function (i) {
                 if ($(this).attr('name') != "accion") {
@@ -452,7 +721,7 @@
                                 //document.getElementById("BigTicket").value = "SI";
                                 //document.getElementById("ServicioEstandar").value = "SI";
                                 //document.getElementById("ServicioExpress").value = "SI";
-
+                                empty();
                                 $("#frmAltaTrans").modal('show');
 
                             }
@@ -468,10 +737,54 @@
                     //}
                 }
             );
-           
+
             GetTrans();
             GetCommonProveedor();
         });
+        function empty() {
+            if (selectBox2 != null) {
+                selectBox2.empty();
+            }
+        }
+        function doDestroy(id) {
+
+            if (id == "tipoLogistica" && selectBox2 != null) {
+                selectBox2.destroy();
+                //let zone = document.getElementById("demo-multiple");
+                //buttons = zone.querySelector(".btns-active");
+                //buttons.style.display = "none";
+                //buttons = zone.querySelector(".btns-inactive");
+                //buttons.style.display = "block";
+
+            }
+        }
+        function init(id) {
+            if (id == "tipoLogistica") {
+
+                selectBox2 = new vanillaSelectBox("#tipoLogistica", { "disableSelectAll": true, "maxHeight": 200, "search": true, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+                //let zone = document.getElementById("demo-multiple");
+                //buttons = zone.querySelector(".btns-active");
+                //buttons.style.display = "block";
+                //buttons = zone.querySelector(".btns-inactive");
+                //buttons.style.display = "none";
+
+            }
+        }
+        function setValues(value) {
+            if (selectBox2 != null) {
+                selectBox2.setValue(value);
+            }
+        }
+        function getValues(id) {
+            let result = [];
+            let collection = document.querySelectorAll("#" + id + " option");
+            collection.forEach(function (x) {
+                if (x.selected) {
+                    result.push(x.value);
+                }
+            });
+            return result;
+        }
 
         function GetCommonProveedor() {
 
@@ -562,7 +875,13 @@
                             document.getElementById("NivelServicio").value = json.json[i].NivelServicio;
                             document.getElementById("FactorVoluntario").value = json.json[i].FactorPaqueteria;
                             document.getElementById("Prioridad").value = json.json[i].Prioridad;
-                            document.getElementById("tipoLogistica").value = json.json[i].IdTipoLogistica;
+                            //document.getElementById("tipoLogistica").value = json.json[i].IdTipoLogistica;
+                            empty();
+                            if (json.json[i].IdTipoLogistica != '') {
+                                var _array = json.json[i].IdTipoLogistica.split(',');
+
+                                setValues(_array);
+                            }
                             document.getElementById("in_limite").value = json.json[i].LimitePaqueteria;
                             document.getElementById("in_vida").value = json.json[i].DiasVigenciaGuias;
                             document.getElementById("TarifaFija").value = "SI";//json.json[i].ServicioExpress;
@@ -591,7 +910,19 @@
         function AddSurtidores() {
 
 
+            var count = 1;
+            var valuesTipoLog = getValues('tipoLogistica');
+            var _tipoTipoLog = '';
 
+            valuesTipoLog.forEach(x => {
+
+                if (count > 1)
+                    _tipoTipoLog = _tipoTipoLog + ',' + x;
+                else
+                    _tipoTipoLog = x;
+
+                count++;
+            });
 
 
 
@@ -600,7 +931,7 @@
             var _NivelServicio = parseInt(document.getElementById("NivelServicio").value);
             var _FactorVoluntario = parseInt(document.getElementById("FactorVoluntario").value);
             var _Prioridad = parseInt(document.getElementById("Prioridad").value);
-            var _tipoLogistica = parseInt(document.getElementById("tipoLogistica").value);
+            var _tipoLogistica = _tipoTipoLog == '' ? null : _tipoTipoLog;
             var _in_limite = parseInt(document.getElementById("in_limite").value);
             var _in_vida = parseInt(document.getElementById("in_vida").value);
             var _TarifaFija = parseInt(document.getElementById("TarifaFija").value);
@@ -697,7 +1028,7 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-
+                        empty();
                         location.reload();
                     }
                     else { bootbox.alert(json.Message);}
@@ -737,7 +1068,7 @@
                         //table1.clear().draw();
                         //table1.destroy();
 
-                        
+
                         //$("#tblConsulta tbody tr").remove();
 
                         //Append each row to html table
