@@ -180,7 +180,7 @@ namespace ServicesManagement.Web.Controllers
                                 IdTransportista = Convert.ToInt32(objDataRow[0].ToString()),
                                 PesoInicio = Convert.ToDecimal(objDataRow[1].ToString()),
                                 PesoFin = Convert.ToDecimal(objDataRow[2].ToString()),
-                                PorcentajeInicialCliente = Convert.ToDecimal(objDataRow[4].ToString()),
+                                PorcentajeInicialCliente = Convert.ToDecimal(objDataRow[3].ToString()),
                                 bitDeleted = objDataRow[4].ToString().Equals("0") ? false : true,//Convert.ToBoolean(int.Parse(objDataRow[4].ToString())),
                                 CreatedId = User.Identity.Name
                             });
