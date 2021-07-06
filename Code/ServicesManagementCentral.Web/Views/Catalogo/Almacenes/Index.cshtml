@@ -221,7 +221,7 @@
                                 $('#lstIdAlmacen').val("0");
                                 $('#AlmacenLista').val("0");
 
-                                iniciaTblLogistica(0, 0, 0);
+                                iniciaTblLogistica(0, 0, 0, 0);
                                 $("#modal-CreateAlmacen").modal('show');
 
                             }
@@ -486,7 +486,7 @@
                         } else { document.getElementById("id_estatus").value = 0 }
                         document.getElementById("flag_edit").value = 1;
 
-                        iniciaTblLogistica(1, _idSupplierWH, _idSupplierWHCode);
+                        iniciaTblLogistica(1, _idSupplierWH, _idSupplierWHCode, _idOwner);
                   
                         $("#txtTiempoSurtido").val(json.resp.TiempoSurtido);
 
@@ -588,7 +588,7 @@
             });
         }
 
-        function iniciaTblLogistica(_op, _idSupplierWH, _idSupplierWHCode) {
+        function iniciaTblLogistica(_op, _idSupplierWH, _idSupplierWHCode, _idOwner) {
 
             //int op, int idSupplierWH, int idSupplierWHCode
                  $.ajax({
@@ -599,7 +599,7 @@
                     idSupplierWH: _idSupplierWH,
                     idSupplierWHCode: _idSupplierWHCode,
                     op: _op,
-
+                    idOwner: _idOwner
                 },
                 datatype: "html",
                 success: function (json)

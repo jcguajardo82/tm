@@ -377,7 +377,7 @@ namespace ServicesManagement.Web.DAL
 
         }
 
-        public static DataSet AlmacenTipoLogisticaById_sUp(int IdTipoLogistica, int idSupplierWH, int idSupplierWHCode)
+        public static DataSet AlmacenTipoLogisticaById_sUp(int IdTipoLogistica, int idSupplierWH, int idSupplierWHCode, int idOwner)
         {
 
             DataSet ds = new DataSet();
@@ -400,7 +400,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@idSupplierWH", idSupplierWH);
                 parametros.Add("@idSupplierWHCode", idSupplierWHCode);
                 parametros.Add("@IdTipoLogistica", IdTipoLogistica);
-
+                parametros.Add("@idOwner", idOwner);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[AlmacenTipoLogisticaById_sUp]", false, parametros);
 

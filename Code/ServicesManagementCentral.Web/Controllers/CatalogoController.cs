@@ -3796,7 +3796,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetTipoLogisticaAlm(int op, int idSupplierWH, int idSupplierWHCode)
+        public ActionResult GetTipoLogisticaAlm(int op, int idSupplierWH, int idSupplierWHCode, int idOwner)
         {
             try
             {
@@ -3806,7 +3806,7 @@ namespace ServicesManagement.Web.Controllers
 
                 foreach (var item in listC)
                 {
-                    if (DALCatalogo.AlmacenTipoLogisticaById_sUp(item.IdTipoLogistica, idSupplierWH, idSupplierWHCode).Tables[0].Rows.Count != 0)
+                    if (DALCatalogo.AlmacenTipoLogisticaById_sUp(item.IdTipoLogistica, idSupplierWH, idSupplierWHCode, idOwner).Tables[0].Rows.Count != 0)
                     {
                         item.IsChecked = true;
                     }
