@@ -3779,12 +3779,12 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetSuppliersWarehousest(string IdProv)
+        public ActionResult GetSuppliersWarehousest(string IdProv, int idOwner)
         {
             try
             {
 
-                List<AlmacenCmb> listC = ConvertTo<AlmacenCmb>(DALCatalogo.upCorpTms_Cns_SuppliersWarehouses(IdProv).Tables[0]);
+                List<AlmacenCmb> listC = ConvertTo<AlmacenCmb>(DALCatalogo.upCorpTms_Cns_SuppliersWarehouses(IdProv, idOwner).Tables[0]);
                 var result = new { Success = true, json = listC };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -3831,11 +3831,11 @@ namespace ServicesManagement.Web.Controllers
                 {
                     if (item.IsChecked)
                     {
-                        DALCatalogo.AlmacenTipoLogistica_iUp(item.IdTipoLogistica, item.idSupplierWH, item.idSupplierWHCode, User.Identity.Name);
+                        DALCatalogo.AlmacenTipoLogistica_iUp(item.IdTipoLogistica, item.idSupplierWH, item.idSupplierWHCode, User.Identity.Name, item.idOwner);
                     }
                     else
                     {
-                        DALCatalogo.AlmacenTipoLogistica_dUp(item.IdTipoLogistica, item.idSupplierWH, item.idSupplierWHCode);
+                        DALCatalogo.AlmacenTipoLogistica_dUp(item.IdTipoLogistica, item.idSupplierWH, item.idSupplierWHCode, item.idOwner);
                     }
                 }
 

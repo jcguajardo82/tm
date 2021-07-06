@@ -122,7 +122,7 @@ namespace ServicesManagement.Web.DAL
         }
 
 
-        public static DataSet upCorpTms_Cns_SuppliersWarehouses(string idSupplierWH)
+        public static DataSet upCorpTms_Cns_SuppliersWarehouses(string idSupplierWH, int idOwner)
         {
 
             string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
@@ -135,6 +135,7 @@ namespace ServicesManagement.Web.DAL
 
             System.Collections.Hashtable parametros = new System.Collections.Hashtable();
             parametros.Add("@idSupplierWH", idSupplierWH);
+            parametros.Add("@idOwner", idOwner);
 
             return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
 
@@ -289,7 +290,7 @@ namespace ServicesManagement.Web.DAL
 
         }
 
-        public static DataSet AlmacenTipoLogistica_iUp(int IdTipoLogistica, int idSupplierWH, int idSupplierWHCode, string UsuarioCreacion)
+        public static DataSet AlmacenTipoLogistica_iUp(int IdTipoLogistica, int idSupplierWH, int idSupplierWHCode, string UsuarioCreacion, int idOwner)
         {
 
             DataSet ds = new DataSet();
@@ -314,7 +315,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@IdTipoLogistica", IdTipoLogistica);
 
                 parametros.Add("@UsuarioCreacion", UsuarioCreacion);
-
+                parametros.Add("@idOwner", idOwner);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[AlmacenTipoLogistica_iUp]", false, parametros);
 
@@ -333,7 +334,7 @@ namespace ServicesManagement.Web.DAL
 
         }
 
-        public static DataSet AlmacenTipoLogistica_dUp(int IdTipoLogistica, int idSupplierWH, int idSupplierWHCode)
+        public static DataSet AlmacenTipoLogistica_dUp(int IdTipoLogistica, int idSupplierWH, int idSupplierWHCode, int idOwner)
         {
 
             DataSet ds = new DataSet();
@@ -356,6 +357,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@idSupplierWH", idSupplierWH);
                 parametros.Add("@idSupplierWHCode", idSupplierWHCode);
                 parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+                parametros.Add("@idOwner", idOwner);
 
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[AlmacenTipoLogistica_dUp]", false, parametros);

@@ -79,8 +79,9 @@
         });
 
         $('#ProveedorLista').change(function () {
-                    _IdProveedor = $("#ProveedorLista").val();
-                   CmboAlmacenes(_IdProveedor);
+            _IdProveedor = $("#ProveedorLista").val();
+            _idOwner = $("#lstIdAlmacen").val();
+                   CmboAlmacenes(_IdProveedor, _idOwner);
         });
 
         $('#lstIdAlmacen').change(function () {
@@ -116,14 +117,15 @@
                 });
         }
 
-        function CmboAlmacenes(_IdProveedor) {
-            debugger;
+        function CmboAlmacenes(_IdProveedor, _idOwner) {
+            
                                  $.ajax({
                     async: false,
                     type: "GET",
                     url: '@Url.Action("GetSuppliersWarehousest", "Catalogo")',
                     data: {
-                        IdProv: _IdProveedor
+                        IdProv: _IdProveedor,
+                        idOwner: _idOwner
                     },
                     datatype: "html",
                     success: function (json) {
@@ -252,7 +254,7 @@
         };
 
         function ActionUpd() {
-            debugger;
+            
             //if (document.getElementById("flag_edit").value == "1") {
             //    saveEditSurtidor();
             //}
@@ -272,7 +274,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    debugger;
+                    
                     if (json.Success) {
                         var sel = $("#lstIdAlmacen");
                         sel.empty();
@@ -295,7 +297,7 @@
 
         function GetCommonAlmacen() {
             //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
+            //
             $.ajax({
                 async: false,
                 type: "GET",
@@ -328,7 +330,7 @@
 
         function GetAlmacenes() {
             //var _Id_Num_UN = $("#hddTda").val();
-            debugger;
+            
 
             $.ajax({
                 async: false,
@@ -339,7 +341,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    debugger;
+                    
                     if (json.Success) {
                         var myTable = $('#tblConsulta').DataTable();
                         myTable
@@ -405,9 +407,13 @@
                 return;
             }
 
-            if (_idSupplierWHCode == "0") {
-                $("#AlmacenLista").focus();
-                return;
+            if (_idSupplierWHCode == "0" || _idSupplierWHCode == "") {
+                if (_idOwner == "1")
+                    _idSupplierWHCode = 1
+                else {
+                    $("#AlmacenLista").focus();
+                    return;
+                }
             }
 
             if (_TiempoSurtido.length == 0) {
@@ -432,7 +438,7 @@
                 success: function (json)
                 {
                     if (json.Success) {
-                        AddLogistica(_idSupplierWH, _idSupplierWHCode);
+                        AddLogistica(_idSupplierWH, _idSupplierWHCode, _idOwner);
                         location.reload();
                     }
                     else { alert(json.Message) }
@@ -469,7 +475,7 @@
                         CmboProveedores(json.resp.idOwner);
                         $("#ProveedorLista").val(json.resp.idSupplierWH);
 
-                        CmboAlmacenes(json.resp.idSupplierWH);
+                        CmboAlmacenes(json.resp.idSupplierWH, json.resp.idOwner);
                         $("#AlmacenLista").val(json.resp.idSupplierWHCode);
                         $("#lstIdAlmacen").val(json.resp.idOwner);
                         $('a[data-toggle="ServicioEstandar"][data-title="' + valServicioEstandar + '"]').click();
@@ -624,17 +630,18 @@
             });
         }
 
-        function AddLogistica(_idSupplierWH, _idSupplierWHCode) {
-            debugger;
+        function AddLogistica(_idSupplierWH, _idSupplierWHCode, _idOwner) {
+            
             var logistica = new Array();
             $("#tblLogistica TBODY TR").each(function () {
                 var row = $(this);
                 var item = {};
-                debugger;
+                
                 item.IsChecked = row.find("TD input:checkbox").eq(0).is(':checked');
                 item.IdTipoLogistica = row.find("TD input:checkbox").eq(0).prop('value');
                 item.idSupplierWH = _idSupplierWH;
                 item.idSupplierWHCode = _idSupplierWHCode;
+                item.idOwner = _idOwner;
                 //var isChecked = $('#tableData tbody tr:eq(' + row + ') input:checkbox').is(':checked');
                 //var checkBoxValue = $('#tableData tbody tr:eq(' + row + ') input:checkbox').prop('value');
                 logistica.push(item);

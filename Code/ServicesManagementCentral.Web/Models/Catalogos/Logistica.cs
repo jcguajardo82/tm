@@ -12,5 +12,6 @@ namespace ServicesManagement.Web.Models.Catalogos
         public int idSupplierWH { get; set; }
         public int idSupplierWHCode { get; set; }
         public bool IsChecked { get; set; }
+        public int idOwner { get; set; }
     }
 }
