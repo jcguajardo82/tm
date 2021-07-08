@@ -191,13 +191,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult AltaVehiculos()
-        {
 
-            Session["lista"] = GetTipoVehiculos();
-
-            return View();
-        }
 
 
         public ActionResult AltaVehiculo()
@@ -372,7 +366,7 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Cat_Vehiculo()
         {
-            Session["lista"] = GetTipoVehiculos();
+            Session["lista"] = DALCatalogo.up_CorpTMS_Sel_TipoVehiculo(); //GetTipoVehiculos();
             Session["listaV"] = GetVehiculos_index();
 
             return View();
@@ -922,7 +916,7 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Cat_Servicio()
         {
-            Session["lista"] = GetTipoVehiculos();
+            Session["lista"] = DALCatalogo.up_CorpTMS_Sel_TipoVehiculo();//GetTipoVehiculos();
 
             string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
 
@@ -1727,58 +1721,29 @@ namespace ServicesManagement.Web.Controllers
 
 
 
+        #region Tipo Vehiculos
+        public ActionResult AltaVehiculos()
+        {
+
+            Session["lista"] = DALCatalogo.up_CorpTMS_Sel_TipoVehiculo();
+
+            return View();
+        }
+
         [HttpGet]
-        public async Task<JsonResult> SaveTipoVehiculo(string tipoVehiculo,string flag,string comentarios)
+        public ActionResult SaveTipoVehiculo(int Id_TipoVehiculo,string Descripcion, string Comentarios, bool Estatus)
         {
             try
             {
-                string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-                if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+                if (Id_TipoVehiculo == 0)
                 {
-                    conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+                    DALCatalogo.up_CorpTMS_Ins_TipoVehiculo(Descripcion, Comentarios, User.Identity.Name, Estatus);
                 }
-
-
-                try
-                {
-                    string UserCreate = User.Identity.Name;
-
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                    //parametros.Add("@Id_proveedor", 1);
-                    //parametros.Add("@descripcionServicioField", t.DescripcionServicio);
-                    //parametros.Add("@tipoEnvioResField", t.TipoEnvioRes);
-                    //parametros.Add("@aplicaCotizacionField", t.AplicaCotizacion);
-                    //parametros.Add("@tarifaBaseField", t.TarifaBase);
-                    //parametros.Add("@cCTarifaBaseField", t.CCTarifaBase);
-                    //parametros.Add("@cargosExtraField", t.CargosExtra);
-                    //parametros.Add("@sobrePesoField", t.SobrePeso);
-                    //parametros.Add("@cCSobrePesoField", t.CCSobrePeso);
-                    //parametros.Add("@costoTotalField", t.CostoTotal);
-                    //parametros.Add("@pesoField", t.Peso);
-                    parametros.Add("@Descripcion", tipoVehiculo);
-                    parametros.Add("@comentarios", comentarios);
-                    parametros.Add("@Usuario", UserCreate);
-
-                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[up_CorpTMS_Ins_TipoVehiculo]", false, parametros);
-
-
-                    //return ds;
+                else {
+                    DALCatalogo.up_CorpTMS_upd_TipoVehiculo(Id_TipoVehiculo,Descripcion, Comentarios, User.Identity.Name, Estatus);
                 }
-                catch (SqlException ex)
-                {
-
-                    throw ex;
-                }
-                catch (System.Exception ex)
-                {
-
-                    throw ex;
-                }
-
-                var result1 = new { Success = true };
-                return Json(result1, JsonRequestBehavior.AllowGet);
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -1787,23 +1752,72 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
-        public DataSet GetTipoVehiculos() {
+        [HttpGet]
+        public ActionResult GetTipoVehiculoByID(int Id_TipoVehiculo)
 
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+        {
+
+            try
+
             {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+
+                var list = DataTableToModel.ConvertTo<TipoVehiculo>(DALCatalogo.up_CorpTMS_SelById_TipoVehiculo(Id_TipoVehiculo).Tables[0]).FirstOrDefault();
+
+
+
+                var result = new { Success = true, resp = list };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
             }
 
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+            catch (Exception x)
 
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[up_CorpTMS_Sel_TipoVehiculo]", false, parametros);
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
 
 
 
         }
+
+        [HttpGet]
+        public ActionResult DelTipoVehiculo(int Id_TipoVehiculo)
+
+        {
+
+            try
+
+            {
+
+              DALCatalogo.up_CorpTMS_Del_TipoVehiculo(Id_TipoVehiculo,User.Identity.Name);
+
+
+
+                var result = new { Success = true };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+            catch (Exception x)
+
+            {
+
+                var result = new { Success = false, Message = x.Message };
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+
+
+        }
+        #endregion
 
         public List<T> ConvertTo<T>(DataTable datatable) where T : new()
 

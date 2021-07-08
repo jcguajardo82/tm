@@ -2144,7 +2144,7 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@Id_TipoVehiculo", Id_TipoVehiculo);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_SelById_TipoVehiculo", false);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_SelById_TipoVehiculo", false,parametros);
 
                 return ds;
             }
@@ -2185,7 +2185,7 @@ namespace ServicesManagement.Web.DAL
 
 
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_upd_TipoVehiculo", false);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_upd_TipoVehiculo", false,parametros);
 
                 return ds;
             }
@@ -2226,7 +2226,7 @@ namespace ServicesManagement.Web.DAL
 
 
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Ins_TipoVehiculo", false);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Ins_TipoVehiculo", false,parametros);
 
                 return ds;
             }
@@ -2260,7 +2260,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@Id_TipoVehiculo", Id_TipoVehiculo);
                 parametros.Add("@Usuario", Usuario);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Del_TipoVehiculo", false);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Del_TipoVehiculo", false,parametros);
 
                 return ds;
             }

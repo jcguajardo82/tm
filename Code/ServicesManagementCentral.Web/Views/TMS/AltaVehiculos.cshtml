@@ -17,202 +17,161 @@
 
 @using (Html.BeginForm())
 {
-<div class="row">
-    <div class="col-4"></div>
-    <div class="col-4"><h2>Tipo de vehiculos tiendas</h2></div>
-    <div class="col-4"></div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Tipo de vehiculos tiendas</h2></div>
+        <div class="col-4"></div>
 
-</div>
-
-
-                <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
-
-                    @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
+    </div>
 
 
-                    <br />
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
 
-                    <div class="row">
-                        <div class="col-12">
-                            <table id="example" class="table table-striped dataTable" style="width:100%">
-                                <thead>
+        @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
+
+
+        <br />
+
+        <div class="row">
+            <div class="col-12">
+                <table id="example" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Tipo Vehiculo</th>
+                            <th>Usuario de Actualización</th>
+                            <th>Fecha de Actualización</th>
+                            <th>Hora de Actualización</th>
+                            <th>Activo</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ if (Session["lista"] != null)
+                            {
+
+                                var myDataSet = Session["lista"] as System.Data.DataSet;
+                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                {
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Tipo Vehiculo</th>
-                                        <th>Usuario de Actualización</th>
-                                        <th>Fecha de Actualización</th>
-                                        <th>Hora de Actualización</th>
-                                        <th>Activo</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @{ if (Session["lista"] != null)
-                                        {
-
-                                            var myDataSet = Session["lista"] as System.Data.DataSet;
-                                            foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
-                                            {
-                                                                        <tr>
-                                                                            <td>
-                                                                                @r["Id_TipoVehiculo"]
-                                                                            </td>
-                                                                            <td>
-                                                                                @r["Descipcion"]
-                                                                            </td>
-                                                                            <td>
-                                                                                @r["Modified_User"]
-                                                                            </td>
-                                                                            <td>
-                                                                                @r["Fec_Movto"]
-                                                                            </td>
-                                                                            <td>
-                                                                                @r["TimeMovto"]
-                                                                            </td>
-                                                                            <td>
-                                                                                @r["Estatus"]
-                                                                            </td>
-                                                                            <td>
-                                                                                <button title="Editar" type="button" onclick="SelectOrder(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                                                            </td>
-                                                                        </tr> 
-                                            }
-
-                                        } }
-
-
-                                    @*<tr>
-                                        <td>1221521-1</td>
-                                        <td>SETC</td>
                                         <td>
-                                            <button class="btn btn-warning btn-circle" type="button">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-circle" type="button">
-                                                <i class="fa fa-eraser"></i>
-                                            </button>
-
+                                            @r["Id_TipoVehiculo"]
+                                        </td>
+                                        <td>
+                                            @r["Descipcion"]
+                                        </td>
+                                        <td>
+                                            @r["Modified_User"]
+                                        </td>
+                                        <td>
+                                            @r["Fec_Movto"]
+                                        </td>
+                                        <td>
+                                            @r["TimeMovto"]
+                                        </td>
+                                        <td>
+                                            @r["Estatus"]
+                                        </td>
+                                        <td>
+                                            <button title="Editar" type="button" onclick="GetById(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                            <button title="Eliminar" type="button" onclick="Delete(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-remove"></i></button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>1221521-2</td>
-                                        <td>SETC</td>
-                                        <td>
-                                            <button class="btn btn-warning btn-circle" type="button">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-circle" type="button">
-                                                <i class="fa fa-eraser"></i>
-                                            </button>
-                                        </td>
-                                    </tr>*@
 
-                                </tbody>
-                                @*<tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Tipo Vehiculo</th>
-                                        <th>Usuario Creacion</th>
-                                        <th>Fecha Creacion</th>
-                                        <th>Hora Creacion</th>
-                                        <th>Activo</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>*@
-                            </table>
+                                }
+
+                            } }
+
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Alta de Tipo de Vehiculo</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="frmCreateServicios">
+
+                        <div class="row">
+
+                            <div class="col col-xs-8 col-md-4">
+
+                                <div class="form-group">
+
+                                    <label>Tipo de Vehiculo</label>
+
+                                    <input type="text" placeholder="Tipo de Vehiculo" id="txtTipoVehiculo" class="form-control" />
+
+                                </div>
+
+                            </div>
+
+
                         </div>
-                    </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Estatus</label>
+                                    <select class="form-control" id="id_estatus" name="id_estatus">
+                                        @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                        <option selected="selected" value="1">ACTIVO</option>
+                                        <option value="0">INACTIVO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Comentarios</span>
+                                    </div>
+                                    <textarea id="txtComentario" class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </form>
 
                 </div>
 
 
-                                <div id="modal-form" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-
-                                            <div class="modal-header">
-                                                <h2 class="modal-title">Alta de Tipo de Vehiculo</h2>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-
-                                            <div class="modal-body">
-
-                                                <form id="frmCreateServicios">
-
-                                                    <div class="row">
-
-                                                        <div class="col col-xs-8 col-md-4">
-
-                                                            <div class="form-group">
-
-                                                                <label>Tipo de Vehiculo</label>
-
-                                                                <input type="text" placeholder="Tipo de Vehiculo" id="in_TV" name="in_TV" class="form-control" />
-
-                                                            </div>
-
-                                                        </div>
+                <div class="modal-footer">
 
 
-                                                    </div>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 
-                                                    <div class="row">
+                    <button type="button" onclick="Add()" class="btn btn-primary">Guardar</button>
 
-                                                        <div class="col col-xs-4 col-md-4">
-
-                                                            <div class="form-group">
-
-                                                                <label>Estatus</label>
-
-                                                                <div class="input-group">
-                                                                    <div id="radioBtn" class="btn-group">
-                                                                        <a class="btn btn-primary btn-sm active" data-toggle="happy" data-title="Y">ACTIVO</a>
-                                                                        <a class="btn btn-primary btn-sm notActive" data-toggle="happy" data-title="N">INACTIVO</a>
-                                                                    </div>
-                                                                    <input type="hidden" name="happy" id="happy">
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="col-12">
-
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">Comentarios</span>
-                                                                </div>
-                                                                <textarea id="comentario" class="form-control" aria-label="With textarea"></textarea>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
+                </div>
 
 
-                                                </form>
+            </div>
+        </div>
+    </div>
 
-                                            </div>
-
-
-                                            <div class="modal-footer">
-
-
-                                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-
-                                                <button type="button" onclick="AddSurtidores()" class="btn btn-primary">Guardar</button>
-
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>}
+    <input id="hddId" name="hddId" value="0" style="visibility:hidden" />
+}
 
 @section scripts {
 
@@ -227,26 +186,61 @@
 
     <script>
 
-        function AddSurtidores() {
 
+        function Delete(id) {
+            if (confirm('Esta seguro que desea eliminar el registro : ' + id))
+            {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("DelTipoVehiculo", "tms")',
+                    data: {
+                        Id_TipoVehiculo: id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            location.reload();
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            }
+        }
+
+        function Add() {
+//int Id_TipoVehiculo,string Descripcion, string Comentarios, bool Estatus
+            _Id_TipoVehiculo = $("#hddId").val();
+            _Comentarios = $("#txtComentario").val();
+            _Descripcion = $("#txtTipoVehiculo").val();
+            _Estatus = $("#id_estatus").val();
+
+            if (_Descripcion.length == 0) {
+                $("#txtTipoVehiculo").focus();
+                return;
+            }
+            debugger;
             $.ajax({
                 async: false,
                 type: "GET",
                 url: '@Url.Action("SaveTipoVehiculo", "TMS")',
                 data: {
-                    tipoVehiculo: document.getElementById("in_TV").value,
-                    flag: 1, 
-                    comentarios: document.getElementById("comentario").value
+                    Id_TipoVehiculo: _Id_TipoVehiculo,
+                    Descripcion: _Descripcion,
+                    Comentarios: _Comentarios,
+                    Estatus: (_Estatus == "1") ? true : false
                 },
                 datatype: "html",
                 success: function (json) {
                     //debugger;
                     if (json.Success) {
+                        location.reload();
+                        //alert("Alta con exito");
 
-                        alert("Alta con exito");
 
-
-                        $('#modal-form').modal('show');
+                        //$('#modal-form').modal('show');
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -256,6 +250,41 @@
 
         }
 
+        function GetById(id) {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetTipoVehiculoByID", "Tms")',
+                data: {
+                    Id_TipoVehiculo: id
+                },
+
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+                        debugger;
+                        document.getElementById("hddId").value = json.resp.Id_TipoVehiculo;
+                        document.getElementById("txtComentario").value = json.resp.Comentarios;
+                        document.getElementById("txtTipoVehiculo").value = json.resp.Descipcion;
+                        if (json.resp.Estatus="1") {
+                            document.getElementById("id_estatus").value = 1;
+                        } else { document.getElementById("id_estatus").value = 0}
+
+
+
+                        $("#modal-form").modal('show');
+
+
+                    }
+                    else { alert(json.Message) }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                   alert(errorThrown);
+                }
+            });
+
+        }
 
         $('#radioBtn a').on('click', function () {
             var sel = $(this).data('title');
@@ -318,6 +347,7 @@
                                 action: function (e, dt, node, config) {
 
                                     //bootbox.alert("HOLA");
+                                    $("hddId").val("0")
                                     $("#modal-form").modal('show');
 
                                 }
