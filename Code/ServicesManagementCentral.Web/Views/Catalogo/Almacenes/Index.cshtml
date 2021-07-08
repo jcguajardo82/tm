@@ -42,6 +42,7 @@
                         <th>Tiempo de Surtido</th>
                         <th>Servicio Estandar</th>
                         <th>Servicio Express</th>
+                        <th>Tipo Logistica</th>
                         <th>Fecha de Actualizacion</th>
                         <th>Hora de Actualizacion</th>
                         <th>Usuario de Actualizacion</th>
@@ -228,6 +229,7 @@
                             , className: 'btn-primary'
                         }
                     ]
+                    , "scrollX": true
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
                     //        $('td', nRow).css('background-color', '#B6BF00');
@@ -367,11 +369,13 @@
                                 json.resp[i].SupplierWHName,
                                 json.resp[i].TiempoSurtido,
                                 "<input type='checkbox' class='editor-active\' onclick='return false;' " + ch1+">",
-                                "<input type='checkbox' class='editor-active\' onclick='return false;' " + ch2+">",
+                                "<input type='checkbox' class='editor-active\' onclick='return false;' " + ch2 + ">",
+                                json.resp[i].TipoLogistica,
                                 json.resp[i].FechaUltModif,
                                 json.resp[i].HoraUltModif,
                                 json.resp[i].UsuarioUltModif,
                                 json.resp[i].BitActivo,
+                             
                                 "<button title='Editar' onclick=\"GetById(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
                         }

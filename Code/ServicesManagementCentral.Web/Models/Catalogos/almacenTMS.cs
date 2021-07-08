@@ -22,6 +22,7 @@ namespace ServicesManagement.Web.Models.Catalogos
         public string OwnerName { get; set; }
         public string SupplierName { get; set; }
         public string SupplierWHName { get; set; }
+        public string TipoLogistica { get; set; }
 
 
     }
