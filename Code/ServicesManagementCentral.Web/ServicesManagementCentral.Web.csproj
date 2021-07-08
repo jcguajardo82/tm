@@ -239,6 +239,7 @@
     <Compile Include="Models\Catalogos\TipoEntrega.cs" />
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoServicio.cs" />
+    <Compile Include="Models\Catalogos\TipoVehiculo.cs" />
     <Compile Include="Models\Catalogos\Transportista.cs" />
     <Compile Include="Models\Catalogos\upCorpOms_Cns_UN.cs" />
     <Compile Include="Models\Catalogos\Zonas.cs" />

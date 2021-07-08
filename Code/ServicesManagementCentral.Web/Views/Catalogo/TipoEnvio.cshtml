@@ -289,6 +289,17 @@
                 return;
             }
 
+            if (_PesoMinimo.length == 0) {
+                $("#PesoMinimo").focus();
+                return;
+            }
+
+            if (_PesoMaximo.length == 0) {
+                $("#PesoMaximo").focus();
+                return;
+            }
+
+            debugger;
             $.ajax({
                 async: false,
                 type: "GET",
@@ -306,6 +317,8 @@
                     debugger;
                     if (json.Success) {
                         $("#txtDesc_TipoEnvio").val('');
+                        $("#PesoMinimo").val('');
+                        $("#PesoMaximo").val('');
                         GetConsulta();
                     }
                     else {
@@ -322,9 +335,21 @@
             _IdTipoEnvio = $("#hddId").val();
             _Desc_TipoEnvio = $("#txtDesc_TipoEnvio").val();
             _BitActivo = $("#id_estatus").val();
+            _PesoMinimo = $("#PesoMinimo").val();
+            _PesoMaximo = $("#PesoMaximo").val();
 
             if (_Desc_TipoEnvio.length == 0) {
                 $("#txtDesc_TipoEnvio").focus();
+                return;
+            }
+
+            if (_PesoMinimo.length == 0) {
+                $("#PesoMinimo").focus();
+                return;
+            }
+
+            if (_PesoMaximo.length == 0) {
+                $("#PesoMaximo").focus();
                 return;
             }
 
@@ -335,7 +360,9 @@
                 data: {
                     IdTipoEnvio: _IdTipoEnvio,
                     Desc_TipoEnvio: _Desc_TipoEnvio,
-                    BitActivo: _BitActivo
+                    BitActivo: _BitActivo,
+                    PesoMinimo: _PesoMinimo,
+                    PesoMaximo: _PesoMaximo
                 },
                 datatype: "html",
                 success: function (json) {
@@ -393,6 +420,8 @@
 
                         document.getElementById("hddId").value = json.resp.IdTipoEnvio;
                         document.getElementById("txtDesc_TipoEnvio").value = json.resp.Desc_TipoEnvio;
+                        document.getElementById("PesoMinimo").value = json.resp.PesoMinimo;
+                        document.getElementById("PesoMaximo").value = json.resp.PesoMaximo;
                         if (json.resp.BitActivo) {
                             document.getElementById("id_estatus").value = 1;
                         } else { document.getElementById("id_estatus").value = 0}
