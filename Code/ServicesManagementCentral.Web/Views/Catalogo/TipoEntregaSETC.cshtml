@@ -258,7 +258,7 @@
                                 json.resp[i].FechaUltModif,
                                 json.resp[i].HoraUltModif,
 
-                                json.resp[i].BitActivo,
+                                json.resp[i].BitActivo == '1' ? 'Activo' : 'Inactivo',
                                 "<button title='Editar' onclick=\"GetById(" + json.resp[i].IdTipoEntrega + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><acronym title='Editar' lang='es'> <i class=\"fa fa-edit\"></i></acronym></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdTipoEntrega + ")\" class=\"btn btn-warning btn-circle\"><acronym title='Eliminar' lang='es'> <i class=\"fa fa-minus\"></i></button></acronym>"
                             ]).draw();
                         }

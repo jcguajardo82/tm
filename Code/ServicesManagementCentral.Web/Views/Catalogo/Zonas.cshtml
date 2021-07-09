@@ -231,7 +231,7 @@
                                 json.resp[i].Modified_User,
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
-                                json.resp[i].BitActivo,
+                                json.resp[i].BitActivo == '1' ? 'Activo' : 'Inactivo',
                                 "<button title='Editar' onclick=\"GetById(" + json.resp[i].IdZona + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].IdZona + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
                         }

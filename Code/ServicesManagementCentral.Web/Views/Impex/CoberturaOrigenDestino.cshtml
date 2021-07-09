@@ -187,7 +187,7 @@
                                 , json.resp[i].CreatedId
                                 , json.resp[i].CreatedDate
                                 , json.resp[i].CreatedTime
-                                , json.resp[i].BitActivo
+                                , json.resp[i].BitActivo == '1' ? 'Activo' : 'Inactivo'
                                 
 
                             ]).draw();

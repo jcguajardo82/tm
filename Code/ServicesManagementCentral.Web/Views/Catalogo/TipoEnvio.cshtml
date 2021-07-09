@@ -257,7 +257,7 @@
                                 json.resp[i].FecMovto,
                                 json.resp[i].TimeMovto,
 
-                                json.resp[i].BitActivo,
+                                json.resp[i].BitActivo == '1' ? 'Activo' : 'Inactivo',
                                 "<button title='Editar' onclick=\"GetById(" + json.resp[i].IdTipoEnvio + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><acronym title='Editar' lang='es'> <i class=\"fa fa-edit\"></i></acronym></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdTipoEnvio + ")\" class=\"btn btn-warning btn-circle\"><acronym title='Eliminar' lang='es'> <i class=\"fa fa-minus\"></i></button></acronym>"
                             ]).draw();
                         }

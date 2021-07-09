@@ -374,7 +374,7 @@
                                 json.resp[i].FechaUltModif,
                                 json.resp[i].HoraUltModif,
                                 json.resp[i].UsuarioUltModif,
-                                json.resp[i].BitActivo,
+                                json.resp[i].BitActivo == '1' ? 'Activo': 'Inactivo',
                              
                                 "<button title='Editar' onclick=\"GetById(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' type=\"button\" onclick=\"Delete(" + json.resp[i].idOwner + "," + json.resp[i].idSupplierWH + "," + json.resp[i].idSupplierWHCode + ")\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();

@@ -62,21 +62,30 @@
                                 var myDataSet = Session["listaCPS"] as System.Data.DataSet;
                                 foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                 {
-                                    <tr>
-                                        <td>@r["Id_CP"]</td>
-                                        <td>@r["Id_Almacen"]</td>
-                                        <td>@r["Latitud"]</td>
-                                        <td>@r["Longitud"]</td>
-                                        <td>@r["CP"]</td>
-                                        <td>@r["Usuario_Creation"]</td>
-                                        <td>@r["Fecha_Modificacion"]</td>
-                                        <td>@r["Fecha_Modificacion"]</td>
-                                        <td>@r["BitActivo"]</td>
-                                        @*<td>@r["Fecha"]</td>*@
-                                        <td>
-                                            <button type="button" onclick="SelectItem('@r["Id_CP"]','@r["Id_CP"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
-                                        </td>
-                                    </tr>
+                                                <tr>
+                                                    <td>@r["Id_CP"]</td>
+                                                    <td>@r["Id_Almacen"]</td>
+                                                    <td>@r["Latitud"]</td>
+                                                    <td>@r["Longitud"]</td>
+                                                    <td>@r["CP"]</td>
+                                                    <td>@r["Usuario_Creation"]</td>
+                                                    <td>@r["Fecha_Modificacion"]</td>
+                                                    <td>@r["Fecha_Modificacion"]</td>
+                                                    
+                                                    @if (r["BitActivo"].ToString() == "1")
+                                                    {
+                                                        <td>Activo</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>Inactivo</td>
+                                                    }
+                                                    <td>
+                                                        @*<td>@r["Fecha"]</td>*@
+                                                    <td>
+                                                        <button type="button" onclick="SelectItem('@r["Id_CP"]','@r["Id_CP"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
+                                                    </td>
+                                                </tr>
 
                                 }
                             }

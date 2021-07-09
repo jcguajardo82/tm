@@ -54,30 +54,36 @@
                                 var myDataSet = Session["lista"] as System.Data.DataSet;
                                 foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                 {
-                                    <tr>
-                                        <td>
-                                            @r["Id_TipoVehiculo"]
-                                        </td>
-                                        <td>
-                                            @r["Descipcion"]
-                                        </td>
-                                        <td>
-                                            @r["Modified_User"]
-                                        </td>
-                                        <td>
-                                            @r["Fec_Movto"]
-                                        </td>
-                                        <td>
-                                            @r["TimeMovto"]
-                                        </td>
-                                        <td>
-                                            @r["Estatus"]
-                                        </td>
-                                        <td>
-                                            <button title="Editar" type="button" onclick="GetById(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                            <button title="Eliminar" type="button" onclick="Delete(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-remove"></i></button>
-                                        </td>
-                                    </tr>
+                                                <tr>
+                                                    <td>
+                                                        @r["Id_TipoVehiculo"]
+                                                    </td>
+                                                    <td>
+                                                        @r["Descipcion"]
+                                                    </td>
+                                                    <td>
+                                                        @r["Modified_User"]
+                                                    </td>
+                                                    <td>
+                                                        @r["Fec_Movto"]
+                                                    </td>
+                                                    <td>
+                                                        @r["TimeMovto"]
+                                                    </td>
+               
+                                                    @if (r["Estatus"].ToString() == "1")
+                                                    {
+                                                        <td>Activo</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>Inactivo</td>
+                                                    }
+                                                    <td>
+                                                        <button title="Editar" type="button" onclick="GetById(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                                        <button title="Eliminar" type="button" onclick="Delete(@r["Id_TipoVehiculo"])" class="btn btn-white btn-circle"> <i class="fa fa-remove"></i></button>
+                                                    </td>
+                                                </tr>
 
                                 }
 

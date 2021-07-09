@@ -566,7 +566,7 @@
                                 "sysAdmin",*@
                                 //"Activo",
 
-                                json.resp[i].Activo,
+                                json.resp[i].Activo == '1' ? 'Activo' : 'Inactivo',
                                 "<button title='Editar' onclick='EditGasto(" + json.resp[i].IdGasto + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button title='Eliminar' type='button'  onclick='DeleteGasto(" + json.resp[i].IdGasto + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
                             ]).draw();
 

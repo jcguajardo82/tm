@@ -1191,7 +1191,7 @@
                                 json.json[i].UsuarioUltModif,
                                 json.json[i].FechaUltModif,
                                 json.json[i].HoraUltModif,
-                                json.json[i].BitActivo,
+                                json.json[i].BitActivo == '1'? 'Activo': 'Inactivo',
 
                                 "<button title=\"Editar\" onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button>"
                                 //<button title=\"Eliminar\" type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>

@@ -181,7 +181,7 @@
                                 , json.resp[i].CreatedId
                                 , json.resp[i].CreatedDate
                                 , json.resp[i].CreatedTime
-                                , json.resp[i].bitActivo
+                                , json.resp[i].bitActivo == '1' ? 'Activo' : 'Inactivo'
 
                             ]).draw();
                         }

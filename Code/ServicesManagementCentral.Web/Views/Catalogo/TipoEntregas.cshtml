@@ -329,7 +329,7 @@
                                 <th>Usuario de Actualizacion</th>
                                 <th>Fecha de Actualizacion</th>
                                 <th>Hora de Actualizacion</th>
-                                <th>Bit Activo</th>
+                                <th>Activo</th>
                                 <th></th>
 
 
@@ -346,22 +346,30 @@
                                     var myDataSet = Session["listaTE"] as System.Data.DataSet;
                                     foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                     {
-                                        <tr>
-                                            <td>@r["Id_TipoEntrega"]</td>
-                                            <td>@r["Descripcion"]</td>
-                                            <td>@r["TipoCatalogo"]</td>
-                                            <td>@r["Desc_TipoAlmacen"]</td>
-                                            <td>@r["Id_CategoriaArt"]</td>
-                                            <td>@r["Peso_min"]</td>
-                                            <td>@r["Peso_max"]</td>
-                                            <td>@r["Usuario"]</td>
-                                            <td>@r["Fec_Movto"]</td>
-                                            <td>@r["Time_Movto"]</td>
-                                            <td>@r["BitActivo"]</td>
-                                            <td>
-                                                <button type="button" title="Editar" onclick="SelectItem('@r["Id_TipoEntrega"]','@r["Id_TipoEntrega"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                            </td>
-                                        </tr>
+                                                        <tr>
+                                                            <td>@r["Id_TipoEntrega"]</td>
+                                                            <td>@r["Descripcion"]</td>
+                                                            <td>@r["TipoCatalogo"]</td>
+                                                            <td>@r["Desc_TipoAlmacen"]</td>
+                                                            <td>@r["Id_CategoriaArt"]</td>
+                                                            <td>@r["Peso_min"]</td>
+                                                            <td>@r["Peso_max"]</td>
+                                                            <td>@r["Usuario"]</td>
+                                                            <td>@r["Fec_Movto"]</td>
+                                                            <td>@r["Time_Movto"]</td>
+                                                            @*<td>@r["BitActivo"]</td>*@
+                                                            @if (r["BitActivo"].ToString() == "1")
+                                                            {
+                                                                <td>Activo</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>Inactivo</td>
+                                                            }
+                                                            <td>
+                                                                <button type="button" title="Editar" onclick="SelectItem('@r["Id_TipoEntrega"]','@r["Id_TipoEntrega"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                                            </td>
+                                                        </tr>
 
                                     }
                                 }

@@ -97,22 +97,29 @@
                                 var myDataSet = Session["grid"] as List<ServicesManagement.Web.Controllers.AtributosModels>;
                                 foreach (ServicesManagement.Web.Controllers.AtributosModels r in myDataSet)
                                 {
-                                        <tr>
-                                            <td>@r.Id_AtributosSYE</td>
-                                            <td>@r.Id_CategoriaArt</td>
-                                            <td>@r.CategoriaArt</td>
-                                            <td>@r.Precio_Fact</td>
-                                            <td>@r.Seguro_Trans</td>
-                                            <td>@r.Porc_VS_Costo_Fact</td>
-                                            <td>@r.Porc_adic_por_empaque</td>
-                                            <td>@r.Usuario</td>
-                                            <td>@r.Fec_Movto</td>
-                                            <td>@r.Time_Movto</td>
-                                            <td>@r.BitActivo</td>
-                                            <td>
-                                                <button type="button" title="Editar" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                            </td>
-                                        </tr>
+                            <tr>
+                                <td>@r.Id_AtributosSYE</td>
+                                <td>@r.Id_CategoriaArt</td>
+                                <td>@r.CategoriaArt</td>
+                                <td>@r.Precio_Fact</td>
+                                <td>@r.Seguro_Trans</td>
+                                <td>@r.Porc_VS_Costo_Fact</td>
+                                <td>@r.Porc_adic_por_empaque</td>
+                                <td>@r.Usuario</td>
+                                <td>@r.Fec_Movto</td>
+                                <td>@r.Time_Movto</td>
+                                @if (r.BitActivo == "1")
+                                {
+                                    <td>Activo</td>
+                                }
+                                else
+                                {
+                                    <td>Inactivo</td>
+                                }
+                                <td>
+                                    <button type="button" title="Editar" onclick="SelectItem('@r.Id_AtributosSYE','@r.Id_AtributosSYE')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                </td>
+                            </tr>
 
                                     }
                                 }

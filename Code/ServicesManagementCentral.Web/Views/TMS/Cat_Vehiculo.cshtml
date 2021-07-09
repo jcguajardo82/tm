@@ -71,7 +71,15 @@
                                                     <td>@r["TimeUltModif"]</td>
 
 
-                                                    <td>@r["Estatus"]</td>
+                                                    @*<td>@r["Estatus"]</td>*@
+                                                    @if (r["Estatus"].ToString() == "True")
+                                                    {
+                                                        <td>Activo</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>Inactivo</td>
+                                                    }
                                                     <td>
                                                         @*<button type="button" onclick="SelectOrder('@r["Id_Vehiculo"]','@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>*@
 
