@@ -702,7 +702,13 @@
                     ],
                     buttons: [
                         { extend: 'pageLength', className: 'btn-primary' },
-                        { extend: 'excel', className: 'btn-primary' },
+                        {
+                            extend: 'excel',
+                            className: 'btn-primary',
+                            exportOptions: {
+                                orthogonal: 'sort'
+                            }
+                        },
                         {
                             text: 'Alta',
                             action: function (e, dt, node, config) {
@@ -727,7 +733,18 @@
                             }
                             , className: 'btn-primary'
                         }
-                    ]
+                    ],
+                    columnDefs: [{
+                        targets: [2],
+                        render: function (data, type, row, meta) {
+                            if (type === 'sort') {
+                                var $input = $(data).find('input[type="checkbox"]').addBack();
+                                data = ($input.prop('checked')) ? "SI" : "NO";
+                            }
+
+                            return data;
+                        }
+                    }]
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
                     //        $('td', nRow).css('background-color', '#B6BF00');
