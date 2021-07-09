@@ -1674,22 +1674,16 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-        public ActionResult DeleteGastoVehiculo2(decimal CantidadGasto, int Kilometraje, int IdConsecutivo, string FecGasto)
+        public ActionResult DeleteGastoVehiculo2(int IdConsecutivo)
 
         {
 
             try
 
             {
-                string FecGastos = FecGasto.Substring(0, 10);
-
-                string UserCreate = User.Identity.Name;
-                string formato = "dd/MM/yyyy";
-                DateTime FecGasto2 = DateTime.ParseExact(FecGastos, formato, CultureInfo.InvariantCulture);
-                
-
-
-                DALGastosVehiculo.DeleteGastoVehiculo_uUp2(IdConsecutivo, UserCreate, Kilometraje, CantidadGasto, FecGasto2);
+              
+                       
+                DALGastosVehiculo.GastoVehiculo_dUp(IdConsecutivo, User.Identity.Name);
 
 
 

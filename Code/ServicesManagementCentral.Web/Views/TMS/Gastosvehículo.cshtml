@@ -421,8 +421,12 @@
 
                                     <label>Fecha</label>
 
-                                    <input type="date" placeholder="Fecha" id="in_fecha3" name="in_desc" class="form-control" />
-
+                                    @*<input type="date" placeholder="Fecha" id="in_fecha3" name="in_desc" class="form-control" />*@
+                                    <div class="input-group date" id="datetimepicker1">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control-sm datepicker" id="in_fecha3" name="in_fecha3"
+                                               type="text" value="">
+                                    </div>
                                 </div>
 
                             </div>
@@ -493,7 +497,13 @@
 
 
     <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
 
+        });
         $('#radioBtn a').on('click', function () {
             var sel = $(this).data('title');
             var tog = $(this).data('toggle');
@@ -871,7 +881,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
                         /*$("#tbUnidadNegocio tbody tr").remove();*/
@@ -944,7 +954,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -997,7 +1007,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1092,7 +1102,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1125,7 +1135,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1159,7 +1169,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1209,7 +1219,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1265,7 +1275,7 @@
 
                         Llenargastosedit();
 
-                        console.log(json)
+                        //console.log(json)
                         let fecha = getFecha(json.resp[0].FecGasto);
                         //document.getElementById("in_tipovehiculoedit").value = json.resp[0].TipoVehiculo;
                         //document.getElementById("id_tipovehiculoedit").value = json.resp[0].Id_Vehiculo;
@@ -1331,7 +1341,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     debugger;
                     if (json.Success) {
@@ -1378,7 +1388,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1419,7 +1429,7 @@
                                 //"<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             
 
-                     "<button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                     "<button title='Eliminar' onclick=\"DeleteGastos2("+ json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
 
 
@@ -1492,7 +1502,7 @@
                     },
                     datatype: "html",
                     success: function (json) {
-                        console.log(json);
+                        //console.log(json);
 
                         if (json.Success) {
 
@@ -1517,7 +1527,7 @@
                                 },
                                 datatype: "html",
                                 success: function (json) {
-                                    console.log(json);
+                                    //console.log(json);
 
                                     if (json.Success) {
 
@@ -1607,7 +1617,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
 
 
@@ -1638,7 +1648,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1706,7 +1716,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1732,7 +1742,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1782,7 +1792,7 @@
             });
         }
 
-        function DeleteGastos2(FecGasto, IdConsecutivo, Kilometraje, CantidadGasto) {
+        function DeleteGastos2( IdConsecutivo) {
 
             //var e = document.getElementById("id_estatus");
             //var strUser = e.value;
@@ -1793,14 +1803,12 @@
                 url: '@Url.Action("DeleteGastoVehiculo2", "TMS")',
                 data: {
 
-                    CantidadGasto: CantidadGasto,
-                    Kilometraje: Kilometraje,
-                    FecGasto: FecGasto,
+
                     IdConsecutivo: IdConsecutivo
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1833,7 +1841,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     if (json.Success) {
 
@@ -1870,7 +1878,7 @@
                                 /*json.resp[i].activo,*/
                                 estadoalt,
                                 //"<button title='Editar' onclick=\"ModalEdit2(" + json.resp[i].Id_Vehiculo + "," + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-white btn-circle\"> <i class=\"fa fa-edit\"></i></button><button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
-                                "<button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].FecGasto + "'" + "," + json.resp[i].IdConsecutivo + "," + json.resp[i].Kilometraje + "," + json.resp[i].CantidadGasto + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
+                                "<button title='Eliminar' onclick=\"DeleteGastos2(" + "'" + json.resp[i].IdConsecutivo + ")\" type=\"button\" class=\"btn btn-warning btn-circle\"> <i class=\"fa fa-minus\"></i></button>"
                             ]).draw();
 
 
@@ -1902,7 +1910,7 @@
 
         function ValidateMoney() {
             var amount = document.getElementById("in_dinero3").value;
-            console.log(amount);
+            //console.log(amount);
             //d+ permite caracteres enteros
             //si hay un caracter que no es dígito entonces evalua lo que está en paréntesis (?) significa opcional
             var patron = /^(\d+(.{1}\d{2})?)$/;
@@ -1918,7 +1926,7 @@
 
         function ValidateKm() {
             var amount = document.getElementById("idKilometraje3").value;
-            console.log(amount);
+            //console.log(amount);
             //d+ permite caracteres enteros
             //si hay un caracter que no es dígito entonces evalua lo que está en paréntesis (?) significa opcional
             var patron = /^(\d+(.{1}\d{2})?)$/;
