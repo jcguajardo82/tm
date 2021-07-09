@@ -71,17 +71,15 @@
                                                     <td>@r["Usuario_Creation"]</td>
                                                     <td>@r["Fecha_Modificacion"]</td>
                                                     <td>@r["Fecha_Modificacion"]</td>
-                                                    
-                                                    @if (r["BitActivo"].ToString() == "1")
+
+                                                    @if (r["BitActivo"].ToString() == "True")
                                                     {
-                                                        <td>Activo</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>Inactivo</td>
-                                                    }
-                                                    <td>
-                                                        @*<td>@r["Fecha"]</td>*@
+                                                        <td>Activo</td> }
+                                                                        else
+                                                                        {
+                                                        <td>Inactivo</td>}
+
+                                                    @*<td>@r["Fecha"]</td>*@
                                                     <td>
                                                         <button type="button" onclick="SelectItem('@r["Id_CP"]','@r["Id_CP"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>
                                                     </td>
