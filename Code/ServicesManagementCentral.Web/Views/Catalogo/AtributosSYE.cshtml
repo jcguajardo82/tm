@@ -380,7 +380,7 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-                        debugger;
+                        console.log(json);
                         document.getElementById("flagStatus").value = json.Id;
 
                         document.getElementById("ProveedorLista").value = json.cat;

@@ -3245,7 +3245,7 @@ namespace ServicesManagement.Web.Controllers
                         parametros.Add("@Usuario", "sysAdmin");
                         parametros.Add("@BitActivo", Estatus.Equals("0") ? 1 : 0);
 
-                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoEntregas", false, parametros);
+                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "[tms].[up_CorpTMS_upd_AtributosSYE]", false, parametros);
                     }
 
 
@@ -3321,7 +3321,7 @@ namespace ServicesManagement.Web.Controllers
                         seg = o_seg,
                         porc = o_porc,
                         adic = o_adic,
-                        e = o_est.ToLower().Equals("false") ? 1 : 0
+                        e = o_est.ToLower().Equals("false") ? 0 : 1
                     };
                     return Json(result, JsonRequestBehavior.AllowGet);
 
