@@ -110,18 +110,19 @@
                                     </div>
 
                                 </div>*@
-                            <div class="col-4"></div>
+                            <div class="col-4">
 
-                            <div class="form-group">
+                                <div class="form-group">
 
-                                <label>Estatus</label>
+                                    <label>Estatus</label>
 
-                                <select class="form-control" id="id_estatus" name="id_estatus">
-                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
-                                    <option selected="selected" value="1">ACTIVO</option>
-                                    <option value="2">INACTIVO</option>
-                                </select>
+                                    <select class="form-control" id="id_estatus" name="id_estatus">
+                                        @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                        <option selected="selected" value="1">ACTIVO</option>
+                                        <option value="0">INACTIVO</option>
+                                    </select>
 
+                                </div>
                             </div>
                         </div>
 
@@ -209,18 +210,19 @@
                                     </div>
 
                                 </div>*@
-                            <div class="col-4"></div>
+                            <div class="col-4">
 
-                            <div class="form-group">
+                                <div class="form-group">
 
-                                <label>Estatus</label>
+                                    <label>Estatus</label>
 
-                                <select class="form-control" id="id_estatus2" name="id_estatus">
-                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
-                                    <option selected="selected" value="1">ACTIVO</option>
-                                    <option value="2">INACTIVO</option>
-                                </select>
+                                    <select class="form-control" id="id_estatus2">
+                                        @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                        <option selected="selected" value="1">ACTIVO</option>
+                                        <option value="0">INACTIVO</option>
+                                    </select>
 
+                                </div>
                             </div>
                         </div>
 
@@ -416,13 +418,13 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    console.log(json);
+                    //console.log(json);
 
                     debugger;
                     if (json.Success) {
-
+                    
                         var myTable = $('#example').DataTable();
-
+                        myTable.clear().draw();
                         for (var i = 0; i < json.resp.length; i++) {
 
 
@@ -479,16 +481,17 @@
                     debugger;
                     if (json.Success) {
 
-                        var table = $('#example').DataTable();
+                        //var table = $('#example').DataTable();
 
-                        table.clear().draw();
-                        table.destroy();
+                        //table.clear().draw();
+                        //table.destroy();
 
-                        $("#modal-formAlta").modal('hide');
+                        //$("#modal-formAlta").modal('hide');
 
-                        var myTable = $('#example').DataTable();
+                        //var myTable = $('#example').DataTable();
 
-                        GetTmsUNs()
+                        GetTmsUNs();
+                        $("#modal-formEdit").modal('hide');
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -519,16 +522,17 @@
                     debugger;
                     if (json.Success) {
 
-                        var table = $('#example').DataTable();
+                        //var table = $('#example').DataTable();
 
-                        table.clear().draw();
-                        table.destroy();
+                        //table.clear().draw();
+                        ////table.destroy();
 
-                        $("#modal-formEdit").modal('hide');
+                        //$("#modal-formEdit").modal('hide');
 
-                        var myTable = $('#example').DataTable();
+                        //var myTable = $('#example').DataTable();
 
                         GetTmsUNs()
+                        $("#modal-formEdit").modal('hide');
 
                     }
                 }
@@ -600,7 +604,7 @@
                         document.getElementById("in_idPlaza2").value = json.resp[0].IdPlaza;
                         document.getElementById("in_Plaza2").value = json.resp[0].Desc_Plaza;
                         document.getElementById("in_claveplaza2").value = json.resp[0].cve_Plaza;
-                        document.getElementById("id_estatus2").value = json.resp[0].BitActivo ? 1 : 0;
+                        document.getElementById("id_estatus2").value = json.resp[0].BitActivo =="False" ? 0 : 1;
                         //document.getElementById("in_placas").value = json.resp.CreateDate;
                         //document.getElementById("in_desc").value = json.resp.Created_User;
                         //document.getElementById("in_motor").value = json.resp.FecMovto;
