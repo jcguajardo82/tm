@@ -604,38 +604,41 @@
             var _IdTipoServicio = $("#ddlTipoServicio").val();
             var _IdTipoLogistica = $("#ddlTipoLogistica").val();
 
-            if (_IdTipoCatalogo == "0") {
-                $("#ddlCatalogo").focus();
-                return;
+            if (_cnscPromo.toString() == "0") {
+                if (_IdTipoCatalogo == "0") {
+                    $("#ddlCatalogo").focus();
+                    return;
+                }
+                if ($("#txtFecIniTarifa").val() == "") {
+                    $("#txtFecIniTarifa").focus();
+                    return;
+                }
+                if ($("#txtHoraIniTarifa").val() == "") {
+                    $("#txtHoraIniTarifa").focus();
+                    return;
+                }
+                if ($("#txtFecFinTarifa").val() == "") {
+                    $("#txtFecFinTarifa").focus();
+                    return;
+                }
+                if ($("#txtHoraFinTarifa").val() == "") {
+                    $("#txtHoraFinTarifa").focus();
+                    return;
+                }
+                if ($("#txtCostoEsp").val() == "") {
+                    $("#txtCostoEsp").focus();
+                    return;
+                }
+                if ($("#txtTarifaDesc").val() == "") {
+                    $("#txtTarifaDesc").focus();
+                    return;
+                }
+
             }
-            if (_IdOwner == "0") {
-                $("#ddlAlmacen").focus();
-                return;
-            }
-            if (_IdSupplierWH == "0") {
-                $("#ddlProveedor").focus();
-                return;
-            }
-            if (_IdTransportista == "0") {
-                $("#ddlTransportista").focus();
-                return;
-            }
-            if (_IdFormatoTienda == "0") {
-                $("#ddlFormatoTienda").focus();
-                return;
-            }
-            if (_IdTipoEnvio == "0") {
-                $("#ddlTipoEnvio").focus();
-                return;
-            }
-            if (_IdTipoServicio == "0") {
-                $("#ddlTipoServicio").focus();
-                return;
-            }
-            if (_IdTipoLogistica == "0") {
-                $("#ddlTipoLogistica").focus();
-                return;
-            }
+            //if (_IdTipoLogistica == "0") {
+            //    $("#ddlTipoLogistica").focus();
+            //    return;
+            //}
 
 
             _BitActivo = $("#id_estatus").val();
@@ -653,11 +656,11 @@
             _Material_MATNR = $("#txtNoMaterial").val();
             _Id_Num_CodBarra = $("#txtCodBar").val();
             _nombre_SKU = $("#txtSKU").val();
-            _PesoMinimo = $("#txtPesoMin").val();
-            _PesoMaximo = $("#txtPesoMax").val();
-            _MesesSinIntereses = $("#txtMeses").val();
-            _ComprasMayor = $("#txtComprasMayor").val();
-            _ComprasMenor = $("#txtComprasMenor").val();
+            _PesoMinimo = $("#txtPesoMin").val() == '' ? 0 : $("#txtPesoMin").val();
+            _PesoMaximo = $("#txtPesoMax").val() == '' ? 0 : $("#txtPesoMax").val();
+            _MesesSinIntereses = $("#txtMeses").val() == '' ? 0 : $("#txtMeses").val();
+            _ComprasMayor = $("#txtComprasMayor").val() == '' ? 0 : $("#txtComprasMayor").val();
+            _ComprasMenor = $("#txtComprasMenor").val() == '' ? 0 : $("#txtComprasMenor").val();
             _FechaInicioPromo = $("#txtFecIniTarifa").val();
             _HoraInicioPromo = $("#txtHoraIniTarifa").val();
             _FechaFinPromo = $("#txtFecFinTarifa").val();
@@ -668,35 +671,35 @@
 
             $.ajax({
                 async: false,
-                type: "GET",
+                type: "POST",
                 url: '@Url.Action("AddPromociones", "PromocionesCostoEnvio")',
                 data: {
                     cnscPromo: _cnscPromo
                     ,IdTipoCatalogo: _IdTipoCatalogo
-                    , IdOwner: _IdOwner
-                    , IdFormatoTienda: _IdFormatoTienda
+                    , IdOwner: _IdOwner == '' ? null :_IdOwner
+                    , IdFormatoTienda: _IdFormatoTienda == '' ? null :_IdFormatoTienda
                     , PostalCodeOrig: _PostalCodeOrig
                     , PostalCodeDestino: _PostalCodeDestino
                     , CiudadOrig: _CiudadOrig
                     , CiudadDest: _CiudadDest
                     , EdoOrig: _EdoOrig
                     , EdoDest: _EdoDest
-                    , IdSupplierWH: _IdSupplierWH
+                    , IdSupplierWH: _IdSupplierWH == '' ? null : _IdSupplierWH
                     , SupplierName: _SupplierName
-                    , IdTransportista: _IdTransportista
-                    , NombreTransportista: _NombreTransportista
-                    , IdTipoEnvio: _IdTipoEnvio
-                    , IdTipoServicio: _IdTipoServicio
+                    , IdTransportista: _IdTransportista == '' ? null :_IdTransportista
+                    , NombreTransportista: ''
+                    , IdTipoEnvio: _IdTipoEnvio == '' ? null : _IdTipoEnvio
+                    , IdTipoServicio: _IdTipoServicio == '' ? null :_IdTipoServicio 
                     , Cve_CategSAP: _Cve_CategSAP
                     , Desc_CategSAP: _Desc_CategSAP
                     , Cve_GciaCategSAP: _Cve_GciaCategSAP
                     , Desc_GciaCategSAP: _Desc_GciaCategSAP
                     , Material_MATNR: _Material_MATNR
-                    , Id_Num_CodBarra: _Id_Num_CodBarra
+                    , Id_Num_CodBarra: _Id_Num_CodBarra == '' ? null: _Id_Num_CodBarra
                     , nombre_SKU: _nombre_SKU
                     , PesoMinimo: _PesoMinimo
                     , PesoMaximo: _PesoMaximo
-                    , IdTipoLogistica: _IdTipoLogistica
+                    , IdTipoLogistica: _IdTipoLogistica == '' ? null : _IdTipoLogistica
                     , MesesSinIntereses: _MesesSinIntereses
                     , ComprasMayor: _ComprasMayor
                     , ComprasMenor: _ComprasMenor
@@ -708,10 +711,10 @@
                     , TarifaDesc: _TarifaDesc
 
                 },
-                datatype: "html",
+                datatype: "json",
                 success: function (json) {
                     console.log(json);
-
+                    alert('Intenta Guardar');
                     debugger;
                     if (json.Success) {
 
@@ -723,7 +726,7 @@
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
+                   alert(errorThrown);
                 }
             });
         }
