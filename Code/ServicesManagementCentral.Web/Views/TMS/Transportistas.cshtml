@@ -894,15 +894,20 @@
                             document.getElementById("Prioridad").value = json.json[i].Prioridad;
                             //document.getElementById("tipoLogistica").value = json.json[i].IdTipoLogistica;
                             empty();
-                            if (json.json[i].IdTipoLogistica != '') {
+                            if (json.json[i].IdTipoLogistica != null) {
                                 var _array = json.json[i].IdTipoLogistica.split(',');
 
                                 setValues(_array);
                             }
                             document.getElementById("in_limite").value = json.json[i].LimitePaqueteria;
                             document.getElementById("in_vida").value = json.json[i].DiasVigenciaGuias;
-                            document.getElementById("TarifaFija").value = "SI";//json.json[i].ServicioExpress;
-                            document.getElementById("Paqueteria").value = json.json[i].BitActivo;
+                            //document.getElementById("TarifaFija").value = "N";//json.json[i].ServicioExpress;
+                            //document.getElementById("Paqueteria").value = json.json[i].BitActivo == 'True' ? 'SI': 'NO';
+                            var valTarifaFija = (json.json[i].TarifaFija == true) ? "Y" : "N";
+                            var valActivo = (json.json[i].BitActivo == 'True') ? "Y" : "N";
+                            $('a[data-toggle="TarifaFija"][data-title="' + valTarifaFija + '"]').click();
+                            $('a[data-toggle="Paqueteria"][data-title="' + valActivo + '"]').click();
+
                             document.getElementById("in_nombre").value = json.json[i].Nombre
 
 
@@ -951,8 +956,8 @@
             var _tipoLogistica = _tipoTipoLog == '' ? null : _tipoTipoLog;
             var _in_limite = parseInt(document.getElementById("in_limite").value);
             var _in_vida = parseInt(document.getElementById("in_vida").value);
-            var _TarifaFija = parseInt(document.getElementById("TarifaFija").value);
-            var _Estatus = parseInt(document.getElementById("Paqueteria").value);
+            var _TarifaFija = document.getElementById("TarifaFija").value == 'Y' ? '1' : '0';
+            var _Estatus = document.getElementById("Paqueteria").value ==  'Y'? '1' : '0';
             var _in_nombre = document.getElementById("in_nombre").value;
 
             //var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);

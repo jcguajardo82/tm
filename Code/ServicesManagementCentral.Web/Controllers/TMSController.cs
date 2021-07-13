@@ -260,7 +260,7 @@ namespace ServicesManagement.Web.Controllers
 
                     parametros.Add("@IdTransportista", IdTransportista);
                     parametros.Add("@Nombre", Nombre);
-                    parametros.Add("@TarifaFija", 1);
+                    parametros.Add("@TarifaFija", TarifaFija);
                     parametros.Add("@CostoTarifaFija", CostoTarifaFija);
                     parametros.Add("@Prioridad", Prioridad);
                     parametros.Add("@NivelServicio", NivelServicio);
@@ -270,6 +270,7 @@ namespace ServicesManagement.Web.Controllers
                     parametros.Add("@DiasVigenciaGuias", DiasVigenciaGuias);
                     parametros.Add("@UsuarioCreacion", "sysAdmin");
                     parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+                    parametros.Add("@Estatus", Estatus);
 
 
                     Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Transportista", false, parametros);
