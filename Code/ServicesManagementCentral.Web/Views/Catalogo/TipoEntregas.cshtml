@@ -1012,6 +1012,20 @@
         }
 
         function AddSurtidores() {
+
+            _Pesomin = $("#in_pesoMin").val();
+            _Pesomax = $("#in_pesoMax").val();
+
+            if (_Pesomin == "") {
+                $("#in_pesoMin").focus();
+                return;
+            }
+            if (_Pesomax == "") {
+                $("#in_pesoMax").focus();
+                return;
+            }
+
+
         /* var _TarifaFija = document.getElementById("TarifaFija").value;*/
             var checkboxes = document.querySelectorAll('input[name="tipoCatalogo"]:checked'), values = [];
             Array.prototype.forEach.call(checkboxes, function (el) {
@@ -1044,6 +1058,8 @@
 
                 count++;
             });
+
+            
 
             //debugger;
             $.ajax({
