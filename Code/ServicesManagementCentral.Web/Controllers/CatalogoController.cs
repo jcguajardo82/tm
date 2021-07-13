@@ -2429,15 +2429,15 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-        public ActionResult AddGasto(string gasto, int Id_gasto)
+        public ActionResult AddGasto(string gasto, int Id_gasto, string activo)
         {
             try
             {
                 if (Id_gasto.Equals(0))
                 {
-                    DALCatalogo.Gastos_iUp(Id_gasto, gasto);
+                    DALCatalogo.Gastos_iUp(Id_gasto, gasto, activo, User.Identity.Name);
                 }
-                else { DALCatalogo.Gastos_uUp(gasto, Id_gasto); }
+                else { DALCatalogo.Gastos_uUp(gasto, Id_gasto, activo, User.Identity.Name); }
 
 
                 var result = new { Success = true };

@@ -708,7 +708,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet Gastos_iUp(int Id_gasto, string gasto)
+        public static DataSet Gastos_iUp(int Id_gasto, string gasto, string activo, string usuario)
         {
             DataSet ds = new DataSet();
 
@@ -727,6 +727,8 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@IdGasto", Id_gasto);
                 parametros.Add("@Desc_Gasto", gasto);
+                parametros.Add("@created_user", usuario);
+                parametros.Add("@activo", activo); 
 
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Gastos_iUp", false, parametros);
@@ -745,7 +747,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet Gastos_uUp(string gasto, int Id_Gasto)
+        public static DataSet Gastos_uUp(string gasto, int Id_Gasto, string activo, string usuario)
         {
             DataSet ds = new DataSet();
 
@@ -764,6 +766,8 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@IdGasto", Id_Gasto);
                 parametros.Add("@Desc_Gasto", gasto);
+                parametros.Add("@Modified_user", usuario);
+                parametros.Add("@activo", activo);
                 //parametros.Add("@Id_paqueteria", Id_paqueteria);
 
 
