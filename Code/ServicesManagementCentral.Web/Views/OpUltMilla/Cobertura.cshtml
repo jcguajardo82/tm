@@ -52,6 +52,7 @@
                     var servername = window.location.origin;
                     var fileUpload = $("#FileUpload1").get(0);
                     var files = fileUpload.files;
+                    var _tipo = "tms-cobertura";
 
                     // Create FormData object
                     var fileData = new FormData();
@@ -66,7 +67,7 @@
                     fileData.append('servername', servername);
                     fileData.append('nombre', nameext[0]);
                     fileData.append('extension', nameext[1]);
-
+                    fileData.append('tipo', _tipo);
 
                     $.ajax({
                         // url: '/ManualesOperativos/UploadFiles',

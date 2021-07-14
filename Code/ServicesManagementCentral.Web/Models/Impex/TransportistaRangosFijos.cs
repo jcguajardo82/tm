@@ -14,7 +14,8 @@ namespace ServicesManagement.Web.Models.Impex
         public decimal CostoFijo { get; set; }
         public bool bitDeleted { get; set; }
         public string CreatedId { get; set; }
-      
+        public int TiempoEnvio { get; set; }
+
     }
 
     public class TransportistaRangosFijosShow: TransportistaRangosFijos

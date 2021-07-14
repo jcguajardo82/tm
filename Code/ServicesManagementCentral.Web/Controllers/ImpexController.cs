@@ -598,8 +598,8 @@ namespace ServicesManagement.Web.Controllers
                                 PesoFin = Convert.ToInt32(objDataRow[3].ToString()),
                                 CostoFijo =decimal.Parse( objDataRow[4].ToString()),
                                 bitDeleted = objDataRow[5].ToString().Equals("0") ? false : true, //Convert.ToBoolean(objDataRow[4].ToString()),
-                                CreatedId = User.Identity.Name
-
+                                CreatedId = User.Identity.Name,
+                                TiempoEnvio = int.Parse(objDataRow[6].ToString())
                             });
                         }
                     }

@@ -37,6 +37,8 @@ namespace ServicesManagement.Web.Controllers
                     string servername = Request.Form["servername"].ToString();
                     string nombre = Request.Form["nombre"].ToString();
                     string extension = Request.Form["extension"].ToString();
+                    string tipoFolder = Request.Form["tipo"].ToString();
+
                     //  Get all files from Request object  
                     HttpFileCollectionBase files = Request.Files;
                     for (int i = 0; i < files.Count; i++)
@@ -78,6 +80,7 @@ namespace ServicesManagement.Web.Controllers
                         restRequest.AddHeader("Authorization", "Authorization");
                         restRequest.AddHeader("Content-Type", "multipart/form-data");
                         restRequest.AddFile("content", path);
+                        restRequest.AddParameter("folder", tipoFolder);
                         var response = restClient.Execute(restRequest);
 
 

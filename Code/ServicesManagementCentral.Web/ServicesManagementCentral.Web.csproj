@@ -3685,6 +3685,7 @@
     <Content Include="Views\RangosTiemposExcepciones\RangosTiemposExcepciones.cshtml" />
     <Content Include="Views\Catalogo\TipoEntregaSETC.cshtml" />
     <Content Include="Views\OpUltMilla\Cobertura.cshtml" />
+    <Content Include="Views\OpUltMilla\Costos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
