@@ -2506,6 +2506,25 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+        public ActionResult CmbClaseEnvio()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<ClaseEnvio>(DALCatalogo.ClaseEnvioByBit_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        
+
+
         public ActionResult GetTipoEnvioId(int IdTipoEnvio)
         {
             try
@@ -4144,7 +4163,80 @@ namespace ServicesManagement.Web.Controllers
         #endregion
 
 
+        #region ClasesEnvio
+        public ActionResult ClasesEnvios()
+        {
+            return View();
+        }
+        public ActionResult GetClasesEnvios()
+        {
+            try
+            {
 
+                var listC = ConvertTo<ClaseEnvio>(DALCatalogo.ClaseEnvio_sUp().Tables[0]);
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetClasesEnviosId(int IdClase)
+        {
+            try
+            {
+
+                var listC = ConvertTo<ClaseEnvio>(DALCatalogo.ClaseEnvioById_sUp(IdClase).Tables[0]).FirstOrDefault();
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddClasesEnvios(int IdClase,string Desc_ClaseEnvio,bool BitActivo)
+        {
+            try
+            {
+                if (IdClase == 0)
+                {
+                    DALCatalogo.ClaseEnvio_iUp(Desc_ClaseEnvio, BitActivo, User.Identity.Name);
+                }
+                else {
+                    DALCatalogo.ClaseEnvio_uUp(IdClase,Desc_ClaseEnvio, BitActivo, User.Identity.Name);
+                }
+               
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult DelClasesEnvios(int IdClase)
+        {
+            try
+            {
+
+                DALCatalogo.ClaseEnvio_dUp(IdClase, User.Identity.Name);
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
 
     }
 

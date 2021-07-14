@@ -229,6 +229,7 @@
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\almacenTMS.cs" />
+    <Compile Include="Models\Catalogos\ClaseEnvio.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Logistica.cs" />
     <Compile Include="Models\Catalogos\Owners.cs" />
@@ -3686,6 +3687,7 @@
     <Content Include="Views\Catalogo\TipoEntregaSETC.cshtml" />
     <Content Include="Views\OpUltMilla\Cobertura.cshtml" />
     <Content Include="Views\OpUltMilla\Costos.cshtml" />
+    <Content Include="Views\Catalogo\ClasesEnvios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
