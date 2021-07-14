@@ -21,7 +21,8 @@
                 <table id="example" class="table table-striped dataTable" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Id TipoEnvio</th>
+                            <th>Num</th>
+                            <th>Tipo Envio</th>
                             <th>Desc_TipoEnvio</th>
                             <th>Peso Minimo</th>
                             <th>Peso Maximo</th>
@@ -70,6 +71,18 @@
                                         @*<option selected="selected" value="1">--SELECCIONA--</option>*@
                                         <option selected="selected" value="1">ACTIVO</option>
                                         <option value="0">INACTIVO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <div class="form-group">
+                                    <label>Clase de Envio</label>
+                                    <select class="form-control" id="ddlClase">
+                                        @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                        <option selected="selected" value="1">PAQUETERIA</option>
+                                        <option value="2">BIG TICKET</option>
                                     </select>
                                 </div>
                             </div>
@@ -202,6 +215,8 @@
 
                                 //bootbox.alert("HOLA");
                                 $("#txtDesc_TipoEnvio").val('');
+                                $("#PesoMinimo").val('');
+                                $("#PesoMaximo").val('');
                                 $("#modal-form").modal('show');
 
                             }
@@ -249,6 +264,7 @@
 
                             myTable.row.add([
                                 json.resp[i].IdTipoEnvio,
+                                json.resp[i].Desc_ClaseEnvio,
                                 json.resp[i].Desc_TipoEnvio,
 
                                 json.resp[i].PesoMinimo,
@@ -284,6 +300,7 @@
             _BitActivo = $("#id_estatus").val();
             _PesoMinimo = $("#PesoMinimo").val();
             _PesoMaximo = $("#PesoMaximo").val();
+            _Clase = $("#ddlClase").val();
             if (_Desc_TipoEnvio.length == 0) {
                 $("#txtDesc_TipoEnvio").focus();
                 return;
@@ -308,7 +325,8 @@
                     Desc_TipoEnvio: _Desc_TipoEnvio,
                     BitActivo: _BitActivo,
                     PesoMinimo: _PesoMinimo,
-                    PesoMaximo: _PesoMaximo
+                    PesoMaximo: _PesoMaximo,
+                    Clase: _Clase
                 },
                 datatype: "html",
                 success: function (json) {
@@ -337,6 +355,7 @@
             _BitActivo = $("#id_estatus").val();
             _PesoMinimo = $("#PesoMinimo").val();
             _PesoMaximo = $("#PesoMaximo").val();
+            _Clase = $("#ddlClase").val();
 
             if (_Desc_TipoEnvio.length == 0) {
                 $("#txtDesc_TipoEnvio").focus();
@@ -362,7 +381,8 @@
                     Desc_TipoEnvio: _Desc_TipoEnvio,
                     BitActivo: _BitActivo,
                     PesoMinimo: _PesoMinimo,
-                    PesoMaximo: _PesoMaximo
+                    PesoMaximo: _PesoMaximo,
+                    Clase: _Clase 
                 },
                 datatype: "html",
                 success: function (json) {

@@ -7,7 +7,6 @@ using ServicesManagement.Web.Models;
 using ServicesManagement.Web.Models.Catalogos;
 using ServicesManagement.Web.Models.TipoLogistica;
 using System;
-
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,17 +14,13 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
-
 using System.Reflection;
-
 using System.Threading.Tasks;
-
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using System.Xml.Linq;
+using TipoEntregaSETC = ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC;
 using TipoEnvio = ServicesManagement.Web.Models.Catalogos.TipoEnvio;
 using TipoServicio = ServicesManagement.Web.Models.Catalogos.TipoServicio;
-using TipoEntregaSETC = ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC;
 
 namespace ServicesManagement.Web.Controllers
 
@@ -2527,11 +2522,11 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo)
+        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo,int Clase)
         {
             try
             {
-                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, PesoMinimo, PesoMaximo);
+                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, PesoMinimo, PesoMaximo,Clase);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -2545,11 +2540,11 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult UpdTipoEnvio(string IdTipoEnvio, string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo)
+        public ActionResult UpdTipoEnvio(string IdTipoEnvio, string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo, int Clase)
         {
             try
             {
-                DALCatalogo.TipoEnvio_uUp(int.Parse(IdTipoEnvio), Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name,PesoMinimo,PesoMaximo);
+                DALCatalogo.TipoEnvio_uUp(int.Parse(IdTipoEnvio), Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name,PesoMinimo,PesoMaximo,Clase);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);

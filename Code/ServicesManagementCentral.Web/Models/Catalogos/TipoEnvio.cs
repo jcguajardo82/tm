@@ -18,6 +18,8 @@ namespace ServicesManagement.Web.Models.Catalogos
         public string Modified_User { get; set; }
         public string PesoMinimo { get; set; }
         public string PesoMaximo { get; set; }
+        public int  Clase { get; set; }
+        public string Desc_ClaseEnvio { get; set; }
 
     }
 }
