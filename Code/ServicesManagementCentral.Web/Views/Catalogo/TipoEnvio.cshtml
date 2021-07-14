@@ -80,9 +80,7 @@
                                 <div class="form-group">
                                     <label>Clase de Envio</label>
                                     <select class="form-control" id="ddlClase">
-                                        @*<option selected="selected" value="1">--SELECCIONA--</option>*@
-                                        <option selected="selected" value="1">PAQUETERIA</option>
-                                        <option value="2">BIG TICKET</option>
+      
                                     </select>
                                 </div>
                             </div>
@@ -234,7 +232,7 @@
             );
 
             GetConsulta();
-
+            ClaseEnvios();
         });
 
         function GetConsulta() {
@@ -461,7 +459,38 @@
 
         }
 
+                function ClaseEnvios() {
 
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("CmbClaseEnvio", "Catalogo")',
+                data: {
+                  
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                      
+                        var dynamicSelect = document.getElementById("ddlClase");
+                        dynamicSelect.innerText = null;
+                        console.log(dynamicSelect);
+                        for (var i = 0; i < json.resp.length; i++) {
+                            var newOption = document.createElement("option");
+                            newOption.value = json.resp[i].IdClase;
+                            newOption.textContent = json.resp[i].Desc_ClaseEnvio;//item.whateverProperty
+
+                            dynamicSelect.appendChild(newOption);
+                        }
+                        console.log(dynamicSelect);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
 
     </script>
 
