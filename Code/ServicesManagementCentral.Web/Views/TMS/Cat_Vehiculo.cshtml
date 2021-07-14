@@ -59,8 +59,8 @@
                                                     </td>
                                                     <td>@r["Motor"]</td>
                                                     @* Falta habilitar Marca y Año, cuando se obtrengan del API *@
-                                                    <td>Marca-Ejemplo</td>
-                                                    <td>2021</td>
+                                                    <td>@r["Marca"]</td>
+                                                    <td>@r["Anio"]</td>
                                                     @*<td>@r["Marca"]</td>*@
                                                     @*<td>@r["Anio"]</td>*@
                                                     @*<td>@r["modified_user"]</td>*@
@@ -232,7 +232,7 @@
                                 <select class="form-control" id="id_estatus" name="id_estatus">
                                     @*<option selected="selected" value="1">--SELECCIONA--</option>*@
                                     <option selected="selected" value="1">ACTIVO</option>
-                                    <option value="2">INACTIVO</option>
+                                    <option value="0">INACTIVO</option>
                                 </select>
 
                             </div>
@@ -548,19 +548,23 @@
         }
 
         function AddSurtidores() {
-            //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
+
+            var e = document.getElementById("id_estatus");
+            var strUser = e.value;
+
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("InsVehiculo", "TMS")',
+                url: '@Url.Action("InsVehiculoCat", "TMS")',
                 data: {
-                    descripcion: document.getElementById("in_desc").value,
-                    motor: document.getElementById("in_motor").value,
-                    placas: document.getElementById("in_placas").value,
-                    idTipoVehiculo: $("#Id_TipoFolio").val()
-                    //marca: document.getElementById("in_marca").val(),
-                    //anio: document.getElementById("in_anio").val()
+                    id_vehiculo: 0,
+                    descripcion: $("#in_desc").val(),
+                    motor: $("#in_motor").val(),
+                    placas: $("#in_placas").val(),
+                    idTipoVehiculo: $("#Id_TipoFolio").val(),
+                    estatus: strUser,
+                    marca: $("#in_marca").val(),
+                    anio: $("#in_anio").val()
 
                 },
                 datatype: "html",
@@ -612,15 +616,16 @@
             $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("EditVehiculo", "TMS")',
+                url: '@Url.Action("InsVehiculoCat", "TMS")',
                 data: {
-                    Id: document.getElementById("Id_Vehiculo").value,
-                    descripcion: document.getElementById("in_desc").value,
-                    motor: document.getElementById("in_motor").value,
-                    placas: document.getElementById("in_placas").value,
-                    estatus: strUser
-                    //marca: document.getElementById("in_marca").val(),
-                    //anio: document.getElementById("in_anio").val()
+                    id_vehiculo: $("#Id_Vehiculo").val(),
+                    descripcion: $("#in_desc").val(),
+                    motor: $("#in_motor").val(),
+                    placas: $("#in_placas").val(),
+                    idTipoVehiculo: $("#Id_TipoFolio").val(),
+                    estatus: strUser,
+                    marca: $("#in_marca").val(),
+                    anio: $("#in_anio").val()
 
                 },
                 datatype: "html",
@@ -727,13 +732,20 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-
+                        console.log(json);
                         document.getElementById("Id_Vehiculo").value = json.json.Id_Vehiculo;
                         document.getElementById("in_desc").value = json.json.Descripcion;
                         document.getElementById("in_motor").value = json.json.Motor;
                         document.getElementById("in_placas").value = json.json.Placas;
+                        document.getElementById("in_marca").value = json.json.Marca;
+                        document.getElementById("in_anio").value = json.json.Anio;
+                        document.getElementById("Id_TipoFolio").value = json.json.Id_TipoVehiculo;
+                        if (json.json.activo == 'True') {
+                            document.getElementById("id_estatus").value = 1;
+                        } else {
+                            document.getElementById("id_estatus").value = 0;
+                        }
 
-                        document.getElementById("id_estatus").value = 1;
                         document.getElementById("flag_edit").value = 1;
 
 

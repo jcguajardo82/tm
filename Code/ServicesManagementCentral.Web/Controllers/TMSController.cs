@@ -560,37 +560,70 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<JsonResult> InsVehiculoCat(int id_vehiculo,string descripcion, string motor, string placas, string idTipoVehiculo,
+                                                    string estatus, string marca, string anio)
+        {
+           try
+           {
+                    string CreatedId = User.Identity.Name;
+
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    parametros.Add("@Descripcion", descripcion);
+                    parametros.Add("@Placas", placas);
+                    parametros.Add("@Motor", motor);
+                    parametros.Add("@created_user", CreatedId);
+                    parametros.Add("@Marca", marca);
+                    parametros.Add("@Anio", anio);
+                    parametros.Add("@id_Vehiculo", id_vehiculo);
+                    parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
+                    parametros.Add("@Estatus", estatus);
+
+                Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.upCorpTMS_Ins_Vehiculo", false, parametros);
+
+
+                    //return ds;
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
         public async Task<JsonResult> GetVehiculoById(string Id)
         {
             try
             {
-                //string apiUrl = string.Format("{0}/GetVehiculos", UrlApi) + "?Id_Vehiculo=" + Id;
-                string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
-
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                //VehiculoModel v = new VehiculoModel { Descripcion = descripcion, Placas = placas, Motor = motor };
-
-                Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.GET, apiUrl, null, "");
-
-                if (responseApi1.code.Equals("00"))
+                
+                DataSet ds = (DataSet)Session["listaV"];
+                VehiculoModel newItem = new VehiculoModel();
+                foreach (DataRow r in ds.Tables[0].Rows)
                 {
-                    //VehiculoModel listC = Newtonsoft.Json.JsonConvert.DeserializeObject<VehiculoModel>(responseApi1.message);
-                    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+                    if (Id.Equals(r["Id_Vehiculo"].ToString()))
+                    {
+                        newItem.activo = r["Estatus"].ToString();
+                        newItem.Anio = r["Anio"].ToString();
+                        newItem.Descripcion = r["Descripcion"].ToString();
+                        newItem.Estatus = r["Estatus"].ToString() == "1" ? true:false;
+                        newItem.Id_TipoVehiculo = int.Parse(r["Id_TipoVehiculo"].ToString());
+                        newItem.Id_Vehiculo = int.Parse( r["Id_Vehiculo"].ToString());
+                        newItem.Marca = r["Marca"].ToString();
+                        newItem.TipoVehiculo = r["TipoVehiculo"].ToString();
+                        newItem.Placas = r["Placas"].ToString();
+                        newItem.Motor = r["Motor"].ToString();
 
-
-
-                    var result = new { Success = true, json = listC.First(c => c.Id_Vehiculo == Convert.ToInt32(Id)) };
-                    return Json(result, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    var result = new { Success = false, Message = "Error al ejecutar la accion" };
-                    return Json(result, JsonRequestBehavior.AllowGet);
+                        break;
+                    }
                 }
 
-                var result1 = new { Success = true };
-                return Json(result1, JsonRequestBehavior.AllowGet);
+                    
+                    var result = new { Success = true, json = newItem };
+                    return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
