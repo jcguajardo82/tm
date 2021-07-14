@@ -3419,13 +3419,35 @@ namespace ServicesManagement.Web.Controllers
 
                     if (string.IsNullOrEmpty(Id_TipoEntrega) || Id_TipoEntrega.Equals("0"))
                     {
+
+                        string pmin;
+                        string pmax;
+
+                        if (Peso_min == "") {
+                            pmin = "0";
+                        }
+                        else
+                        {
+                            pmin = Peso_min;
+                        }
+
+                        if (Peso_max == "")
+                        {
+                            pmax = "0";
+                        }
+                        else
+                        {
+                            pmax = Peso_max;
+                        }
+
+
                         parametros = new System.Collections.Hashtable();
                         parametros.Add("@Descripcion", Descripcion);
                         parametros.Add("@TipoCatalogo", TipoCatalogo);
                         parametros.Add("@Id_TipoAlmacen", Id_TipoAlmacen);
                         parametros.Add("@Id_CategoriaArt", Id_CategoriaArt);
-                        parametros.Add("@Peso_min", Peso_min);
-                        parametros.Add("@Peso_max", Peso_max);
+                        parametros.Add("@Peso_min", pmin);
+                        parametros.Add("@Peso_max", pmax);
                         parametros.Add("@Usuario", "sysAdmin");
 
 
