@@ -336,6 +336,10 @@
                         $("#PesoMinimo").val('');
                         $("#PesoMaximo").val('');
                         GetConsulta();
+
+                        $("#modal-form").modal('hide');
+                        location.reload();
+
                     }
                     else {
                         alert(json.Message);
@@ -391,6 +395,8 @@
 
                         GetConsulta();
 
+                        $("#modal-form").modal('hide');
+                        location.reload();
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
