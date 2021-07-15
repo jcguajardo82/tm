@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,6 +16,14 @@ namespace ServicesManagement.Web.Controllers
 {
     public class ImpexController : Controller
     {
+
+        public string draw = "";
+        public string start = "";
+        public string length = "";
+        public string sortColumn = "";
+        public string sortColumnDir = "";
+        public string searchValue = "";
+        public int pageSize, skip, recordsTotal;
         // GET: Impex
         public ActionResult Index()
         {
@@ -425,7 +434,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        public FileResult CostoEnvioProveedorExcel(int op , int IdTransportista, int IdTipoenvio, int IdTipoServicio)
+        public FileResult CostoEnvioProveedorExcel(int op, int IdTransportista, int IdTipoenvio, int IdTipoServicio)
 
         {
 
@@ -450,13 +459,14 @@ namespace ServicesManagement.Web.Controllers
             {
                 d = DALImpex.upCorpTms_Cns_TransportistaZonaCostos(IdTransportista, IdTipoenvio, IdTipoServicio);
             }
-            else {
+            else
+            {
                 d = DALImpex.upCorpTms_Cns_TransportistaZonaCostosTodos();
                 nombreArchivo = "TransportistaZonaCostosTodos";
             }
-           
 
-     
+
+
 
 
 
@@ -502,7 +512,7 @@ namespace ServicesManagement.Web.Controllers
             }
 
 
-  
+
             //  Write to the client 
 
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
@@ -559,7 +569,7 @@ namespace ServicesManagement.Web.Controllers
 
             try
             {
-                
+
                 DALImpex.upCorpTms_Ins_TransportistaRangosFijos(GetDataFromFileCostosFijos(importFile.InputStream).ToDataTable());
                 return Json(new { Status = 1, Message = "File Imported Successfully " });
             }
@@ -596,7 +606,7 @@ namespace ServicesManagement.Web.Controllers
                                 IdZona = int.Parse(objDataRow[1].ToString()),
                                 PesoInicio = decimal.Parse(objDataRow[2].ToString()),
                                 PesoFin = Convert.ToInt32(objDataRow[3].ToString()),
-                                CostoFijo =decimal.Parse( objDataRow[4].ToString()),
+                                CostoFijo = decimal.Parse(objDataRow[4].ToString()),
                                 bitDeleted = objDataRow[5].ToString().Equals("0") ? false : true, //Convert.ToBoolean(objDataRow[4].ToString()),
                                 CreatedId = User.Identity.Name,
                                 TiempoEnvio = int.Parse(objDataRow[6].ToString())
@@ -612,5 +622,154 @@ namespace ServicesManagement.Web.Controllers
             return List;
         }
         #endregion
+
+
+        public ActionResult Example()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Grid()
+        {
+            List<TransportistaPlazasShow> lst = new List<TransportistaPlazasShow>();
+
+            //logistica datatable
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
+
+
+
+            #region Se Obtienen Filtros Por Columna
+            var IdTransportista = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower(); 
+            var NomTransportista = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
+            var IdPlaza = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
+            var CvePlaza = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
+            var PostalCode = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
+            var DescTipoEnvio = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
+         
+            var CreatedId = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
+            var CreatedDate = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+            var CreatedTime = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+            var BitActivo = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
+
+
+
+            #endregion
+
+            pageSize = length != null ? Convert.ToInt32(length) : 0;
+            skip = start != null ? Convert.ToInt32(start) : 0;
+            recordsTotal = 0;
+
+            IQueryable<TransportistaPlazasShow> query = from row in DALImpex.upCorpTms_Cns_TransportistaPlazas().Tables[0].AsEnumerable().AsQueryable()
+                             select new TransportistaPlazasShow()
+                             {
+                                 IdTransportista = row["IdTransportista"].ToString(),
+                                 NomTransportista = row["NomTransportista"].ToString(),
+                                 IdPlaza = int.Parse(row["IdPlaza"].ToString()),
+                                 CvePlaza = row["CvePlaza"].ToString(),
+                                 NomPlaza = row["NomPlaza"].ToString(),
+                                 DescTipoEnvio = row["DescTipoEnvio"].ToString(),
+                                 PostalCode = row["PostalCode"].ToString(),
+                                 CreatedId = row["CreatedId"].ToString(),
+                                 CreatedDate = row["CreatedDate"].ToString(),
+                                 CreatedTime = row["CreatedTime"].ToString(),
+                                 BitActivo = row["BitActivo"].ToString()
+
+
+                             };
+
+     
+
+
+            if (searchValue != "")
+                query = query.Where(d => d.IdTransportista.ToLower().Contains(searchValue)
+                || d.NomTransportista.ToLower().Contains(searchValue)
+                || d.IdPlaza.ToString().ToLower().Contains(searchValue)
+                || d.CvePlaza.ToLower().Contains(searchValue)
+                || d.NomPlaza.ToLower().Contains(searchValue)
+                || d.DescTipoEnvio.ToLower().Contains(searchValue)
+                || d.PostalCode.ToLower().Contains(searchValue)
+                || d.CreatedId.ToLower().Contains(searchValue)
+                || d.CreatedDate.ToLower().Contains(searchValue)
+                || d.CreatedTime.ToLower().Contains(searchValue)
+                || d.BitActivo.ToLower().Contains(searchValue)
+                );
+
+
+
+
+
+            //Filter By Columns
+            #region Filter By Columns
+            if (!string.IsNullOrEmpty(IdTransportista))
+            {
+                query = query.Where(a => a.IdTransportista.ToLower().Contains(IdTransportista));
+            }
+            if (!string.IsNullOrEmpty(NomTransportista))
+            {
+                query = query.Where(a => a.NomTransportista.ToLower().Contains(NomTransportista));
+            }
+
+            if (!string.IsNullOrEmpty(IdPlaza))
+            {
+                query = query.Where(a => a.IdPlaza.ToString().ToLower().Contains(IdPlaza));
+            }
+            if (!string.IsNullOrEmpty(CvePlaza))
+            {
+                query = query.Where(a => a.CvePlaza.ToLower().Contains(CvePlaza));
+            }
+
+            if (!string.IsNullOrEmpty(DescTipoEnvio))
+            {
+                query = query.Where(a => a.DescTipoEnvio.ToLower().Contains(DescTipoEnvio));
+            }
+
+            if (!string.IsNullOrEmpty(PostalCode))
+            {
+                query = query.Where(a => a.PostalCode.ToLower().Contains(PostalCode));
+            }
+
+          
+
+            if (!string.IsNullOrEmpty(CreatedId))
+            {
+                query = query.Where(a => a.CreatedId.ToLower().Contains(CreatedId));
+            }
+
+            if (!string.IsNullOrEmpty(CreatedDate))
+            {
+                query = query.Where(a => a.CreatedDate.ToLower().Contains(CreatedDate));
+            }
+            if (!string.IsNullOrEmpty(CreatedTime))
+            {
+                query = query.Where(a => a.CreatedTime.ToLower().Contains(CreatedTime));
+            }
+
+            if (!string.IsNullOrEmpty(BitActivo))
+            {
+                query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+            }
+
+            #endregion
+
+            //Sorting    
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                query = query.OrderBy(sortColumn + " " + sortColumnDir);
+
+            }
+
+            recordsTotal = query.Count();
+
+            lst = query.Skip(skip).Take(pageSize).ToList();
+
+
+            return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = lst });
+        }
     }
 }
