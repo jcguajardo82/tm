@@ -114,7 +114,13 @@
             ],
             buttons: [
                 { extend: 'pageLength', className: 'btn-primary' },
-                { extend: 'excel', className: 'btn-primary' }
+                {
+                    text: 'Excel General',
+                    action: function (e, dt, node, config) {
+                        Excel();
+                    }
+                    , className: 'btn-primary'
+                }
             ],
             fixedHeader: {
                 header: true,
@@ -125,6 +131,8 @@
             , "scrollCollapse": true
         });
     })
-       
+        function Excel() {         
+            window.location = window.location.origin + '/Impex/ExcelPrueba';
+        }
     </script>
 }

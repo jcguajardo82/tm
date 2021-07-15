@@ -624,6 +624,7 @@ namespace ServicesManagement.Web.Controllers
         #endregion
 
 
+        #region Prueba 
         public ActionResult Example()
         {
             return View();
@@ -645,13 +646,13 @@ namespace ServicesManagement.Web.Controllers
 
 
             #region Se Obtienen Filtros Por Columna
-            var IdTransportista = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower(); 
+            var IdTransportista = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
             var NomTransportista = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
             var IdPlaza = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
             var CvePlaza = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
             var PostalCode = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
             var DescTipoEnvio = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
-         
+
             var CreatedId = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
             var CreatedDate = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
             var CreatedTime = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
@@ -666,24 +667,24 @@ namespace ServicesManagement.Web.Controllers
             recordsTotal = 0;
 
             IQueryable<TransportistaPlazasShow> query = from row in DALImpex.upCorpTms_Cns_TransportistaPlazas().Tables[0].AsEnumerable().AsQueryable()
-                             select new TransportistaPlazasShow()
-                             {
-                                 IdTransportista = row["IdTransportista"].ToString(),
-                                 NomTransportista = row["NomTransportista"].ToString(),
-                                 IdPlaza = int.Parse(row["IdPlaza"].ToString()),
-                                 CvePlaza = row["CvePlaza"].ToString(),
-                                 NomPlaza = row["NomPlaza"].ToString(),
-                                 DescTipoEnvio = row["DescTipoEnvio"].ToString(),
-                                 PostalCode = row["PostalCode"].ToString(),
-                                 CreatedId = row["CreatedId"].ToString(),
-                                 CreatedDate = row["CreatedDate"].ToString(),
-                                 CreatedTime = row["CreatedTime"].ToString(),
-                                 BitActivo = row["BitActivo"].ToString()
+                                                        select new TransportistaPlazasShow()
+                                                        {
+                                                            IdTransportista = row["IdTransportista"].ToString(),
+                                                            NomTransportista = row["NomTransportista"].ToString(),
+                                                            IdPlaza = int.Parse(row["IdPlaza"].ToString()),
+                                                            CvePlaza = row["CvePlaza"].ToString(),
+                                                            NomPlaza = row["NomPlaza"].ToString(),
+                                                            DescTipoEnvio = row["DescTipoEnvio"].ToString(),
+                                                            PostalCode = row["PostalCode"].ToString(),
+                                                            CreatedId = row["CreatedId"].ToString(),
+                                                            CreatedDate = row["CreatedDate"].ToString(),
+                                                            CreatedTime = row["CreatedTime"].ToString(),
+                                                            BitActivo = row["BitActivo"].ToString()
 
 
-                             };
+                                                        };
 
-     
+
 
 
             if (searchValue != "")
@@ -734,7 +735,7 @@ namespace ServicesManagement.Web.Controllers
                 query = query.Where(a => a.PostalCode.ToLower().Contains(PostalCode));
             }
 
-          
+
 
             if (!string.IsNullOrEmpty(CreatedId))
             {
@@ -771,5 +772,119 @@ namespace ServicesManagement.Web.Controllers
 
             return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = lst });
         }
+
+  
+        public FileResult ExcelPrueba()
+
+        {
+
+            var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
+
+
+
+            #region Se Obtienen Filtros Por Columna
+            var IdTransportista = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
+            var NomTransportista = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
+            var IdPlaza = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
+            var CvePlaza = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
+            var PostalCode = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
+            var DescTipoEnvio = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
+
+            var CreatedId = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
+            var CreatedDate = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+            var CreatedTime = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+            var BitActivo = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
+
+
+
+            #endregion
+
+
+
+            var d = new DataSet();
+
+            string nombreArchivo = "TransportistaZonaCostos";
+
+            //Excel to create an object file
+
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+
+            //Add a sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+
+            //Here you can set a variety of styles seemingly font color backgrounds, but not very convenient, there is not set
+            //Sheet1 head to add the title of the first row
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+
+
+
+
+
+
+
+
+
+            row1.CreateCell(0).SetCellValue("IdZona");
+            row1.CreateCell(1).SetCellValue("NombreZona");
+            row1.CreateCell(2).SetCellValue("CargoGasolina");
+            row1.CreateCell(3).SetCellValue("PrecioExtraPeso");
+            row1.CreateCell(4).SetCellValue("PrecioInicial");
+            row1.CreateCell(5).SetCellValue("Otros");
+            row1.CreateCell(6).SetCellValue("IdTransportista");
+            row1.CreateCell(7).SetCellValue("NombreTransportista");
+            row1.CreateCell(8).SetCellValue("IdTipoEnvio");
+            row1.CreateCell(9).SetCellValue("NombreTipoEnvio");
+            row1.CreateCell(10).SetCellValue("IdTipoServicio");
+            row1.CreateCell(11).SetCellValue("NombreTipoServicio");
+            row1.CreateCell(12).SetCellValue("diasEntrega");
+            row1.CreateCell(13).SetCellValue("CreatedId");
+            row1.CreateCell(14).SetCellValue("CreatedDate");
+
+
+
+            //                                                
+            //The data is written progressively sheet1 each row
+
+            for (int i = 0; i < d.Tables[0].Rows.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(d.Tables[0].Rows[i][0].ToString());
+                rowtemp.CreateCell(1).SetCellValue(d.Tables[0].Rows[i][1].ToString());
+                rowtemp.CreateCell(2).SetCellValue(d.Tables[0].Rows[i][2].ToString());
+                rowtemp.CreateCell(3).SetCellValue(d.Tables[0].Rows[i][3].ToString());
+                rowtemp.CreateCell(4).SetCellValue(d.Tables[0].Rows[i][4].ToString());
+                rowtemp.CreateCell(5).SetCellValue(d.Tables[0].Rows[i][5].ToString());
+                rowtemp.CreateCell(6).SetCellValue(d.Tables[0].Rows[i][6].ToString());
+                rowtemp.CreateCell(7).SetCellValue(d.Tables[0].Rows[i][7].ToString());
+                rowtemp.CreateCell(8).SetCellValue(d.Tables[0].Rows[i][8].ToString());
+                rowtemp.CreateCell(9).SetCellValue(d.Tables[0].Rows[i][9].ToString());
+                rowtemp.CreateCell(10).SetCellValue(d.Tables[0].Rows[i][10].ToString());
+                rowtemp.CreateCell(11).SetCellValue(d.Tables[0].Rows[i][11].ToString());
+                rowtemp.CreateCell(12).SetCellValue(d.Tables[0].Rows[i][12].ToString());
+                rowtemp.CreateCell(13).SetCellValue(d.Tables[0].Rows[i][13].ToString());
+                rowtemp.CreateCell(14).SetCellValue(d.Tables[0].Rows[i][14].ToString());
+            }
+
+
+
+            //  Write to the client 
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            book.Write(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            DateTime dt = DateTime.Now;
+
+            string dateTime = dt.ToString("yyyyMMddHHmmssfff");
+
+            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+
+            return File(ms, "application/vnd.ms-excel", fileName);
+
+        }
+        #endregion
     }
 }
