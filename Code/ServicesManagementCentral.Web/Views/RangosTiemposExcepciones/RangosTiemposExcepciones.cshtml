@@ -386,18 +386,19 @@
                 $("#ddlTransportista").focus();
                 return;
             }    
-            //if (_IdTipoCatalogo == "0") {
-            //    $("#ddlCatalogo").focus();
-            //    return;
-            //}
+            if (_IdTipoCatalogo == "0") {
+                $("#ddlCatalogo").focus();
+                return;
+            }
             //if (_IdTipoLogistica == "0") {
             //    $("#ddlTipoLogistica").focus();
             //    return;
             //}
 
             if (_Prioridad.length == 0) {
-                $("#txtPrioridad").focus();
-                return;
+                _Prioridad = 0;
+            //    $("#txtPrioridad").focus();
+            //    return;
             }
             if (_DiasExtra.length == 0) {
                 $("#txtDiasExtra").focus();
