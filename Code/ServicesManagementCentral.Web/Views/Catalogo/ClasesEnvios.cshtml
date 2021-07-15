@@ -259,6 +259,9 @@
                         $("#PesoMinimo").val('');
                         $("#PesoMaximo").val('');
                         GetConsulta();
+
+                        $("#modal-form").modal('hide');
+                        location.reload();
                     }
                     else {
                         alert(json.Message);

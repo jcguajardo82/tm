@@ -352,6 +352,10 @@
                                 text: 'Alta',
                                 action: function (e, dt, node, config) {
 
+                                    document.getElementById("txtTipoVehiculo").value = '';
+                                    document.getElementById("txtComentario").value = '';
+                                    document.getElementById("id_estatus").value = "1";
+
                                     //bootbox.alert("HOLA");
                                     $("hddId").val("0")
                                     $("#modal-form").modal('show');

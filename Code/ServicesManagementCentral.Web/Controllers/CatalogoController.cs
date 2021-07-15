@@ -2967,7 +2967,7 @@ namespace ServicesManagement.Web.Controllers
                         parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
                         parametros.Add("@MaxCosto", MaxCosto);
                         parametros.Add("@UsuarioUltModif", "sysAdmin2");
-                        parametros.Add("@BitActivo", estatus.Equals("0") ? 1 : 0);
+                        parametros.Add("@BitActivo", estatus.Equals("0") ? 0 : 1);
                         parametros.Add("@TipoCatalogo", tipoCatalago);
 
                         Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoLogistica", false, parametros);
@@ -3043,7 +3043,8 @@ namespace ServicesManagement.Web.Controllers
 
 
                     var result = new { Success = true, Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, 
-                                        mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e = estatus.ToLower().Equals("false") ? 1 : 0, 
+                                        mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e = estatus,
+                                        //e = estatus.ToLower().Equals("1") ? 1 : 0, 
                                         tipoCat = TipoCatalogo };
                     return Json(result, JsonRequestBehavior.AllowGet);
 
@@ -3335,7 +3336,7 @@ namespace ServicesManagement.Web.Controllers
                         seg = o_seg,
                         porc = o_porc,
                         adic = o_adic,
-                        e = o_est.ToLower().Equals("false") ? 0 : 1
+                        e = o_est.ToLower().Equals("0") ? 0 : 1
                     };
                     return Json(result, JsonRequestBehavior.AllowGet);
 

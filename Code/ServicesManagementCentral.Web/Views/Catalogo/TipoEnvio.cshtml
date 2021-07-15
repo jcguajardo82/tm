@@ -446,7 +446,7 @@
                         document.getElementById("txtDesc_TipoEnvio").value = json.resp.Desc_TipoEnvio;
                         document.getElementById("PesoMinimo").value = json.resp.PesoMinimo;
                         document.getElementById("PesoMaximo").value = json.resp.PesoMaximo;
-                        if (json.resp.BitActivo) {
+                        if (json.resp.BitActivo == "1") {
                             document.getElementById("id_estatus").value = 1;
                         } else { document.getElementById("id_estatus").value = 0}
                         document.getElementById("flag_edit").value = 1;

@@ -279,6 +279,10 @@
                     if (json.Success) {
                         $("#txtDesc_TipoServicio").val('');
                         GetConsulta();
+
+                        $("#modal-form").modal('hide');
+                        location.reload();
+
                     }
                     else {
                         alert(json.Message);
@@ -317,6 +321,9 @@
                     if (json.Success) {
 
                         GetConsulta();
+
+                        $("#modal-form").modal('hide');
+                        location.reload();
 
                     }
                 }
@@ -365,7 +372,7 @@
 
                         document.getElementById("hddId").value = json.resp.IdTipoServicio;
                         document.getElementById("txtDesc_TipoServicio").value = json.resp.Desc_TipoServicio;
-                        if (json.resp.BitActivo) {
+                        if (json.resp.BitActivo == "1") {
                             document.getElementById("id_estatus").value = 1;
                         } else { document.getElementById("id_estatus").value = 0}
                         document.getElementById("flag_edit").value = 1;

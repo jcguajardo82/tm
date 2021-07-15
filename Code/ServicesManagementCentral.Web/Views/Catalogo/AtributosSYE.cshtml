@@ -216,8 +216,8 @@
                                     <div class="form-group">
                                         <label>Estatus</label>
                                         <select class="form-control" id="in_estatus" name="in_estatus">
-                                            <option selected="selected" value="0">Activo</option>
-                                            <option value="1">Inactivo</option>
+                                            <option selected="selected" value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
 
                                         </select>
                                     </div>
@@ -563,6 +563,15 @@
                                     //document.getElementById("in_alto").value = '';
                                     //document.getElementById("in_peso").value = '';
                                     //document.getElementById("in_largo").value = '';
+
+                                    document.getElementById("ProveedorLista").value = "0";
+                                    document.getElementById("in_precio").value = '';
+                                    document.getElementById("in_seguro").value = '';
+                                    document.getElementById("in_porc").value = '';
+                                    document.getElementById("in_adic").value = '';
+                                    document.getElementById("in_estatus").value = "1";
+
+
                                     document.getElementById("flagStatus").value = "0";
                                     $("#frmAltaTrans").modal('show');
 

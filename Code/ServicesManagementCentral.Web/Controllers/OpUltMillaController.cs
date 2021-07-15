@@ -74,13 +74,13 @@ namespace ServicesManagement.Web.Controllers
                         file.SaveAs(path);
 
                         RestClient restClient = new RestClient(System.Configuration.ConfigurationManager.AppSettings["api_Upload_Files"]);
-                        RestRequest restRequest = new RestRequest("/Soriana_Upload_Files");
+                        RestRequest restRequest = new RestRequest("/Soriana_Upload_Files?Folder=" + tipoFolder);
                         restRequest.RequestFormat = DataFormat.Json;
                         restRequest.Method = Method.POST;
                         restRequest.AddHeader("Authorization", "Authorization");
                         restRequest.AddHeader("Content-Type", "multipart/form-data");
                         restRequest.AddFile("content", path);
-                        restRequest.AddParameter("folder", tipoFolder);
+                        //restRequest.AddParameter("folder", tipoFolder);
                         var response = restClient.Execute(restRequest);
 
 

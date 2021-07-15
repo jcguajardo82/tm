@@ -435,10 +435,10 @@
                                         <label>Tipo Catalogo</label>
                                         <br />
 
-                                        <input name="tipoCatalogo" type="checkbox" value="grocery" />
+                                        <input name="tipoCatalogo" id="grocery" type="checkbox" value="grocery" />
                                         <label for="tipoCatalogo">Grocery</label>
 
-                                        <input name="tipoCatalogo" type="checkbox" value="non-grocery" />
+                                        <input name="tipoCatalogo" id="nongrocery" type="checkbox" value="non-grocery" />
                                         <label for="tipoCatalogo">Non-Grocery</label>
                                     </div>
                                 </div><div class="col col-xs-8 col-md-4">
@@ -474,7 +474,7 @@
                                                 }
                         
                         
-        </select>
+                                            </select>
                                         </div>
                                     
                                     </div>
@@ -911,6 +911,16 @@
                                     //document.getElementById("in_alto").value = '';
                                     //document.getElementById("in_peso").value = '';
                                     //document.getElementById("in_largo").value = '';
+
+                                    document.getElementById("grocery").checked = false;
+                                    document.getElementById("nongrocery").checked = false;
+                                    document.getElementById("in_tipoEntrega").value = '';
+                                    // ddlAlmacen
+                                    // selectCategorias
+                                    document.getElementById("in_pesoMin").value = '';
+                                    document.getElementById("in_pesoMax").value = '';
+                                    document.getElementById("in_estatus").value = "1";
+
                                     document.getElementById("idTitulo").innerHTML = 'Alta de Tipo de Entrada';
                                     document.getElementById("flagStatus").value = "0";
                                     empty();

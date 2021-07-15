@@ -184,10 +184,10 @@
                                         <label>Tipo Catalogo</label>
                                         <br />
                    
-                                            <input name="tipoCatalogo" type="checkbox" value="grocery"/>
+                                            <input name="tipoCatalogo" id="grocery" type="checkbox" value="grocery"/>
                                             <label for="tipoCatalogo" >Grocery</label>
                                         
-                                            <input name="tipoCatalogo" type="checkbox" value="non-grocery"/>
+                                            <input name="tipoCatalogo" id="nongrocery" type="checkbox" value="non-grocery"/>
                                             <label for="tipoCatalogo">Non-Grocery</label>
                                         
 
@@ -203,8 +203,8 @@
                                     <div class="form-group">
                                         <label>Estatus</label>
                                         <select class="form-control" id="in_estatus" name="in_estatus">
-                                            <option selected="selected" value="0">Activo</option>
-                                            <option value="1">Inactivo</option>
+                                            <option selected="selected" value="1">Activo</option>
+                                            <option value="0">Inactivo</option>
 
                                         </select>
                                     </div>
@@ -380,13 +380,12 @@
                         //document.getElementById("in_estatus").value = json.e;
 
                         //Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e 
-
                             document.getElementById("in_descripcion").value = json.tl;
                             document.getElementById("in_MinPesoVolumetrico").value = json.mp;
                             document.getElementById("in_MaxPesoVolumetrico").value = json.mxp;
                             document.getElementById("in_MaxCosto").value = json.mx;
-                            document.getElementById("in_tipoArticulo").value = json.ta;
-                        document.getElementById("in_estatus").value = json.e;
+                            //document.getElementById("in_tipoArticulo").value = json.ta;
+                            document.getElementById("in_estatus").value = json.e;                        
                         
                     }
                 }
@@ -596,6 +595,16 @@
                                     //document.getElementById("in_alto").value = '';
                                     //document.getElementById("in_peso").value = '';
                                     //document.getElementById("in_largo").value = '';
+
+                                    document.getElementById("grocery").checked = false;
+                                    document.getElementById("nongrocery").checked = false;
+                                    document.getElementById("in_descripcion").value = '';
+                                    document.getElementById("in_MinPesoVolumetrico").value = '';
+                                    document.getElementById("in_MaxPesoVolumetrico").value = '';
+                                    document.getElementById("in_MaxCosto").value = '';
+                                    document.getElementById("in_estatus").value = "1";
+
+
                                     document.getElementById("idTitulo").innerHTML = 'Alta de Tipo de Logistica';
                                     document.getElementById("flagStatus").value = "0";
                                     $("#frmAltaTrans").modal('show');

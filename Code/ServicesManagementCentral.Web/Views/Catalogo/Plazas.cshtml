@@ -604,14 +604,17 @@
                         document.getElementById("in_idPlaza2").value = json.resp[0].IdPlaza;
                         document.getElementById("in_Plaza2").value = json.resp[0].Desc_Plaza;
                         document.getElementById("in_claveplaza2").value = json.resp[0].cve_Plaza;
-                        document.getElementById("id_estatus2").value = json.resp[0].BitActivo =="False" ? 0 : 1;
+                        document.getElementById("id_estatus2").value = json.resp[0].BitActivo =="0" ? 0 : 1;
                         //document.getElementById("in_placas").value = json.resp.CreateDate;
                         //document.getElementById("in_desc").value = json.resp.Created_User;
                         //document.getElementById("in_motor").value = json.resp.FecMovto;
                         //document.getElementById("in_placas").value = json.resp.Modified_User;
                         //document.getElementById("in_placas").value = json.resp.cve_Plaza;
 
-                        document.getElementById("id_estatus").value = 1;
+                        if (json.resp.BitActivo == "1") {
+                            document.getElementById("id_estatus").value = 1;
+                        } else { document.getElementById("id_estatus").value = 0 }
+                        // document.getElementById("id_estatus").value = 1;
                         document.getElementById("flag_edit").value = 1;
 
 
