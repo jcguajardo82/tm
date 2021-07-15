@@ -1018,7 +1018,6 @@
             Array.prototype.forEach.call(checkboxes, function (el) {
                 values.push(el.value);
             });
-            console.log(values);
             var count = 1;
             var _tipoCat = '';
 
@@ -1031,6 +1030,22 @@
 
                 count++;
             });
+
+
+            if ($("#in_tipoEntrega").val() == '') {
+                $("#in_tipoEntrega").focus();
+                return;
+            }
+
+            if (_tipoCat == '') {
+                $("#tipoCatalogo").focus();
+                return;  
+            }
+
+            if ($("#ddlAlmacen").val() == '0') {
+                $("#ddlAlmacen").focus();
+                return;
+            }
 
             count = 1;
             var valuesCateg = getValues('selectCategorias');
