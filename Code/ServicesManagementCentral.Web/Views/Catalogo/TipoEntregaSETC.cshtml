@@ -244,56 +244,6 @@
 
         });
 
-        function GetConsulta() {
-            //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetEntregaSETC", "Catalogo")',
-                data: {
-                    //  Id_Num_UN: _Id_Num_UN
-                },
-                datatype: "html",
-                success: function (json) {
-                    console.log(json);
-
-                    debugger;
-                    if (json.Success) {
-
-
-                        var myTable = $('#example').DataTable();
-                        myTable
-                            .clear()
-                            .draw();
-                        for (var i = 0; i < json.resp.length; i++) {
-
-
-                            myTable.row.add([
-                                json.resp[i].StoreNum,
-                                json.resp[i].Desc_UN,
-                                json.resp[i].IdTipoEnvio,
-                                json.resp[i].Desc_TipoEnvio,
-
-                                json.resp[i].UsuarioCreacion,
-                                json.resp[i].FechaCreacion,
-                                json.resp[i].HoraCreacion,
-                                json.resp[i].UsuarioUltModif,
-                                json.resp[i].FechaUltModif,
-                                json.resp[i].HoraUltModif,
-
-                                json.resp[i].BitActivo == '1' ? 'Activo' : 'Inactivo',
-                                "<button title='Editar' onclick=\"GetById(" + json.resp[i].IdTipoEntrega + ")\" type=\"button\" class=\"btn btn-white btn-circle\"><acronym title='Editar' lang='es'> <i class=\"fa fa-edit\"></i></acronym></button><button type=\"button\" onclick=\"Delete(" + json.resp[i].IdTipoEntrega + ")\" class=\"btn btn-warning btn-circle\"><acronym title='Eliminar' lang='es'> <i class=\"fa fa-minus\"></i></button></acronym>"
-                            ]).draw();
-                        }
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
-
         function ActionUpd() {
             debugger;
             if (document.getElementById("flag_edit").value == "1") {
