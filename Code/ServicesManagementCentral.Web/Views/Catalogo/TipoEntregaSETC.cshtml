@@ -149,10 +149,34 @@
                 }
             });
 
-            table = $('#example').DataTable(
-                {
+            table = $('#example').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "@Url.Content("~/Catalogo/GetEntregaSETC")",
+                "type": "POST",
+                "datatype":"json"
+            },
+            "pageLength": 10,
+            "filter": true,
+            "responsivePriority": 1,
+            "data": null,
+            "columns": [
+                { "data": "StoreNum", "name": "StoreNum", "autoWidth": true },
+                { "data": "Desc_UN", "name": "Desc_UN", "autoWidth": true },
+                { "data": "IdTipoEnvio", "name": "IdTipoEnvio", "autoWidth": true },
+                { "data": "Desc_TipoEnvio", "name": "Desc_TipoEnvio", "autoWidth": true },
+                { "data": "UsuarioCreacion", "name": "UsuarioCreacion", "autoWidth": true },
+                { "data": "FechaCreacion", "name": "FechaCreacion", "autoWidth": true },
 
-                    language:
+                { "data": "HoraCreacion", "name": "HoraCreacion", "autoWidth": true },
+                { "data": "UsuarioUltModif", "name": "UsuarioUltModif", "autoWidth": true },
+                { "data": "FechaUltModif", "name": "FechaUltModif", "autoWidth": true },
+                { "data": "HoraUltModif", "name": "HoraUltModif", "autoWidth": true },
+                { "data": "BitActivo", "name": "BitActivo", "autoWidth": true }
+
+            ]
+                    , language:
                     {
                         "sProcessing": "Procesando...",
                         "sLengthMenu": "Mostrar _MENU_ registros",
@@ -216,7 +240,7 @@
                 }
             );
 
-            GetConsulta();
+            //GetConsulta();
 
         });
 

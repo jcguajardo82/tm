@@ -13,6 +13,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -43,8 +44,6 @@ namespace ServicesManagement.Web.Controllers
         public string BitActivo { get; set; }
         public string CategoriaArt2 { get; set; }
     }
-
-
 
     public class codigoPostalModels
     {
@@ -104,6 +103,13 @@ namespace ServicesManagement.Web.Controllers
     public class CatalogoController : Controller
 
     {
+        public string draw = "";
+        public string start = "";
+        public string length = "";
+        public string sortColumn = "";
+        public string sortColumnDir = "";
+        public string searchValue = "";
+        public int pageSize, skip, recordsTotal;
 
         string UrlApi = System.Configuration.ConfigurationManager.AppSettings["urlApi"].ToString();
 
@@ -4030,14 +4036,152 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+        [HttpPost]
         public ActionResult GetTipoEntregaSETCId(int IdTipoEntrega)
         {
             try
             {
-                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.TipoEntregaSETCById_sUp(IdTipoEntrega).Tables[0]).FirstOrDefault();
+                List<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC> lst = new List<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC>();
 
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
+                //logistica datatable
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
+
+
+
+                #region Se Obtienen Filtros Por Columna
+                var StoreNum = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
+                var Desc_UN = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
+                var IdTipoEnvio = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
+                var Desc_TipoEnvio = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
+                var UsuarioCreacion = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
+                var FechaCreacion = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
+
+                var HoraCreacion = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
+                var UsuarioUltModif = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+                var FechaUltModif = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+                var HoraUltModif = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
+                var BitActivo = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault().ToLower();
+
+
+
+                #endregion
+
+                pageSize = length != null ? Convert.ToInt32(length) : 0;
+                skip = start != null ? Convert.ToInt32(start) : 0;
+                recordsTotal = 0;
+
+                IQueryable<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC> query = from row in DALImpex.upCorpTms_Cns_TransportistaPlazas().Tables[0].AsEnumerable().AsQueryable()
+                                                            select new ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC()
+                                                            {
+                                                                StoreNum = int.Parse(row["StoreNum"].ToString()),
+                                                                Desc_UN = row["Desc_UN"].ToString(),
+                                                                IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),
+                                                                Desc_TipoEnvio = row["Desc_TipoEnvio"].ToString(),
+                                                                UsuarioCreacion = row["UsuarioCreacion"].ToString(),
+                                                                FechaCreacion = row["FechaCreacion"].ToString(),
+                                                                HoraCreacion = row["HoraCreacion"].ToString(),
+                                                                UsuarioUltModif = row["UsuarioUltModif"].ToString(),
+                                                                FechaUltModif = row["FechaUltModif"].ToString(),
+                                                                HoraUltModif = row["HoraUltModif"].ToString(),
+                                                                BitActivo = row["BitActivo"].ToString()
+                                                            };
+
+
+
+
+                if (searchValue != "")
+                    query = query.Where(d => d.StoreNum.ToString().ToLower().Contains(searchValue)
+                    || d.Desc_UN.ToLower().Contains(searchValue)
+                    || d.IdTipoEnvio.ToString().ToLower().Contains(searchValue)
+                    || d.Desc_TipoEnvio.ToLower().Contains(searchValue)
+                    || d.UsuarioCreacion.ToLower().Contains(searchValue)
+                    || d.FechaCreacion.ToLower().Contains(searchValue)
+                    || d.HoraCreacion.ToLower().Contains(searchValue)
+                    || d.UsuarioUltModif.ToLower().Contains(searchValue)
+                    || d.FechaUltModif.ToLower().Contains(searchValue)
+                    || d.HoraUltModif.ToLower().Contains(searchValue)
+                    || d.BitActivo.ToLower().Contains(searchValue)
+                    );
+
+
+
+
+
+                //Filter By Columns
+                #region Filter By Columns
+                if (!string.IsNullOrEmpty(StoreNum))
+                {
+                    query = query.Where(a => a.StoreNum.ToString().ToLower().Contains(StoreNum));
+                }
+                if (!string.IsNullOrEmpty(Desc_UN))
+                {
+                    query = query.Where(a => a.Desc_UN.ToLower().Contains(Desc_UN));
+                }
+
+                if (!string.IsNullOrEmpty(IdTipoEnvio))
+                {
+                    query = query.Where(a => a.IdTipoEnvio.ToString().ToLower().Contains(IdTipoEnvio));
+                }
+                if (!string.IsNullOrEmpty(Desc_TipoEnvio))
+                {
+                    query = query.Where(a => a.Desc_TipoEnvio.ToLower().Contains(Desc_TipoEnvio));
+                }
+
+                if (!string.IsNullOrEmpty(UsuarioCreacion))
+                {
+                    query = query.Where(a => a.UsuarioCreacion.ToLower().Contains(UsuarioCreacion));
+                }
+
+                if (!string.IsNullOrEmpty(FechaCreacion))
+                {
+                    query = query.Where(a => a.FechaCreacion.ToLower().Contains(FechaCreacion));
+                }
+
+                if (!string.IsNullOrEmpty(HoraCreacion))
+                {
+                    query = query.Where(a => a.HoraCreacion.ToLower().Contains(HoraCreacion));
+                }
+
+                if (!string.IsNullOrEmpty(UsuarioUltModif))
+                {
+                    query = query.Where(a => a.UsuarioUltModif.ToLower().Contains(UsuarioUltModif));
+                }
+
+                if (!string.IsNullOrEmpty(FechaUltModif))
+                {
+                    query = query.Where(a => a.FechaUltModif.ToLower().Contains(FechaUltModif));
+                }
+
+                if (!string.IsNullOrEmpty(HoraUltModif))
+                {
+                    query = query.Where(a => a.HoraUltModif.ToLower().Contains(HoraUltModif));
+                }
+
+                if (!string.IsNullOrEmpty(BitActivo))
+                {
+                    query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+                }
+
+                #endregion
+
+                //Sorting    
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    query = query.OrderBy(sortColumn + " " + sortColumnDir);
+
+                }
+
+                recordsTotal = query.Count();
+
+                lst = query.Skip(skip).Take(pageSize).ToList();
+
+
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = lst });
             }
             catch (Exception x)
             {
