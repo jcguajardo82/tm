@@ -134,7 +134,7 @@
             $('#example thead tr:eq(0) th').each(function (i) {
                 if ($(this).attr('name') != "accion") {
                     var title = $(this).text();
-                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+                    $(this).html("<input type='search' class='form-control form-control-sm' placeholder='" + title + "' id='filtro" + i + "'  />");
 
                     $('input', this).on('keyup change', function () {
                         if (table.column(i).search() !== this.value) {
@@ -144,6 +144,14 @@
                                 .draw();
                         }
                     });
+
+                    $('input', this).on("input", function () {
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    });
+
                 } else {
                     $(this).empty();
                 }
@@ -226,6 +234,10 @@
                                 LlenarTiendasSelect();
                                 LlenarTipoEntregasSelect();
 
+                            },
+                            text: 'Excel General',
+                            action: function (e, dt, node, config) {
+                                Excel();
                             }
                             , className: 'btn-primary'
                         }
@@ -455,6 +467,33 @@
             });
         }
 
+        function Excel() {
+
+            _StoreNum = $("#filtro0").val();
+            _Desc_UN = $("#filtro1").val();
+            _IdTipoEnvio = $("#filtro2").val();
+            _Desc_TipoEnvio = $("#filtro3").val();
+            _UsuarioCreacion = $("#filtro4").val();
+            _FechaCreacion = $("#filtro5").val();
+
+            _HoraCreacion = $("#filtro6").val();
+            _UsuarioUltModif = $("#filtro7").val();
+            _FechaUltModif = $("#filtro8").val();
+            _HoraUltModif = $("#filtro9").val();
+            _BitActivo = $("#filtro10").val();
+
+            var dataTable = $('#example').DataTable();
+            var _searchValue = dataTable.search();
+
+
+            window.location = window.location.origin + '/Catalogo/ExcelTipoEntregaSETC?StoreNum=' + _StoreNum + "&Desc_UN=" + _Desc_UN
+                + "&IdTipoEnvio=" + _IdTipoEnvio + "&Desc_TipoEnvio=" + _Desc_TipoEnvio
+                + "&UsuarioCreacion=" + _UsuarioCreacion + "&FechaCreacion=" + _FechaCreacion
+                + "&HoraCreacion=" + _HoraCreacion + "&UsuarioUltModif=" + _UsuarioUltModif
+                + "&FechaUltModif=" + _FechaUltModif + "&HoraUltModif=" + _HoraUltModif
+                + "&BitActivo=" + _BitActivo
+                + "&searchValue=" + _searchValue
+        }
 
 
     </script>

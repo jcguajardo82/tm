@@ -4021,6 +4021,7 @@ namespace ServicesManagement.Web.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult GetEntregaSETC()
         {
             try
@@ -4059,8 +4060,8 @@ namespace ServicesManagement.Web.Controllers
                 skip = start != null ? Convert.ToInt32(start) : 0;
                 recordsTotal = 0;
 
-                IQueryable<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC> query = from row in DALCatalogo.TipoEntregaSETC_sUp().Tables[0].AsEnumerable().AsQueryable()
-                                                                                            select new ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC()
+                IQueryable<TipoEntregaSETC> query = from row in DALCatalogo.TipoEntregaSETC_sUp().Tables[0].AsEnumerable().AsQueryable()
+                                                                                            select new TipoEntregaSETC()
                                                                                             {
                                                                                                 StoreNum = int.Parse(row["StoreNum"].ToString()),
                                                                                                 Desc_UN = row["Desc_UN"].ToString(),
@@ -4091,9 +4092,6 @@ namespace ServicesManagement.Web.Controllers
                     || d.HoraUltModif.ToLower().Contains(searchValue)
                     || d.BitActivo.ToLower().Contains(searchValue)
                     );
-
-
-
 
 
                 //Filter By Columns
@@ -4172,6 +4170,178 @@ namespace ServicesManagement.Web.Controllers
                 var result = new { Success = false, Message = x.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
+
+        }
+
+        public FileResult ExcelTipoEntregaSETC(string StoreNum
+            , string Desc_UN, string IdTipoEnvio, string Desc_TipoEnvio, string UsuarioCreacion
+            , string FechaCreacion, string HoraCreacion
+            , string UsuarioUltModif, string FechaUltModif, string HoraUltModif, string BitActivo, string searchValue)
+
+        {
+            List<TipoEntregaSETC> lst = new List<TipoEntregaSETC>();
+
+            IQueryable<TipoEntregaSETC> query = from row in DALCatalogo.TipoEntregaSETC_sUp().Tables[0].AsEnumerable().AsQueryable()
+                                                select new TipoEntregaSETC()
+                                                {
+                                                    StoreNum = int.Parse(row["StoreNum"].ToString()),
+                                                    Desc_UN = row["Desc_UN"].ToString(),
+                                                    IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),
+                                                    Desc_TipoEnvio = row["Desc_TipoEnvio"].ToString(),
+                                                    UsuarioCreacion = row["UsuarioCreacion"].ToString(),
+                                                    FechaCreacion = row["FechaCreacion"].ToString(),
+                                                    HoraCreacion = row["HoraCreacion"].ToString(),
+                                                    UsuarioUltModif = row["UsuarioUltModif"].ToString(),
+                                                    FechaUltModif = row["FechaUltModif"].ToString(),
+                                                    HoraUltModif = row["HoraUltModif"].ToString(),
+                                                    BitActivo = row["BitActivo"].ToString()
+                                                };
+
+
+            if (!string.IsNullOrEmpty(searchValue))
+                query = query.Where(x => x.StoreNum.ToString().ToLower().Contains(searchValue)
+                    || x.Desc_UN.ToLower().Contains(searchValue)
+                    || x.IdTipoEnvio.ToString().ToLower().Contains(searchValue)
+                    || x.Desc_TipoEnvio.ToLower().Contains(searchValue)
+                    || x.UsuarioCreacion.ToLower().Contains(searchValue)
+                    || x.FechaCreacion.ToLower().Contains(searchValue)
+                    || x.HoraCreacion.ToLower().Contains(searchValue)
+                    || x.UsuarioUltModif.ToLower().Contains(searchValue)
+                    || x.FechaUltModif.ToLower().Contains(searchValue)
+                    || x.HoraUltModif.ToLower().Contains(searchValue)
+                    || x.BitActivo.ToLower().Contains(searchValue)
+                    );
+
+            //Filter By Columns
+            #region Filter By Columns
+            if (!string.IsNullOrEmpty(StoreNum))
+            {
+                query = query.Where(a => a.StoreNum.ToString().ToLower().Contains(StoreNum));
+            }
+            if (!string.IsNullOrEmpty(Desc_UN))
+            {
+                query = query.Where(a => a.Desc_UN.ToLower().Contains(Desc_UN));
+            }
+
+            if (!string.IsNullOrEmpty(IdTipoEnvio))
+            {
+                query = query.Where(a => a.IdTipoEnvio.ToString().ToLower().Contains(IdTipoEnvio));
+            }
+            if (!string.IsNullOrEmpty(Desc_TipoEnvio))
+            {
+                query = query.Where(a => a.Desc_TipoEnvio.ToLower().Contains(Desc_TipoEnvio));
+            }
+
+            if (!string.IsNullOrEmpty(UsuarioCreacion))
+            {
+                query = query.Where(a => a.UsuarioCreacion.ToLower().Contains(UsuarioCreacion));
+            }
+
+            if (!string.IsNullOrEmpty(FechaCreacion))
+            {
+                query = query.Where(a => a.FechaCreacion.ToLower().Contains(FechaCreacion));
+            }
+
+            if (!string.IsNullOrEmpty(HoraCreacion))
+            {
+                query = query.Where(a => a.HoraCreacion.ToLower().Contains(HoraCreacion));
+            }
+
+            if (!string.IsNullOrEmpty(UsuarioUltModif))
+            {
+                query = query.Where(a => a.UsuarioUltModif.ToLower().Contains(UsuarioUltModif));
+            }
+
+            if (!string.IsNullOrEmpty(FechaUltModif))
+            {
+                query = query.Where(a => a.FechaUltModif.ToLower().Contains(FechaUltModif));
+            }
+
+            if (!string.IsNullOrEmpty(HoraUltModif))
+            {
+                query = query.Where(a => a.HoraUltModif.ToLower().Contains(HoraUltModif));
+            }
+
+            if (!string.IsNullOrEmpty(BitActivo))
+            {
+                query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+            }
+
+            #endregion
+
+            recordsTotal = query.Count();
+
+            lst = query.Take(recordsTotal).ToList();
+
+            var d = new DataSet();
+
+            string nombreArchivo = "TipoEntregaSETC";
+
+            //Excel to create an object file
+
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+
+            //Add a sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+
+            //Here you can set a variety of styles seemingly font color backgrounds, but not very convenient, there is not set
+            //Sheet1 head to add the title of the first row
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+
+
+            row1.CreateCell(0).SetCellValue("StoreNum");
+            row1.CreateCell(1).SetCellValue("Desc_UN");
+            row1.CreateCell(2).SetCellValue("IdTipoEnvio");
+            row1.CreateCell(3).SetCellValue("Desc_TipoEnvio");
+            row1.CreateCell(4).SetCellValue("UsuarioCreacion");
+            row1.CreateCell(5).SetCellValue("FechaCreacion");
+            row1.CreateCell(6).SetCellValue("HoraCreacion");
+            row1.CreateCell(7).SetCellValue("UsuarioUltModif");
+            row1.CreateCell(8).SetCellValue("FechaUltModif");
+            row1.CreateCell(9).SetCellValue("HoraUltModif");
+            row1.CreateCell(10).SetCellValue("BitActivo");
+
+            //                                                
+            //The data is written progressively sheet1 each row
+            foreach (TipoEntregaSETC item in lst)
+            {
+
+            }
+            for (int i = 0; i < lst.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(lst[i].StoreNum.ToString());
+                rowtemp.CreateCell(1).SetCellValue(lst[i].Desc_UN.ToString());
+                rowtemp.CreateCell(2).SetCellValue(lst[i].IdTipoEnvio.ToString());
+                rowtemp.CreateCell(3).SetCellValue(lst[i].Desc_TipoEnvio.ToString());
+                rowtemp.CreateCell(4).SetCellValue(lst[i].UsuarioCreacion.ToString());
+                rowtemp.CreateCell(5).SetCellValue(lst[i].FechaCreacion.ToString());
+                rowtemp.CreateCell(6).SetCellValue(lst[i].HoraCreacion.ToString());
+                rowtemp.CreateCell(7).SetCellValue(lst[i].UsuarioUltModif.ToString());
+                rowtemp.CreateCell(8).SetCellValue(lst[i].FechaUltModif.ToString());
+                rowtemp.CreateCell(9).SetCellValue(lst[i].HoraUltModif.ToString());
+                rowtemp.CreateCell(10).SetCellValue(lst[i].BitActivo.ToString());
+
+            }
+
+
+
+            //  Write to the client 
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            book.Write(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            DateTime dt = DateTime.Now;
+
+            string dateTime = dt.ToString("yyyyMMddHHmmssfff");
+
+            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+
+            return File(ms, "application/vnd.ms-excel", fileName);
 
         }
 
