@@ -34,15 +34,24 @@
         $('#tblConsulta thead tr:eq(0) th').each(function (i) {
             if ($(this).attr('name') != "accion") {
                 var title = $(this).text();
-                $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+                $(this).html("<input type='search' class='form-control form-control-sm' placeholder='" + title + "' id='filtro"+i+"'  />");
 
                 $('input', this).on('keyup change', function () {
+                    debugger;
                     if (table.column(i).search() !== this.value) {
+                        debugger;
                         table
                             .column(i)
                             .search(this.value)
                             .draw();
                     }
+                });
+
+                $('input', this).on("input", function () {
+                    table
+                        .column(i)
+                        .search(this.value)
+                        .draw();
                 });
             } else {
                 $(this).empty();
@@ -121,6 +130,7 @@
                     }
                     , className: 'btn-primary'
                 }
+               
             ],
             fixedHeader: {
                 header: true,
@@ -131,8 +141,33 @@
             , "scrollCollapse": true
         });
     })
-        function Excel() {         
-            window.location = window.location.origin + '/Impex/ExcelPrueba';
+        function Excel() {
+      
+            _IdTransportista = $("#filtro0").val();
+            _NomTransportista = $("#filtro1").val();
+            _IdPlaza = $("#filtro2").val();
+            _CvePlaza = $("#filtro3").val();
+            _PostalCode = $("#filtro4").val();
+            _DescTipoEnvio = $("#filtro5").val();
+
+
+            _CreatedId = $("#filtro6").val();
+            _CreatedDate = $("#filtro7").val();
+            _CreatedTime = $("#filtro8").val();
+            _BitActivo = $("#filtro9").val();
+
+            var dataTable = $('#tblConsulta').DataTable();
+            var _searchValue = dataTable.search();
+         
+           
+            window.location = window.location.origin + '/Impex/ExcelPrueba?IdTransportista=' + _IdTransportista + "&NomTransportista=" + _NomTransportista
+                + "&IdPlaza=" + _IdPlaza + "&CvePlaza=" + _CvePlaza
+                + "&PostalCode=" + _PostalCode + "&DescTipoEnvio=" + _DescTipoEnvio
+                + "&CreatedId=" + _CreatedId + "&CreatedDate=" + _CreatedDate
+                + "&CreatedTime=" + _CreatedTime + "&BitActivo=" + _BitActivo
+                + "&searchValue=" + _searchValue
+
+           
         }
     </script>
 }
