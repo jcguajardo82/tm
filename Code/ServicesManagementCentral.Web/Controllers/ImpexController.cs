@@ -36,27 +36,311 @@ namespace ServicesManagement.Web.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult GetTransPlazas()
         {
             try
             {
-                List<TransportistaPlazasShow> list = new List<TransportistaPlazasShow>();
+                List<TransportistaPlazasShow> lst = new List<TransportistaPlazasShow>();
 
-                var ds = DALImpex.upCorpTms_Cns_TransportistaPlazas();
+                //logistica datatable
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
 
-                if (ds.Tables.Count > 0)
+
+
+                #region Se Obtienen Filtros Por Columna
+                var IdTransportista = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
+                var NomTransportista = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
+                var IdPlaza = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
+                var NomPlaza = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
+                var PostalCode = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
+                var DescTipoEnvio = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
+                var CvePlaza = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
+                var CreatedId = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+                var CreatedDate = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+                var CreatedTime = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
+                var BitActivo = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault().ToLower();
+                #endregion
+
+                pageSize = length != null ? Convert.ToInt32(length) : 0;
+                skip = start != null ? Convert.ToInt32(start) : 0;
+                recordsTotal = 0;
+
+                IQueryable<TransportistaPlazasShow> query = from row in DALImpex.upCorpTms_Cns_TransportistaPlazas().Tables[0].AsEnumerable().AsQueryable()
+                                                            select new TransportistaPlazasShow()
+                                                            {
+                                                                IdTransportista = row["IdTransportista"].ToString(),
+                                                                NomTransportista = row["NomTransportista"].ToString(),
+                                                                IdPlaza = int.Parse(row["IdPlaza"].ToString()),
+                                                                NomPlaza = row["NomPlaza"].ToString(),
+                                                                PostalCode = row["PostalCode"].ToString(),
+                                                                DescTipoEnvio = row["DescTipoEnvio"].ToString(),
+                                                                CvePlaza = row["CvePlaza"].ToString(),
+                                                                CreatedId = row["CreatedId"].ToString(),
+                                                                CreatedDate = row["CreatedDate"].ToString(),
+                                                                CreatedTime = row["CreatedTime"].ToString(),
+                                                                BitActivo = row["BitActivo"].ToString()
+                                                            };
+
+
+                if (searchValue != "")
+                    query = query.Where(d => d.IdTransportista.ToLower().Contains(searchValue)
+                    || d.NomTransportista.ToLower().Contains(searchValue)
+                    || d.IdPlaza.ToString().ToLower().Contains(searchValue)
+                    || d.NomPlaza.ToLower().Contains(searchValue)
+                    || d.PostalCode.ToLower().Contains(searchValue)
+                    || d.DescTipoEnvio.ToLower().Contains(searchValue)
+                    || d.CvePlaza.ToLower().Contains(searchValue)
+                    || d.CreatedId.ToLower().Contains(searchValue)
+                    || d.CreatedDate.ToLower().Contains(searchValue)
+                    || d.CreatedTime.ToLower().Contains(searchValue)
+                    || d.BitActivo.ToLower().Contains(searchValue)
+                    );
+
+                //Filter By Columns
+                #region Filter By Columns
+                if (!string.IsNullOrEmpty(IdTransportista))
                 {
-                    list = DataTableToModel.ConvertTo<TransportistaPlazasShow>(ds.Tables[0]);
+                    query = query.Where(a => a.IdTransportista.ToLower().Contains(IdTransportista));
+                }
+                if (!string.IsNullOrEmpty(NomTransportista))
+                {
+                    query = query.Where(a => a.NomTransportista.ToLower().Contains(NomTransportista));
                 }
 
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
+                if (!string.IsNullOrEmpty(IdPlaza))
+                {
+                    query = query.Where(a => a.IdPlaza.ToString().ToLower().Contains(IdPlaza));
+                }
+                if (!string.IsNullOrEmpty(CvePlaza))
+                {
+                    query = query.Where(a => a.CvePlaza.ToLower().Contains(CvePlaza));
+                }
+
+                if (!string.IsNullOrEmpty(PostalCode))
+                {
+                    query = query.Where(a => a.PostalCode.ToLower().Contains(PostalCode));
+                }
+
+                if (!string.IsNullOrEmpty(DescTipoEnvio))
+                {
+                    query = query.Where(a => a.DescTipoEnvio.ToLower().Contains(DescTipoEnvio));
+                }
+
+                if (!string.IsNullOrEmpty(CreatedId))
+                {
+                    query = query.Where(a => a.CreatedId.ToLower().Contains(CreatedId));
+                }
+
+                if (!string.IsNullOrEmpty(CreatedDate))
+                {
+                    query = query.Where(a => a.CreatedDate.ToLower().Contains(CreatedDate));
+                }
+                if (!string.IsNullOrEmpty(CreatedTime))
+                {
+                    query = query.Where(a => a.CreatedTime.ToLower().Contains(CreatedTime));
+                }
+
+                if (!string.IsNullOrEmpty(BitActivo))
+                {
+                    query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+                }
+
+                #endregion
+
+                //Sorting    
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    query = query.OrderBy(sortColumn + " " + sortColumnDir);
+
+                }
+
+                recordsTotal = query.Count();
+
+                lst = query.Skip(skip).Take(pageSize).ToList();
+
+
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = lst });
             }
             catch (Exception x)
             {
                 var result = new { Success = false, Message = x.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public FileResult ExcelTransPlazas(string IdTransportista
+            , string NomTransportista, string IdPlaza, string NomPlaza, string CreatedId
+            , string DescTipoEnvio, string CvePlaza, string PostalCode
+            , string CreatedDate, string CreatedTime, string BitActivo, string searchValue)
+
+        {
+            List<TransportistaPlazasShow> lst = new List<TransportistaPlazasShow>();
+
+            IQueryable<TransportistaPlazasShow> query = from row in DALImpex.upCorpTms_Cns_TransportistaPlazas().Tables[0].AsEnumerable().AsQueryable()
+                                                        select new TransportistaPlazasShow()
+                                                        {
+                                                            IdTransportista = row["IdTransportista"].ToString(),
+                                                            NomTransportista = row["NomTransportista"].ToString(),
+                                                            IdPlaza = int.Parse(row["IdPlaza"].ToString()),
+                                                            NomPlaza = row["NomPlaza"].ToString(),
+                                                            PostalCode = row["PostalCode"].ToString(),
+                                                            DescTipoEnvio = row["DescTipoEnvio"].ToString(),
+                                                            CvePlaza = row["CvePlaza"].ToString(),
+                                                            CreatedId = row["CreatedId"].ToString(),
+                                                            CreatedDate = row["CreatedDate"].ToString(),
+                                                            CreatedTime = row["CreatedTime"].ToString(),
+                                                            BitActivo = row["BitActivo"].ToString()
+                                                        };
+
+            if (!string.IsNullOrEmpty(searchValue))
+                query = query.Where(x => x.IdTransportista.ToLower().Contains(searchValue)
+                || x.NomTransportista.ToLower().Contains(searchValue)
+                || x.IdPlaza.ToString().ToLower().Contains(searchValue)
+                || x.NomPlaza.ToLower().Contains(searchValue)
+                || x.PostalCode.ToLower().Contains(searchValue)
+                || x.DescTipoEnvio.ToLower().Contains(searchValue)
+                || x.CvePlaza.ToLower().Contains(searchValue)
+                || x.CreatedId.ToLower().Contains(searchValue)
+                || x.CreatedDate.ToLower().Contains(searchValue)
+                || x.CreatedTime.ToLower().Contains(searchValue)
+                || x.BitActivo.ToLower().Contains(searchValue)
+                );
+
+            //Filter By Columns
+            #region Filter By Columns
+            if (!string.IsNullOrEmpty(IdTransportista))
+            {
+                query = query.Where(a => a.IdTransportista.ToLower().Contains(IdTransportista));
+            }
+            if (!string.IsNullOrEmpty(NomTransportista))
+            {
+                query = query.Where(a => a.NomTransportista.ToLower().Contains(NomTransportista));
+            }
+
+            if (!string.IsNullOrEmpty(IdPlaza))
+            {
+                query = query.Where(a => a.IdPlaza.ToString().ToLower().Contains(IdPlaza));
+            }
+
+            if (!string.IsNullOrEmpty(NomPlaza))
+            {
+                query = query.Where(a => a.NomPlaza.ToLower().Contains(NomPlaza));
+            }
+
+            if (!string.IsNullOrEmpty(PostalCode))
+            {
+                query = query.Where(a => a.PostalCode.ToLower().Contains(PostalCode));
+            }
+
+            if (!string.IsNullOrEmpty(DescTipoEnvio))
+            {
+                query = query.Where(a => a.DescTipoEnvio.ToLower().Contains(DescTipoEnvio));
+            }
+
+            if (!string.IsNullOrEmpty(CvePlaza))
+            {
+                query = query.Where(a => a.CvePlaza.ToLower().Contains(CvePlaza));
+            }
+
+            if (!string.IsNullOrEmpty(CreatedId))
+            {
+                query = query.Where(a => a.CreatedId.ToLower().Contains(CreatedId));
+            }
+
+            if (!string.IsNullOrEmpty(CreatedDate))
+            {
+                query = query.Where(a => a.CreatedDate.ToLower().Contains(CreatedDate));
+            }
+            if (!string.IsNullOrEmpty(CreatedTime))
+            {
+                query = query.Where(a => a.CreatedTime.ToLower().Contains(CreatedTime));
+            }
+
+            if (!string.IsNullOrEmpty(BitActivo))
+            {
+                query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+            }
+
+            #endregion
+
+
+            recordsTotal = query.Count();
+
+            lst = query.Take(recordsTotal).ToList();
+
+            var d = new DataSet();
+
+            string nombreArchivo = "TransportistaZonaCostos";
+
+            //Excel to create an object file
+
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+
+            //Add a sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+
+            //Here you can set a variety of styles seemingly font color backgrounds, but not very convenient, there is not set
+            //Sheet1 head to add the title of the first row
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+
+            row1.CreateCell(0).SetCellValue("IdTransportista");
+            row1.CreateCell(1).SetCellValue("NomTransportista");
+            row1.CreateCell(2).SetCellValue("IdPlaza");
+            row1.CreateCell(3).SetCellValue("NomPlaza");
+            row1.CreateCell(4).SetCellValue("PostalCode");
+            row1.CreateCell(5).SetCellValue("DescTipoEnvio");
+            row1.CreateCell(6).SetCellValue("CvePlaza");
+            row1.CreateCell(7).SetCellValue("CreatedId");
+            row1.CreateCell(8).SetCellValue("CreatedDate");
+            row1.CreateCell(9).SetCellValue("CreatedTime");
+            row1.CreateCell(10).SetCellValue("BitActivo");
+
+            //                                                
+            //The data is written progressively sheet1 each row
+            foreach (TransportistaPlazasShow item in lst)
+            {
+
+            }
+            for (int i = 0; i < lst.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(lst[i].IdTransportista.ToString());
+                rowtemp.CreateCell(1).SetCellValue(lst[i].NomTransportista.ToString());
+                rowtemp.CreateCell(2).SetCellValue(lst[i].IdPlaza.ToString());
+                rowtemp.CreateCell(3).SetCellValue(lst[i].NomPlaza.ToString());
+                rowtemp.CreateCell(4).SetCellValue(lst[i].PostalCode.ToString());
+                rowtemp.CreateCell(5).SetCellValue(lst[i].DescTipoEnvio.ToString());
+                rowtemp.CreateCell(6).SetCellValue(lst[i].CvePlaza.ToString());
+                rowtemp.CreateCell(7).SetCellValue(lst[i].CreatedId.ToString());
+                rowtemp.CreateCell(8).SetCellValue(lst[i].CreatedDate.ToString());
+                rowtemp.CreateCell(9).SetCellValue(lst[i].CreatedTime.ToString());
+                rowtemp.CreateCell(10).SetCellValue(lst[i].BitActivo.ToString());
+
+            }
+
+            //  Write to the client 
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            book.Write(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            DateTime dt = DateTime.Now;
+
+            string dateTime = dt.ToString("yyyyMMddHHmmssfff");
+
+            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+
+            return File(ms, "application/vnd.ms-excel", fileName);
+
         }
 
         [HttpPost]
