@@ -45,6 +45,8 @@ namespace ServicesManagement.Web.Controllers
         public string CategoriaArt2 { get; set; }
     }
 
+
+
     public class codigoPostalModels
     {
 
@@ -4023,24 +4025,6 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.TipoEntregaSETC_sUp().Tables[0]);
-
-                var result = new { Success = true, resp = list };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                var result = new { Success = false, Message = x.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        [HttpPost]
-        public ActionResult GetTipoEntregaSETCId(int IdTipoEntrega)
-        {
-            try
-            {
                 List<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC> lst = new List<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC>();
 
                 //logistica datatable
@@ -4075,21 +4059,21 @@ namespace ServicesManagement.Web.Controllers
                 skip = start != null ? Convert.ToInt32(start) : 0;
                 recordsTotal = 0;
 
-                IQueryable<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC> query = from row in DALImpex.upCorpTms_Cns_TransportistaPlazas().Tables[0].AsEnumerable().AsQueryable()
-                                                            select new ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC()
-                                                            {
-                                                                StoreNum = int.Parse(row["StoreNum"].ToString()),
-                                                                Desc_UN = row["Desc_UN"].ToString(),
-                                                                IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),
-                                                                Desc_TipoEnvio = row["Desc_TipoEnvio"].ToString(),
-                                                                UsuarioCreacion = row["UsuarioCreacion"].ToString(),
-                                                                FechaCreacion = row["FechaCreacion"].ToString(),
-                                                                HoraCreacion = row["HoraCreacion"].ToString(),
-                                                                UsuarioUltModif = row["UsuarioUltModif"].ToString(),
-                                                                FechaUltModif = row["FechaUltModif"].ToString(),
-                                                                HoraUltModif = row["HoraUltModif"].ToString(),
-                                                                BitActivo = row["BitActivo"].ToString()
-                                                            };
+                IQueryable<ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC> query = from row in DALCatalogo.TipoEntregaSETC_sUp().Tables[0].AsEnumerable().AsQueryable()
+                                                                                            select new ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC()
+                                                                                            {
+                                                                                                StoreNum = int.Parse(row["StoreNum"].ToString()),
+                                                                                                Desc_UN = row["Desc_UN"].ToString(),
+                                                                                                IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),
+                                                                                                Desc_TipoEnvio = row["Desc_TipoEnvio"].ToString(),
+                                                                                                UsuarioCreacion = row["UsuarioCreacion"].ToString(),
+                                                                                                FechaCreacion = row["FechaCreacion"].ToString(),
+                                                                                                HoraCreacion = row["HoraCreacion"].ToString(),
+                                                                                                UsuarioUltModif = row["UsuarioUltModif"].ToString(),
+                                                                                                FechaUltModif = row["FechaUltModif"].ToString(),
+                                                                                                HoraUltModif = row["HoraUltModif"].ToString(),
+                                                                                                BitActivo = row["BitActivo"].ToString()
+                                                                                            };
 
 
 
@@ -4190,6 +4174,24 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
+
+        public ActionResult GetTipoEntregaSETCId(int IdTipoEntrega)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoEntregaSETC>(DALCatalogo.TipoEntregaSETCById_sUp(IdTipoEntrega).Tables[0]).FirstOrDefault();
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
         public ActionResult AddTipoEntregaSETC(string StoreNum, string IdTipoEnvio, int BitActivo)
         {
             try
