@@ -511,8 +511,6 @@ namespace ServicesManagement.Web.Controllers
                 var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
                 var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
 
-
-
                 #region Se Obtienen Filtros Por Columna
                 var IdTransportista = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
                 var NombreTransportista = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
@@ -521,11 +519,11 @@ namespace ServicesManagement.Web.Controllers
                 var Cve_PlazaDestino = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
                 var NombrePlazaDestino = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
                 var IdZona = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
-                var NombreZona = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
-                var CreatedId = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
-                var CreatedDate = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
-                var CreatedTime = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
-                var BitActivo = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault().ToLower();
+                var NombreZona = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+                var CreatedId = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+                var CreatedDate = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
+                var CreatedTime = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault().ToLower();
+                var BitActivo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault().ToLower();
                 #endregion
 
                 pageSize = length != null ? Convert.ToInt32(length) : 0;
@@ -571,6 +569,7 @@ namespace ServicesManagement.Web.Controllers
                 {
                     query = query.Where(a => a.IdTransportista.ToString().ToLower().Contains(IdTransportista));
                 }
+
                 if (!string.IsNullOrEmpty(NombreTransportista))
                 {
                     query = query.Where(a => a.NombreTransportista.ToLower().Contains(NombreTransportista));

@@ -35,7 +35,6 @@
                         <th style="text-align:center;">Nombre Plaza Destino</th>
                         <th style="text-align:center;">Id Zona</th>
                         <th style="text-align:center;">Nombre Zona</th>
-                        <th style="text-align:center;">Cargado Por</th>
                         <th style="text-align:center;">Usuario de Actualización</th>
                         <th style="text-align:center;">Fecha de Actualización</th>
                         <th style="text-align:center;">Hora de Actualización</th>
@@ -165,62 +164,62 @@
             , "scrollY": "500px"
             , "scrollCollapse": true
         });
-
     });
 
 </script>
-    <script>
 
-        $(document).on("click", "#btnUpload", function () {
-            var files = $("#importFile").get(0).files;
+<script>
 
-            var formData = new FormData();
-            formData.append('importFile', files[0]);
+    $(document).on("click", "#btnUpload", function () {
+        var files = $("#importFile").get(0).files;
 
-            $.ajax({
-                url: '/Impex/ImportFileCobPlaza',
-                data: formData,
-                type: 'POST',
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    if (data.Status === 1) {
-                        //alert(data.Message);
-                        location.reload();
-                    } else {
-                        alert("Failed to Import");
-                    }
+        var formData = new FormData();
+        formData.append('importFile', files[0]);
+
+        $.ajax({
+            url: '/Impex/ImportFileCobPlaza',
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.Status === 1) {
+                    //alert(data.Message);
+                    location.reload();
+                } else {
+                    alert("Failed to Import");
                 }
-            });
+            }
         });
+    });
 
-        function Excel() {
+    function Excel() {
 
-            _IdTransportista = $("#filtro0").val();
-            _NombreTransportista = $("#filtro1").val();
-            _Cve_PlazaOrigen = $("#filtro2").val();
-            _NombrePlazaOrigen = $("#filtro3").val();
-            _Cve_PlazaDestino = $("#filtro4").val();
-            _NombrePlazaDestino = $("#filtro5").val();
-            _IdZona = $("#filtro6").val();
-            _NombreZona = $("#filtro7").val();
-            _CreatedId = $("#filtro8").val();
-            _CreatedDate = $("#filtro9").val();
-            _CreatedTime = $("#filtro10").val();
-            _BitActivo = $("#filtro11").val();
+        _IdTransportista = $("#filtro0").val();
+        _NombreTransportista = $("#filtro1").val();
+        _Cve_PlazaOrigen = $("#filtro2").val();
+        _NombrePlazaOrigen = $("#filtro3").val();
+        _Cve_PlazaDestino = $("#filtro4").val();
+        _NombrePlazaDestino = $("#filtro5").val();
+        _IdZona = $("#filtro6").val();
+        _NombreZona = $("#filtro7").val();
+        _CreatedId = $("#filtro8").val();
+        _CreatedDate = $("#filtro9").val();
+        _CreatedTime = $("#filtro10").val();
+        _BitActivo = $("#filtro11").val();
 
-            var dataTable = $('#tblConsulta').DataTable();
-            var _searchValue = dataTable.search();
+        var dataTable = $('#tblConsulta').DataTable();
+        var _searchValue = dataTable.search();
 
 
-            window.location = window.location.origin + '/Impex/ExcelCoberturaOrigenDestino?IdTransportista=' + _IdTransportista + "&NombreTransportista=" + _NombreTransportista
-                + "&Cve_PlazaOrigen=" + _Cve_PlazaOrigen + "&NombrePlazaOrigen=" + _NombrePlazaOrigen
-                + "&Cve_PlazaDestino=" + _Cve_PlazaDestino + "&NombrePlazaDestino=" + _NombrePlazaDestino
-                + "&IdZona=" + _IdZona + "&NombreZona=" + _NombreZona
-                + "&CreatedId=" + _CreatedId + "&CreatedDate=" + _CreatedDate
-                + "&CreatedTime=" + _CreatedTime + "&BitActivo=" + _BitActivo
-                + "&searchValue=" + _searchValue
-        }
+        window.location = window.location.origin + '/Impex/ExcelCoberturaOrigenDestino?IdTransportista=' + _IdTransportista + "&NombreTransportista=" + _NombreTransportista
+            + "&Cve_PlazaOrigen=" + _Cve_PlazaOrigen + "&NombrePlazaOrigen=" + _NombrePlazaOrigen
+            + "&Cve_PlazaDestino=" + _Cve_PlazaDestino + "&NombrePlazaDestino=" + _NombrePlazaDestino
+            + "&IdZona=" + _IdZona + "&NombreZona=" + _NombreZona
+            + "&CreatedId=" + _CreatedId + "&CreatedDate=" + _CreatedDate
+            + "&CreatedTime=" + _CreatedTime + "&BitActivo=" + _BitActivo
+            + "&searchValue=" + _searchValue
+    }
 
-    </script>  }
+</script>  }
 
