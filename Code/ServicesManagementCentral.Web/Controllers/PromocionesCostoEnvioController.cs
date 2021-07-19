@@ -56,7 +56,7 @@ namespace ServicesManagement.Web.Controllers
              int? IdTipoEnvio, int? IdTipoServicio, string Cve_CategSAP, string Desc_CategSAP, string Cve_GciaCategSAP, string Desc_GciaCategSAP
             , string Material_MATNR, int? Id_Num_CodBarra, string nombre_SKU, decimal PesoMinimo, decimal PesoMaximo, int? IdTipoLogistica, int MesesSinIntereses
             , decimal ComprasMayor, decimal ComprasMenor, string FechaInicioPromo, string HoraInicioPromo, string FechaFinPromo, string HoraFinPromo
-            , decimal CostoEspecial, decimal TarifaDesc)
+            , decimal? CostoEspecial, decimal? TarifaDesc)
         {
             try
             {

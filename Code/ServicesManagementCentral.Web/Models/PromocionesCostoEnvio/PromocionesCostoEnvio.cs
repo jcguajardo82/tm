@@ -8,9 +8,9 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
     public class PromocionesCostoEnvio
     {
         public int cnscPromo { get; set; }
-        public int IdTipoCatalogo { get; set; }
-        public int IdOwner { get; set; }
-        public int IdFormatoTienda { get; set; }
+        public string IdTipoCatalogo { get; set; }
+        public string IdOwner { get; set; }
+        public string IdFormatoTienda { get; set; }
         public string PostalCodeOrig { get; set; }
         public string PostalCodeDestino { get; set; }
         public string CiudadOrig { get; set; }
@@ -18,31 +18,31 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
         public string EdoOrig { get; set; }
         public string EdoDest { get; set; }
 
-        public int IdSupplierWH { get; set; }
+        public string IdSupplierWH { get; set; }
         public string SupplierName { get; set; }
-        public int IdTransportista { get; set; }
+        public string IdTransportista { get; set; }
         public string NombreTransportista { get; set; }
-        public int IdTipoEnvio { get; set; }
-        public int IdTipoServicio { get; set; }
+        public string IdTipoEnvio { get; set; }
+        public string IdTipoServicio { get; set; }
         public string Cve_CategSAP { get; set; }
         public string Desc_CategSAP { get; set; }
         public string Cve_GciaCategSAP { get; set; }
         public string Desc_GciaCategSAP { get; set; }
-        public int Material_MATNR { get; set; }
-        public int Id_Num_CodBarra { get; set; }
+        public string Material_MATNR { get; set; }
+        public string Id_Num_CodBarra { get; set; }
         public string Nombre_SKU { get; set; }
-        public decimal PesoMinimo { get; set; }
-        public decimal PesoMaximo { get; set; }
-        public int IdTipoLogistica { get; set; }
-        public int MesesSinIntereses { get; set; }
-        public decimal ComprasMayor { get; set; }
-        public decimal ComprasMenor { get; set; }
+        public string PesoMinimo { get; set; }
+        public string PesoMaximo { get; set; }
+        public string IdTipoLogistica { get; set; }
+        public string MesesSinIntereses { get; set; }
+        public string ComprasMayor { get; set; }
+        public string ComprasMenor { get; set; }
         public string FechaInicioPromo { get; set; }
         public string HoraInicioPromo { get; set; }
         public string FechaFinPromo { get; set; }
         public string HoraFinPromo { get; set; }
-        public decimal CostoEspecial { get; set; }
-        public decimal TarifaDesc { get; set; }
+        public decimal? CostoEspecial { get; set; }
+        public decimal? TarifaDesc { get; set; }
         public string FechaUltModif { get; set; }
         public string HoraUltModif { get; set; }
         public string UsuarioUltModif { get; set; }

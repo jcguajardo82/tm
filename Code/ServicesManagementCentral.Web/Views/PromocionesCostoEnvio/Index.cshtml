@@ -164,13 +164,13 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>C.P. Origen</label>
-                                <input type="number" id="txtCpOrigen" onkeypress="return event.charCode >= 48"  min="0" class="form-control" />
+                                <input type="number" id="txtCpOrigen" onkeypress="return event.charCode >= 48" min="0" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>C.P. Destino</label>
-                                <input type="number" id="txtCpDestino" onkeypress="return event.charCode >= 48"  min="0" class="form-control" />
+                                <input type="number" id="txtCpDestino" onkeypress="return event.charCode >= 48" min="0" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -308,25 +308,25 @@
                                 <label>
                                     Costo especial ($)
                                 </label>
-                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48"  min="0" id="txtCostoEsp" class="form-control" />
+                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48" min="0" id="txtCostoEsp" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Aplica tarifa descuento  (%) </label>
-                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48"  min="0" id="txtTarifaDesc" class="form-control" />
+                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48" min="0" id="txtTarifaDesc" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>$ Compras mayor a </label>
-                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48"  min="0" id="txtComprasMayor" class="form-control" />
+                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48" min="0" id="txtComprasMayor" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>$ Compras menor a</label>
-                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48"  min="0" id="txtComprasMenor" class="form-control" />
+                                <input type="number" oninput='input(this)' onkeypress="return event.charCode >= 48" min="0" id="txtComprasMenor" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -610,41 +610,28 @@
             var _IdTipoServicio = $("#ddlTipoServicio").val();
             var _IdTipoLogistica = $("#ddlTipoLogistica").val();
 
-            if (_cnscPromo.toString() == "0") {
-                if (_IdTipoCatalogo == "0") {
-                    $("#ddlCatalogo").focus();
-                    return;
-                }
-                if ($("#txtFecIniTarifa").val() == "") {
-                    $("#txtFecIniTarifa").focus();
-                    return;
-                }
-                if ($("#txtHoraIniTarifa").val() == "") {
-                    $("#txtHoraIniTarifa").focus();
-                    return;
-                }
-                if ($("#txtFecFinTarifa").val() == "") {
-                    $("#txtFecFinTarifa").focus();
-                    return;
-                }
-                if ($("#txtHoraFinTarifa").val() == "") {
-                    $("#txtHoraFinTarifa").focus();
-                    return;
-                }
-                if ($("#txtCostoEsp").val() == "") {
-                    $("#txtCostoEsp").focus();
-                    return;
-                }
-                if ($("#txtTarifaDesc").val() == "") {
-                    $("#txtTarifaDesc").focus();
-                    return;
-                }
-
+            if (_IdTipoCatalogo == "0") {
+                $("#ddlCatalogo").focus();
+                return;
             }
-            //if (_IdTipoLogistica == "0") {
-            //    $("#ddlTipoLogistica").focus();
-            //    return;
-            //}
+            if ($("#txtFecIniTarifa").val() == "") {
+                $("#txtFecIniTarifa").focus();
+                return;
+            }
+            if ($("#txtHoraIniTarifa").val() == "") {
+                $("#txtHoraIniTarifa").focus();
+                return;
+            }
+            if ($("#txtFecFinTarifa").val() == "") {
+                $("#txtFecFinTarifa").focus();
+                return;
+            }
+            if ($("#txtHoraFinTarifa").val() == "") {
+                $("#txtHoraFinTarifa").focus();
+                return;
+            }
+
+
 
 
             _BitActivo = $("#id_estatus").val();
@@ -675,6 +662,19 @@
             _TarifaDesc = $("#txtTarifaDesc").val();
 
 
+            if (_CostoEspecial.length == 0 && _TarifaDesc.length == 0) {
+                $("#txtCostoEsp").focus();
+                return;
+            }
+
+            if (_CostoEspecial.length > 0 && _TarifaDesc.length > 0) {
+                $("#txtCostoEsp").focus();
+                $("#txtTarifaDesc").val('');
+                $("#txtCostoEsp").val('');
+                return;
+            }
+
+            debugger;
             $.ajax({
                 async: false,
                 type: "POST",
@@ -691,11 +691,11 @@
                     , EdoOrig: _EdoOrig
                     , EdoDest: _EdoDest
                     , IdSupplierWH: _IdSupplierWH == '' ? null : _IdSupplierWH
-                    , SupplierName: _SupplierName
+                    , SupplierName: _IdSupplierWH == '0' ? null : _SupplierName 
                     , IdTransportista: _IdTransportista == '' ? null :_IdTransportista
                     , NombreTransportista: ''
                     , IdTipoEnvio: _IdTipoEnvio == '' ? null : _IdTipoEnvio
-                    , IdTipoServicio: _IdTipoServicio == '' ? null :_IdTipoServicio 
+                    , IdTipoServicio: _IdTipoServicio == '' ? null :_IdTipoServicio
                     , Cve_CategSAP: _Cve_CategSAP
                     , Desc_CategSAP: _Desc_CategSAP
                     , Cve_GciaCategSAP: _Cve_GciaCategSAP
