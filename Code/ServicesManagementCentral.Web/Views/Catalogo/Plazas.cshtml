@@ -3,6 +3,12 @@
     ViewBag.Title = "Plazas";
 }
 
+<style>
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -18,7 +24,7 @@
 
         <br />
 
-        <div class="row">
+        <div class="row scroll_horizontal">
             <div class="col-12">
                 <table id="example" class="table table-striped dataTable" style="width:100%">
                     <thead>
@@ -27,7 +33,7 @@
                             <th>Clave Plaza</th>
                             <th>Plaza</th>
                             @*<th>Fecha de creacion</th>
-                            <th>Hora Creacion</th>*@
+                                <th>Hora Creacion</th>*@
                             <th>Usuario Creacion</th>
                             <th>Fecha de Actualizacion</th>
                             <th>Hora de Actualizacion</th>
@@ -422,7 +428,7 @@
 
                     debugger;
                     if (json.Success) {
-                    
+
                         var myTable = $('#example').DataTable();
                         myTable.clear().draw();
                         for (var i = 0; i < json.resp.length; i++) {
@@ -469,7 +475,7 @@
                 type: "GET",
                 url: '@Url.Action("AddPlazas", "Catalogo")',
                 data: {
-                             
+
                     Desc_Plaza: document.getElementById("in_Plaza").value,
                     cve_Plaza: document.getElementById("in_claveplaza").value,
                     BitActivo: document.getElementById("id_estatus").value

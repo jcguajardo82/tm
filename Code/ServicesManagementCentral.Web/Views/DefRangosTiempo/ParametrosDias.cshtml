@@ -4,6 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
+</style>
+
 @using (Html.BeginForm())
 {
     <div class="row">
@@ -16,7 +23,7 @@
 
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
         <br />
-        <div class="row">
+        <div class="row scroll_horizontal">
             <div class="col-12">
                 <table id="example" class="table table-striped dataTable" style="width:100%">
                     <thead>

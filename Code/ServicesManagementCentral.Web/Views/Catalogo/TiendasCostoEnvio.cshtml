@@ -3,8 +3,12 @@
     ViewBag.Title = "Costos de envio por Tienda";
 }
 
-
-
+<style>
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
+</style>
 
 @using (Html.BeginForm())
 {
@@ -19,7 +23,7 @@
         <br />
         @*<table id="tblConsulta" class="table table-striped dataTable" style="width:100%">*@
         <div class="row" id="dualListInvs" style="margin-left: 1%;margin-right: 1%;overflow-x: scroll;">
-            <div class="row" id="gridInvs">
+            <div class="row scroll_horizontal" id="gridInvs">
                 <br />
                 <div class="col-12">
 

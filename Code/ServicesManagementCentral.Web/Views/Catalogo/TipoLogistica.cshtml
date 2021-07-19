@@ -23,6 +23,11 @@
         width: 100%;
         height: calc(100vh);
     }
+
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
 </style>
 
 @using (Html.BeginForm())
@@ -69,30 +74,30 @@
                                     var myDataSet = Session["listaTL"] as System.Data.DataSet;
                                     foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                     {
-                                                        <tr>
-                                                            <td>@r["IdTipoLogistica"]</td>
-                                                            <td>@r["TipoLogistica"]</td>
-                                                            <td>@r["MinPesoVolumetrico"]</td>
-                                                            <td>@r["MaxPesoVolumetrico"]</td>
-                                                            <td>@r["MaxCosto"]</td>
-                                                            <td>@r["TipoCatalagos"]</td>
-                                                            <td>@r["UsuarioCreacion"]</td>
-                                                            <td>@r["FechaUltModif"]</td>
-                                                            <td>@r["TimeUltModif"]</td>
-                                                            @*<td>@r["BitActivo"]</td>*@
-                                                            @if (r["BitActivo"].ToString() == "1")
-                                                            {
-                                                                <td>Activo</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td>Inactivo</td>
-                                                            }
-                                                            @*<td>@r["Fecha"]</td>*@
-                                                            <td>
-                                                                <button type="button" title="Editar" onclick="SelectItem('@r["IdTipoLogistica"]','@r["IdTipoLogistica"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                                            </td>
-                                                        </tr>
+                                        <tr>
+                                            <td>@r["IdTipoLogistica"]</td>
+                                            <td>@r["TipoLogistica"]</td>
+                                            <td>@r["MinPesoVolumetrico"]</td>
+                                            <td>@r["MaxPesoVolumetrico"]</td>
+                                            <td>@r["MaxCosto"]</td>
+                                            <td>@r["TipoCatalagos"]</td>
+                                            <td>@r["UsuarioCreacion"]</td>
+                                            <td>@r["FechaUltModif"]</td>
+                                            <td>@r["TimeUltModif"]</td>
+                                            @*<td>@r["BitActivo"]</td>*@
+                                            @if (r["BitActivo"].ToString() == "1")
+                                            {
+                                                <td>Activo</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Inactivo</td>
+                                            }
+                                            @*<td>@r["Fecha"]</td>*@
+                                            <td>
+                                                <button type="button" title="Editar" onclick="SelectItem('@r["IdTipoLogistica"]','@r["IdTipoLogistica"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                            </td>
+                                        </tr>
 
                                     }
                                 }
@@ -183,13 +188,13 @@
                                     <div class="form-group">
                                         <label>Tipo Catalogo</label>
                                         <br />
-                   
-                                            <input name="tipoCatalogo" id="grocery" type="checkbox" value="grocery"/>
-                                            <label for="tipoCatalogo" >Grocery</label>
-                                        
-                                            <input name="tipoCatalogo" id="nongrocery" type="checkbox" value="non-grocery"/>
-                                            <label for="tipoCatalogo">Non-Grocery</label>
-                                        
+
+                                        <input name="tipoCatalogo" id="grocery" type="checkbox" value="grocery" />
+                                        <label for="tipoCatalogo">Grocery</label>
+
+                                        <input name="tipoCatalogo" id="nongrocery" type="checkbox" value="non-grocery" />
+                                        <label for="tipoCatalogo">Non-Grocery</label>
+
 
                                     </div>
                                 </div>
@@ -379,14 +384,14 @@
                         //document.getElementById("in_pesoMax").value = json.pmx;
                         //document.getElementById("in_estatus").value = json.e;
 
-                        //Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e 
+                        //Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e
                             document.getElementById("in_descripcion").value = json.tl;
                             document.getElementById("in_MinPesoVolumetrico").value = json.mp;
                             document.getElementById("in_MaxPesoVolumetrico").value = json.mxp;
                             document.getElementById("in_MaxCosto").value = json.mx;
                             //document.getElementById("in_tipoArticulo").value = json.ta;
-                            document.getElementById("in_estatus").value = json.e;                        
-                        
+                            document.getElementById("in_estatus").value = json.e;
+
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -438,7 +443,7 @@
 
             var _array = item.split(',');
             //console.log(_array);
-            
+
             var selected = [];
             _array.forEach(x => {
                 for (var i = 0; i < checkboxes.length; i++) {
@@ -447,7 +452,7 @@
                         checkboxes[i].checked = true;
                 }
             });
-            
+
 
         }
 
@@ -723,7 +728,7 @@
 
                 count++;
             });
-        
+
             //alert(_tipoCat);
             $.ajax({
                 async: false,

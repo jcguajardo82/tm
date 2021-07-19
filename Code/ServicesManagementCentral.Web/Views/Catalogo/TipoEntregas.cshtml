@@ -30,7 +30,7 @@
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
         border-radius: 4px;
         font-size: 11px;
-        width:450px
+        width: 450px
     }
 
     .vsb-js-search-zone {
@@ -55,7 +55,7 @@
         display: inline-block;
         vertical-align: middle;
         text-align: left;
-        width:100%;
+        width: 100%;
     }
 
     .vsb-menu li:hover {
@@ -100,7 +100,7 @@
         text-align: left;
         z-index: 1;
         color: yellow;
-        background:red !important;
+        background: red !important;
         border: 1px solid #999 !important;
         line-height: 20px;
         font-size: 14px;
@@ -123,7 +123,6 @@
 
     .vsb-main ul {
         white-space: nowrap;
-      
     }
 
     .vsb-menu li {
@@ -214,7 +213,7 @@
     .vsb-menu .multi li {
         font-size: 14px;
         background-color: #fff;
-        width:600px;
+        width: 600px;
     }
 
         .vsb-menu .multi li.grouped-option {
@@ -296,6 +295,11 @@
         width: 100%;
         height: calc(100vh);
     }
+
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
 </style>
 
 @using (Html.BeginForm())
@@ -346,30 +350,30 @@
                                     var myDataSet = Session["listaTE"] as System.Data.DataSet;
                                     foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                     {
-                                                        <tr>
-                                                            <td>@r["Id_TipoEntrega"]</td>
-                                                            <td>@r["Descripcion"]</td>
-                                                            <td>@r["TipoCatalogo"]</td>
-                                                            <td>@r["Desc_TipoAlmacen"]</td>
-                                                            <td>@r["Id_CategoriaArt"]</td>
-                                                            <td>@r["Peso_min"]</td>
-                                                            <td>@r["Peso_max"]</td>
-                                                            <td>@r["Usuario"]</td>
-                                                            <td>@r["Fec_Movto"]</td>
-                                                            <td>@r["Time_Movto"]</td>
-                                                            @*<td>@r["BitActivo"]</td>*@
-                                                            @if (r["BitActivo"].ToString() == "1")
-                                                            {
-                                                                <td>Activo</td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td>Inactivo</td>
-                                                            }
-                                                            <td>
-                                                                <button type="button" title="Editar" onclick="SelectItem('@r["Id_TipoEntrega"]','@r["Id_TipoEntrega"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
-                                                            </td>
-                                                        </tr>
+                                        <tr>
+                                            <td>@r["Id_TipoEntrega"]</td>
+                                            <td>@r["Descripcion"]</td>
+                                            <td>@r["TipoCatalogo"]</td>
+                                            <td>@r["Desc_TipoAlmacen"]</td>
+                                            <td>@r["Id_CategoriaArt"]</td>
+                                            <td>@r["Peso_min"]</td>
+                                            <td>@r["Peso_max"]</td>
+                                            <td>@r["Usuario"]</td>
+                                            <td>@r["Fec_Movto"]</td>
+                                            <td>@r["Time_Movto"]</td>
+                                            @*<td>@r["BitActivo"]</td>*@
+                                            @if (r["BitActivo"].ToString() == "1")
+                                            {
+                                                <td>Activo</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Inactivo</td>
+                                            }
+                                            <td>
+                                                <button type="button" title="Editar" onclick="SelectItem('@r["Id_TipoEntrega"]','@r["Id_TipoEntrega"]')" class="btn btn-white btn-circle"> <i class="fa fa-edit"></i></button>
+                                            </td>
+                                        </tr>
 
                                     }
                                 }
@@ -446,7 +450,6 @@
                                         <div class="form-group">
                                             <label>Tipo Almacen</label>
                                             <select class="form-control" id="ddlAlmacen" name="ddlAlmacen">
-
                                             </select>
                                         </div>
                                     </div>
@@ -472,11 +475,11 @@
                                                         }
                                                     }
                                                 }
-                        
-                        
+
+
                                             </select>
                                         </div>
-                                    
+
                                     </div>
                                 </div>
                                 <div class="col col-xs-8 col-md-4">
@@ -709,7 +712,7 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-                        
+
                         empty();
                         if (json.ca != '') {
                             var _arrayCateg = json.ca.split(',');
@@ -779,7 +782,7 @@
         $(document).ready(function () {
 
             IniciarComboTipoAlmacen();
-            
+
             init("selectCategorias");
             //$('input[type=checkbox]').change(function () { alert(document.getElementById("id_TS").value) });
              $('#Table_Inv').DataTable(
@@ -1049,7 +1052,7 @@
 
             if (_tipoCat == '') {
                 $("#tipoCatalogo").focus();
-                return;  
+                return;
             }
 
             if ($("#ddlAlmacen").val() == '0') {
@@ -1071,7 +1074,7 @@
                 count++;
             });
 
-            
+
 
             //debugger;
             $.ajax({

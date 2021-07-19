@@ -1,10 +1,17 @@
 ﻿
-@{
-    ViewBag.Title = "Cobertura de Transportistas";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@{ ViewBag.Title = "Cobertura de Transportistas";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+<style>
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
+</style>
+
 <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
-    <div class="row">
+    <div class="row scroll_horizontal">
         <div class="col col-xs-12 col col-md-12 col col-lg-12 text-center">
             <h2>Cobertura de Transportistas</h2>
         </div>
@@ -48,7 +55,7 @@
 </div>
 @section scripts{
     @*CONFIGURACION DE TABLAS, FILTROS, BOTONES DE EXPORT*@
-<script>
+    <script>
 
     $(document).ready(function () {
         $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
@@ -163,62 +170,62 @@
         });
     })
 
-</script>
+    </script>
 
-<script>
+    <script>
 
-    $(document).on("click", "#btnUpload", function () {
-        var files = $("#importFile").get(0).files;
+        $(document).on("click", "#btnUpload", function () {
+            var files = $("#importFile").get(0).files;
 
-        var formData = new FormData();
-        formData.append('importFile', files[0]);
+            var formData = new FormData();
+            formData.append('importFile', files[0]);
 
-        $.ajax({
-            url: '/Impex/ImportFileTransPlazas',
-            data: formData,
-            type: 'POST',
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                if (data.Status === 1) {
-                    //alert(data.Message);
-                    location.reload();
-                } else {
-                    alert("Failed to Import");
+            $.ajax({
+                url: '/Impex/ImportFileTransPlazas',
+                data: formData,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.Status === 1) {
+                        //alert(data.Message);
+                        location.reload();
+                    } else {
+                        alert("Failed to Import");
+                    }
                 }
-            }
+            });
         });
-    });
 
-    function Excel() {
+        function Excel() {
 
-        _IdTransportista = $("#filtro0").val();
-        _NomTransportista = $("#filtro1").val();
-        _IdPlaza = $("#filtro2").val();
-        _NomPlaza = $("#filtro3").val();
-        _PostalCode = $("#filtro4").val();
-        _DescTipoEnvio = $("#filtro5").val();
-        _CvePlaza = $("#filtro3").val();
+            _IdTransportista = $("#filtro0").val();
+            _NomTransportista = $("#filtro1").val();
+            _IdPlaza = $("#filtro2").val();
+            _NomPlaza = $("#filtro3").val();
+            _PostalCode = $("#filtro4").val();
+            _DescTipoEnvio = $("#filtro5").val();
+            _CvePlaza = $("#filtro3").val();
 
-        _CreatedId = $("#filtro6").val();
-        _CreatedDate = $("#filtro7").val();
-        _CreatedTime = $("#filtro8").val();
-        _BitActivo = $("#filtro9").val();
+            _CreatedId = $("#filtro6").val();
+            _CreatedDate = $("#filtro7").val();
+            _CreatedTime = $("#filtro8").val();
+            _BitActivo = $("#filtro9").val();
 
-        var dataTable = $('#tblConsulta').DataTable();
-        var _searchValue = dataTable.search();
-
-
-        window.location = window.location.origin + '/Impex/ExcelTransPlazas?IdTransportista=' + _IdTransportista + "&NomTransportista=" + _NomTransportista
-            + "&IdPlaza=" + _IdPlaza + "&NomPlaza=" + _NomPlaza
-            + "&PostalCode=" + _PostalCode + "&DescTipoEnvio=" + _DescTipoEnvio
-            + "&CvePlaza=" + _CvePlaza
-            + "&CreatedId=" + _CreatedId + "&CreatedDate=" + _CreatedDate
-            + "&CreatedTime=" + _CreatedTime + "&BitActivo=" + _BitActivo
-            + "&searchValue=" + _searchValue
+            var dataTable = $('#tblConsulta').DataTable();
+            var _searchValue = dataTable.search();
 
 
-    }
+            window.location = window.location.origin + '/Impex/ExcelTransPlazas?IdTransportista=' + _IdTransportista + "&NomTransportista=" + _NomTransportista
+                + "&IdPlaza=" + _IdPlaza + "&NomPlaza=" + _NomPlaza
+                + "&PostalCode=" + _PostalCode + "&DescTipoEnvio=" + _DescTipoEnvio
+                + "&CvePlaza=" + _CvePlaza
+                + "&CreatedId=" + _CreatedId + "&CreatedDate=" + _CreatedDate
+                + "&CreatedTime=" + _CreatedTime + "&BitActivo=" + _BitActivo
+                + "&searchValue=" + _searchValue
 
-</script>  }
+
+        }
+
+    </script>  }
 

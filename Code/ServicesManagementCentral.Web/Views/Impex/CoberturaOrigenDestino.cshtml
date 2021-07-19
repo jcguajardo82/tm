@@ -3,8 +3,16 @@
     ViewBag.Title = "Zonas origen-destino";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    div.scroll_horizontal {
+        width: 100%;
+        overflow: auto;
+    }
+</style>
+
 <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
-    <div class="row">
+    <div class="row scroll">
         <div class="col col-xs-12 col col-md-12 col col-lg-12 text-center">
             <h2>Zonas origen-destino</h2>
         </div>
@@ -22,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row scroll_horizontal">
         <div class="col-sm-11 col-md-11 col-lg-11">
             <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
                 <thead>
