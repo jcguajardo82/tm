@@ -50,6 +50,12 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
         public string FechaCreacion { get; set; }
         public string HoraCreacion { get; set; }
         public string UsuarioCreacion { get; set; }
+        public string Desc_TipoEnvio { get; set; }
+        public string Desc_TipoServicio { get; set; }
+        public string TipoCatalogo { get; set; }
+        public string Desc_TipoFormato { get; set; }
+
+        //                                                                                
 
     }
 }
