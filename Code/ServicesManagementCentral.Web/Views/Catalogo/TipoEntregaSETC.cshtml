@@ -170,7 +170,20 @@
                 { "data": "UsuarioUltModif", "name": "UsuarioUltModif", "autoWidth": true },
                 { "data": "FechaUltModif", "name": "FechaUltModif", "autoWidth": true },
                 { "data": "HoraUltModif", "name": "HoraUltModif", "autoWidth": true },
-                { "data": "BitActivo", "name": "BitActivo", "autoWidth": true },
+               
+                {
+                    //adds td row for button
+                    data: null,
+                    render: function (data, type, row) {
+                        var a = "Inactivo";
+                        if (data.BitActivo == "1") {
+                            a = "Activo";
+                        }
+                        return a;
+
+
+                    }
+                },
                 {
                     //adds td row for button
                     data: null,
