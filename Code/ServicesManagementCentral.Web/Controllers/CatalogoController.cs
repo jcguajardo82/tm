@@ -4063,6 +4063,7 @@ namespace ServicesManagement.Web.Controllers
                 IQueryable<TipoEntregaSETC> query = from row in DALCatalogo.TipoEntregaSETC_sUp().Tables[0].AsEnumerable().AsQueryable()
                                                                                             select new TipoEntregaSETC()
                                                                                             {
+                                                                                                IdTipoEntrega = int.Parse(row["IdTipoEntrega"].ToString()),
                                                                                                 StoreNum = int.Parse(row["StoreNum"].ToString()),
                                                                                                 Desc_UN = row["Desc_UN"].ToString(),
                                                                                                 IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),

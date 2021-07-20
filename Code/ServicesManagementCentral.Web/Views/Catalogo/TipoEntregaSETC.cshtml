@@ -3,12 +3,7 @@
     ViewBag.Title = "Tipo de Entrega SETC";
 }
 
-<style>
-    div.scroll_horizontal {
-        width: 100%;
-        overflow: auto;
-    }
-</style>
+
 
 @using (Html.BeginForm())
 {
@@ -22,32 +17,30 @@
 
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
         <br />
-        <div class="row scroll_horizontal">
-            <div class="col-12">
-                <table id="example" class="table table-striped dataTable" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Numero de Tienda</th>
-                            <th>Tienda</th>
-                            <th>Id Tipo Entrega</th>
-                            <th>Tipo de Entrega</th>
+        <div class="col-12">
+            <table id="example" class="table table-striped dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Numero de Tienda</th>
+                        <th>Tienda</th>
+                        <th>Id Tipo Entrega</th>
+                        <th>Tipo de Entrega</th>
 
-                            <th>Usuario de Creacion</th>
-                            <th>Fecha de Creacion</th>
-                            <th>Hora de Creacion</th>
+                        <th>Usuario de Creacion</th>
+                        <th>Fecha de Creacion</th>
+                        <th>Hora de Creacion</th>
 
-                            <th>Usuario de Actualización</th>
-                            <th>Fecha de Actualización</th>
-                            <th>Hora de Actualización</th>
+                        <th>Usuario de Actualización</th>
+                        <th>Fecha de Actualización</th>
+                        <th>Hora de Actualización</th>
 
-                            <th>Activo</th>
-                            <th name="accion">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
+                        <th>Activo</th>
+                        <th name="accion">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -114,24 +107,12 @@
 @section scripts {
 
 
-    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
-    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
-    <script src="~/Content/plugins/datatables/datatables.js"></script>
 
-    <script src="~/Scripts/bootbox.js"></script>
-    <script src="~/Scripts/bootbox.min.js"></script>
 
 
     <script>
 
-        $('#radioBtn a').on('click', function () {
-            var sel = $(this).data('title');
-            var tog = $(this).data('toggle');
-            $('#' + tog).prop('value', sel);
 
-            $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
-            $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
-        })
 
 
         $(document).ready(function () {
@@ -187,8 +168,16 @@
                 { "data": "UsuarioUltModif", "name": "UsuarioUltModif", "autoWidth": true },
                 { "data": "FechaUltModif", "name": "FechaUltModif", "autoWidth": true },
                 { "data": "HoraUltModif", "name": "HoraUltModif", "autoWidth": true },
-                { "data": "BitActivo", "name": "BitActivo", "autoWidth": true }
+                { "data": "BitActivo", "name": "BitActivo", "autoWidth": true },
+                {
+                    //adds td row for button
+                    data: null,
+                    render: function (data, type, row) {
+                        return "<button title='Editar' onclick='GetById(" + data.IdTipoEntrega +")' type='button' class='btn btn-white btn-circle'> <i class='fa fa-edit'></i></button>";
 
+
+                    }
+                }
             ]
                     , language:
                     {
@@ -251,7 +240,7 @@
 
                             },
                         },
-                    ]
+                    ],
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
                     //        $('td', nRow).css('background-color', '#B6BF00');
@@ -259,6 +248,7 @@
                     //        $('td', nRow).css('background-color', 'Orange');
                     //    }
                     //}
+                  
 
                 }
             );
