@@ -230,23 +230,27 @@
                     buttons: [
                         { extend: 'pageLength', className: 'btn-primary' },
                         { extend: 'excel', className: 'btn-primary' },
+
                         {
-                            text: 'Alta',
-                            action: function (e, dt, node, config) {
 
-                                //bootbox.alert("HOLA");
-                                $("#txtTipoEnvio").val('');
-                                $("#modal-form").modal('show');
-                                LlenarTiendasSelect();
-                                LlenarTipoEntregasSelect();
-
-                            },
                             text: 'Excel General',
                             action: function (e, dt, node, config) {
                                 Excel();
                             }
                             , className: 'btn-primary'
-                        }
+                        },
+                        {
+                            text: 'Alta', className: 'btn-primary',
+                            action: function (e, dt, node, config) {
+
+                            //bootbox.alert("HOLA");
+                            $("#txtTipoEnvio").val('');
+                            $("#modal-form").modal('show');
+                            LlenarTiendasSelect();
+                            LlenarTipoEntregasSelect();
+
+                            },
+                        },
                     ]
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
@@ -255,6 +259,7 @@
                     //        $('td', nRow).css('background-color', 'Orange');
                     //    }
                     //}
+
                 }
             );
 
