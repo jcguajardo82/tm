@@ -30,7 +30,7 @@
             <table id="tblConsulta" class="table table-striped table-bordered table-hover">
                 <thead>
                     @*<thead class="bg-primary">*@
-                    <tr>                     
+                    <tr>
                         <th>Tipo de <br />  Envio</th>
                         <th>Tipo de <br />  Servicio</th>
                         <th>Tipo de <br />  Catalogo</th>
@@ -181,13 +181,19 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Ciudad Origen</label>
-                                <input type="text" class="form-control" />
+                                @*<input type="text" id="txtCdOrigen" class="form-control" />*@
+                                <select id="ddlCdOrigen" class="form-control">
+                                    <option value="0">--SELECCIONE--</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Ciudad Destino</label>
-                                <input type="text" class="form-control" />
+                                @*<input type="text" id="txtCdDestino" class="form-control" />*@
+                                <select id="ddlCdDestino" class="form-control">
+                                    <option value="0">--SELECCIONE--</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -196,14 +202,14 @@
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Estado Origen</label>
-                                <input type="text" id="txtOrigen" class="form-control" />
+                                @*<input type="text" id="txtOrigen" class="form-control" />*@
                                 <select id="ddlEdoOrigen" class="form-control"></select>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Estado Destino</label>
-                                <input type="text" id="txtDestino" class="form-control" />
+                                @*<input type="text" id="txtDestino" class="form-control" />*@
                                 <select id="ddlEdoDestino" class="form-control"></select>
                             </div>
                         </div>
@@ -599,15 +605,7 @@
             });
         }
 
-        function ActionUpd() {
-            debugger;
-            if (document.getElementById("flag_edit").value == "1") {
-                Edit();
-            }
-            else {
-                Add();
-            }
-        }
+
 
         function Add() {
         /*   var _IdTipoCatalogo = $("#ddlTipoCatalogo").val();*/
@@ -651,10 +649,10 @@
 
             _PostalCodeOrig = $("#txtCpOrigen").val();
             _PostalCodeDestino = $("#txtCpDestino").val();
-            _CiudadOrig = $("#txtCdOrigen").val();
-            _CiudadDest = $("#txtCdDestino").val();
-            _EdoOrig = $("#txtOrigen").val();
-            _EdoDest = $("#txtDestino").val();
+            _CiudadOrig = $("#ddlCdOrigen :selected").text(); //$("#txtCdOrigen").val();
+            _CiudadDest = $("#ddlCdDestino :selected").text();//$("#txtCdDestino").val();
+            _EdoOrig = $("#ddlEdoOrigen :selected").text(); //$("#txtOrigen").val();
+            _EdoDest = $("#ddlEdoDestino :selected").text();$("#txtDestino").val();
             _Cve_CategSAP = $("#txtNoCatSap").val();
             _Desc_CategSAP = $("#txtNomCatSap").val();
             _Cve_GciaCategSAP = $("#txtNoSubCatSap").val();
@@ -699,10 +697,10 @@
                     , IdFormatoTienda: _IdFormatoTienda == '' ? null :_IdFormatoTienda
                     , PostalCodeOrig: _PostalCodeOrig
                     , PostalCodeDestino: _PostalCodeDestino
-                    , CiudadOrig: _CiudadOrig
-                    , CiudadDest: _CiudadDest
-                    , EdoOrig: _EdoOrig
-                    , EdoDest: _EdoDest
+                    , CiudadOrig: _CiudadOrig == '0' ? null : _CiudadOrig
+                    , CiudadDest: _CiudadDest == '0' ? null : _CiudadDest 
+                    , EdoOrig: _EdoOrig == '0' ? null : _EdoOrig  
+                    , EdoDest: _EdoDest == '0' ? null : _EdoDest 
                     , IdSupplierWH: _IdSupplierWH == '' ? null : _IdSupplierWH
                     , SupplierName: _IdSupplierWH == '0' ? null : _SupplierName
                     , IdTransportista: _IdTransportista == '' ? null :_IdTransportista
@@ -749,41 +747,7 @@
             });
         }
 
-        function Edit() {
-            _IdZona = $("#hddId").val();
-            _Desc_Zona = $("#txtDesc_Zona").val();
-            _BitActivo = $("#id_estatus").val();
 
-            if (_Desc_Zona.length == 0) {
-                $("#txtDesc_Zona").focus();
-                return;
-            }
-
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("UpdZonas", "catalogo")',
-                data: {
-                    IdZona: _IdZona,
-                    Desc_Zona: _Desc_Zona,
-                    BitActivo: _BitActivo
-                },
-                datatype: "html",
-                success: function (json) {
-                    console.log(json);
-
-                    debugger;
-                    if (json.Success) {
-
-                        GetConsulta();
-
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
 
         function Delete(id) {
             if (confirm('Esta seguro que desea eliminar el registro : ' + id))
@@ -841,10 +805,20 @@
 
                         $("#txtCpOrigen").val(json.resp.PostalCodeOrig);
                         $("#txtCpDestino").val(json.resp.PostalCodeDestino);
-                        $("#txtCdOrigen").val(json.resp.CiudadOrig);
-                        $("#txtCdDestino").val(json.resp.CiudadDest);
-                        $("#txtOrigen").val(json.resp.EdoOrig);
-                        $("#txtDestino").val(json.resp.EdoDest);
+
+
+
+                        $("#ddlEdoOrigen option").filter(function (index) { return $(this).text() === json.resp.EdoOrig; }).attr('selected', 'selected');
+                        $("#ddlEdoDestino option").filter(function (index) { return $(this).text() === json.resp.EdoDest; }).attr('selected', 'selected');
+                        CdOrigen();
+                        CdDestino();
+                        $("#ddlCdOrigen option").filter(function (index) { return $(this).text() === json.resp.CiudadOrig; }).attr('selected', 'selected');
+                        $("#ddlCdDestino option").filter(function (index) { return $(this).text() === json.resp.CiudadDest; }).attr('selected', 'selected');
+                        //$("#txtOrigen").val(json.resp.EdoOrig);
+                        //$("#txtDestino").val(json.resp.EdoDest);
+                        //$("#txtCdOrigen").val(json.resp.CiudadOrig);
+                        //$("#txtCdDestino").val(json.resp.CiudadDest);
+
                         $("#txtNoCatSap").val(json.resp.Cve_CategSAP);
                         $("#txtNomCatSap").val(json.resp.Desc_CategSAP);
                         $("#txtNoSubCatSap").val(json.resp.Cve_GciaCategSAP);
@@ -894,7 +868,7 @@
                     type: "GET",
                     url: '@Url.Action("CboEstados", "PromocionesCostoEnvio")',
                     data: {
-                      
+
                     },
                     datatype: "html",
                     success: function (json) {
@@ -907,7 +881,7 @@
                                 sel.append('<option value="' + json.resp[i].Region1Code + '">' + json.resp[i].Region1Name + '</option>');
                             }
 
-                             sel = $("#ddlEdoDestino");
+                            sel = $("#ddlEdoDestino");
                             sel.empty();
 
                             $('#ddlEdoDestino').get(0).options[0] = new Option("--SELECCIONE--", "0");
@@ -921,6 +895,71 @@
                     }
                 });
         }
+        $("#ddlEdoOrigen").click(function () {
+            CdOrigen();
+        });
+        $("#ddlEdoDestino").click(function () {
+            CdDestino();
+        });
+
+        function CdOrigen() {
+                   var _id = $("#ddlEdoOrigen").val();
+            $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("CboCiudad", "PromocionesCostoEnvio")',
+                    data: {
+                        Region1Code: _id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            var sel = $("#ddlCdOrigen");
+                            sel.empty();
+
+                            $('#ddlCdOrigen').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                            for (var i = 0; i < json.resp.length; i++) {
+                                sel.append('<option value="' + json.resp[i].Region2Code + '">' + json.resp[i].Region2Name + '</option>');
+                            }
+
+
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+        }
+
+        function CdDestino() {
+              var _id = $("#ddlEdoDestino").val();
+            $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("CboCiudad", "PromocionesCostoEnvio")',
+                    data: {
+                        Region1Code: _id
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            var sel = $("#ddlCdDestino");
+                            sel.empty();
+
+                            $('#ddlCdDestino').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                            for (var i = 0; i < json.resp.length; i++) {
+                                sel.append('<option value="' + json.resp[i].Region2Code + '">' + json.resp[i].Region2Name + '</option>');
+                            }
+
+
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+        }
+
 
         function IniciarControles(op) {
 

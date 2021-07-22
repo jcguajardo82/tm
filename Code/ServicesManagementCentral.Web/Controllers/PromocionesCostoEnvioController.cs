@@ -190,5 +190,24 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
+
+        public ActionResult CboCiudad(string Region1Code)
+        {
+            try
+            {
+
+                var listC = DataTableToModel.ConvertTo<orderfacts_PostalCodes.Ciudades>(DALPromocionesCostoEnvio.upCorpTms_Cns_CpCiudadesxEstado(Region1Code).Tables[0]);
+
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        
+
     }
 }
