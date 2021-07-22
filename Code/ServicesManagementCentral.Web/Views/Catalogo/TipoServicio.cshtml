@@ -3,12 +3,7 @@
     ViewBag.Title = "Tipos de Servicios";
 }
 
-<style>
-    div.scroll_horizontal {
-        width: 100%;
-        overflow: auto;
-    }
-</style>
+
 
 @using (Html.BeginForm())
 {
@@ -191,7 +186,7 @@
                             }
                             , className: 'btn-primary'
                         }
-                    ]
+                    ], "scrollX": true
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
                     //        $('td', nRow).css('background-color', '#B6BF00');
