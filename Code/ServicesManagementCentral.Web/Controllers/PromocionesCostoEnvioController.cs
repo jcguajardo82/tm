@@ -155,14 +155,32 @@ namespace ServicesManagement.Web.Controllers
             try
             {
 
-               var dt= DALPromocionesCostoEnvio.up_CorpTMS_cmd_SKU(Material_MATNR, Id_Num_CodBarra);
+                var dt = DALPromocionesCostoEnvio.up_CorpTMS_cmd_SKU(Material_MATNR, Id_Num_CodBarra);
                 var descArt = string.Empty;
 
-                if (dt.Tables[0].Rows.Count > 0) {
+                if (dt.Tables[0].Rows.Count > 0)
+                {
                     descArt = dt.Tables[0].Rows[0][0].ToString();
                 }
 
-                var result = new { Success = true, resp=descArt };
+                var result = new { Success = true, resp = descArt };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult CboEstados()
+        {
+            try
+            {
+
+                var listC = DataTableToModel.ConvertTo<orderfacts_PostalCodes.Estados>(DALPromocionesCostoEnvio.upCorpTms_Cns_CpEstados().Tables[0]);
+
+                var result = new { Success = true, resp = listC };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

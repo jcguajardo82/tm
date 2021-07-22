@@ -197,12 +197,14 @@
                             <div class="form-group">
                                 <label>Estado Origen</label>
                                 <input type="text" id="txtOrigen" class="form-control" />
+                                <select id="ddlEdoOrigen" class="form-control"></select>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
                             <div class="form-group">
                                 <label>Estado Destino</label>
                                 <input type="text" id="txtDestino" class="form-control" />
+                                <select id="ddlEdoDestino" class="form-control"></select>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-3">
@@ -475,6 +477,7 @@
             CmboTipoLogistica();
             CmboTransportista();
             CmboFormatoTienda();
+            CboEdos();
         });
 
         $('#txtNoMaterial').on('keypress', function (e) {
@@ -554,7 +557,7 @@
                                 json.resp[i].Desc_TipoServicio,
                                 json.resp[i].TipoCatalogo,
                                 json.resp[i].Desc_TipoFormato,
-                   
+
                                 json.resp[i].PostalCodeOrig,
                                 json.resp[i].PostalCodeDestino,
                                 json.resp[i].CiudadOrig,
@@ -701,7 +704,7 @@
                     , EdoOrig: _EdoOrig
                     , EdoDest: _EdoDest
                     , IdSupplierWH: _IdSupplierWH == '' ? null : _IdSupplierWH
-                    , SupplierName: _IdSupplierWH == '0' ? null : _SupplierName 
+                    , SupplierName: _IdSupplierWH == '0' ? null : _SupplierName
                     , IdTransportista: _IdTransportista == '' ? null :_IdTransportista
                     , NombreTransportista: ''
                     , IdTipoEnvio: _IdTipoEnvio == '' ? null : _IdTipoEnvio
@@ -885,6 +888,39 @@
 
         }
 
+        function CboEdos() {
+            $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: '@Url.Action("CboEstados", "PromocionesCostoEnvio")',
+                    data: {
+                      
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            var sel = $("#ddlEdoOrigen");
+                            sel.empty();
+
+                            $('#ddlEdoOrigen').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                            for (var i = 0; i < json.resp.length; i++) {
+                                sel.append('<option value="' + json.resp[i].Region1Code + '">' + json.resp[i].Region1Name + '</option>');
+                            }
+
+                             sel = $("#ddlEdoDestino");
+                            sel.empty();
+
+                            $('#ddlEdoDestino').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                            for (var i = 0; i < json.resp.length; i++) {
+                                sel.append('<option value="' + json.resp[i].Region1Code + '">' + json.resp[i].Region1Name + '</option>');
+                            }
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+        }
 
         function IniciarControles(op) {
 

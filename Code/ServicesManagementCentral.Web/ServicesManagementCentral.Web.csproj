@@ -299,6 +299,7 @@
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Prediction.cs" />
     <Compile Include="Models\PromocionesCostoEnvio\FormatoTienda.cs" />
+    <Compile Include="Models\PromocionesCostoEnvio\orderfacts_PostalCodes.cs" />
     <Compile Include="Models\PromocionesCostoEnvio\PromocionesCostoEnvio.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
