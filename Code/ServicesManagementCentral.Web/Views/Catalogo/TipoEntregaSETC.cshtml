@@ -286,11 +286,12 @@
             _StoreNum = $("#txtStoreNum").val();
             _IdTipoEnvio = $("#txtTipoEnvio").val();
             _BitActivo = $("#id_estatus").val();
-
-            if (_IdTipoEntrega.length == 0) {
-                $("#txtTipoEnvio").focus();
-                return;
-            }
+            debugger;
+            //if (_StoreNum.length == 0) {
+            //    $("#txtTipoEnvio").focus();
+            //    return;
+            //}
+            debugger;
 
             $.ajax({
                 async: false,
@@ -307,8 +308,10 @@
 
                     debugger;
                     if (json.Success) {
-                        $("#txtTipoEnvio").val('');
-                        GetConsulta();
+                        //$("#txtTipoEnvio").val('');
+                        //GetConsulta();
+                        $('#example').DataTable().clear();
+                        $('#example').DataTable().ajax.reload();
                     }
                     else {
                         alert(json.Message);
@@ -348,7 +351,9 @@
                     debugger;
                     if (json.Success) {
 
-                        GetConsulta();
+                        //GetConsulta();
+                        $('#example').DataTable().clear();
+                        $('#example').DataTable().ajax.reload();
                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
@@ -370,7 +375,9 @@
                     datatype: "html",
                     success: function (json) {
                         if (json.Success) {
-                            GetConsulta();
+                            //GetConsulta();
+                            $('#example').DataTable().clear();
+                            $('#example').DataTable().ajax.reload();
                         }
                     }
                     , error: function (jqXHR, textStatus, errorThrown) {
