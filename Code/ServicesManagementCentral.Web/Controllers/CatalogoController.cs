@@ -3977,9 +3977,8 @@ namespace ServicesManagement.Web.Controllers
         {
 
             return View();
+        }
 
-        public ActionResult TiendasCostoEnvio()
-        {
 
 
         public ActionResult GetTiendasCostoEnvio()
