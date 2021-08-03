@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 
 namespace ServicesManagement.Web.Controllers
 {
+    [Authorize]
     public class CodigoModels
     {
 
