@@ -209,15 +209,36 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <select class="form-control" id="CPLista" name="CPLista" multiple="">
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label">Estado</label>
 
-                            </div>*@
+                                    <select class="form-control" id="cmbEstado" name="cmbEstado" onchange="getEstado(this);">
+
+                                        @{ if (Session["listaEstados"] != null)
+                                            {
+                                                var myDataSet = Session["listaEstados"] as System.Data.DataSet;
+                                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                                                {
+                                                    <option value="@r["Id_Num_Estado"]">@r["Nom_Estado"]</option>
+
+                                                }
+                                            }
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label">Municipio</label>
+                                    <select class="form-control" id="cmbMnpo" name="cmbMnpo">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -247,6 +268,41 @@
 
 
     <script>
+        function getEstado(e) {
+
+            alert(e.value);
+
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetPoblados", "Catalogo")',
+                    data: {
+                        estado: e.value
+                    },
+                    datatype: "html",
+                    async: false,
+                    beforeSend: function () {
+                        //$(".modal").show();
+                        //document.getElementById("postalcode").value = "";
+                    },
+                    success: function (data) {
+                        if (data.Success) {
+                            console.log(data);
+                            var dynamicSelect = document.getElementById("cmbMnpo");
+                            console.log(dynamicSelect);
+                            for (var i = 0; i < data.json.length; i++) {
+                                var newOption = document.createElement("option");
+                                newOption.value = data.json[i].Id_Num_Poblacion;
+                                newOption.textContent = data.json[i].Nom_Poblacion;//item.whateverProperty
+
+                                dynamicSelect.appendChild(newOption);
+                            }
+                            console.log(dynamicSelect);
+                        }
+                    }
+                });
+
+        }
+
 
         function AgregaCps() {
 
@@ -492,7 +548,7 @@
                 var _latitude = mapsMouseEvent.latLng.lat().toFixed(6);
                 var _longitude = mapsMouseEvent.latLng.lng().toFixed(6);
 
-                
+
                 document.getElementById("in_longitud").value = _longitude;
                 document.getElementById("in_latitud").value = _latitude;
 

@@ -26,6 +26,16 @@ using TipoServicio = ServicesManagement.Web.Models.Catalogos.TipoServicio;
 namespace ServicesManagement.Web.Controllers
 
 {
+    public class Poblacion_dModel
+    {
+        public Byte Id_Num_Pais { get; set; }
+        public Byte Id_Num_Estado { get; set; }
+        public Int16 Id_Num_Poblacion { get; set; }
+        public String Nom_Poblacion { get; set; }
+        public String Abrev_Poblacion { get; set; }
+        public String Cod_AreaTelPoblacion { get; set; }
+    }
+
 
     public class AtributosModels
     {
@@ -305,8 +315,59 @@ namespace ServicesManagement.Web.Controllers
             Session["listaAL"] = GetAlmacenCP();
             Session["listaCPS"] = GeListaCP();
 
+            Session["listaEstados"] = GetEstados();
+
+
             return View("CodigosPostales/Index");
         }
+
+        public DataSet GetEstados()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Estados", false, parametros);
+
+
+
+        }
+
+        public ActionResult GetPoblados(string estado)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            parametros.Add("@Id_Num_Estado", estado);
+
+            ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Municipio", false, parametros);
+
+
+            List<Poblacion_dModel> listC = ConvertTo<Poblacion_dModel>(ds.Tables[0]);
+
+            var result = new { Success = true, json = listC };
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+
 
         public DataSet GeListaCP()
         {
@@ -3917,7 +3978,8 @@ namespace ServicesManagement.Web.Controllers
 
             return View();
 
-        }
+        public ActionResult TiendasCostoEnvio()
+        {
 
 
         public ActionResult GetTiendasCostoEnvio()
@@ -4019,6 +4081,7 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult TipoEntregaSETC()
         {
             return View();
+
         }
 
         [HttpPost]
