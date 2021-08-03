@@ -649,10 +649,10 @@
 
             _PostalCodeOrig = $("#txtCpOrigen").val();
             _PostalCodeDestino = $("#txtCpDestino").val();
-            _CiudadOrig = $("#ddlCdOrigen :selected").text(); //$("#txtCdOrigen").val();
-            _CiudadDest = $("#ddlCdDestino :selected").text();//$("#txtCdDestino").val();
-            _EdoOrig = $("#ddlEdoOrigen :selected").text(); //$("#txtOrigen").val();
-            _EdoDest = $("#ddlEdoDestino :selected").text();$("#txtDestino").val();
+            _CiudadOrig = $("#ddlCdOrigen").val() !='0' ? $("#ddlCdOrigen :selected").text() : '0'; //$("#txtCdOrigen").val();
+            _CiudadDest = $("#ddlCdDestino").val() != '0' ? $("#ddlCdDestino :selected").text():'0';//$("#txtCdDestino").val();
+            _EdoOrig = $("#ddlEdoOrigen").val() != '0' ? $("#ddlEdoOrigen :selected").text() : '0'; //$("#txtOrigen").val();
+            _EdoDest = $("#ddlEdoDestino").val() != '0' ? $("#ddlEdoDestino :selected").text():'0';//$("#txtDestino").val();
             _Cve_CategSAP = $("#txtNoCatSap").val();
             _Desc_CategSAP = $("#txtNomCatSap").val();
             _Cve_GciaCategSAP = $("#txtNoSubCatSap").val();
