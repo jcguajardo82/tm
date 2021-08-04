@@ -35,7 +35,6 @@
                         <th>Tipo de <br />  Servicio</th>
                         <th>Tipo de <br />  Catalogo</th>
                         <th>Tipo de <br />  Formato</th>
-
                         <th>Codigo Postal <br />  Origen</th>
                         <th>Codigo Postal <br />  Destino</th>
                         <th>Ciudad <br /> Origen</th>
@@ -388,95 +387,164 @@
         });
         $(document).ready(function () {
 
-            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
-            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
-                if ($(this).attr('name') != "accion") {
-                    var title = $(this).text();
-                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+        $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+        $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+            if ($(this).attr('name') != "accion") {
+                var title = $(this).text();
+                $(this).html("<input type='search' class='form-control form-control-sm' placeholder='" + title + "' id='filtro"+i+"'  />");
 
-                    $('input', this).on('keyup change', function () {
-                        if (table.column(i).search() !== this.value) {
-                            table
-                                .column(i)
-                                .search(this.value)
-                                .draw();
-                        }
-                    });
-                } else {
-                    $(this).empty();
-                }
-            });
+                $('input', this).on('keyup change', function () {
+                    debugger;
+                    if (table.column(i).search() !== this.value) {
+                        debugger;
+                        table
+                            .column(i)
+                            .search(this.value)
+                            .draw();
+                    }
+                });
 
-            table = $('#tblConsulta').DataTable(
+                $('input', this).on("input", function () {
+                    table
+                        .column(i)
+                        .search(this.value)
+                        .draw();
+                });
+            } else {
+                $(this).empty();
+            }
+        });
+
+        table = $('#tblConsulta').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "@Url.Content("~/PromocionesCostoEnvio/GetPromociones")",
+     
+                "type": "POST",
+                "datatype":"json"
+            },
+            "pageLength": 10,
+            "filter": true,
+            "responsivePriority": 1,
+            "data": null,
+            "columns": [
+                { "data": "Desc_TipoEnvio", "name": "Desc_TipoEnvio", "autoWidth": true },
+                { "data": "Desc_TipoServicio", "name": "Desc_TipoServicio", "autoWidth": true },
+                { "data": "TipoCatalogo", "name": "TipoCatalogo", "autoWidth": true },
+                { "data": "Desc_TipoFormato", "name": "Desc_TipoFormato", "autoWidth": true },
+                { "data": "PostalCodeOrig", "name": "PostalCodeOrig", "autoWidth": true },
+                { "data": "PostalCodeDestino", "name": "PostalCodeDestino", "autoWidth": true },
+                { "data": "CiudadOrig", "name": "CiudadOrig", "autoWidth": true },
+                { "data": "CiudadDest", "name": "CiudadDest", "autoWidth": true },
+                { "data": "EdoOrig", "name": "EdoOrig", "autoWidth": true },
+                { "data": "EdoDest", "name": "EdoDest", "autoWidth": true },
+                { "data": "SupplierName", "name": "SupplierName", "autoWidth": true },
+                { "data": "NombreTransportista", "name": "NombreTransportista", "autoWidth": true },
+                { "data": "Cve_CategSAP", "name": "Cve_CategSAP", "autoWidth": true },
+                { "data": "Desc_CategSAP", "name": "Desc_CategSAP", "autoWidth": true },
+                { "data": "Cve_GciaCategSAP", "name": "Cve_GciaCategSAP", "autoWidth": true },
+                { "data": "Desc_GciaCategSAP", "name": "Desc_GciaCategSAP", "autoWidth": true },
+                { "data": "Material_MATNR", "name": "Material_MATNR", "autoWidth": true },
+                { "data": "Id_Num_CodBarra", "name": "Id_Num_CodBarra", "autoWidth": true },
+                { "data": "Nombre_SKU", "name": "Nombre_SKU", "autoWidth": true },
+                { "data": "PesoMinimo", "name": "PesoMinimo", "autoWidth": true },
+                { "data": "PesoMaximo", "name": "PesoMaximo", "autoWidth": true },
+                { "data": "MesesSinIntereses", "name": "MesesSinIntereses", "autoWidth": true },
+                { "data": "ComprasMayor", "name": "ComprasMayor", "autoWidth": true },
+                { "data": "ComprasMenor", "name": "ComprasMenor", "autoWidth": true },
+                { "data": "FechaInicioPromo", "name": "FechaInicioPromo", "autoWidth": true },
+                { "data": "HoraInicioPromo", "name": "HoraInicioPromo", "autoWidth": true },
+                { "data": "FechaFinPromo", "name": "FechaFinPromo", "autoWidth": true },
+                { "data": "HoraFinPromo", "name": "HoraFinPromo", "autoWidth": true },
+                { "data": "CostoEspecial", "name": "CostoEspecial", "autoWidth": true },
+                { "data": "TarifaDesc", "name": "TarifaDesc", "autoWidth": true },
+                { "data": "UsuarioCreacion", "name": "UsuarioCreacion", "autoWidth": true },
+                { "data": "FechaUltModif", "name": "FechaUltModif", "autoWidth": true },
+                { "data": "HoraUltModif", "name": "HoraUltModif", "autoWidth": true },
                 {
-                    "scrollX": true,
-                    language:
-                    {
-                        "sProcessing": "Procesando...",
-                        "sLengthMenu": "Mostrar _MENU_ registros",
-                        "sZeroRecords": "No se encontraron resultados",
-                        "sEmptyTable": "Ningún dato disponible en esta tabla",
-                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "sInfoPostFix": "",
-                        "sSearch": "Buscar:",
-                        "sUrl": "",
-                        "sInfoThousands": ",",
-                        "sLoadingRecords": "Cargando...",
-                        "oPaginate": {
-                            "sFirst": "Primero",
-                            "sLast": "Último",
-                            "sNext": "Siguiente",
-                            "sPrevious": "Anterior"
-
-                        },
-                        "oAria": {
-                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-
-                        },
-                        "buttons": {
-                            "print": "Imprimir",
-                            "pageLength": 'Mostrar %d Registros'
-
+                    //adds td row for button
+                    data: null,
+                    render: function (data, type, row) {
+                        var a = "Inactivo";
+                        if (data.BitActivo == "1") {
+                            a = "Activo";
                         }
-                    },
-                    dom: 'Bfrtip',
-                    lengthMenu: [
-                        [10, 25, 50, -1],
-                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
-                    ],
-                    buttons: [
-                        { extend: 'pageLength', className: 'btn-primary' },
-                        { extend: 'excel', className: 'btn-primary' },
-                        {
-                            text: 'Alta',
-                            action: function (e, dt, node, config) {
-
-                                $("#hddId").val('0');
+                        return a;
 
 
-                                IniciarControles(1);
+                    }
+                },
+                {
+                    //adds td row for button
+                    data: null,
+                    render: function (data, type, row) {
+                        return "<button title='Editar' onclick='GetById(" + data.cnscPromo + ")' type='button' class='btn btn-white btn-circle'> <i class='fa fa-edit'></i></button><button title='Eliminar' type='button' onclick='Delete(" + data.cnscPromo + ")' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>";
 
 
-                                $("#modal-form").modal('show');
-
-                            }
-                            , className: 'btn-primary'
-                        }
-                    ]
-                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                    //    if (aData[1] == "SETC") {
-                    //        $('td', nRow).css('background-color', '#B6BF00');
-                    //    } else if (aData[2] == "4") {
-                    //        $('td', nRow).css('background-color', 'Orange');
-                    //    }
-                    //}
+                    }
                 }
-            );
 
-            GetConsulta();
+
+            ]
+            , language:
+            {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                },
+                "buttons": {
+                    "print": "Imprimir",
+                    "pageLength": 'Mostrar %d Registros'
+
+                }
+            },
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+            ],
+            buttons: [
+                { extend: 'pageLength', className: 'btn-primary' },
+                {
+                    text: 'Excel General',
+                    action: function (e, dt, node, config) {
+                        Excel();
+                    }
+                    , className: 'btn-primary'
+                }
+
+            ],
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            "scrollX": true
+            , "scrollY": "500px"
+            , "scrollCollapse": true
+        });
+
+            //GetConsulta();
             IniciarComboTipoAlmacen();
             CmboTipoEnvio();
             CmboTipoServicio();
@@ -605,8 +673,6 @@
             });
         }
 
-
-
         function Add() {
         /*   var _IdTipoCatalogo = $("#ddlTipoCatalogo").val();*/
             var _cnscPromo = $("#hddId").val();
@@ -698,9 +764,9 @@
                     , PostalCodeOrig: _PostalCodeOrig
                     , PostalCodeDestino: _PostalCodeDestino
                     , CiudadOrig: _CiudadOrig == '0' ? null : _CiudadOrig
-                    , CiudadDest: _CiudadDest == '0' ? null : _CiudadDest 
-                    , EdoOrig: _EdoOrig == '0' ? null : _EdoOrig  
-                    , EdoDest: _EdoDest == '0' ? null : _EdoDest 
+                    , CiudadDest: _CiudadDest == '0' ? null : _CiudadDest
+                    , EdoOrig: _EdoOrig == '0' ? null : _EdoOrig
+                    , EdoDest: _EdoDest == '0' ? null : _EdoDest
                     , IdSupplierWH: _IdSupplierWH == '' ? null : _IdSupplierWH
                     , SupplierName: _IdSupplierWH == '0' ? null : _SupplierName
                     , IdTransportista: _IdTransportista == '' ? null :_IdTransportista
@@ -746,8 +812,6 @@
                 }
             });
         }
-
-
 
         function Delete(id) {
             if (confirm('Esta seguro que desea eliminar el registro : ' + id))
@@ -960,7 +1024,6 @@
                 });
         }
 
-
         function IniciarControles(op) {
 
 
@@ -1069,6 +1132,77 @@
                 $("#txtCostoEsp").prop("readonly", true);
                 $("#txtTarifaDesc").prop("readonly", true);
             }
+        }
+
+        function Excel() {
+
+            Desc_TipoEnvio = $("#filtro0").val();
+            Desc_TipoServicio = $("#filtro1").val();
+            TipoCatalogo = $("#filtro2").val();
+            Desc_TipoFormato = $("#filtro3").val();
+            PostalCodeOrig = $("#filtro4").val();
+            PostalCodeDestino = $("#filtro5").val();
+            CiudadOrig = $("#filtro6").val();
+            CiudadDest = $("#filtro7").val();
+            EdoOrig = $("#filtro8").val();
+            EdoDest = $("#filtro9").val();
+            SupplierName = $("#filtro10").val();
+            NombreTransportista = $("#filtro11").val();
+            Cve_CategSAP = $("#filtro12").val();
+            Desc_CategSAP = $("#filtro13").val();
+            Cve_GciaCategSAP = $("#filtro14").val();
+            Desc_GciaCategSAP = $("#filtro15").val();
+            Material_MATNR = $("#filtro16").val();
+            Id_Num_CodBarra = $("#filtro17").val();
+            Nombre_SKU = $("#filtro18").val();
+            PesoMinimo = $("#filtro19").val();
+            PesoMaximo = $("#filtro20").val();
+            MesesSinIntereses = $("#filtro21").val();
+            ComprasMayor = $("#filtro22").val();
+            ComprasMenor = $("#filtro23").val();
+            FechaInicioPromo = $("#filtro24").val();
+            HoraInicioPromo = $("#filtro25").val();
+            FechaFinPromo = $("#filtro26").val();
+            HoraFinPromo = $("#filtro27").val();
+            CostoEspecial = $("#filtro28").val();
+            TarifaDesc = $("#filtro29").val();
+            UsuarioCreacion = $("#filtro30").val();
+            FechaUltModif = $("#filtro31").val();
+            HoraUltModif = $("#filtro32").val();
+            BitActivo = $("#filtro33").val();
+
+
+
+
+
+
+
+
+            var dataTable = $('#tblConsulta').DataTable();
+            var _searchValue = dataTable.search();
+
+
+            window.location = window.location.origin + '/PromocionesCostoEnvio/Excel?Desc_TipoEnvio=' + Desc_TipoEnvio
+                + "&Desc_TipoServicio=" + Desc_TipoServicio
+                + "&TipoCatalogo=" + TipoCatalogo + "&Desc_TipoFormato=" + Desc_TipoFormato
+                + "&PostalCodeOrig=" + PostalCodeOrig + "&PostalCodeDestino=" + PostalCodeDestino
+                + "&CiudadOrig=" + CiudadOrig + "&CiudadDest=" + CiudadDest
+                + "&EdoOrig=" + EdoOrig + "&EdoDest=" + EdoDest
+                + "&SupplierName=" + SupplierName + "&NombreTransportista=" + NombreTransportista
+                + "&Cve_CategSAP=" + Cve_CategSAP + "&Desc_CategSAP=" + Desc_CategSAP
+                + "&Cve_GciaCategSAP=" + Cve_GciaCategSAP + "&Desc_GciaCategSAP=" + Desc_GciaCategSAP
+                + "&Material_MATNR=" + Material_MATNR + "&Id_Num_CodBarra=" + Id_Num_CodBarra
+                + "&Nombre_SKU=" + Nombre_SKU + "&PesoMinimo=" + PesoMinimo
+                + "&PesoMaximo=" + PesoMaximo + "&MesesSinIntereses=" + MesesSinIntereses
+                + "&ComprasMayor=" + ComprasMayor + "&ComprasMenor=" + ComprasMenor
+                + "&FechaInicioPromo=" + FechaInicioPromo + "&HoraInicioPromo=" + HoraInicioPromo
+                + "&FechaFinPromo=" + FechaFinPromo + "&HoraFinPromo=" + HoraFinPromo
+                + "&CostoEspecial=" + CostoEspecial + "&TarifaDesc=" + TarifaDesc
+                + "&UsuarioCreacion=" + UsuarioCreacion + "&FechaUltModif=" + FechaUltModif
+                + "&HoraUltModif=" + HoraUltModif + "&BitActivo=" + BitActivo
+                + "&searchValue=" + _searchValue
+
+
         }
     </script>
     @*combos*@
