@@ -221,7 +221,8 @@
                                                 var myDataSet = Session["listaEstados"] as System.Data.DataSet;
                                                 foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                                                 {
-                                                    <option value="@r["Id_Num_Estado"]">@r["Nom_Estado"]</option>
+                                                    @*<option value="@r["Id_Num_Estado"]">@r["Nom_Estado"]</option>*@
+                                                    <option value="@r["Nom_Estado"]">@r["Nom_Estado"]</option>
 
                                                 }
                                             }
@@ -288,6 +289,7 @@
                         if (data.Success) {
                             console.log(data);
                             var dynamicSelect = document.getElementById("cmbMnpo");
+                            //dynamicSelect.empty();
                             console.log(dynamicSelect);
                             for (var i = 0; i < data.json.length; i++) {
                                 var newOption = document.createElement("option");
@@ -297,6 +299,7 @@
                                 dynamicSelect.appendChild(newOption);
                             }
                             console.log(dynamicSelect);
+
                         }
                     }
                 });

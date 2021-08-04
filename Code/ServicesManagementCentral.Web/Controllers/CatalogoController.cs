@@ -355,10 +355,10 @@ namespace ServicesManagement.Web.Controllers
             Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
             System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            parametros.Add("@Id_Num_Estado", estado);
-
+            //parametros.Add("@Id_Num_Estado", estado);
+            parametros.Add("@Nom_Estado", estado);
+            
             ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Municipio", false, parametros);
-
 
             List<Poblacion_dModel> listC = ConvertTo<Poblacion_dModel>(ds.Tables[0]);
 
