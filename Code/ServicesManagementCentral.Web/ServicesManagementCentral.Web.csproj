@@ -233,6 +233,7 @@
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\almacenTMS.cs" />
     <Compile Include="Models\Catalogos\ClaseEnvio.cs" />
+    <Compile Include="Models\Catalogos\CodigosPostales_Por_Almacen.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Logistica.cs" />
     <Compile Include="Models\Catalogos\Owners.cs" />
@@ -3583,6 +3584,7 @@
     <Content Include="Content\plugins\momment\moment-with-locales.js" />
     <Content Include="Content\plugins\momment\moment-with-locales.min.js" />
     <Content Include="Content\plugins\momment\moment.min.js" />
+    <Content Include="Content\plugins\multiselect\vanillaSelectBox.css" />
     <Content Include="Content\plugins\multiselect\vanillaSelectBox.js" />
     <Content Include="Content\plugins\popper\popper.min.js" />
     <Content Include="Content\plugins\slick\ajax-loader.gif" />

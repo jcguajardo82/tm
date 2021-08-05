@@ -28,8 +28,8 @@ namespace ServicesManagement.Web.Controllers
 {
     public class Poblacion_dModel
     {
-        public Byte Id_Num_Pais { get; set; }
-        public Byte Id_Num_Estado { get; set; }
+        public string Id_Num_Pais { get; set; }
+        public Int16 Id_Num_Estado { get; set; }
         public Int16 Id_Num_Poblacion { get; set; }
         public String Nom_Poblacion { get; set; }
         public String Abrev_Poblacion { get; set; }
@@ -285,113 +285,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        #region CodigosPostales
-
-        public DataSet GetAlmacenCP()
-        {
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            //parametros.Add("@idSupplierWH", IdProv);
-
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
-
-
-
-        }
-
-
-
-        public ActionResult CodigosPostales()
-
-        {
-            Session["listaAL"] = GetAlmacenCP();
-            Session["listaCPS"] = GeListaCP();
-
-            Session["listaEstados"] = GetEstados();
-
-
-            return View("CodigosPostales/Index");
-        }
-
-        public DataSet GetEstados()
-        {
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            //parametros.Add("@idSupplierWH", IdProv);
-
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Estados", false, parametros);
-
-
-
-        }
-
-        public ActionResult GetPoblados(string estado)
-        {
-
-            DataSet ds = new DataSet();
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            //parametros.Add("@Id_Num_Estado", estado);
-            parametros.Add("@Nom_Estado", estado);
-            
-            ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Municipio", false, parametros);
-
-            List<Poblacion_dModel> listC = ConvertTo<Poblacion_dModel>(ds.Tables[0]);
-
-            var result = new { Success = true, json = listC };
-            return Json(result, JsonRequestBehavior.AllowGet);
-
-        }
-
-
-
-        public DataSet GeListaCP()
-        {
-
-            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
-            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
-            {
-                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
-            }
-
-            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-            //parametros.Add("@idSupplierWH", IdProv);
-
-            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.up_CorpTMS_sel_CodigosPostales_Por_Almacen", false, parametros);
-
-
-
-        }
-
-
-
-        #endregion
+        
 
 
 
@@ -1338,6 +1232,417 @@ namespace ServicesManagement.Web.Controllers
 
 
         #endregion
+
+        #region CodigosPostales
+
+        public DataSet GetAlmacenCP()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersWarehouses", false, parametros);
+
+
+
+        }
+
+
+
+     
+        [HttpPost]
+        public ActionResult GetCodigos()
+        {
+            try
+            {
+                List<CodigosPostales_Por_Almacen> lst = new List<CodigosPostales_Por_Almacen>();
+
+                //logistica datatable
+                var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                var start = Request.Form.GetValues("start").FirstOrDefault();
+                var length = Request.Form.GetValues("length").FirstOrDefault();
+                var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
+
+
+
+                #region Se Obtienen Filtros Por Columna
+                var Id_CP = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
+                var idSupplierWH = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
+                var Latitud = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
+                var Longitud = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
+                var CP = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
+                var Usuario_Creation = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
+                var Fecha_Creacion = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
+                var Fecha_Modificacion = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+                var BitActivo = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+               
+
+
+
+                #endregion
+
+                pageSize = length != null ? Convert.ToInt32(length) : 0;
+                skip = start != null ? Convert.ToInt32(start) : 0;
+                recordsTotal = 0;
+
+                IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen().Tables[0].AsEnumerable().AsQueryable()
+                                                    select new CodigosPostales_Por_Almacen()
+                                                    {
+                                                        Id_CP = (row["Id_CP"].ToString()),
+                                                        IdOwner =(row["idOwner"].ToString()),
+                                                        IdSupplierWH = row["idSupplierWH"].ToString(),
+                                                        IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
+                                                        Latitud = row["Latitud"].ToString(),
+                                                        Longitud = row["Longitud"].ToString(),
+                                                        CP = row["CP"].ToString(),
+                                                        Usuario_Creation = row["Usuario_Creation"].ToString(),
+                                                        Fecha_Creacion = row["Fecha_Creacion"].ToString(),
+                                                        BitActivo = row["BitActivo"].ToString(),
+                                                        Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
+                                                        Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
+                                                    };
+
+
+
+
+                if (searchValue != "")
+                    query = query.Where(d => d.Id_CP.ToString().ToLower().Contains(searchValue)
+                    || d.IdSupplierWH.ToLower().Contains(searchValue)
+                    || d.Latitud.ToString().ToLower().Contains(searchValue)
+                    || d.Longitud.ToLower().Contains(searchValue)
+                    || d.CP.ToLower().Contains(searchValue)
+                    || d.Usuario_Creation.ToLower().Contains(searchValue)
+                    || d.Fecha_Creacion.ToLower().Contains(searchValue)
+                    || d.Fecha_Modificacion.ToLower().Contains(searchValue)                   
+                    || d.BitActivo.ToLower().Contains(searchValue)
+                    );
+
+
+                //Filter By Columns
+                #region Filter By Columns
+                if (!string.IsNullOrEmpty(Id_CP))
+                {
+                    query = query.Where(a => a.Id_CP.ToString().ToLower().Contains(Id_CP));
+                }
+                if (!string.IsNullOrEmpty(idSupplierWH))
+                {
+                    query = query.Where(a => a.IdSupplierWH.ToLower().Contains(idSupplierWH));
+                }
+
+                if (!string.IsNullOrEmpty(Latitud))
+                {
+                    query = query.Where(a => a.Latitud.ToString().ToLower().Contains(Latitud));
+                }
+                if (!string.IsNullOrEmpty(Longitud))
+                {
+                    query = query.Where(a => a.Longitud.ToLower().Contains(Longitud));
+                }
+
+                if (!string.IsNullOrEmpty(CP))
+                {
+                    query = query.Where(a => a.CP.ToLower().Contains(CP));
+                }
+
+                if (!string.IsNullOrEmpty(Usuario_Creation))
+                {
+                    query = query.Where(a => a.Usuario_Creation.ToLower().Contains(Usuario_Creation));
+                }
+
+                if (!string.IsNullOrEmpty(Fecha_Creacion))
+                {
+                    query = query.Where(a => a.Fecha_Creacion.ToLower().Contains(Fecha_Creacion));
+                }
+
+                if (!string.IsNullOrEmpty(Fecha_Modificacion))
+                {
+                    query = query.Where(a => a.Fecha_Modificacion.ToLower().Contains(Fecha_Modificacion));
+                }            
+
+                if (!string.IsNullOrEmpty(BitActivo))
+                {
+                    query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+                }
+
+                #endregion
+
+                //Sorting    
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    query = query.OrderBy(sortColumn + " " + sortColumnDir);
+
+                }
+
+                recordsTotal = query.Count();
+
+                lst = query.Skip(skip).Take(pageSize).ToList();
+
+
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = lst });
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public FileResult ExcelCodigos(string Id_CP
+    , string idSupplierWH, string Latitud, string Longitud, string CP
+    , string Usuario_Creation, string Fecha_Creacion
+    , string Fecha_Modificacion, string BitActivo, string searchValue)
+
+        {
+
+           
+
+
+            List<CodigosPostales_Por_Almacen> lst = new List<CodigosPostales_Por_Almacen>();
+
+            IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen().Tables[0].AsEnumerable().AsQueryable()
+                                                            select new CodigosPostales_Por_Almacen()
+                                                            {
+                                                                Id_CP = (row["Id_CP"].ToString()),
+                                                                IdOwner = (row["idOwner"].ToString()),
+                                                                IdSupplierWH = row["idSupplierWH"].ToString(),
+                                                                IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
+                                                                Latitud = row["Latitud"].ToString(),
+                                                                Longitud = row["Longitud"].ToString(),
+                                                                CP = row["CP"].ToString(),
+                                                                Usuario_Creation = row["Usuario_Creation"].ToString(),
+                                                                Fecha_Creacion = row["Fecha_Creacion"].ToString(),
+                                                                BitActivo = row["BitActivo"].ToString(),
+                                                                Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
+                                                                Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
+                                                            };
+
+
+
+
+            if (searchValue != "")
+                query = query.Where(dd => dd.Id_CP.ToString().ToLower().Contains(searchValue)
+                || dd.IdSupplierWH.ToLower().Contains(searchValue)
+                || dd.Latitud.ToString().ToLower().Contains(searchValue)
+                || dd.Longitud.ToLower().Contains(searchValue)
+                || dd.CP.ToLower().Contains(searchValue)
+                || dd.Usuario_Creation.ToLower().Contains(searchValue)
+                || dd.Fecha_Creacion.ToLower().Contains(searchValue)
+                || dd.Fecha_Modificacion.ToLower().Contains(searchValue)
+                || dd.BitActivo.ToLower().Contains(searchValue)
+                );
+
+
+            //Filter By Columns
+            #region Filter By Columns
+            if (!string.IsNullOrEmpty(Id_CP))
+            {
+                query = query.Where(a => a.Id_CP.ToString().ToLower().Contains(Id_CP));
+            }
+            if (!string.IsNullOrEmpty(idSupplierWH))
+            {
+                query = query.Where(a => a.IdSupplierWH.ToLower().Contains(idSupplierWH));
+            }
+
+            if (!string.IsNullOrEmpty(Latitud))
+            {
+                query = query.Where(a => a.Latitud.ToString().ToLower().Contains(Latitud));
+            }
+            if (!string.IsNullOrEmpty(Longitud))
+            {
+                query = query.Where(a => a.Longitud.ToLower().Contains(Longitud));
+            }
+
+            if (!string.IsNullOrEmpty(CP))
+            {
+                query = query.Where(a => a.CP.ToLower().Contains(CP));
+            }
+
+            if (!string.IsNullOrEmpty(Usuario_Creation))
+            {
+                query = query.Where(a => a.Usuario_Creation.ToLower().Contains(Usuario_Creation));
+            }
+
+            if (!string.IsNullOrEmpty(Fecha_Creacion))
+            {
+                query = query.Where(a => a.Fecha_Creacion.ToLower().Contains(Fecha_Creacion));
+            }
+
+            if (!string.IsNullOrEmpty(Fecha_Modificacion))
+            {
+                query = query.Where(a => a.Fecha_Modificacion.ToLower().Contains(Fecha_Modificacion));
+            }
+
+            if (!string.IsNullOrEmpty(BitActivo))
+            {
+                query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
+            }
+
+            #endregion
+
+            recordsTotal = query.Count();
+
+            lst = query.Take(recordsTotal).ToList();
+
+            var d = new DataSet();
+
+            string nombreArchivo = "CodigosPostales";
+
+            //Excel to create an object file
+
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+
+            //Add a sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+
+            //Here you can set a variety of styles seemingly font color backgrounds, but not very convenient, there is not set
+            //Sheet1 head to add the title of the first row
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+
+
+            row1.CreateCell(0).SetCellValue("Id");
+            row1.CreateCell(1).SetCellValue("Almacen");
+            row1.CreateCell(2).SetCellValue("Latitud");
+            row1.CreateCell(3).SetCellValue("Longitud");
+            row1.CreateCell(4).SetCellValue("CP");
+            row1.CreateCell(5).SetCellValue("Usuario Creacion");
+            row1.CreateCell(6).SetCellValue("Fecha Creacion");
+            row1.CreateCell(7).SetCellValue("Fecha Modificación");
+            row1.CreateCell(8).SetCellValue("BitActivo");
+
+
+            //                                                
+            //The data is written progressively sheet1 each row
+          
+            for (int i = 0; i < lst.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(lst[i].Id_CP.ToString());
+                rowtemp.CreateCell(1).SetCellValue(lst[i].IdSupplierWH.ToString());
+                rowtemp.CreateCell(2).SetCellValue(lst[i].Latitud.ToString());
+                rowtemp.CreateCell(3).SetCellValue(lst[i].Longitud.ToString());
+                rowtemp.CreateCell(4).SetCellValue(lst[i].CP.ToString());
+                rowtemp.CreateCell(5).SetCellValue(lst[i].Usuario_Creation.ToString());
+                rowtemp.CreateCell(6).SetCellValue(lst[i].Fecha_Creacion.ToString());
+                rowtemp.CreateCell(7).SetCellValue(lst[i].Fecha_Modificacion.ToString());
+                rowtemp.CreateCell(8).SetCellValue(lst[i].BitActivo.ToString());
+
+
+            }
+
+          
+
+            //  Write to the client 
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            book.Write(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            DateTime dt = DateTime.Now;
+
+            string dateTime = dt.ToString("yyyyMMddHHmmssfff");
+
+            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+
+            return File(ms, "application/vnd.ms-excel", fileName);
+
+        }
+        public ActionResult CodigosPostales()
+
+        {
+            Session["listaAL"] = GetAlmacenCP();
+            Session["listaCPS"] = GeListaCP();
+
+            Session["listaEstados"] = GetEstados();
+
+
+            return View("CodigosPostales/Index");
+        }
+
+        public DataSet GetEstados()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Estados", false, parametros);
+
+
+
+        }
+
+        public ActionResult GetPoblados(string estado)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@Id_Num_Estado", estado);
+            parametros.Add("@Nom_Estado", estado);
+
+            ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "up_Corp_sel_Municipio", false, parametros);
+
+            List<Poblacion_dModel> listC = ConvertTo<Poblacion_dModel>(ds.Tables[0]);
+
+            var result = new { Success = true, json = listC };
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+        public DataSet GeListaCP()
+        {
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+            Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+            System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+            //parametros.Add("@idSupplierWH", IdProv);
+
+            return Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.up_CorpTMS_sel_CodigosPostales_Por_Almacen", false, parametros);
+
+
+
+        }
+
+
+
+        #endregion
+
 
         public List<T> ConvertTo<T>(DataTable datatable) where T : new()
 
