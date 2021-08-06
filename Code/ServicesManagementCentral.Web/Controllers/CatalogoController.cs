@@ -1,5 +1,6 @@
 ﻿
 
+using ExcelDataReader;
 using Newtonsoft.Json;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
@@ -17,6 +18,7 @@ using System.Linq.Dynamic;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TipoEntregaSETC = ServicesManagement.Web.Models.Catalogos.TipoEntregaSETC;
@@ -1559,11 +1561,71 @@ namespace ServicesManagement.Web.Controllers
             return File(ms, "application/vnd.ms-excel", fileName);
 
         }
+
+        [HttpPost]
+        public ActionResult ImportFileCodigos(HttpPostedFileBase importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+
+                DALCatalogo.upCorpTms_Ins_AlmacenesCodigos(GetDataFromFileCodigos(importFile.InputStream).ToDataTable(),User.Identity.Name);
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+
+        private List<AlmacenesCPTableType> GetDataFromFileCodigos(Stream stream)
+        {
+            var List = new List<AlmacenesCPTableType>();
+            try
+            {
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
+                {
+                    var dataSet = reader.AsDataSet(new ExcelDataSetConfiguration
+                    {
+                        ConfigureDataTable = _ => new ExcelDataTableConfiguration
+                        {
+                            UseHeaderRow = true // To set First Row As Column Names    
+                        }
+                    });
+
+                    if (dataSet.Tables.Count > 0)
+                    {
+                        var dataTable = dataSet.Tables[0];
+                        foreach (DataRow objDataRow in dataTable.Rows)
+                        {
+                            if (objDataRow.ItemArray.All(x => string.IsNullOrEmpty(x?.ToString()))) continue;
+                            List.Add(new AlmacenesCPTableType()
+                            {
+                                idOwner = int.Parse(objDataRow[0].ToString()),
+                                idSupplierWH = int.Parse(objDataRow[1].ToString()),
+                                idSupplierWHCode = int.Parse(objDataRow[2].ToString()),
+                                CP = int.Parse(objDataRow[3].ToString()),
+                                IdTipoLogistica = int.Parse(objDataRow[4].ToString()),
+
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return List;
+        }
+
         public ActionResult CodigosPostales()
 
         {
             Session["listaAL"] = GetAlmacenCP();
-            Session["listaCPS"] = GeListaCP();
+            //Session["listaCPS"] = GeListaCP();
 
             Session["listaEstados"] = GetEstados();
 

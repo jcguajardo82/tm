@@ -2530,6 +2530,39 @@ namespace ServicesManagement.Web.DAL
                 throw ex;
             }
         }
+
+        public static void upCorpTms_Ins_AlmacenesCodigos(DataTable AlmacenesCPType,string Usuario_Creation)
+        {
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+            {
+                using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Ins_AlmacenesCodigos", con))
+                {
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+
+
+                    SqlParameter param = new SqlParameter("@AlmacenesCPType", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.AlmacenesCPTableType",
+                        Value = AlmacenesCPType
+                    };
+                    sqlComm.Parameters.Add(param);
+
+                    sqlComm.Parameters.AddWithValue("@Usuario_Creation", Usuario_Creation);
+
+                    con.Open();
+                    sqlComm.ExecuteReader();
+
+
+
+                    //SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
+                    //adapter.Fill(ds);
+
+
+
+                }
+            }
+        }
         #endregion
     }
 }

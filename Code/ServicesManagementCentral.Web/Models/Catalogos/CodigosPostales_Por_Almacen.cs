@@ -34,4 +34,14 @@ namespace ServicesManagement.Web.Models.Catalogos
         //Fecha_Modificacion
         //Usuario_Modificacion
     }
+
+    public class AlmacenesCPTableType {
+        public int idOwner { get; set; }
+        public int idSupplierWH { get; set; }
+        public int idSupplierWHCode { get; set; }
+        public int CP { get; set; }
+        public int IdTipoLogistica { get; set; }
+
+
+    }
 }

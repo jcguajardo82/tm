@@ -36,6 +36,19 @@
         <div class="col-4"></div>
 
     </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12" style="padding-bottom:20px">
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <span>Seleccione Archivo  :</span>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <input class="form-control" type="file" name="importFile" id="importFile" />
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <input class="btn btn-primary" id="btnUpload" type="button" value="Subir Archivo" />
+            </div>
+        </div>
+    </div>
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
         @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
         <br />
@@ -58,9 +71,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                   
-
                     </tbody>
                     @*<tfoot>
                             <tr>
@@ -449,7 +459,7 @@
 
                     }
                 }
-               
+
 
             ]
             , language:
@@ -929,13 +939,13 @@
             Fecha_Creacion = $("#filtro6").val();
             Fecha_Modificacion = $("#filtro7").val();
             BitActivo = $("#filtro8").val();
-         
+
 
             var dataTable = $('#tbAlmacen').DataTable();
             var _searchValue = dataTable.search();
 //string Id_CP
-//, string , string , string , string 
-//, string , string 
+//, string , string , string , string
+//, string , string
 //, string , string , string searchValue
 
             window.location = window.location.origin + '/Catalogo/ExcelCodigos?Id_CP=' + Id_CP + "&idSupplierWH=" + idSupplierWH
@@ -948,5 +958,30 @@
 
         }
     </script>
+    <script>
 
+        $(document).on("click", "#btnUpload", function () {
+            var files = $("#importFile").get(0).files;
+
+            var formData = new FormData();
+            formData.append('importFile', files[0]);
+
+            $.ajax({
+                url: '/Catalogo/ImportFileCodigos',
+                data: formData,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data.Status === 1) {
+                        //alert(data.Message);
+                        location.reload();
+                    } else {
+                        alert("Failed to Import");
+                    }
+                }
+            });
+        });
+
+    </script>
 }
