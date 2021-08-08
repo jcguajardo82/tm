@@ -618,6 +618,7 @@
             });
 
             $('#example').DataTable();
+            VerificarGastosPorTienda();
         });
 
         $(".mapcontainer").mapael({
@@ -895,6 +896,39 @@
                     //function stopNow() {
                     //    clearTimeout(set);
                     //}
+        function VerificarGastosPorTienda() {
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("VerificarGastosPorTienda", "TMS")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+
+                        if (!json.Gastos)
+                            alert(json.Mensaje);
+                        //var sel = $("#ddlRoles");
+                        //sel.empty();
+
+                        //$('#ddlRoles').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        //for (var i = 0; i < json.resp.length; i++) {
+                        //    sel.append('<option value="' + json.resp[i].idRol + '">' + json.resp[i].nombreRol + ' [' + json.resp[i].descripcion + ']</option>');
+                        //}
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
 
     </script>
 }

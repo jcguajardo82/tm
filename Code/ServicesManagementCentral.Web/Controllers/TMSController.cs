@@ -131,6 +131,8 @@ namespace ServicesManagement.Web.Controllers
         public string Anio { get; set; }
         public string IdOwner { get; set; }
         public string IdTienda { get; set; }
+        public string Owner { get; set; }
+        public string Tienda { get; set; }
 
         // Modificar 
 
@@ -343,21 +345,22 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
+                //string apiUrl = string.Format("{0}/GetVehiculos", UrlApi);
 
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.GET, apiUrl, null, "");
+                //Soriana.FWK.FmkTools.RestResponse responseApi1 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.GET, apiUrl, null, "");
 
-                if (responseApi1.code.Equals("00"))
-                {
-                    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
+                var lst = DataTableToModel.ConvertTo<VehiculoModel>(GetVehiculos_index().Tables[0]);
+                //if (responseApi1.code.Equals("00"))
+                //{
+                //    List<VehiculoModel> listC = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VehiculoModel>>(responseApi1.message);
 
-                    var result = new { Success = true, json = listC };
-                    return Json(result, JsonRequestBehavior.AllowGet);
-                }
+                //    var result = new { Success = true, json = listC };
+                //    return Json(result, JsonRequestBehavior.AllowGet);
+                //}
 
-                var result1 = new { Success = true };
+                var result1 = new { Success = true, json = lst };
                 return Json(result1, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -370,7 +373,7 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult Cat_Vehiculo()
         {
             Session["lista"] = DALCatalogo.up_CorpTMS_Sel_TipoVehiculo(); //GetTipoVehiculos();
-            Session["listaV"] = GetVehiculos_index();
+            GetVehiculos_index();
 
             return View();
         }
@@ -392,6 +395,8 @@ namespace ServicesManagement.Web.Controllers
                         cmd.CommandType = CommandType.StoredProcedure;
                         using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
                             dataAdapter.Fill(ds);
+                        
+                        Session["listaV"] = ds;
                     }
                 }
                 return ds;
@@ -486,6 +491,52 @@ namespace ServicesManagement.Web.Controllers
 
             return ds;
 
+        }
+        [HttpGet]
+        public async Task<JsonResult> VerificarGastosPorTienda()
+        {
+            bool conGastos = false;
+            string msj = string.Empty;
+            int result;
+            try
+                {
+                    string CreatedId = User.Identity.Name;
+
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    parametros.Add("@usuario", CreatedId);
+                //parametros.Add("@Marca", marca);
+                //parametros.Add("@Anio", anio);
+
+
+               DataSet ds= Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_GastosVehiculosPorTienda", false, parametros);
+
+                result = int.Parse(ds.Tables[0].Rows[0]["resultado"].ToString());
+
+                if (result == 0)
+                    msj = ds.Tables[0].Rows[0]["mensaje"].ToString();
+                else
+                    conGastos = true;
+
+                //return ds;
+            }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true, Gastos = conGastos, Mensaje = msj };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+         
         }
 
 
@@ -603,8 +654,8 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                
                 DataSet ds = (DataSet)Session["listaV"];
+
                 VehiculoModel newItem = new VehiculoModel();
                 foreach (DataRow r in ds.Tables[0].Rows)
                 {
@@ -620,6 +671,8 @@ namespace ServicesManagement.Web.Controllers
                         newItem.TipoVehiculo = r["TipoVehiculo"].ToString();
                         newItem.Placas = r["Placas"].ToString();
                         newItem.Motor = r["Motor"].ToString();
+                        newItem.IdOwner = r["IdOwner"].ToString();
+                        newItem.IdTienda = r["IdTienda"].ToString();
 
                         break;
                     }

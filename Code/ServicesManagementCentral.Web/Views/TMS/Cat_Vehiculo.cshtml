@@ -352,6 +352,7 @@
 
         $(document).ready(function () {
 
+            ListAlmacen();
             $('#example thead tr').clone(true).appendTo('#example thead');
             $('#example thead tr:eq(0) th').each(function (i) {
                 if ($(this).attr('name') != "accion") {
@@ -444,7 +445,7 @@
 
         });
 
-        ListAlmacen();
+
         /* Bootbox Dialog box with custom Value */
         $('.alert-custom').click(function () {
             bootbox.dialog({
