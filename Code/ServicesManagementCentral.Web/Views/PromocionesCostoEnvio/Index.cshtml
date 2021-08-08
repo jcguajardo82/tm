@@ -841,7 +841,7 @@
                     datatype: "html",
                     success: function (json) {
                         if (json.Success) {
-                            GetConsulta();
+                            location.reload();
                         }
                     }
                     , error: function (jqXHR, textStatus, errorThrown) {
