@@ -45,6 +45,8 @@
                             <th>Motor</th>
                             <th>Marca</th>
                             <th>Año</th>
+                            <th>Almacen</th>
+                            <th>Tienda</th>
                             <th>Usuario de Actualización</th>
                             <th>Fecha de Actualización</th>
                             <th>Hora de Actualización</th>
@@ -73,6 +75,8 @@
                                                     @* Falta habilitar Marca y Año, cuando se obtrengan del API *@
                                                     <td>@r["Marca"]</td>
                                                     <td>@r["Anio"]</td>
+                                                    <td>@r["Owner"]</td>
+                                                    <td>@r["Tienda"]</td>
                                                     @*<td>@r["Marca"]</td>*@
                                                     @*<td>@r["Anio"]</td>*@
                                                     @*<td>@r["modified_user"]</td>*@
@@ -86,12 +90,10 @@
                                                     @*<td>@r["Estatus"]</td>*@
                                                     @if (r["Estatus"].ToString() == "True")
                                                     {
-                                                        <td>Activo</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>Inactivo</td>
-                                                    }
+                                                <td>Activo</td> }
+                                                                        else
+                                                                        {
+                                                <td>Inactivo</td>}
                                                     <td>
                                                         @*<button type="button" onclick="SelectOrder('@r["Id_Vehiculo"]','@r["Id_Vehiculo"]')" class="btn btn-warning btn-circle"> <i class="fa fa-minus"></i></button>*@
 
@@ -235,20 +237,36 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-4"></div>
+                            
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Almacen </label>
+                                        <select class="form-control m-b" id="ddlAlmacenes"></select>
+                                    </div>
+                                </div>
+                                <div class="col col-xs-8 col-md-4">
+                                    <div class="form-group">
+                                        <label>Tienda/Proveedor</label>
+                                        <select class="form-control m-b" id="ddlTienda">
+                                            <option value="0">--SELECCIONE--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col col-xs-8 col-md-4">
 
-                            <div class="form-group">
+                                    <div class="form-group">
 
-                                <label>Estatus</label>
+                                        <label>Estatus</label>
 
-                                <select class="form-control" id="id_estatus" name="id_estatus">
-                                    @*<option selected="selected" value="1">--SELECCIONA--</option>*@
-                                    <option selected="selected" value="1">ACTIVO</option>
-                                    <option value="0">INACTIVO</option>
-                                </select>
+                                        <select class="form-control" id="id_estatus" name="id_estatus">
+                                            @*<option selected="selected" value="1">--SELECCIONA--</option>*@
+                                            <option selected="selected" value="1">ACTIVO</option>
+                                            <option value="0">INACTIVO</option>
+                                        </select>
 
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
 
 
@@ -406,7 +424,8 @@
                             }
                             , className: 'btn-primary'
                         }
-                    ]
+                    ],
+                    scrollX:true
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
                     //        $('td', nRow).css('background-color', '#B6BF00');
@@ -418,7 +437,6 @@
             );
 
             GetTmsUNs();
-
             //var varUnidadNegocio = $('#tbUnidadNegocio').DataTable();
             //varUnidadNegocio.draw();
 
@@ -426,6 +444,7 @@
 
         });
 
+        ListAlmacen();
         /* Bootbox Dialog box with custom Value */
         $('.alert-custom').click(function () {
             bootbox.dialog({
@@ -576,7 +595,10 @@
                     idTipoVehiculo: $("#Id_TipoFolio").val(),
                     estatus: strUser,
                     marca: $("#in_marca").val(),
-                    anio: $("#in_anio").val()
+                    anio: $("#in_anio").val(),
+                    IdOwner: $("#ddlAlmacenes").val(),
+                    IdTienda: $("#ddlTienda").val()
+
 
                 },
                 datatype: "html",
@@ -637,7 +659,9 @@
                     idTipoVehiculo: $("#Id_TipoFolio").val(),
                     estatus: strUser,
                     marca: $("#in_marca").val(),
-                    anio: $("#in_anio").val()
+                    anio: $("#in_anio").val(),
+                    IdOwner: $("#ddlAlmacenes").val(),
+                    IdTienda: $("#ddlTienda").val()
 
                 },
                 datatype: "html",
@@ -752,6 +776,9 @@
                         document.getElementById("in_marca").value = json.json.Marca;
                         document.getElementById("in_anio").value = json.json.Anio;
                         document.getElementById("Id_TipoFolio").value = json.json.Id_TipoVehiculo;
+                        document.getElementById("ddlAlmacenes").value = json.json.IdOwner;
+                        GetSupp(document.getElementById("ddlAlmacenes").value);
+                        document.getElementById("ddlTienda").value = json.json.IdTienda;
                         if (json.json.activo == 'True') {
                             document.getElementById("id_estatus").value = 1;
                         } else {
@@ -774,6 +801,71 @@
 
         }
 
+        function ListAlmacen() {
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlAlmacenes");
+                        sel.empty();
+
+                        $('#ddlAlmacenes').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +'</option>');
+                        }
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
+        function GetSupp(_idOwner) {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetProveedoresCmb", "Catalogo")',
+                data: {
+                    idOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlTienda");
+                        sel.empty();
+
+                        $('#ddlTienda').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
+        $("#ddlAlmacenes").change(function () {
+
+            GetSupp($("#ddlAlmacenes").val());
+
+        });
 
 
     </script>

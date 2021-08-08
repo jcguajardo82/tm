@@ -129,6 +129,8 @@ namespace ServicesManagement.Web.Controllers
         public string TipoVehiculo { get; set; }
         public string Marca { get; set; }
         public string Anio { get; set; }
+        public string IdOwner { get; set; }
+        public string IdTienda { get; set; }
 
         // Modificar 
 
@@ -561,7 +563,7 @@ namespace ServicesManagement.Web.Controllers
 
         [HttpGet]
         public async Task<JsonResult> InsVehiculoCat(int id_vehiculo,string descripcion, string motor, string placas, string idTipoVehiculo,
-                                                    string estatus, string marca, string anio)
+                                                    string estatus, string marca, string anio, int IdOwner, int? IdTienda)
         {
            try
            {
@@ -580,6 +582,8 @@ namespace ServicesManagement.Web.Controllers
                     parametros.Add("@id_Vehiculo", id_vehiculo);
                     parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
                     parametros.Add("@Estatus", estatus);
+                    parametros.Add("@IdOwner", IdOwner);
+                    parametros.Add("@IdTienda", IdTienda);
 
                 Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.upCorpTMS_Ins_Vehiculo", false, parametros);
 

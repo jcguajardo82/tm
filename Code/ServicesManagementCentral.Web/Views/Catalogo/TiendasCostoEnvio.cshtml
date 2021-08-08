@@ -234,7 +234,8 @@
                             }
                             , className: 'btn-primary'
                         }
-                    ]
+                    ],
+                    scrollX: true
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     //    if (aData[1] == "SETC") {
                     //        $('td', nRow).css('background-color', '#B6BF00');
@@ -328,65 +329,66 @@
             _IdTipoFormato = $("#ddlFormatoTienda").val();
             _BitActivo = $("#in_estatus").val();
 
-            if (_StoreNum == "0") {
-                $("#ddlTiendas").focus();
-                return;
+            var countFields = 0;
+            if (_StoreNum != "0") {
+                countFields = countFields + 1;
             }
-            if (_IdTipoFormato == "0") {
-                $("#ddlFormatoTienda").focus();
-                return;
+            if (_IdTipoFormato != "0") {
+                countFields = countFields + 1;
             }
 
-            //if (_Direccion.length == 0) {
-            //    $("#txtDireccion").focus();
-            //    return;
-            //}
-            //if (_Director.length == 0) {
-            //    $("#txtDirector").focus();
-            //    return;
-            //}
-            //if (_Region.length == 0) {
-            //    $("#txtRegion").focus();
-            //    return;
-            //}
+            if (_Direccion.length != 0) {
+                countFields = countFields + 1;
+            }
+            if (_Director.length != 0) {
+                countFields = countFields + 1;
+            }
+            if (_Region.length != 0) {
+                countFields = countFields + 1;
+            }
             if (_CostoEnvio.length == 0) {
                 $("#txtCostoEnvio").focus();
                 return;
             }
-            debugger;
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("AddTiendasCostoEnvio", "Catalogo")',
-                data: {
-                    IdConsecutivo: _IdConsecutivo,
-                    StoreNum: _StoreNum,
-                    Direccion: _Direccion,
-                    IdTipoFormato: _IdTipoFormato,
-                    Director: _Director,
-                    Region: _Region,
-                    CostoEnvio: _CostoEnvio,       
-                    BitActivo: (_BitActivo == "1") ? true : false
+            else {
+                if (_CostoEnvio != '0.00' && countFields > 0) {
 
-                },
-                datatype: "html",
-                success: function (json) {
-                    console.log(json);
+                    alert("guardar");
+                        $.ajax({
+                            async: false,
+                            type: "GET",
+                            url: '@Url.Action("AddTiendasCostoEnvio", "Catalogo")',
+                            data: {
+                                IdConsecutivo: _IdConsecutivo,
+                                StoreNum: _StoreNum,
+                                Direccion: _Direccion,
+                                IdTipoFormato: _IdTipoFormato,
+                                Director: _Director,
+                                Region: _Region,
+                                CostoEnvio: _CostoEnvio,
+                                BitActivo: (_BitActivo == "1") ? true : false
 
-                    debugger;
-                    if (json.Success) {
-                        //$("#txtDesc_Zona").val('');
-                        //GetConsulta();
-                        location.reload();
-                    }
-                    else {
-                        alert(json.Message);
-                    }
+                            },
+                            datatype: "html",
+                            success: function (json) {
+                                console.log(json);
+
+                                debugger;
+                                if (json.Success) {
+                                    //$("#txtDesc_Zona").val('');
+                                    //GetConsulta();
+                                    location.reload();
+                                }
+                                else {
+                                    alert(json.Message);
+                                }
+                            }
+                            , error: function (jqXHR, textStatus, errorThrown) {
+                                bootbox.alert(errorThrown);
+                            }
+                        });
                 }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
+            }
         }
 
 
@@ -439,7 +441,7 @@
                         if (json.resp.BitActivo=="1") {
                             document.getElementById("in_estatus").value = 1;
                         } else { document.getElementById("in_estatus").value = 0}
-                  
+
 
 
                         $("#frmAltaTrans").modal('show');

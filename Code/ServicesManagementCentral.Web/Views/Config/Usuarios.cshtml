@@ -89,6 +89,22 @@
                     <div class="row">
                         <div class="col-xs-6 col-md-6">
                             <div class="form-group">
+                                <label>Almacen </label>
+                                <select class="form-control m-b" id="ddlAlmacenes"></select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-md-6">
+                            <div class="form-group">
+                                <label>Tienda/Proveedor</label>
+                                <select class="form-control m-b" id="ddlTienda">
+                                    <option value="0">--SELECCIONE--</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <div class="form-group">
                                 <label>Activo</label>
                                 <select class="form-control m-b" id="ddlHabilitado">
                                     <option value="false">NO</option>
@@ -110,7 +126,8 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-           GetUsuarios();
+            GetUsuarios();
+            ListAlmacen();
         });
         function PopEdit(id) {
             ListRoles();
@@ -134,6 +151,11 @@
                         } else { $("#ddlHabilitado").val("false"); }
 
                         $("#ddlRoles").val(json.resp.rol);
+                        $("#ddlAlmacenes").val(json.resp.IdOwner);
+
+                        GetSupp(json.resp.IdOwner);
+                        $("#ddlTienda").val(json.resp.IdTienda);
+
 
                         $("#dlgRoles").modal('toggle');
                     }
@@ -194,6 +216,8 @@
             var _Nombre = $("#txtNombre").val();
             var _rol = $("#ddlRoles").val();
             var _Activo = $("#ddlHabilitado").val();
+            var _IdOwner = $("#ddlAlmacenes").val();
+            var _IdTienda = $("#ddlTienda").val();
 
 
             if (_rol == "0") {
@@ -221,6 +245,8 @@
                     , activo: _Activo
                     , usuario: _Usuario
                     , rol: _rol
+                    , IdOwner: _IdOwner
+                    , IdTienda: _IdTienda
                 },
                 datatype: "html",
                 success: function (json) {
@@ -333,6 +359,72 @@
 
                 }
             );
+        });
+
+        function ListAlmacen() {
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlAlmacenes");
+                        sel.empty();
+
+                        $('#ddlAlmacenes').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +'</option>');
+                        }
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
+        function GetSupp(_idOwner) {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetProveedoresCmb", "Catalogo")',
+                data: {
+                    idOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlTienda");
+                        sel.empty();
+
+                        $('#ddlTienda').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
+        $("#ddlAlmacenes").change(function () {
+
+            GetSupp($("#ddlAlmacenes").val());
+
         });
 
 

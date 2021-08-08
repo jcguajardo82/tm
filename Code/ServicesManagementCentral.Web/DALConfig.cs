@@ -95,7 +95,7 @@ namespace ServicesManagement.Web
 
         }
 
-        public static DataSet Usuarios_iUP(string nombre, bool activo, string autor, string usuario, string rol)
+        public static DataSet Usuarios_iUP(string nombre, bool activo, string autor, string usuario, string rol, int IdOwner, int? IdTienda)
         {
 
             DataSet ds = new DataSet();
@@ -118,6 +118,8 @@ namespace ServicesManagement.Web
                 parametros.Add("@autor", autor);
                 parametros.Add("@usuario", usuario);
                 parametros.Add("@rol", rol);
+                parametros.Add("@IdOwner", IdOwner);
+                parametros.Add("@IdTienda", IdTienda);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[usuarios_iUP]", false, parametros);
 
@@ -136,7 +138,7 @@ namespace ServicesManagement.Web
 
         }
 
-        public static DataSet Usuarios_uUP(int idUsuario, string nombre, bool activo, string autor, string usuario, string rol)
+        public static DataSet Usuarios_uUP(int idUsuario, string nombre, bool activo, string autor, string usuario, string rol, int IdOwner, int? IdTienda)
         {
 
             DataSet ds = new DataSet();
@@ -154,14 +156,15 @@ namespace ServicesManagement.Web
 
 
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                parametros.Add("@idUsuario", idUsuario);
                 parametros.Add("@nombre", nombre);
                 parametros.Add("@activo", activo);
                 parametros.Add("@autor", autor);
                 parametros.Add("@usuario", usuario);
                 parametros.Add("@rol", rol);
+                parametros.Add("@IdOwner", IdOwner);
+                parametros.Add("@IdTienda", IdTienda);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[usuarios_uUP]", false, parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[usuarios_iUP]", false, parametros);
 
                 return ds;
             }

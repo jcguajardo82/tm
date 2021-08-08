@@ -532,6 +532,21 @@
                         Excel();
                     }
                     , className: 'btn-primary'
+                },
+                {
+                    text: 'Alta',
+                    action: function (e, dt, node, config) {
+
+                        $("#hddId").val('0');
+
+
+                        IniciarControles(1);
+
+
+                        $("#modal-form").modal('show');
+
+                    }
+                    , className: 'btn-primary'
                 }
 
             ],
