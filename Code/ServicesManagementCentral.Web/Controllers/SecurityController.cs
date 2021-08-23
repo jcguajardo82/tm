@@ -127,7 +127,7 @@ namespace ServicesManagement.Web.Controllers
             {
                 // DESA - QAS
                 // UserLoginModel u = new UserLoginModel { user = v.Username, pass = Soriana.FWK.FmkTools.Seguridad.Encriptar2(v.Password), tienda = "2180" };
-                // PROD 1
+                // PROD 1 --
                 UserLoginModel u = new UserLoginModel { user = v.Username, pass = Soriana.FWK.FmkTools.Seguridad.Encriptar(v.Password), tienda = "2180" };
                 string tienda = null;
 
