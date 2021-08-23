@@ -128,89 +128,6 @@ namespace ServicesManagement.Web.Controllers
         string UrlApi = System.Configuration.ConfigurationManager.AppSettings["urlApi"].ToString();
 
 
-        [HttpPost]
-        public async Task<JsonResult> InsCPS(string codigos, string IdAlmacen, string lat, string lon)
-        {
-            try
-            {
-
-
-                try
-                {
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-
-                    foreach (string c in codigos.Split('\n'))
-                    {
-                        parametros = new System.Collections.Hashtable();
-
-
-                        parametros.Add("@Id_Almacen", IdAlmacen);
-                        parametros.Add("@Latitud", lat);
-                        parametros.Add("@Longitud", lon);
-                        parametros.Add("@CP", c);
-                        parametros.Add("@Usuario_Creation", "sysAdmin");
-
-                        Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_CodigosPostales_Por_Almacen", false, parametros);
-
-
-                    }
-
-
-                    //if (string.IsNullOrEmpty(IdTipoLogistica) || IdTipoLogistica.Equals("0"))
-                    //{
-                    //    parametros.Add("@TipoLogistica", TipoLogistica);
-                    //    parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
-                    //    parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
-                    //    parametros.Add("@MaxCosto", MaxCosto);
-                    //    parametros.Add("@TipoArticulo", TipoArticulo);
-                    //    parametros.Add("@UsuarioCreacion", "sysAdmin");
-
-                    //    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_ins_TipoLogistica", false, parametros);
-                    //}
-                    //else
-                    //{
-
-                    //    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
-                    //    parametros.Add("@TipoLogistica", TipoLogistica);
-                    //    parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
-                    //    parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
-                    //    parametros.Add("@MaxCosto", MaxCosto);
-                    //    parametros.Add("@TipoArticulo", TipoArticulo);
-                    //    parametros.Add("@UsuarioUltModif", "sysAdmin2");
-                    //    parametros.Add("@BitActivo", estatus.Equals("0") ? 1 : 0);
-
-                    //    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoLogistica", false, parametros);
-
-                    //}
-
-
-
-
-                    //return ds;
-                }
-                catch (SqlException ex)
-                {
-
-                    throw ex;
-                }
-                catch (System.Exception ex)
-                {
-
-                    throw ex;
-                }
-
-
-                var result1 = new { Success = true };
-                return Json(result1, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var result = new { Success = false, Message = ex.Message };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
 
 
         /// <summary>
@@ -287,7 +204,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-        
+
 
 
 
@@ -1257,9 +1174,6 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
-
-
-     
         [HttpPost]
         public ActionResult GetCodigos()
         {
@@ -1287,7 +1201,7 @@ namespace ServicesManagement.Web.Controllers
                 var Fecha_Creacion = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
                 var Fecha_Modificacion = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
                 var BitActivo = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
-               
+
 
 
 
@@ -1298,21 +1212,21 @@ namespace ServicesManagement.Web.Controllers
                 recordsTotal = 0;
 
                 IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen().Tables[0].AsEnumerable().AsQueryable()
-                                                    select new CodigosPostales_Por_Almacen()
-                                                    {
-                                                        Id_CP = (row["Id_CP"].ToString()),
-                                                        IdOwner =(row["idOwner"].ToString()),
-                                                        IdSupplierWH = row["idSupplierWH"].ToString(),
-                                                        IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
-                                                        Latitud = row["Latitud"].ToString(),
-                                                        Longitud = row["Longitud"].ToString(),
-                                                        CP = row["CP"].ToString(),
-                                                        Usuario_Creation = row["Usuario_Creation"].ToString(),
-                                                        Fecha_Creacion = row["Fecha_Creacion"].ToString(),
-                                                        BitActivo = row["BitActivo"].ToString(),
-                                                        Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
-                                                        Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
-                                                    };
+                                                                select new CodigosPostales_Por_Almacen()
+                                                                {
+                                                                    Id_CP = (row["Id_CP"].ToString()),
+                                                                    IdOwner = (row["idOwner"].ToString()),
+                                                                    IdSupplierWH = row["idSupplierWH"].ToString(),
+                                                                    IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
+                                                                    Latitud = row["Latitud"].ToString(),
+                                                                    Longitud = row["Longitud"].ToString(),
+                                                                    CP = row["CP"].ToString(),
+                                                                    Usuario_Creation = row["Usuario_Creation"].ToString(),
+                                                                    Fecha_Creacion = row["Fecha_Creacion"].ToString(),
+                                                                    BitActivo = row["BitActivo"].ToString(),
+                                                                    Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
+                                                                    Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
+                                                                };
 
 
 
@@ -1325,7 +1239,7 @@ namespace ServicesManagement.Web.Controllers
                     || d.CP.ToLower().Contains(searchValue)
                     || d.Usuario_Creation.ToLower().Contains(searchValue)
                     || d.Fecha_Creacion.ToLower().Contains(searchValue)
-                    || d.Fecha_Modificacion.ToLower().Contains(searchValue)                   
+                    || d.Fecha_Modificacion.ToLower().Contains(searchValue)
                     || d.BitActivo.ToLower().Contains(searchValue)
                     );
 
@@ -1368,7 +1282,7 @@ namespace ServicesManagement.Web.Controllers
                 if (!string.IsNullOrEmpty(Fecha_Modificacion))
                 {
                     query = query.Where(a => a.Fecha_Modificacion.ToLower().Contains(Fecha_Modificacion));
-                }            
+                }
 
                 if (!string.IsNullOrEmpty(BitActivo))
                 {
@@ -1406,7 +1320,7 @@ namespace ServicesManagement.Web.Controllers
 
         {
 
-           
+
 
 
             List<CodigosPostales_Por_Almacen> lst = new List<CodigosPostales_Por_Almacen>();
@@ -1525,7 +1439,7 @@ namespace ServicesManagement.Web.Controllers
 
             //                                                
             //The data is written progressively sheet1 each row
-          
+
             for (int i = 0; i < lst.Count; i++)
             {
                 NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
@@ -1542,7 +1456,7 @@ namespace ServicesManagement.Web.Controllers
 
             }
 
-          
+
 
             //  Write to the client 
 
@@ -1570,7 +1484,7 @@ namespace ServicesManagement.Web.Controllers
             try
             {
 
-                DALCatalogo.upCorpTms_Ins_AlmacenesCodigos(GetDataFromFileCodigos(importFile.InputStream).ToDataTable(),User.Identity.Name);
+                DALCatalogo.upCorpTms_Ins_AlmacenesCodigos(GetDataFromFileCodigos(importFile.InputStream).ToDataTable(), User.Identity.Name);
                 return Json(new { Status = 1, Message = "File Imported Successfully " });
 
             }
@@ -1701,6 +1615,130 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+        [HttpPost]
+        public JsonResult InsCPS(string codigos, string idOwner, string idSupplierWH, string idSupplierWHCode, string lat = "", string lon = "")
+        {
+            try
+            {
+
+
+                try
+                {
+                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                    if (codigos.Trim().Length > 0)
+                        foreach (string c in codigos.Split('\n'))
+                        {
+                            parametros = new System.Collections.Hashtable();
+
+
+                            parametros.Add("@idOwner", idOwner);
+                            parametros.Add("@idSupplierWH", idSupplierWH);
+                            parametros.Add("@idSupplierWHCode", idSupplierWHCode);
+                            parametros.Add("@Latitud", lat);
+                            parametros.Add("@Longitud", lon);
+                            parametros.Add("@CP", c);
+                            parametros.Add("@Usuario_Creation", User.Identity.Name);
+
+                            Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_CodigosPostales_Por_Almacen", false, parametros);
+
+
+                        }
+
+
+                    //if (string.IsNullOrEmpty(IdTipoLogistica) || IdTipoLogistica.Equals("0"))
+                    //{
+                    //    parametros.Add("@TipoLogistica", TipoLogistica);
+                    //    parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
+                    //    parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
+                    //    parametros.Add("@MaxCosto", MaxCosto);
+                    //    parametros.Add("@TipoArticulo", TipoArticulo);
+                    //    parametros.Add("@UsuarioCreacion", "sysAdmin");
+
+                    //    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_ins_TipoLogistica", false, parametros);
+                    //}
+                    //else
+                    //{
+
+                    //    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+                    //    parametros.Add("@TipoLogistica", TipoLogistica);
+                    //    parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
+                    //    parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
+                    //    parametros.Add("@MaxCosto", MaxCosto);
+                    //    parametros.Add("@TipoArticulo", TipoArticulo);
+                    //    parametros.Add("@UsuarioUltModif", "sysAdmin2");
+                    //    parametros.Add("@BitActivo", estatus.Equals("0") ? 1 : 0);
+
+                    //    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoLogistica", false, parametros);
+
+                    //}
+
+
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
+
+
+                var result1 = new { Success = true };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+        public ActionResult GetCps(string estado, string[] municipios)
+        {
+
+            try
+            {
+
+                List<EstadosMuniCpsTableType> edosMun = new List<EstadosMuniCpsTableType>();
+
+                if (municipios == null)
+                {
+                    edosMun.Add(new EstadosMuniCpsTableType { Region1Name = estado, Region2Name = string.Empty });
+                }
+                else
+                {
+                    foreach (var item in municipios)
+                    {
+                        edosMun.Add(new EstadosMuniCpsTableType { Region1Name = estado, Region2Name = item });
+                    }
+                }
+
+                var dt = edosMun.ToDataTable();
+
+                var list = DataTableToModel.ConvertTo<upCorpTms_Cns_EstadosMuniCodigos>(DALCatalogo.upCorpTms_Cns_EstadosMuniCodigos(dt).Tables[0]);
+
+                var result = new { Success = true ,list = list};
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
 
 
         #endregion
@@ -2958,7 +2996,7 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-        
+
 
 
         public ActionResult GetTipoEnvioId(int IdTipoEnvio)
@@ -2977,11 +3015,11 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
-        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo,int Clase)
+        public ActionResult AddTipoEnvio(string Desc_TipoEnvio, int BitActivo, decimal PesoMinimo, decimal PesoMaximo, int Clase)
         {
             try
             {
-                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, PesoMinimo, PesoMaximo,Clase);
+                DALCatalogo.TipoEnvio_iUp(Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, PesoMinimo, PesoMaximo, Clase);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -2999,7 +3037,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                DALCatalogo.TipoEnvio_uUp(int.Parse(IdTipoEnvio), Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name,PesoMinimo,PesoMaximo,Clase);
+                DALCatalogo.TipoEnvio_uUp(int.Parse(IdTipoEnvio), Desc_TipoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, PesoMinimo, PesoMaximo, Clase);
 
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -3478,10 +3516,19 @@ namespace ServicesManagement.Web.Controllers
                     }
 
 
-                    var result = new { Success = true, Id = out_IdTipoLogistica, tl = TipoLogistica, mp = MinPesoVolumetrico, 
-                                        mxp = MaxPesoVolumetrico, ta = TipoArticulo, mx = MaxCosto, e = estatus,
-                                        //e = estatus.ToLower().Equals("1") ? 1 : 0, 
-                                        tipoCat = TipoCatalogo };
+                    var result = new
+                    {
+                        Success = true,
+                        Id = out_IdTipoLogistica,
+                        tl = TipoLogistica,
+                        mp = MinPesoVolumetrico,
+                        mxp = MaxPesoVolumetrico,
+                        ta = TipoArticulo,
+                        mx = MaxCosto,
+                        e = estatus,
+                        //e = estatus.ToLower().Equals("1") ? 1 : 0, 
+                        tipoCat = TipoCatalogo
+                    };
                     return Json(result, JsonRequestBehavior.AllowGet);
 
 
@@ -3874,7 +3921,8 @@ namespace ServicesManagement.Web.Controllers
                         string pmin;
                         string pmax;
 
-                        if (Peso_min == "") {
+                        if (Peso_min == "")
+                        {
                             pmin = "0";
                         }
                         else
@@ -4490,21 +4538,21 @@ namespace ServicesManagement.Web.Controllers
                 recordsTotal = 0;
 
                 IQueryable<TipoEntregaSETC> query = from row in DALCatalogo.TipoEntregaSETC_sUp().Tables[0].AsEnumerable().AsQueryable()
-                                                                                            select new TipoEntregaSETC()
-                                                                                            {
-                                                                                                IdTipoEntrega = int.Parse(row["IdTipoEntrega"].ToString()),
-                                                                                                StoreNum = int.Parse(row["StoreNum"].ToString()),
-                                                                                                Desc_UN = row["Desc_UN"].ToString(),
-                                                                                                IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),
-                                                                                                Desc_TipoEnvio = row["Desc_TipoEnvio"].ToString(),
-                                                                                                UsuarioCreacion = row["UsuarioCreacion"].ToString(),
-                                                                                                FechaCreacion = row["FechaCreacion"].ToString(),
-                                                                                                HoraCreacion = row["HoraCreacion"].ToString(),
-                                                                                                UsuarioUltModif = row["UsuarioUltModif"].ToString(),
-                                                                                                FechaUltModif = row["FechaUltModif"].ToString(),
-                                                                                                HoraUltModif = row["HoraUltModif"].ToString(),
-                                                                                                BitActivo = row["BitActivo"].ToString()
-                                                                                            };
+                                                    select new TipoEntregaSETC()
+                                                    {
+                                                        IdTipoEntrega = int.Parse(row["IdTipoEntrega"].ToString()),
+                                                        StoreNum = int.Parse(row["StoreNum"].ToString()),
+                                                        Desc_UN = row["Desc_UN"].ToString(),
+                                                        IdTipoEnvio = int.Parse(row["IdTipoEnvio"].ToString()),
+                                                        Desc_TipoEnvio = row["Desc_TipoEnvio"].ToString(),
+                                                        UsuarioCreacion = row["UsuarioCreacion"].ToString(),
+                                                        FechaCreacion = row["FechaCreacion"].ToString(),
+                                                        HoraCreacion = row["HoraCreacion"].ToString(),
+                                                        UsuarioUltModif = row["UsuarioUltModif"].ToString(),
+                                                        FechaUltModif = row["FechaUltModif"].ToString(),
+                                                        HoraUltModif = row["HoraUltModif"].ToString(),
+                                                        BitActivo = row["BitActivo"].ToString()
+                                                    };
 
 
 
@@ -4947,7 +4995,7 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
-        public ActionResult AddClasesEnvios(int IdClase,string Desc_ClaseEnvio,bool BitActivo)
+        public ActionResult AddClasesEnvios(int IdClase, string Desc_ClaseEnvio, bool BitActivo)
         {
             try
             {
@@ -4955,10 +5003,11 @@ namespace ServicesManagement.Web.Controllers
                 {
                     DALCatalogo.ClaseEnvio_iUp(Desc_ClaseEnvio, BitActivo, User.Identity.Name);
                 }
-                else {
-                    DALCatalogo.ClaseEnvio_uUp(IdClase,Desc_ClaseEnvio, BitActivo, User.Identity.Name);
+                else
+                {
+                    DALCatalogo.ClaseEnvio_uUp(IdClase, Desc_ClaseEnvio, BitActivo, User.Identity.Name);
                 }
-               
+
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
