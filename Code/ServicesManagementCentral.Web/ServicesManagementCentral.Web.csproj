@@ -234,6 +234,7 @@
     <Compile Include="Models\Catalogos\almacenTMS.cs" />
     <Compile Include="Models\Catalogos\ClaseEnvio.cs" />
     <Compile Include="Models\Catalogos\CodigosPostales_Por_Almacen.cs" />
+    <Compile Include="Models\Catalogos\EstadosMuniCpsTableType.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Logistica.cs" />
     <Compile Include="Models\Catalogos\Owners.cs" />

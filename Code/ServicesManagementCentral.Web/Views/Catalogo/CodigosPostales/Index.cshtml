@@ -213,7 +213,7 @@
                                     <label class="col-sm-12 control-label">Estado</label>
 
                                     <select class="form-control" id="cmbEstado" name="cmbEstado" onchange="getEstado(this);">
-
+                                        <option value="0">--SELECCIONE--</option>
                                         @{ if (Session["listaEstados"] != null)
                                             {
                                                 var myDataSet = Session["listaEstados"] as System.Data.DataSet;
@@ -233,7 +233,8 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label">Municipio</label>
-                                    <select id="cmbMnpo" name="cmbMnpo" data-placeholder="Choose a Country..." class="chosen-select" multiple="multiple">
+                                    <select class="form-control" id="cmbMnpo" name="cmbMnpo" multiple size="3">
+                                        @*<select id="cmbMnpo" name="cmbMnpo" data-placeholder="Choose a Country..." class="form-select" multiple="multiple">*@
                                     </select>
                                 </div>
                             </div>
@@ -265,9 +266,295 @@
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
 
+    @*<link href="~/Content/plugins/multiselect/vanillaSelectBox.css" rel="stylesheet" />
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>*@
+    <style>
+        .hidden-search {
+            display: none !important;
+        }
 
-    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>
-    <link href="~/Content/plugins/multiselect/vanillaSelectBox.css" rel="stylesheet" />
+
+        li[data-parent].closed {
+            display: none !important;
+        }
+
+        li[data-parent].open:not(.hidden-search) {
+            display: block !important;
+        }
+
+        .vsb-menu {
+            cursor: pointer;
+            z-index: 1000;
+            display: block;
+            visibility: hidden;
+            position: absolute; /*Don't change*/
+            border: 1px solid #B2B2B2;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0,0,0,.15);
+            box-shadow: 0 6px 12px rgba(0,0,0,.175);
+            border-radius: 4px;
+            font-size: 11px;
+            width: 450px
+        }
+
+        .vsb-js-search-zone {
+            position: absolute; /*Don't change*/
+            z-index: 1001;
+            width: 80%;
+            min-height: 1.8em;
+            padding: 2px;
+            background-color: #fff;
+        }
+
+            .vsb-js-search-zone input {
+                border: 1px solid grey;
+                margin-left: 2px;
+                width: 96%;
+                border-radius: 4px;
+                height: 25px !important;
+            }
+
+        .vsb-main {
+            position: relative; /*Don't change*/
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
+            width: 100%;
+        }
+
+        .vsb-menu li:hover {
+            background: linear-gradient(#f5f5f5, #e8e8e8);
+        }
+
+        .vsb-menu ul {
+            user-select: none;
+            list-style: none;
+            white-space: nowrap;
+            margin: 0px;
+            margin-top: 4px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 3px;
+            color: black;
+            cursor: pointer;
+            overflow: scroll;
+        }
+
+        li.disabled {
+            cursor: not-allowed;
+            opacity: 0.3;
+            background-color: #999;
+        }
+
+        li.overflow {
+            cursor: not-allowed;
+            opacity: 0.3;
+            background-color: #999;
+        }
+
+        li.short {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .vsb-main button {
+            min-width: 120px;
+            border-radius: 0;
+            width: 100%;
+            text-align: left;
+            z-index: 1;
+            color: yellow;
+            background: red !important;
+            border: 1px solid #999 !important;
+            line-height: 20px;
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+
+            .vsb-main button.disabled {
+                cursor: not-allowed;
+                opacity: 0.65;
+            }
+
+        .vsb-main .title {
+            margin-right: 6px;
+            user-select: none;
+        }
+
+        .vsb-main li:hover {
+            background: linear-gradient(#f5f5f5, #e8e8e8);
+        }
+
+        .vsb-main ul {
+            white-space: nowrap;
+        }
+
+        .vsb-menu li {
+            font-size: 14px;
+            background-color: #fff;
+            min-height: 1.4em;
+            padding: 0.2em 2em 0.2em 1em;
+        }
+
+            .vsb-menu li.grouped-option b {
+                display: inline-block;
+                font-size: 15px;
+                margin-left: 10px;
+                transform: translate(-18px);
+            }
+
+            .vsb-menu li.grouped-option.open span {
+                display: inline-block;
+                font-size: inherit;
+                margin-top: -2px;
+                height: 8px;
+                width: 8px;
+                transform: translate(-38px) rotate(45deg);
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+                border-radius: 2px;
+            }
+
+            .vsb-menu li.grouped-option.closed span {
+                display: inline-block;
+                font-size: inherit;
+                height: 8px;
+                width: 8px;
+                transform: translate(-38px) rotate(-45deg);
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+                border-radius: 2px;
+            }
+
+            .vsb-menu li.grouped-option i {
+                display: inline-block;
+                font-size: inherit;
+                float: left;
+                font-weight: bold;
+                margin-left: 22px;
+                margin-right: 2px;
+                height: 11px;
+                width: 8px;
+                border: 1px solid;
+                border-radius: 3px;
+                padding: 1px 3px 2px 3px;
+                margin-top: 0px;
+                color: black;
+            }
+
+            .vsb-menu li.grouped-option.checked i::after {
+                content: "";
+                display: inline-block;
+                font-size: inherit;
+                color: #333;
+                float: left;
+                margin-left: 0px;
+                display: inline-block;
+                transform: rotate(45deg);
+                height: 8px;
+                width: 5px;
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+            }
+
+        .vsb-menu :not(.multi) li.active {
+            margin-left: 7px;
+        }
+
+            .vsb-menu :not(.multi) li.active::before {
+                content: "";
+                display: inline-block;
+                font-size: inherit;
+                margin-left: -18px;
+                transform: rotate(45deg);
+                height: 10px;
+                width: 5px;
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+                border-radius: 2px;
+            }
+
+        .vsb-menu .multi li {
+            font-size: 14px;
+            background-color: #fff;
+            width: 600px;
+        }
+
+            .vsb-menu .multi li.grouped-option {
+                font-size: 15px;
+                padding-left: 5px;
+            }
+
+
+                .vsb-menu .multi li.grouped-option:hover {
+                    font-weight: bold;
+                    text-decoration: underline;
+                    color: rgb(52, 31, 112);
+                }
+
+            .vsb-menu .multi li:not(.grouped-option)::before {
+                content: "";
+                display: inline-block;
+                font-size: inherit;
+                float: left;
+                font-weight: bold;
+                margin-left: -22px;
+                margin-right: 2px;
+                border: 1px solid;
+                border-radius: 3px;
+                padding: 7px;
+                margin-top: 0px;
+                color: black;
+            }
+
+            .vsb-menu .multi li:not(.grouped-option).active::after {
+                content: "";
+                display: inline-block;
+                font-size: inherit;
+                color: #333;
+                float: left;
+                margin-left: -18px;
+                display: inline-block;
+                transform: rotate(45deg);
+                margin-top: 1px;
+                height: 8px;
+                width: 5px;
+                border-bottom: 3px solid black;
+                border-right: 3px solid black;
+            }
+
+        .caret {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-top: 4px dashed;
+            border-top: 4px solid;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+        }
+
+
+        li[data-parent] {
+            padding-left: 50px !important;
+        }
+
+        #radioBtn .notActive {
+            color: #3276b1;
+            background-color: #fff;
+        }
+
+        .red {
+            background-color: red !important;
+        }
+
+        div.scroll_horizontal {
+            width: 100%;
+            overflow: auto;
+        }
+    </style>
     <script>
         function getEstado(e) {
 
@@ -285,25 +572,25 @@
                     },
                     success: function (data) {
                         if (data.Success) {
-                            //console.log(data);
-                            //var dynamicSelect = document.getElementById("cmbMnpo");
-                            ///dynamicSelect.empty();
-                            //console.log(dynamicSelect);
-                            //for (var i = 0; i < data.json.length; i++) {
-                            //    var newOption = document.createElement("option");
-                            //    newOption.value = data.json[i].Id_Num_Poblacion;
-                            //    newOption.textContent = data.json[i].Nom_Poblacion;//item.whateverProperty
 
-                            //    dynamicSelect.appendChild(newOption);
+                            //let select1 = document.getElementById("cmbMnpo");
+
+                            //for (var i = 0; i < data.json.length; i++)
+                            //{
+                            //    var option = document.createElement("option");
+                            //    option.value = data.json[i].Nom_Poblacion;
+                            //    option.text = data.json[i].Nom_Poblacion;
+
+                            //    select1.appendChild(option);
                             //}
-                            //console.log(dynamicSelect);
                             var sel = $("#cmbMnpo");
                             sel.empty();
 
                             //$('#cmbMnpo').get(0).options[0] = new Option("--SELECCIONE--", "0");
                             for (var i = 0; i < data.json.length; i++) {
-                                sel.append('<option value="' + data.json[i].Id_Num_Poblacion + '">' + data.json[i].Nom_Poblacion + '</option>');
+                                sel.append('<option value="' + data.json[i].Nom_Poblacion + '">' + data.json[i].Nom_Poblacion + '</option>');
                             }
+
 
                         }
                     }
@@ -331,11 +618,37 @@
             });
 
 
+            debugger;
+            var _idOwner = $("#lstIdAlmacen").val();
+            var _idSupplierWH = $("#ProveedorLista").val();
+            var _idSupplierWHCode = $("#AlmacenLista").val();
+
+            if (_idOwner == "0") {
+                $("#lstIdAlmacen").focus();
+                return;
+            }
+            if (_idSupplierWH == "0") {
+                $("#ProveedorLista").focus();
+                return;
+            }
+            if (_idSupplierWHCode == "0") {
+                $("#AlmacenLista").focus();
+                return;
+            }
+
+            if (concatValor.length == 0) {
+                $("#txtCP").focus();
+                return;
+            }
+
+
             $.ajax({
                     type: 'POST',
                     url: '@Url.Action("InsCPS", "Catalogo")',
                     data: {
-                        IdAlmacen: document.getElementById("cmbAlmacen").value,
+                        idOwner: _idOwner,
+                        idSupplierWH: _idSupplierWH,
+                        idSupplierWHCode: _idSupplierWHCode,
                         codigos: concatValor,
                         lat: document.getElementById("in_latitud").value,
                         lon: document.getElementById("in_longitud").value
@@ -382,7 +695,7 @@
         $(document).ready(function () {
 
 
-            selectBox2 = new vanillaSelectBox("#cmbMnpo", { "disableSelectAll": true, "maxHeight": 200, "search": true, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            //selectBox2 = new vanillaSelectBox("#cmbMnpo", { "maxHeight": 200, "search": true, "stayOpen": true });
             //GetTmsUNs();
             GetAlmacen();
 
@@ -505,6 +818,14 @@
                     text: 'Excel General',
                     action: function (e, dt, node, config) {
                         Excel();
+                    }
+                    , className: 'btn-primary'
+                },
+                 {
+                    text: 'Alta',
+                    action: function (e, dt, node, config) {
+
+                        $('#modal-form').modal('show');
                     }
                     , className: 'btn-primary'
                 }
@@ -785,7 +1106,7 @@
             });
         }
 
-         function GetAlmacen() {
+         @*function GetAlmacen() {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
             $.ajax({
@@ -816,7 +1137,7 @@
                     bootbox.alert(errorThrown);
                 }
             });
-        }
+        }*@
 
         function IniciarComboTipoAlmacen() {
             $.ajax({
@@ -919,11 +1240,46 @@
                 });
         }
 
+
+        function BuscaCps() {
+            var edo = $("#cmbEstado").val();
+            var mcps = $("#cmbMnpo").val();
+            if (edo == '0') {
+                $("#cmbEstado").focus();
+                return;
+            }
+              $.ajax({
+                    async: false,
+                  type: "POST",
+                    url: '@Url.Action("GetCps", "Catalogo")',
+                    data: {
+                        estado: edo,
+                        municipios: mcps
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success)
+                        {
+                            var sel = $("#CPLista");
+                            sel.empty();
+                         
+                            for (var i = 0; i < json.list.length; i++) {
+                                sel.append('<option value="' + json.list[i].PostalCode + '">' + json.list[i].PostalCode + '</option>');
+                            }
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                       alert(errorThrown);
+                    }
+                });
+        }
+
         $('#cmbMnpo').on('change', function () {
 
             var text = $('#cmbMnpo option:selected').toArray().map(item => item.text).join();
-            alert(text);
-            console.log($(this).val());
+            //alert(text);
+            //alert(text);
+            //console.log($(this).val());
         });
 
         function Excel() {

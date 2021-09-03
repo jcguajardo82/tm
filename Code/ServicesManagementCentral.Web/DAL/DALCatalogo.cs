@@ -2563,6 +2563,40 @@ namespace ServicesManagement.Web.DAL
                 }
             }
         }
+
+
+        public static DataSet upCorpTms_Cns_EstadosMuniCodigos(DataTable EdoMuni)
+        {
+            DataSet ds = new DataSet();
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+            {
+                using (SqlCommand sqlComm = new SqlCommand("tms.upCorpTms_Cns_EstadosMuniCodigos", con))
+                {
+                    sqlComm.CommandType = CommandType.StoredProcedure;
+
+
+
+                    SqlParameter param = new SqlParameter("@EdoMuni", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.EstadosMuniCpsTableType",
+                        Value = EdoMuni
+                    };
+                    sqlComm.Parameters.Add(param);
+
+                    
+
+                    con.Open();
+                    //sqlComm.ExecuteReader();
+
+
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(sqlComm);
+                    adapter.Fill(ds);
+
+                }
+            }
+            return ds;
+        }
         #endregion
     }
 }
