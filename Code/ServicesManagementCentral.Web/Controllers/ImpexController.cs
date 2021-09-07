@@ -1,4 +1,6 @@
 ﻿using ExcelDataReader;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
 using ServicesManagement.Web.Models.Catalogos;
@@ -281,7 +283,10 @@ namespace ServicesManagement.Web.Controllers
 
             //Excel to create an object file
 
-            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            IWorkbook book;
+
+            //NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            book = new XSSFWorkbook();
 
             //Add a sheet
             NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
@@ -332,15 +337,15 @@ namespace ServicesManagement.Web.Controllers
 
             book.Write(ms);
 
-            ms.Seek(0, SeekOrigin.Begin);
+            //ms.Seek(0, SeekOrigin.Begin);
 
             DateTime dt = DateTime.Now;
 
             string dateTime = dt.ToString("yyyyMMddHHmmssfff");
 
-            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+            string fileName = nombreArchivo + "_" + dateTime + ".xlsx";
 
-            return File(ms, "application/vnd.ms-excel", fileName);
+            return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
 
         }
 
@@ -532,21 +537,21 @@ namespace ServicesManagement.Web.Controllers
                 recordsTotal = 0;
 
                 IQueryable<Cns_TransportistaDestinosZonas> query = from row in DALImpex.upCorpTms_Cns_TransportistaDestinosZonas().Tables[0].AsEnumerable().AsQueryable()
-                                                            select new Cns_TransportistaDestinosZonas()
-                                                            {
-                                                                IdTransportista = int.Parse(row["IdTransportista"].ToString()),
-                                                                NombreTransportista = row["NombreTransportista"].ToString(),
-                                                                Cve_PlazaOrigen = row["Cve_PlazaOrigen"].ToString(),
-                                                                NombrePlazaOrigen = row["NombrePlazaOrigen"].ToString(),
-                                                                Cve_PlazaDestino = row["Cve_PlazaDestino"].ToString(),
-                                                                NombrePlazaDestino = row["NombrePlazaDestino"].ToString(),
-                                                                IdZona = int.Parse(row["IdZona"].ToString()),
-                                                                NombreZona = row["NombreZona"].ToString(),
-                                                                CreatedId = row["CreatedId"].ToString(),
-                                                                CreatedDate = row["CreatedDate"].ToString(),
-                                                                CreatedTime = row["CreatedTime"].ToString(),
-                                                                BitActivo = row["BitActivo"].ToString()
-                                                            };
+                                                                   select new Cns_TransportistaDestinosZonas()
+                                                                   {
+                                                                       IdTransportista = int.Parse(row["IdTransportista"].ToString()),
+                                                                       NombreTransportista = row["NombreTransportista"].ToString(),
+                                                                       Cve_PlazaOrigen = row["Cve_PlazaOrigen"].ToString(),
+                                                                       NombrePlazaOrigen = row["NombrePlazaOrigen"].ToString(),
+                                                                       Cve_PlazaDestino = row["Cve_PlazaDestino"].ToString(),
+                                                                       NombrePlazaDestino = row["NombrePlazaDestino"].ToString(),
+                                                                       IdZona = int.Parse(row["IdZona"].ToString()),
+                                                                       NombreZona = row["NombreZona"].ToString(),
+                                                                       CreatedId = row["CreatedId"].ToString(),
+                                                                       CreatedDate = row["CreatedDate"].ToString(),
+                                                                       CreatedTime = row["CreatedTime"].ToString(),
+                                                                       BitActivo = row["BitActivo"].ToString()
+                                                                   };
 
 
                 if (searchValue != "")
@@ -657,21 +662,21 @@ namespace ServicesManagement.Web.Controllers
             List<Cns_TransportistaDestinosZonas> lst = new List<Cns_TransportistaDestinosZonas>();
 
             IQueryable<Cns_TransportistaDestinosZonas> query = from row in DALImpex.upCorpTms_Cns_TransportistaDestinosZonas().Tables[0].AsEnumerable().AsQueryable()
-                                                        select new Cns_TransportistaDestinosZonas()
-                                                        {
-                                                            IdTransportista = int.Parse(row["IdTransportista"].ToString()),
-                                                            NombreTransportista = row["NombreTransportista"].ToString(),
-                                                            Cve_PlazaOrigen = row["Cve_PlazaOrigen"].ToString(),
-                                                            NombrePlazaOrigen = row["NombrePlazaOrigen"].ToString(),
-                                                            Cve_PlazaDestino = row["Cve_PlazaDestino"].ToString(),
-                                                            NombrePlazaDestino = row["NombrePlazaDestino"].ToString(),
-                                                            IdZona = int.Parse(row["IdZona"].ToString()),
-                                                            NombreZona = row["NombreZona"].ToString(),
-                                                            CreatedId = row["CreatedId"].ToString(),
-                                                            CreatedDate = row["CreatedDate"].ToString(),
-                                                            CreatedTime = row["CreatedTime"].ToString(),
-                                                            BitActivo = row["BitActivo"].ToString()
-                                                        };
+                                                               select new Cns_TransportistaDestinosZonas()
+                                                               {
+                                                                   IdTransportista = int.Parse(row["IdTransportista"].ToString()),
+                                                                   NombreTransportista = row["NombreTransportista"].ToString(),
+                                                                   Cve_PlazaOrigen = row["Cve_PlazaOrigen"].ToString(),
+                                                                   NombrePlazaOrigen = row["NombrePlazaOrigen"].ToString(),
+                                                                   Cve_PlazaDestino = row["Cve_PlazaDestino"].ToString(),
+                                                                   NombrePlazaDestino = row["NombrePlazaDestino"].ToString(),
+                                                                   IdZona = int.Parse(row["IdZona"].ToString()),
+                                                                   NombreZona = row["NombreZona"].ToString(),
+                                                                   CreatedId = row["CreatedId"].ToString(),
+                                                                   CreatedDate = row["CreatedDate"].ToString(),
+                                                                   CreatedTime = row["CreatedTime"].ToString(),
+                                                                   BitActivo = row["BitActivo"].ToString()
+                                                               };
 
             if (!string.IsNullOrEmpty(searchValue))
                 query = query.Where(x => x.IdTransportista.ToString().ToLower().Contains(searchValue)
@@ -761,7 +766,7 @@ namespace ServicesManagement.Web.Controllers
 
             //Excel to create an object file
 
-            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            IWorkbook  book = new XSSFWorkbook();
 
             //Add a sheet
             NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
@@ -814,15 +819,15 @@ namespace ServicesManagement.Web.Controllers
 
             book.Write(ms);
 
-            ms.Seek(0, SeekOrigin.Begin);
+            //ms.Seek(0, SeekOrigin.Begin);
 
             DateTime dt = DateTime.Now;
 
             string dateTime = dt.ToString("yyyyMMddHHmmssfff");
 
-            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+            string fileName = nombreArchivo + "_" + dateTime + ".xlsx";
 
-            return File(ms, "application/vnd.ms-excel", fileName);
+            return File(ms.ToArray(), "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
 
         }
 
@@ -1372,11 +1377,11 @@ namespace ServicesManagement.Web.Controllers
             return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = lst });
         }
 
-  
+
         public FileResult ExcelPrueba(string IdTransportista
             , string NomTransportista, string IdPlaza, string CvePlaza, string CreatedId
             , string DescTipoEnvio, string PostalCode
-            , string CreatedDate, string CreatedTime, string BitActivo,string searchValue)
+            , string CreatedDate, string CreatedTime, string BitActivo, string searchValue)
 
         {
             List<TransportistaPlazasShow> lst = new List<TransportistaPlazasShow>();
@@ -1402,7 +1407,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-            if (!string.IsNullOrEmpty(searchValue) )
+            if (!string.IsNullOrEmpty(searchValue))
                 query = query.Where(x => x.IdTransportista.ToLower().Contains(searchValue)
                 || x.NomTransportista.ToLower().Contains(searchValue)
                 || x.IdPlaza.ToString().ToLower().Contains(searchValue)
@@ -1477,7 +1482,7 @@ namespace ServicesManagement.Web.Controllers
 
             recordsTotal = query.Count();
 
-             lst = query.Take(recordsTotal).ToList();
+            lst = query.Take(recordsTotal).ToList();
 
 
 
