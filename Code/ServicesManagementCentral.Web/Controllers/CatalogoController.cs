@@ -1,6 +1,8 @@
 ﻿
 
 using ExcelDataReader;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using Newtonsoft.Json;
 using ServicesManagement.Web.DAL;
 using ServicesManagement.Web.Helpers;
@@ -1415,7 +1417,8 @@ namespace ServicesManagement.Web.Controllers
 
             //Excel to create an object file
 
-            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            //NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            IWorkbook book = new XSSFWorkbook();
 
             //Add a sheet
             NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
@@ -1464,15 +1467,16 @@ namespace ServicesManagement.Web.Controllers
 
             book.Write(ms);
 
-            ms.Seek(0, SeekOrigin.Begin);
+            //ms.Seek(0, SeekOrigin.Begin);
 
             DateTime dt = DateTime.Now;
 
             string dateTime = dt.ToString("yyyyMMddHHmmssfff");
 
-            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+            string fileName = nombreArchivo + "_" + dateTime + ".xlsx";
 
-            return File(ms, "application/vnd.ms-excel", fileName);
+            //return File(ms, "application/vnd.ms-excel", fileName);
+            return File(ms.ToArray(), "application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
 
         }
 
