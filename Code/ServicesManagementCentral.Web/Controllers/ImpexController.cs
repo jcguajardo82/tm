@@ -875,21 +875,24 @@ namespace ServicesManagement.Web.Controllers
                     {
                         dataTable = dataSet.Tables[0];
 
-
+                        var IdZona=string.Empty;
 
 
                         for (int i = 4; i < dataTable.Rows.Count; i++)
                         {
                             for (int a = 2; a < dataTable.Rows[i].ItemArray.Length; a++)
                             {
-                                TransportistaZonaPlazas.Add(new TransportistaZonaPlazas
+                                if (dataTable.Rows[i].ItemArray[a].ToString() != "")
                                 {
-                                    IdTransportista = int.Parse(dataTable.Rows[0][1].ToString()),
-                                    Cve_PlazaOrigen = dataTable.Rows[i][0].ToString().Trim(),
-                                    Cve_PlazaDestino = dataTable.Rows[1].ItemArray[a].ToString().Trim(),
-                                    IdZona = int.Parse(dataTable.Rows[i].ItemArray[a].ToString()),
-                                    CreatedId = User.Identity.Name
-                                });
+                                    TransportistaZonaPlazas.Add(new TransportistaZonaPlazas
+                                    {
+                                        IdTransportista = int.Parse(dataTable.Rows[0][1].ToString()),
+                                        Cve_PlazaOrigen = dataTable.Rows[i][0].ToString().Trim(),
+                                        Cve_PlazaDestino = dataTable.Rows[1].ItemArray[a].ToString().Trim(),
+                                        IdZona = int.Parse(dataTable.Rows[i].ItemArray[a].ToString()),
+                                        CreatedId = User.Identity.Name
+                                    });
+                                }
                             }
 
                             var esDestino = false;
