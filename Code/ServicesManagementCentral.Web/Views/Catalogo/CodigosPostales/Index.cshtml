@@ -10,6 +10,7 @@
 <script src="~/Content/plugins/datatables/datatables.js"></script>
 <script src="~/Scripts/bootbox.js"></script>
 <script src="~/Scripts/bootbox.min.js"></script>
+<script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
 
 <style>
     #radioBtn .notActive {
@@ -25,6 +26,282 @@
         width: 100%;
         overflow: auto;
     }
+
+    li[data-parent].closed {
+        display: none !important;
+    }
+
+    li[data-parent].open:not(.hidden-search) {
+        display: block !important;
+    }
+
+    .vsb-menu {
+        cursor: pointer;
+        z-index: 1000;
+        display: block;
+        visibility: hidden;
+        position: absolute; /*Don't change*/
+        border: 1px solid #B2B2B2;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        border-radius: 4px;
+        font-size: 11px;
+        width: 450px
+    }
+
+    .vsb-js-search-zone {
+        position: absolute; /*Don't change*/
+        z-index: 1001;
+        width: 80%;
+        min-height: 1.8em;
+        padding: 2px;
+        background-color: #fff;
+    }
+
+        .vsb-js-search-zone input {
+            border: 1px solid grey;
+            margin-left: 2px;
+            width: 96%;
+            border-radius: 4px;
+            height: 25px !important;
+        }
+
+    .vsb-main {
+        position: relative; /*Don't change*/
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        width: 100%;
+    }
+
+    .vsb-menu li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-menu ul {
+        user-select: none;
+        list-style: none;
+        white-space: nowrap;
+        margin: 0px;
+        margin-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3px;
+        color: black;
+        cursor: pointer;
+        overflow: scroll;
+    }
+
+    li.disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.overflow {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.short {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vsb-main button {
+        min-width: 120px;
+        border-radius: 0;
+        width: 100%;
+        text-align: left;
+        z-index: 1;
+        color: yellow;
+        background: red !important;
+        border: 1px solid #999 !important;
+        line-height: 20px;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+        .vsb-main button.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+    .vsb-main .title {
+        margin-right: 6px;
+        user-select: none;
+    }
+
+    .vsb-main li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-main ul {
+        white-space: nowrap;
+    }
+
+    .vsb-menu li {
+        font-size: 14px;
+        background-color: #fff;
+        min-height: 1.4em;
+        padding: 0.2em 2em 0.2em 1em;
+    }
+
+        .vsb-menu li.grouped-option b {
+            display: inline-block;
+            font-size: 15px;
+            margin-left: 10px;
+            transform: translate(-18px);
+        }
+
+        .vsb-menu li.grouped-option.open span {
+            display: inline-block;
+            font-size: inherit;
+            margin-top: -2px;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option.closed span {
+            display: inline-block;
+            font-size: inherit;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(-45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option i {
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: 22px;
+            margin-right: 2px;
+            height: 11px;
+            width: 8px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 1px 3px 2px 3px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu li.grouped-option.checked i::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: 0px;
+            display: inline-block;
+            transform: rotate(45deg);
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .vsb-menu :not(.multi) li.active {
+        margin-left: 7px;
+    }
+
+        .vsb-menu :not(.multi) li.active::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            margin-left: -18px;
+            transform: rotate(45deg);
+            height: 10px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+    .vsb-menu .multi li {
+        font-size: 14px;
+        background-color: #fff;
+        width: 600px;
+    }
+
+        .vsb-menu .multi li.grouped-option {
+            font-size: 15px;
+            padding-left: 5px;
+        }
+
+
+            .vsb-menu .multi li.grouped-option:hover {
+                font-weight: bold;
+                text-decoration: underline;
+                color: rgb(52, 31, 112);
+            }
+
+        .vsb-menu .multi li:not(.grouped-option)::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: -22px;
+            margin-right: 2px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 7px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu .multi li:not(.grouped-option).active::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: -18px;
+            display: inline-block;
+            transform: rotate(45deg);
+            margin-top: 1px;
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+
+    li[data-parent] {
+        padding-left: 50px !important;
+    }
+
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+
+    .red {
+        background-color: red !important;
+    }
 </style>
 
 
@@ -37,17 +314,35 @@
 
     </div>
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12" style="padding-bottom:20px">
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <span>Seleccione Archivo  :</span>
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <input class="form-control" type="file" name="importFile" id="importFile" />
-            </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
-                <input class="btn btn-primary" id="btnUpload" type="button" value="Subir Archivo" />
-            </div>
+        <div class="col-xs-1">
+            <span>Seleccione Archivo  :</span>
         </div>
+        <div class="col-xs-4 col-md-4 col-lg-4">
+            <input class="form-control" type="file" name="importFile" id="importFile" />
+            <input class="btn btn-primary" id="btnUpload" type="button" value="Subir Archivo" />
+        </div>
+        <div class="col-xs-1">
+            <label>Almacenes:</label>
+        </div>
+        <div class="col-xs-4 col-md-4 text-left">
+            <select class="form-control" id="ddlAlmacen" name="ddlAlmacen" multiple size="3">
+                @{ if (Session["lstAlmacenesConCP"] != null)
+                    {
+                        var myDataSet = Session["lstAlmacenesConCP"] as System.Data.DataSet;
+                        foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
+                        {
+                            <option value="@r["idSupplierWH"]">@r["idSupplierWH"]</option>
+
+                        }
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-xs-2 col-md-2 text-left">
+            <input class="btn btn-primary" id="btnBuscar" onclick="Buscar()" type="button" value="Buscar" />
+        </div>
+
+
     </div>
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
         @*<h1><a href="#" class="btn btn-primary alert-custom">Bootbox Dialog &nbsp;<i class="glyphicon glyphicon-hand-left"></i></a></h1>*@
@@ -267,7 +562,7 @@
     <script src="~/Scripts/bootbox.min.js"></script>
 
     @*<link href="~/Content/plugins/multiselect/vanillaSelectBox.css" rel="stylesheet" />
-    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>*@
+        <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>*@
     <style>
         .hidden-search {
             display: none !important;
@@ -693,6 +988,7 @@
 
 
         $(document).ready(function () {
+            init("ddlAlmacen");
 
 
             //selectBox2 = new vanillaSelectBox("#cmbMnpo", { "maxHeight": 200, "search": true, "stayOpen": true });
@@ -968,6 +1264,116 @@
             IniciarComboTipoAlmacen();
         });
 
+        function Buscar() {
+
+            var count = 1;
+            var values = getValues('ddlAlmacen');
+            var _almacenes = '';
+
+            values.forEach(x => {
+
+                if (count > 1)
+                    _almacenes = _almacenes + ',' + x;
+                else
+                    _almacenes = x;
+
+                count++;
+            });
+
+            alert(_almacenes);
+
+            $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: '@Url.Action("Buscar", "Catalogo")',
+                    data: {
+                        ids: _almacenes,
+
+                    },
+                    datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                            var myTable = $('#tbAlmacen').DataTable();
+                            myTable
+                                .clear()
+                                .draw();
+                            //for (var i = 0; i < json.data.length; i++) {
+
+
+                            //    myTable.row.add([
+
+                            //        json.data[i].Id_CP,
+                            //        json.data[i].idSupplierWH,
+                            //        json.data[i].Latitud,
+                            //        json.data[i].Longitud,
+                            //        json.data[i].CP,
+                            //        json.data[i].Usuario_Creation,
+                            //        json.data[i].Fecha_Creacion,
+                            //        json.data[i].Fecha_Modificacion,
+                            //        json.data[i].BitActivo == 'True' ? 'Activo' : 'Inactivo',
+                            //        "<button type='button'  onclick='Delete(\"" + json.data[i].Id_CP + "\")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>"
+                            //    ]).draw();
+                            //}
+                        }
+
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+
+                    }
+                });
+           
+
+
+
+
+        }
+
+        function empty() {
+            if (selectBox2 != null) {
+                selectBox2.empty();
+            }
+        }
+        function doDestroy(id) {
+
+            if (id == "ddlAlmacen" && selectBox2 != null) {
+                selectBox2.destroy();
+                //let zone = document.getElementById("demo-multiple");
+                //buttons = zone.querySelector(".btns-active");
+                //buttons.style.display = "none";
+                //buttons = zone.querySelector(".btns-inactive");
+                //buttons.style.display = "block";
+
+            }
+        }
+        function init(id) {
+            if (id == "ddlAlmacen") {
+
+                selectBox2 = new vanillaSelectBox("#ddlAlmacen", { "disableSelectAll": true, "maxHeight": 200, "search": true, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+                //let zone = document.getElementById("demo-multiple");
+                //buttons = zone.querySelector(".btns-active");
+                //buttons.style.display = "block";
+                //buttons = zone.querySelector(".btns-inactive");
+                //buttons.style.display = "none";
+
+            }
+        }
+        function setValues(value) {
+            if (selectBox2 != null) {
+                selectBox2.setValue(value);
+            }
+        }
+        function getValues(id) {
+            let result = [];
+            let collection = document.querySelectorAll("#" + id + " option");
+            collection.forEach(function (x) {
+                if (x.selected) {
+                    result.push(x.value);
+                }
+            });
+            return result;
+        }
         function remove_circle(circle) {
             // remove event listers
             google.maps.event.clearListeners(circle, 'click_handler_name');
@@ -1262,7 +1668,7 @@
                         {
                             var sel = $("#CPLista");
                             sel.empty();
-                         
+
                             for (var i = 0; i < json.list.length; i++) {
                                 sel.append('<option value="' + json.list[i].PostalCode + '">' + json.list[i].PostalCode + '</option>');
                             }

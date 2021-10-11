@@ -443,8 +443,9 @@
                 datatype: "html",
                 success: function (json) {
                     if (json.Success) {
-
+                        console.log(json);
                         document.getElementById("hddId").value = json.resp.IdTipoEnvio;
+                        document.getElementById("ddlClase").value = json.resp.Clase;
                         document.getElementById("txtDesc_TipoEnvio").value = json.resp.Desc_TipoEnvio;
                         document.getElementById("PesoMinimo").value = json.resp.PesoMinimo;
                         document.getElementById("PesoMaximo").value = json.resp.PesoMaximo;

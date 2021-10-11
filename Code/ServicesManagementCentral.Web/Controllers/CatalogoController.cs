@@ -1191,6 +1191,9 @@ namespace ServicesManagement.Web.Controllers
                 var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
                 var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault().ToLower();
 
+                var ids = "0";
+                if (Session["IdsBusqueda"] != null)
+                    ids = Session["IdsBusqueda"].ToString();
 
 
                 #region Se Obtienen Filtros Por Columna
@@ -1213,7 +1216,7 @@ namespace ServicesManagement.Web.Controllers
                 skip = start != null ? Convert.ToInt32(start) : 0;
                 recordsTotal = 0;
 
-                IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen().Tables[0].AsEnumerable().AsQueryable()
+                IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(ids).Tables[0].AsEnumerable().AsQueryable()
                                                                 select new CodigosPostales_Por_Almacen()
                                                                 {
                                                                     Id_CP = (row["Id_CP"].ToString()),
@@ -1315,6 +1318,22 @@ namespace ServicesManagement.Web.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult Buscar(string ids)
+        {
+            try
+            {
+                Session["IdsBusqueda"] = ids;
+                return Json(new { Success = true });
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
         public FileResult ExcelCodigos(string Id_CP
     , string idSupplierWH, string Latitud, string Longitud, string CP
     , string Usuario_Creation, string Fecha_Creacion
@@ -1327,7 +1346,7 @@ namespace ServicesManagement.Web.Controllers
 
             List<CodigosPostales_Por_Almacen> lst = new List<CodigosPostales_Por_Almacen>();
 
-            IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen().Tables[0].AsEnumerable().AsQueryable()
+            IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(null).Tables[0].AsEnumerable().AsQueryable()
                                                             select new CodigosPostales_Por_Almacen()
                                                             {
                                                                 Id_CP = (row["Id_CP"].ToString()),
@@ -1547,10 +1566,44 @@ namespace ServicesManagement.Web.Controllers
 
             Session["listaEstados"] = GetEstados();
 
+            Session["lstAlmacenesConCP"] = GetAlmacenesConCP();
+            Session["IdsBusqueda"] = null;
 
             return View("CodigosPostales/Index");
         }
 
+        public DataSet GetAlmacenesConCP()
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("tms.up_CorpTMS_sel_Almacenes_Con_CodigosPostales", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+        }
         public DataSet GetEstados()
         {
 
