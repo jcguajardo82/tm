@@ -1345,8 +1345,11 @@ namespace ServicesManagement.Web.Controllers
 
 
             List<CodigosPostales_Por_Almacen> lst = new List<CodigosPostales_Por_Almacen>();
+            var ids = "0";
+            if (Session["IdsBusqueda"] != null)
+                ids = Session["IdsBusqueda"].ToString();
 
-            IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(null).Tables[0].AsEnumerable().AsQueryable()
+            IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(ids).Tables[0].AsEnumerable().AsQueryable()
                                                             select new CodigosPostales_Por_Almacen()
                                                             {
                                                                 Id_CP = (row["Id_CP"].ToString()),

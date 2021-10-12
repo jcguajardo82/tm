@@ -331,7 +331,7 @@
                         var myDataSet = Session["lstAlmacenesConCP"] as System.Data.DataSet;
                         foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
                         {
-                            <option value="@r["idSupplierWH"]">@r["idSupplierWH"]</option>
+                            <option value="@r["idSupplierWH"]">@r["supplierName"]</option>
 
                         }
                     }
