@@ -379,11 +379,9 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public DataSet GetVehiculos_index() {
-
-            
-
-                DataSet ds = new DataSet();
+        public DataSet GetVehiculos_index() 
+        {
+             DataSet ds = new DataSet();
 
             try
             {
@@ -399,7 +397,6 @@ namespace ServicesManagement.Web.Controllers
 
                 Session["listaV"] = ds;
 
-                return ds;
             }
             catch (SqlException ex)
             {
