@@ -387,18 +387,18 @@ namespace ServicesManagement.Web.Controllers
 
             try
             {
+                string usuario = User.Identity.Name;
 
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("up_TMS_sel_Vehiculo", cnn))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
-                            dataAdapter.Fill(ds);
-                        
-                        Session["listaV"] = ds;
-                    }
-                }
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                parametros.Add("@usuario", usuario);
+                
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_TMS_sel_Vehiculo", false, parametros);
+
+                Session["listaV"] = ds;
+
                 return ds;
             }
             catch (SqlException ex)
