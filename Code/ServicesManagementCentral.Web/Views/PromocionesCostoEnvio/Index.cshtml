@@ -701,6 +701,7 @@
             var _IdTipoEnvio = $("#ddlTipoEnvio").val();
             var _IdTipoServicio = $("#ddlTipoServicio").val();
             var _IdTipoLogistica = $("#ddlTipoLogistica").val();
+            var _Id_Num_CodBarra = $("#txtCodBar").val();
 
             if (_IdTipoCatalogo == "0") {
                 $("#ddlCatalogo").focus();
@@ -739,7 +740,6 @@
             _Cve_GciaCategSAP = $("#txtNoSubCatSap").val();
             _Desc_GciaCategSAP = $("#txtNomSubCatSap").val();
             _Material_MATNR = $("#txtNoMaterial").val();
-            _Id_Num_CodBarra = $("#txtCodBar").val();
             _nombre_SKU = $("#txtSKU").val();
             _PesoMinimo = $("#txtPesoMin").val() == '' ? 0 : $("#txtPesoMin").val();
             _PesoMaximo = $("#txtPesoMax").val() == '' ? 0 : $("#txtPesoMax").val();
@@ -793,7 +793,7 @@
                     , Cve_GciaCategSAP: _Cve_GciaCategSAP
                     , Desc_GciaCategSAP: _Desc_GciaCategSAP
                     , Material_MATNR: _Material_MATNR
-                    , Id_Num_CodBarra: _Id_Num_CodBarra == '' ? null: _Id_Num_CodBarra
+                    , Id_Num_CodBarra: _Id_Num_CodBarra
                     , nombre_SKU: _nombre_SKU
                     , PesoMinimo: _PesoMinimo
                     , PesoMaximo: _PesoMaximo
