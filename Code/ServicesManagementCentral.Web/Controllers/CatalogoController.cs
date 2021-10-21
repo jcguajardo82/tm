@@ -4493,19 +4493,28 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult AddTiendasCostoEnvio(int IdConsecutivo, int StoreNum, string Direccion, int IdTipoFormato, string Director, string Region
             , decimal CostoEnvio, bool BitActivo)
         {
+            bool guardo = true;
+            string msj = string.Empty;
+            DataSet ds;
             try
             {
                 if (IdConsecutivo == 0)
                 {
-                    DALCatalogo.upCorpTms_Ins_TiendasCostoEnvio(StoreNum, Direccion, IdTipoFormato, Director, Region
+                   ds = DALCatalogo.upCorpTms_Ins_TiendasCostoEnvio(StoreNum, Direccion, IdTipoFormato, Director, Region
             , CostoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, User.Identity.Name);
+
+                    if (ds.Tables[0].Rows[0][0].ToString().Equals("ERROR"))
+                    {
+                        guardo = false;
+                        msj = "Ya existe un registro con la misma Tienda y Tipo de Formato.";
+                    }
                 }
                 else
                 {
                     DALCatalogo.upCorpTms_Upd_TiendasCostoEnvio(IdConsecutivo, StoreNum, Direccion, IdTipoFormato, Director, Region
                 , CostoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name);
                 }
-                var result = new { Success = true };
+                var result = new { Success = guardo, Message = msj };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception x)
