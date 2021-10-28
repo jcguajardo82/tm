@@ -908,7 +908,7 @@
             $("#CPLista option").each(function () {
                 if ($(this).val() != "") {
                     //concatValor += $(this).val() + ' - ' + $(this).text() + '\n';
-                    concatValor += $(this).val() + '\n';
+                    concatValor += $(this).val() + '_';
                 }
             });
 
@@ -972,6 +972,9 @@
 
                             location.reload();
 
+                        }
+                        else {
+                            alert(data.Message);
                         }
                     }
                 });
@@ -1063,7 +1066,7 @@
                     //adds td row for button
                     data: null,
                     render: function (data, type, row) {
-                        return "<button title='Eliminar' type='button' onclick='Delete(" + data.Id_CP + ")' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>";
+                        return "<button title='Eliminar' type='button' onclick='DeleteCP(" + data.Id_CP + ")' class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>";
 
 
                     }
@@ -1264,6 +1267,31 @@
             IniciarComboTipoAlmacen();
         });
 
+        function DeleteCP(_Id_CP) {
+
+            if (confirm('Esta seguro que desea eliminar el registro ')) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: '@Url.Action("DelCPS", "Catalogo")',
+                    data: {
+                        Id_CP: _Id_CP,
+
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            Buscar();
+                        }
+
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+
+                    }
+                });
+            }
+        }
         function Buscar() {
 
             var count = 1;
@@ -1323,7 +1351,7 @@
 
                     }
                 });
-           
+
 
 
 

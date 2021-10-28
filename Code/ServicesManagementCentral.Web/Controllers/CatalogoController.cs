@@ -1323,7 +1323,9 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                Session["IdsBusqueda"] = ids;
+                if(ids != "")
+                    Session["IdsBusqueda"] = ids;
+
                 return Json(new { Success = true });
             }
             catch (Exception x)
@@ -1680,6 +1682,44 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
+                DataSet ds;
+                string msg = string.Empty;
+                bool result = false;
+
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                parametros.Add("@idOwner", idOwner);
+                parametros.Add("@idSupplierWH", idSupplierWH);
+                parametros.Add("@idSupplierWHCode", idSupplierWHCode);
+                parametros.Add("@Latitud", lat);
+                parametros.Add("@Longitud", lon);
+                parametros.Add("@codigos", codigos.Substring(0,codigos.Length -2));
+                parametros.Add("@Usuario_Creation", User.Identity.Name);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_CodigosPostales_Por_Almacen", false, parametros);
+
+                msg = ds.Tables[0].Rows[0][0].ToString();
+
+                if (msg.Equals("OK"))
+                    result = true;
+
+                var result1 = new { Success = result, Message = msg };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DelCPS(int Id_CP)
+        {
+            try
+            {
 
 
                 try
@@ -1688,57 +1728,11 @@ namespace ServicesManagement.Web.Controllers
 
                     System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
-                    if (codigos.Trim().Length > 0)
-                        foreach (string c in codigos.Split('\n'))
-                        {
-                            parametros = new System.Collections.Hashtable();
+                    parametros.Add("@Id_CP", Id_CP);
+
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_del_CodigosPostales_Por_Almacen", false, parametros);
 
 
-                            parametros.Add("@idOwner", idOwner);
-                            parametros.Add("@idSupplierWH", idSupplierWH);
-                            parametros.Add("@idSupplierWHCode", idSupplierWHCode);
-                            parametros.Add("@Latitud", lat);
-                            parametros.Add("@Longitud", lon);
-                            parametros.Add("@CP", c);
-                            parametros.Add("@Usuario_Creation", User.Identity.Name);
-
-                            Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_CodigosPostales_Por_Almacen", false, parametros);
-
-
-                        }
-
-
-                    //if (string.IsNullOrEmpty(IdTipoLogistica) || IdTipoLogistica.Equals("0"))
-                    //{
-                    //    parametros.Add("@TipoLogistica", TipoLogistica);
-                    //    parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
-                    //    parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
-                    //    parametros.Add("@MaxCosto", MaxCosto);
-                    //    parametros.Add("@TipoArticulo", TipoArticulo);
-                    //    parametros.Add("@UsuarioCreacion", "sysAdmin");
-
-                    //    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_ins_TipoLogistica", false, parametros);
-                    //}
-                    //else
-                    //{
-
-                    //    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
-                    //    parametros.Add("@TipoLogistica", TipoLogistica);
-                    //    parametros.Add("@MinPesoVolumetrico", MinPesoVolumetrico);
-                    //    parametros.Add("@MaxPesoVolumetrico", MaxPesoVolumetrico);
-                    //    parametros.Add("@MaxCosto", MaxCosto);
-                    //    parametros.Add("@TipoArticulo", TipoArticulo);
-                    //    parametros.Add("@UsuarioUltModif", "sysAdmin2");
-                    //    parametros.Add("@BitActivo", estatus.Equals("0") ? 1 : 0);
-
-                    //    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "up_CorpTMS_upd_TipoLogistica", false, parametros);
-
-                    //}
-
-
-
-
-                    //return ds;
                 }
                 catch (SqlException ex)
                 {
@@ -1761,7 +1755,6 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-
 
 
         public ActionResult GetCps(string estado, string[] municipios)
