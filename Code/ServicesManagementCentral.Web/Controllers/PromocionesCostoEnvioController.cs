@@ -132,7 +132,8 @@ namespace ServicesManagement.Web.Controllers
                                                               FechaUltModif = row["FechaUltModif"].ToString(),
                                                               HoraUltModif = row["HoraUltModif"].ToString(),
                                                               BitActivo = row["BitActivo"].ToString(),
-                                                              cnscPromo = int.Parse(row["cnscPromo"].ToString())
+                                                              cnscPromo = int.Parse(row["cnscPromo"].ToString()),
+                                                              Orden = int.Parse(row["Orden"].ToString())
 
 
                                                           };
@@ -379,7 +380,7 @@ namespace ServicesManagement.Web.Controllers
              int? IdTipoEnvio, int? IdTipoServicio, string Cve_CategSAP, string Desc_CategSAP, string Cve_GciaCategSAP, string Desc_GciaCategSAP
             , string Material_MATNR, long? Id_Num_CodBarra, string nombre_SKU, decimal PesoMinimo, decimal PesoMaximo, int? IdTipoLogistica, int MesesSinIntereses
             , decimal ComprasMayor, decimal ComprasMenor, string FechaInicioPromo, string HoraInicioPromo, string FechaFinPromo, string HoraFinPromo
-            , decimal? CostoEspecial, decimal? TarifaDesc)
+            , decimal? CostoEspecial, decimal? TarifaDesc, int orden)
         {
             try
             {
@@ -392,7 +393,7 @@ namespace ServicesManagement.Web.Controllers
                 , IdTipoEnvio, IdTipoServicio, Cve_CategSAP, Desc_CategSAP, Cve_GciaCategSAP, Desc_GciaCategSAP
                 , Material_MATNR, Id_Num_CodBarra, nombre_SKU, PesoMinimo, PesoMaximo, IdTipoLogistica, MesesSinIntereses
                 , ComprasMayor, ComprasMenor, Convert.ToDateTime(FechaInicioPromo), TimeSpan.Parse(HoraInicioPromo), Convert.ToDateTime(FechaFinPromo), TimeSpan.Parse(HoraFinPromo)
-                , CostoEspecial, TarifaDesc, DateTime.Now, DateTime.Now.TimeOfDay, User.Identity.Name, true
+                , CostoEspecial, TarifaDesc, DateTime.Now, DateTime.Now.TimeOfDay, User.Identity.Name, true, orden
                         );
                 }
                 else
@@ -403,7 +404,7 @@ namespace ServicesManagement.Web.Controllers
                 , IdTipoEnvio, IdTipoServicio, Cve_CategSAP, Desc_CategSAP, Cve_GciaCategSAP, Desc_GciaCategSAP
                 , Material_MATNR, Id_Num_CodBarra, nombre_SKU, PesoMinimo, PesoMaximo, IdTipoLogistica, MesesSinIntereses
                 , ComprasMayor, ComprasMenor, Convert.ToDateTime(FechaInicioPromo), TimeSpan.Parse(HoraInicioPromo), Convert.ToDateTime(FechaFinPromo), TimeSpan.Parse(HoraFinPromo)
-                , CostoEspecial, TarifaDesc, DateTime.Now, DateTime.Now.TimeOfDay, User.Identity.Name, true
+                , CostoEspecial, TarifaDesc, DateTime.Now, DateTime.Now.TimeOfDay, User.Identity.Name, true, orden
                         );
                 }
                 var result = new { Success = true };

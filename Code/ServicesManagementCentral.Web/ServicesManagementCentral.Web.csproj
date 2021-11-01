@@ -242,6 +242,7 @@
     <Compile Include="Models\Catalogos\Plazas.cs" />
     <Compile Include="Models\Catalogos\SuppliersCmb.cs" />
     <Compile Include="Models\Catalogos\TiendaCostoEnvio.cs" />
+    <Compile Include="Models\Catalogos\TipoCatalogoTMS.cs" />
     <Compile Include="Models\Catalogos\TipoEntrega.cs" />
     <Compile Include="Models\Catalogos\TipoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoServicio.cs" />

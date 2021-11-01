@@ -54,6 +54,7 @@ namespace ServicesManagement.Web.Models.PromocionesCostoEnvio
         public string Desc_TipoServicio { get; set; }
         public string TipoCatalogo { get; set; }
         public string Desc_TipoFormato { get; set; }
+        public int Orden { get; set; }
 
         //                                                                                
 

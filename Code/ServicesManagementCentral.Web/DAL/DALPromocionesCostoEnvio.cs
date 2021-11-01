@@ -225,7 +225,7 @@
             , int? IdTipoEnvio, int? IdTipoServicio, string Cve_CategSAP, string Desc_CategSAP, string Cve_GciaCategSAP, string Desc_GciaCategSAP
             , string Material_MATNR, long? Id_Num_CodBarra, string nombre_SKU, decimal? PesoMinimo, decimal? PesoMaximo, int? IdTipoLogistica, int? MesesSinIntereses
             , decimal? ComprasMayor, decimal? ComprasMenor, DateTime FechaInicioPromo, TimeSpan HoraInicioPromo, DateTime FechaFinPromo, TimeSpan HoraFinPromo
-            , decimal? CostoEspecial, decimal? TarifaDesc, DateTime FechaCreacion, TimeSpan HoraCreacion, string UsuarioCreacion, bool BitActivo)
+            , decimal? CostoEspecial, decimal? TarifaDesc, DateTime FechaCreacion, TimeSpan HoraCreacion, string UsuarioCreacion, bool BitActivo, int orden)
 
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
@@ -274,7 +274,8 @@
                     sqlComm.Parameters.AddWithValue("@HoraCreacion", HoraCreacion);
                     sqlComm.Parameters.AddWithValue("@UsuarioCreacion", UsuarioCreacion);
                     sqlComm.Parameters.AddWithValue("@BitActivo", BitActivo);
-                    sqlComm.Parameters.AddWithValue("@IdTipoServicio", @IdTipoServicio);
+                    sqlComm.Parameters.AddWithValue("@IdTipoServicio", IdTipoServicio);
+                    sqlComm.Parameters.AddWithValue("@orden", orden);
 
 
 
@@ -299,7 +300,7 @@
       , int? IdTipoEnvio, int? IdTipoServicio, string Cve_CategSAP, string Desc_CategSAP, string Cve_GciaCategSAP, string Desc_GciaCategSAP
       , string Material_MATNR, long? Id_Num_CodBarra, string nombre_SKU, decimal? PesoMinimo, decimal? PesoMaximo, int? IdTipoLogistica, int? MesesSinIntereses
       , decimal? ComprasMayor, decimal? ComprasMenor, DateTime FechaInicioPromo, TimeSpan HoraInicioPromo, DateTime FechaFinPromo, TimeSpan HoraFinPromo
-      , decimal? CostoEspecial, decimal? TarifaDesc, DateTime FechaUltModif, TimeSpan HoraUltModif, string UsuarioUltModif, bool BitActivo)
+      , decimal? CostoEspecial, decimal? TarifaDesc, DateTime FechaUltModif, TimeSpan HoraUltModif, string UsuarioUltModif, bool BitActivo, int orden)
 
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
@@ -347,9 +348,8 @@
                     sqlComm.Parameters.AddWithValue("@HoraUltModif", HoraUltModif);
                     sqlComm.Parameters.AddWithValue("@UsuarioUltModif", UsuarioUltModif);
                     sqlComm.Parameters.AddWithValue("@BitActivo", BitActivo);
-                    sqlComm.Parameters.AddWithValue("@IdTipoServicio", @IdTipoServicio);
-
-
+                    sqlComm.Parameters.AddWithValue("@IdTipoServicio", IdTipoServicio);
+                    sqlComm.Parameters.AddWithValue("@orden", orden);
 
                     con.Open();
                     sqlComm.ExecuteNonQuery();

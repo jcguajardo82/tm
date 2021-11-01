@@ -52,6 +52,7 @@
                         <th>Nombre SKU</th>
                         <th>Peso Mínimo</th>
                         <th>Peso Máximo</th>
+                        <th>Orden de Ejecución</th>
                         <th>Meses sin <br /> Intereses</th>
                         <th>Compras <br /> Mayores a </th>
                         <th>Compras <br /> Menores a </th>
@@ -120,9 +121,6 @@
                             <div class="form-group">
                                 <label>Tipo de Catalogo</label>
                                 <select class="form-control" id="ddlCatalogo">
-                                    <option selected="selected" value="0">--SELECCIONE--</option>
-                                    <option value="1">Super</option>
-                                    <option value="2">Mercancías Generales</option>
                                 </select>
                             </div>
                         </div>
@@ -355,6 +353,12 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <div class="form-group">
+                                <label>Orden Ejecución </label>
+                                <input type="number" step="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="txtOrden" class="form-control" />
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -450,6 +454,7 @@
                 { "data": "Nombre_SKU", "name": "Nombre_SKU", "autoWidth": true },
                 { "data": "PesoMinimo", "name": "PesoMinimo", "autoWidth": true },
                 { "data": "PesoMaximo", "name": "PesoMaximo", "autoWidth": true },
+                { "data": "Orden", "name": "Orden", "autoWidth": true },
                 { "data": "MesesSinIntereses", "name": "MesesSinIntereses", "autoWidth": true },
                 { "data": "ComprasMayor", "name": "ComprasMayor", "autoWidth": true },
                 { "data": "ComprasMenor", "name": "ComprasMenor", "autoWidth": true },
@@ -565,6 +570,7 @@
             CmboTipoServicio();
             CmboTipoLogistica();
             CmboTransportista();
+            CmboTipoCatalogo();
             CmboFormatoTienda();
             CboEdos();
         });
@@ -664,6 +670,7 @@
                                 json.resp[i].Nombre_SKU,
                                 json.resp[i].PesoMinimo,
                                 json.resp[i].PesoMaximo,
+                                json.resp[i].Orden,
                                 json.resp[i].MesesSinIntereses,
                                 json.resp[i].ComprasMayor,
                                 json.resp[i].ComprasMenor,
@@ -702,6 +709,7 @@
             var _IdTipoServicio = $("#ddlTipoServicio").val();
             var _IdTipoLogistica = $("#ddlTipoLogistica").val();
             var _Id_Num_CodBarra = $("#txtCodBar").val();
+            var _orden = $("#txtOrden").val();
 
             if (_IdTipoCatalogo == "0") {
                 $("#ddlCatalogo").focus();
@@ -766,6 +774,8 @@
                 return;
             }
 
+
+
             debugger;
             $.ajax({
                 async: false,
@@ -807,7 +817,7 @@
                     , HoraFinPromo: _HoraFinPromo
                     , CostoEspecial: _CostoEspecial
                     , TarifaDesc: _TarifaDesc
-
+                    , orden: _orden
                 },
                 datatype: "json",
                 success: function (json) {
@@ -866,6 +876,7 @@
                 success: function (json) {
                     if (json.Success) {
 
+                        console.log(json);
                         document.getElementById("hddId").value = json.resp.cnscPromo;
 
 
@@ -901,8 +912,7 @@
                         $("#txtNoCatSap").val(json.resp.Cve_CategSAP);
                         $("#txtNomCatSap").val(json.resp.Desc_CategSAP);
                         $("#txtNoSubCatSap").val(json.resp.Cve_GciaCategSAP);
-                        $("#txtNomSubCatSap").val(json.resp.Desc_GciaCategSAP);
-                        $("#txtNoMaterial").val(json.resp.Material_MATNR);
+                        $("#txtNomSubCatSap").val(json.resp.Desc_GciaCategSAP);                        
                         $("#txtCodBar").val(json.resp.Id_Num_CodBarra);
                         $("#txtSKU").val(json.resp.Nombre_SKU);
                         $("#txtPesoMin").val(json.resp.PesoMinimo);
@@ -910,7 +920,7 @@
                         $("#txtMeses").val(json.resp.MesesSinIntereses);
                         $("#txtComprasMayor").val(json.resp.ComprasMayor);
                         $("#txtComprasMenor").val(json.resp.ComprasMenor);
-
+                        $("#txtNoMaterial").val(json.resp.Material_MATNR);
 
                         $("#txtFecIniTarifa").val(json.resp.FechaInicioPromo);
                         $("#txtHoraIniTarifa").val(json.resp.HoraInicioPromo);
@@ -918,8 +928,7 @@
                         $("#txtHoraFinTarifa").val(json.resp.HoraFinPromo);
                         $("#txtCostoEsp").val(json.resp.CostoEspecial);
                         $("#txtTarifaDesc").val(json.resp.TarifaDesc);
-
-
+                        $("#txtOrden").val(json.resp.Orden);
 
 
                         if (json.resp.BitActivo) {
@@ -1221,7 +1230,7 @@
         }
     </script>
     @*combos*@
-    <script>
+<script>
 
         var delayTimer;
         function input(ele) {
@@ -1408,6 +1417,34 @@
                 }
             });
         }
+         function CmboTipoCatalogo() {
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListTipoCatalogo", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success)
+                    {
+                        var sel = $("#ddlCatalogo");
+                        sel.empty();
+
+                        $('#ddlCatalogo').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdTipoCatalogo + '">' + json.resp[i].TipoCatalogo + '</option>');
+                        }
+
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+            });
+        }
     function CmboFormatoTienda() {
 
             $.ajax({
@@ -1436,7 +1473,7 @@
                 }
             });
         }
-    </script>
+</script>
 }
 
 

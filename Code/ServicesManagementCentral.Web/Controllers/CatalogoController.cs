@@ -2853,6 +2853,22 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
+        public ActionResult ListTipoCatalogo()
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<TipoCatalogoTMS>(DALCatalogo.TipoCatalogo_sUp().Tables[0]);
+
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
         public ActionResult GetPaqueterias()
         {
