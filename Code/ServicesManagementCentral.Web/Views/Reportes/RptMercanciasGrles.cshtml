@@ -1,0 +1,404 @@
+﻿
+@{
+    ViewBag.Title = "Mercancias Generales";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Mercancias Generales</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+        <br />
+        <div class="row scroll_horizontal">
+            <div class="col-12">
+                <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Consignación</th>
+                            <th>Año de la consignación</th>
+                            <th>No. Mes de la consignacion</th>
+                            <th>Mes de la consignacion</th>
+                            <th>Fecha creación consignación</th>
+                            <th>Tipo de consignación (Envío/Reenvío)</th>
+                            <th>Consignación original (Aplica si es reenvío)</th>
+                            <th>Año del servicio</th>
+                            <th>No. Mes del servicio</th>
+                            <th>Mes del servicio</th>
+                            <th>ID de Unidad de Negocio </th>
+                            <th>Nombre de Unidad de Negocio</th>
+                            <th>Numero Almacen</th>
+                            <th>Nombre Almacen</th>
+                            <th>Tipo de Almacen</th>
+                            <th>Orden de compra (Aplica solo DSV)</th>
+                            <th>Estado Origen</th>
+                            <th>Ciudad Origen</th>
+                            <th>Codigo postal Origen</th>
+                            <th>ID Plaza Origen</th>
+                            <th>Número, calle y colonia</th>
+                            <th>Estado Destino</th>
+                            <th>Ciudad Destino</th>
+                            <th>Codigo postal Destino</th>
+                            <th>ID Plaza Destino</th>
+                            <th>ZONA</th>
+                            <th>Tipo de envío</th>
+                            <th>Tipo de servicio</th>
+                            <th>Tipo de Logistica</th>
+                            <th>Fecha de Estatus Almacen</th>
+                            <th>Estatus Almacen</th>
+                            <th>Fecha de Estatus Entregas</th>
+                            <th>Estatus Entregas</th>
+                            <th>Transportista asignado en checkout</th>
+                            <th>Transportista final asignado</th>
+                            <th>Guia Transportista</th>
+                            <th>Vigencia de guía</th>
+                            <th>Fecha solicitud de guía</th>
+                            <th>Fecha de recolección</th>
+                            <th>Visitas/Intentos de entrega</th>
+                            <th>Fecha de primer intento entrega</th>
+                            <th>Fecha de segundo intento entrega</th>
+                            <th>Fecha de entrega al cliente</th>
+                            <th>Dias hábiles compromiso de entrega al cliente</th>
+                            <th>Fecha máxima compromiso de entrega al cliente</th>
+                            <th>Días transcurridos desde la recolección a la entrega</th>
+                            <th>Días transcurridos desde la creación a la entrega</th>
+                            <th>Dias compromiso Transportista</th>
+                            <th>Variación Vs Recolección</th>
+                            <th>Variación Vs Creación</th>
+                            <th>Cumplimiento Vs Embarque (Dias transportista)</th>
+                            <th>Cumplimiento Vs creación (Dias compromiso clientes)</th>
+                            <th>Causa de incumplimiento</th>
+                            <th>Envios (Guías) por consignacion</th>
+                            <th>Costo transportista</th>
+                            <th>Costo de envío al cliente Cotizado</th>
+                            <th>Costo de envío al cliente Real</th>
+                            <th>Ticket $ Compra</th>
+                            <th>Ticket $ Venta</th>
+                            <th>Productos por consignación</th>
+                            <th>Piezas por consignación</th>
+                            @*<th>Consignacion asegurada</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Session["MercanciasGrles"] != null)
+                        {
+                            System.Data.DataSet ds = (System.Data.DataSet)Session["MercanciasGrles"];
+                            var dt = ds.Tables[0];
+
+                            foreach (System.Data.DataRow p in dt.Rows)
+                            {
+                                    <tr>
+                                        <td>@p["UeNo"]</td>
+                                        <td>@p["AnioConsignacion"]</td>
+                                        <td>@p["NoMesConsignacion"]</td>
+                                        <td>Noviembre</td>
+                                        <td>@p["OrderDate"]</td>
+                                        <td>@p["ConsignmentType"]</td>
+                                        <td>@p["UeNoRMA"]</td>
+                                        <td>@p["AnioServicio"]</td>
+                                        <td>@p["NoMesServicio"]</td>
+                                        <td>MesServicio</td>
+                                        <td>@p["idSupplierWH"]</td>
+                                        <td>@p["supplierName"]</td>
+                                        <td>@p["idSupplierWHCode"]</td>
+                                        <td>@p["SupplierWHName"]</td>
+                                        <td>@p["UeType"]</td>
+                                        <td>@p["ordenDeCompraPDP"]</td>
+                                        <td>@p["addressState"]</td>
+                                        <td>@p["addressCity"]</td>
+                                        <td>@p["addressPostalCode"]</td>
+                                        <td>@p["IdPlaza"]</td>
+                                        <td>@p["addressReference1"] </td>
+                                        @*<td>@p["addressReference2"]</td>*@
+                                        <td>@p["Abrev_Estado"]</td>
+                                        <td>@p["Locality"]</td>
+                                        <td>@p["PostalCode"]</td>
+                                        <td>@p["idplazadestino"]</td>
+                                        <td>@p["zona"]</td>
+                                        <td>@p["tipodeenvio"]</td>
+                                        <td>@p["tipodeservicio"]</td>
+                                        <td>@p["tipodelogistica"]</td>
+                                        <td>@p["fechaestatusalmacen"]</td>
+                                        <td>@p["estatusalmacen"]</td>
+                                        <td>@p["fechaestatusentregas"]</td>
+                                        <td>@p["TrackingServiceStatus"]</td>
+                                        <td>@p["transportistaasignado"]</td>
+                                        <td>@p["TrackingServiceName"]</td>
+                                        <td>@p["IdTrackingService"]</td>
+                                        <td>@p["TrackingExpDate"]</td>
+                                        <td>@p["CreationDate"]</td>
+                                        <td>@p["fecharecoleccion"]</td>
+                                        <td>@p["visitas"]</td>
+                                        <td>@p["fechaprimerintento"]</td>
+                                        <td>@p["fechasegundointento"]</td>
+                                        <td>@p["fechaentregacliente"]</td>
+                                        <td>@p["diashabilescompromiso"]</td>
+                                        <td>@p["fechamaximacompromiso"]</td>
+                                        <td>@p["Fdiastranscurridosdesdelarecoleccion"]</td>
+                                        <td>@p["Fdiastranscurridosdesdelacreacion"]</td>
+                                        <td>@p["diascompromisotransportista"]</td>
+                                        <td>@p["Fvariacionvsrecoleccion"]</td>
+                                        <td>@p["Fvariacionvscreacion"]</td>
+                                        <td>@p["Fcumplimientovsembarque"]</td>
+                                        <td>@p["Fcumplimientovscreacion"]</td>
+                                        <td>@p["causaincumplimiento"]</td>
+                                        <td>@p["enviosporconsignacion"]</td>
+                                        <td>@p["totalPrice"]</td>
+                                        <td>@p["costoenvioclientecotizado"]</td>
+                                        <td>@p["costoenvioclientereal"]</td>
+                                        <td>@p["OrderTotal"]</td>
+                                        <td>@p["total"]</td>
+                                        <td>@p["ProductosPorAsignacion"]</td>
+                                        <td>@p["PiezasPorAsignacion"]</td>
+
+                                    </tr>
+                            }
+                        }
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#tblConsulta').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [10, 25, 50, -1],
+                        ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                        
+                    ],
+                    "scrollX": true
+                    //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    //    if (aData[1] == "SETC") {
+                    //        $('td', nRow).css('background-color', '#B6BF00');
+                    //    } else if (aData[2] == "4") {
+                    //        $('td', nRow).css('background-color', 'Orange');
+                    //    }
+                    //}
+                }
+            );
+
+            //GetConsulta();
+
+        });
+
+        function GetConsulta() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetMercanciasGrles", "Reportes")',
+                data: {
+                    //  Id_Num_UN: _Id_Num_UN
+                },
+                datatype: "html",
+                success: function (json) {
+                    if (json.Success) {
+
+                        console.log(json);
+                        var myTable = $('#tblConsulta').DataTable();
+                        myTable
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.resp.length; i++) {
+
+
+                            myTable.row.add([
+                                json.resp[i].UeNo,
+                                json.resp[i].AnioConsignacion,
+                                json.resp[i].NoMesConsignacion,
+                                '',//ObtenerMes(json.resp[i].NoMesConsignacion),
+                                json.resp[i].OrderDate,
+                                json.resp[i].ConsignmentType,
+                                json.resp[i].UeNoRMA,
+                                json.resp[i].AnioServicio,
+                                json.resp[i].NoMesServicio,
+                                '',//ObtenerMes(json.resp[i].NoMesServicio),
+                                json.resp[i].idSupplierWH,
+                                json.resp[i].supplierName,
+                                json.resp[i].idSupplierWHCode,
+                                json.resp[i].SupplierWHName,
+                                json.resp[i].UeType,
+                                json.resp[i].ordenDeCompraPDP,
+                                json.resp[i].addressState,
+                                json.resp[i].addressCity,
+                                json.resp[i].addressPostalCode,
+                                json.resp[i].IdPlaza,
+                                json.resp[i].addressReference1,
+                                json.resp[i].addressReference2,
+                                json.resp[i].Abrev_Estado,
+                                json.resp[i].Locality,
+                                json.resp[i].PostalCode,
+                                json.resp[i].idplazadestino,
+                                json.resp[i].zona,
+                                json.resp[i].tipodeenvio,
+                                json.resp[i].tipodeservicio,
+                                json.resp[i].tipodelogistica,
+                                json.resp[i].Ufechaestatusalmacen,
+                                json.resp[i].Uestatusalmacen,
+                                json.resp[i].fechaestatusentregas,
+                                json.resp[i].TrackingServiceStatus,
+                                json.resp[i].transportistaasignado,
+                                json.resp[i].TrackingServiceName,
+                                json.resp[i].IdTrackingService,
+                                json.resp[i].TrackingExpDate,
+                                json.resp[i].CreationDate,
+                                json.resp[i].fecharecoleccion,
+                                json.resp[i].visitas,
+                                json.resp[i].fechaprimerintento,
+                                json.resp[i].fechasegundointento,
+                                json.resp[i].fechaentregacliente,
+                                json.resp[i].diashabilescompromiso,
+                                json.resp[i].fechamaximacompromiso,
+                                json.resp[i].Fdiastranscurridosdesdelarecoleccion,
+                                json.resp[i].Fdiastranscurridosdesdelacreacion,
+                                json.resp[i].diascompromisotransportista,
+                                json.resp[i].Fvariacionvsrecoleccion,
+                                json.resp[i].Fvariacionvscreacion,
+                                json.resp[i].Fcumplimientovsembarque,
+                                json.resp[i].Fcumplimientovscreacion,
+                                json.resp[i].Ucausaincumplimiento,
+                                json.resp[i].enviosporconsignacion,
+                                json.resp[i].totalPrice,
+                                json.resp[i].costoenvioclientecotizado,
+                                json.resp[i].costoenvioclientereal,
+                                json.resp[i].OrderTotal,
+                                json.resp[i].total,
+                                json.resp[i].ProductosPorAsignacion,
+                                json.resp[i].PiezasPorAsignacion
+                            ]).draw();
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function ObtenerMes(_mes) {
+            var nombre='';
+            switch (_mes) {
+                case 1:
+                    nombre = 'Enero';
+                    break;
+                case 2:
+                    nombre = 'Febrero';
+                    break;
+                case 3:
+                    nombre = 'Marzo';
+                    break;
+                case 4:
+                    nombre = 'Abril';
+                    break;
+                case 5:
+                    nombre = 'Mayo';
+                    break;
+                case 6:
+                    nombre = 'Junio';
+                    break;
+                case 7:
+                    nombre = 'Julio';
+                    break;
+                case 8:
+                    nombre = 'Agosto';
+                    break;
+                case 9:
+                    nombre = 'Septiembre';
+                    break;
+                case 10:
+                    nombre = 'Octubre';
+                    break;
+                case 11:
+                    nombre = 'Noviembre';
+                    break;
+                case 12:
+                    nombre = 'Diciembre';
+                    break;
+            }
+
+            return nombre ;
+        }
+    </script>
+
+}

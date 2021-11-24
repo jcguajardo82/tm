@@ -211,6 +211,7 @@
     <Compile Include="Controllers\OrdenesController.cs" />
     <Compile Include="Controllers\PromocionesCostoEnvioController.cs" />
     <Compile Include="Controllers\RangosTiemposExcepcionesController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TMSController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="DAL\DALGastosVehiculo.cs" />
     <Compile Include="DAL\DALImpex.cs" />
     <Compile Include="DAL\DALPromocionesCostoEnvio.cs" />
+    <Compile Include="DAL\DALReportes.cs" />
     <Compile Include="DAL\DALTipoLogistica.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -304,6 +306,7 @@
     <Compile Include="Models\PromocionesCostoEnvio\FormatoTienda.cs" />
     <Compile Include="Models\PromocionesCostoEnvio\orderfacts_PostalCodes.cs" />
     <Compile Include="Models\PromocionesCostoEnvio\PromocionesCostoEnvio.cs" />
+    <Compile Include="Models\Reportes\MercanciasGeneralesModel.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TiendaModel.cs" />
@@ -3698,6 +3701,7 @@
     <Content Include="Views\OpUltMilla\Costos.cshtml" />
     <Content Include="Views\Catalogo\ClasesEnvios.cshtml" />
     <Content Include="Views\Impex\Example.cshtml" />
+    <Content Include="Views\Reportes\RptMercanciasGrles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
