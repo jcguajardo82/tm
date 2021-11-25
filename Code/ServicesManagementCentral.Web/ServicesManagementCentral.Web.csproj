@@ -307,6 +307,7 @@
     <Compile Include="Models\PromocionesCostoEnvio\orderfacts_PostalCodes.cs" />
     <Compile Include="Models\PromocionesCostoEnvio\PromocionesCostoEnvio.cs" />
     <Compile Include="Models\Reportes\MercanciasGeneralesModel.cs" />
+    <Compile Include="Models\Reportes\SuppliersByIdModel.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TiendaModel.cs" />

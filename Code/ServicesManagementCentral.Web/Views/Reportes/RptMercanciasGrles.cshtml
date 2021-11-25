@@ -3,6 +3,271 @@
     ViewBag.Title = "Mercancias Generales";
 }
 
+<style>
+    .vsb-menu {
+        cursor: pointer;
+        z-index: 1000;
+        display: block;
+        visibility: hidden;
+        position: absolute; /*Don't change*/
+        border: 1px solid #B2B2B2;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        border-radius: 4px;
+        font-size: 11px;
+        width: 450px
+    }
+
+    .vsb-js-search-zone {
+        position: absolute; /*Don't change*/
+        z-index: 1001;
+        width: 80%;
+        min-height: 1.8em;
+        padding: 2px;
+        background-color: #fff;
+    }
+
+        .vsb-js-search-zone input {
+            border: 1px solid grey;
+            margin-left: 2px;
+            width: 96%;
+            border-radius: 4px;
+            height: 25px !important;
+        }
+
+    .vsb-main {
+        position: relative; /*Don't change*/
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        width: 100%;
+    }
+
+    .vsb-menu li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-menu ul {
+        user-select: none;
+        list-style: none;
+        white-space: nowrap;
+        margin: 0px;
+        margin-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3px;
+        color: black;
+        cursor: pointer;
+        overflow: scroll;
+    }
+
+    li.disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.overflow {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.short {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vsb-main button {
+        min-width: 120px;
+        border-radius: 0;
+        width: 100%;
+        text-align: left;
+        z-index: 1;
+        color: yellow;
+        background: red !important;
+        border: 1px solid #999 !important;
+        line-height: 20px;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+        .vsb-main button.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+    .vsb-main .title {
+        margin-right: 6px;
+        user-select: none;
+    }
+
+    .vsb-main li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-main ul {
+        white-space: nowrap;
+    }
+
+    .vsb-menu li {
+        font-size: 14px;
+        background-color: #fff;
+        min-height: 1.4em;
+        padding: 0.2em 2em 0.2em 1em;
+    }
+
+        .vsb-menu li.grouped-option b {
+            display: inline-block;
+            font-size: 15px;
+            margin-left: 10px;
+            transform: translate(-18px);
+        }
+
+        .vsb-menu li.grouped-option.open span {
+            display: inline-block;
+            font-size: inherit;
+            margin-top: -2px;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option.closed span {
+            display: inline-block;
+            font-size: inherit;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(-45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option i {
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: 22px;
+            margin-right: 2px;
+            height: 11px;
+            width: 8px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 1px 3px 2px 3px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu li.grouped-option.checked i::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: 0px;
+            display: inline-block;
+            transform: rotate(45deg);
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .vsb-menu :not(.multi) li.active {
+        margin-left: 7px;
+    }
+
+        .vsb-menu :not(.multi) li.active::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            margin-left: -18px;
+            transform: rotate(45deg);
+            height: 10px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+    .vsb-menu .multi li {
+        font-size: 14px;
+        background-color: #fff;
+        width: 600px;
+    }
+
+        .vsb-menu .multi li.grouped-option {
+            font-size: 15px;
+            padding-left: 5px;
+        }
+
+
+            .vsb-menu .multi li.grouped-option:hover {
+                font-weight: bold;
+                text-decoration: underline;
+                color: rgb(52, 31, 112);
+            }
+
+        .vsb-menu .multi li:not(.grouped-option)::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: -22px;
+            margin-right: 2px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 7px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu .multi li:not(.grouped-option).active::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: -18px;
+            display: inline-block;
+            transform: rotate(45deg);
+            margin-top: 1px;
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+
+    li[data-parent] {
+        padding-left: 50px !important;
+    }
+
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+</style>
 @using (Html.BeginForm())
 {
     <div class="row">
@@ -12,7 +277,53 @@
 
     </div>
 
+    <div class="row">
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Inicio</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker1">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecIni"
+                           type="text" value="@ViewBag.FecIni">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Fin</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker2">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecFin"
+                           type="text" value="@ViewBag.FecFin">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Almacen </label>
+                <select class="form-control m-b" id="ddlAlmacenes">
+                    <option value="0">--SELECCIONE--</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Tienda/Proveedor</label>
+                <select class="form-control m-b" id="ddlTienda" name="ddlTienda" multiple size="3">
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
+            <label>&nbsp;</label>
+            @*<input class="btn btn-primary" id="btnBuscar" onclick="Busqueda()" type="button" value="Buscar" />*@
+            <button class="btn btn-lg btn-block btn-primary mt-auto" type="button" onclick="Busqueda()">
+                Buscar
+            </button>
 
+        </div>
+    </div>
     <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
         <br />
         <div class="row scroll_horizontal">
@@ -92,74 +403,74 @@
 
                             foreach (System.Data.DataRow p in dt.Rows)
                             {
-                                    <tr>
-                                        <td>@p["UeNo"]</td>
-                                        <td>@p["AnioConsignacion"]</td>
-                                        <td>@p["NoMesConsignacion"]</td>
-                                        <td>Noviembre</td>
-                                        <td>@p["OrderDate"]</td>
-                                        <td>@p["ConsignmentType"]</td>
-                                        <td>@p["UeNoRMA"]</td>
-                                        <td>@p["AnioServicio"]</td>
-                                        <td>@p["NoMesServicio"]</td>
-                                        <td>MesServicio</td>
-                                        <td>@p["idSupplierWH"]</td>
-                                        <td>@p["supplierName"]</td>
-                                        <td>@p["idSupplierWHCode"]</td>
-                                        <td>@p["SupplierWHName"]</td>
-                                        <td>@p["UeType"]</td>
-                                        <td>@p["ordenDeCompraPDP"]</td>
-                                        <td>@p["addressState"]</td>
-                                        <td>@p["addressCity"]</td>
-                                        <td>@p["addressPostalCode"]</td>
-                                        <td>@p["IdPlaza"]</td>
-                                        <td>@p["addressReference1"] </td>
-                                        @*<td>@p["addressReference2"]</td>*@
-                                        <td>@p["Abrev_Estado"]</td>
-                                        <td>@p["Locality"]</td>
-                                        <td>@p["PostalCode"]</td>
-                                        <td>@p["idplazadestino"]</td>
-                                        <td>@p["zona"]</td>
-                                        <td>@p["tipodeenvio"]</td>
-                                        <td>@p["tipodeservicio"]</td>
-                                        <td>@p["tipodelogistica"]</td>
-                                        <td>@p["fechaestatusalmacen"]</td>
-                                        <td>@p["estatusalmacen"]</td>
-                                        <td>@p["fechaestatusentregas"]</td>
-                                        <td>@p["TrackingServiceStatus"]</td>
-                                        <td>@p["transportistaasignado"]</td>
-                                        <td>@p["TrackingServiceName"]</td>
-                                        <td>@p["IdTrackingService"]</td>
-                                        <td>@p["TrackingExpDate"]</td>
-                                        <td>@p["CreationDate"]</td>
-                                        <td>@p["fecharecoleccion"]</td>
-                                        <td>@p["visitas"]</td>
-                                        <td>@p["fechaprimerintento"]</td>
-                                        <td>@p["fechasegundointento"]</td>
-                                        <td>@p["fechaentregacliente"]</td>
-                                        <td>@p["diashabilescompromiso"]</td>
-                                        <td>@p["fechamaximacompromiso"]</td>
-                                        <td>@p["Fdiastranscurridosdesdelarecoleccion"]</td>
-                                        <td>@p["Fdiastranscurridosdesdelacreacion"]</td>
-                                        <td>@p["diascompromisotransportista"]</td>
-                                        <td>@p["Fvariacionvsrecoleccion"]</td>
-                                        <td>@p["Fvariacionvscreacion"]</td>
-                                        <td>@p["Fcumplimientovsembarque"]</td>
-                                        <td>@p["Fcumplimientovscreacion"]</td>
-                                        <td>@p["causaincumplimiento"]</td>
-                                        <td>@p["enviosporconsignacion"]</td>
-                                        <td>@p["totalPrice"]</td>
-                                        <td>@p["costoenvioclientecotizado"]</td>
-                                        <td>@p["costoenvioclientereal"]</td>
-                                        <td>@p["OrderTotal"]</td>
-                                        <td>@p["total"]</td>
-                                        <td>@p["ProductosPorAsignacion"]</td>
-                                        <td>@p["PiezasPorAsignacion"]</td>
+                                <tr>
+                                    <td>@p["UeNo"]</td>
+                                    <td>@p["AnioConsignacion"]</td>
+                                    <td>@p["NoMesConsignacion"]</td>
+                                    <td>@p["MesConsignacion"]</td>
+                                    <td>@p["OrderDate"]</td>
+                                    <td>@p["ConsignmentType"]</td>
+                                    <td>@p["UeNoRMA"]</td>
+                                    <td>@p["AnioServicio"]</td>
+                                    <td>@p["NoMesServicio"]</td>
+                                    <td>@p["MesServicio"]</td>
+                                    <td>@p["idSupplierWH"]</td>
+                                    <td>@p["supplierName"]</td>
+                                    <td>@p["idSupplierWHCode"]</td>
+                                    <td>@p["SupplierWHName"]</td>
+                                    <td>@p["UeType"]</td>
+                                    <td>@p["ordenDeCompraPDP"]</td>
+                                    <td>@p["addressState"]</td>
+                                    <td>@p["addressCity"]</td>
+                                    <td>@p["addressPostalCode"]</td>
+                                    <td>@p["IdPlaza"]</td>
+                                    <td>@p["addressReference1"] </td>
+                                    @*<td>@p["addressReference2"]</td>*@
+                                    <td>@p["Abrev_Estado"]</td>
+                                    <td>@p["Locality"]</td>
+                                    <td>@p["PostalCode"]</td>
+                                    <td>@p["idplazadestino"]</td>
+                                    <td>@p["zona"]</td>
+                                    <td>@p["tipodeenvio"]</td>
+                                    <td>@p["tipodeservicio"]</td>
+                                    <td>@p["tipodelogistica"]</td>
+                                    <td>@p["fechaestatusalmacen"]</td>
+                                    <td>@p["estatusalmacen"]</td>
+                                    <td>@p["fechaestatusentregas"]</td>
+                                    <td>@p["TrackingServiceStatus"]</td>
+                                    <td>@p["transportistaasignado"]</td>
+                                    <td>@p["TrackingServiceName"]</td>
+                                    <td>@p["IdTrackingService"]</td>
+                                    <td>@p["TrackingExpDate"]</td>
+                                    <td>@p["CreationDate"]</td>
+                                    <td>@p["fecharecoleccion"]</td>
+                                    <td>@p["visitas"]</td>
+                                    <td>@p["fechaprimerintento"]</td>
+                                    <td>@p["fechasegundointento"]</td>
+                                    <td>@p["fechaentregacliente"]</td>
+                                    <td>@p["diashabilescompromiso"]</td>
+                                    <td>@p["fechamaximacompromiso"]</td>
+                                    <td>@p["Fdiastranscurridosdesdelarecoleccion"]</td>
+                                    <td>@p["Fdiastranscurridosdesdelacreacion"]</td>
+                                    <td>@p["diascompromisotransportista"]</td>
+                                    <td>@p["Fvariacionvsrecoleccion"]</td>
+                                    <td>@p["Fvariacionvscreacion"]</td>
+                                    <td>@p["Fcumplimientovsembarque"]</td>
+                                    <td>@p["Fcumplimientovscreacion"]</td>
+                                    <td>@p["causaincumplimiento"]</td>
+                                    <td>@p["enviosporconsignacion"]</td>
+                                    <td>@p["totalPrice"]</td>
+                                    <td>@p["costoenvioclientecotizado"]</td>
+                                    <td>@p["costoenvioclientereal"]</td>
+                                    <td>@p["OrderTotal"]</td>
+                                    <td>@p["total"]</td>
+                                    <td>@p["ProductosPorAsignacion"]</td>
+                                    <td>@p["PiezasPorAsignacion"]</td>
 
-                                    </tr>
+                                </tr>
                             }
                         }
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -178,8 +489,20 @@
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
 
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
 
     <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
         $(document).ready(function () {
 
             $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
@@ -244,7 +567,7 @@
                     buttons: [
                         { extend: 'pageLength', className: 'btn-primary' },
                         { extend: 'excel', className: 'btn-primary' }
-                        
+
                     ],
                     "scrollX": true
                     //,"fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -258,7 +581,7 @@
             );
 
             //GetConsulta();
-
+            IniciarComboTipoAlmacen();
         });
 
         function GetConsulta() {
@@ -398,6 +721,161 @@
             }
 
             return nombre ;
+        }
+        function Busqueda() {
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+            var _IdOwner = $("#ddlAlmacenes").val();
+            //var _IdTienda = $("#ddlTienda").val();
+            var count = 1;
+            var values = getValues('ddlTienda');
+            var _tiendas = '';
+
+            values.forEach(x => {
+
+                if (count > 1)
+                    _tiendas = _tiendas + ',' + x;
+                else
+                    _tiendas = x;
+
+                count++;
+            });
+
+
+            //if (_FecIni.length == 0) {
+            //    $("#txtFecIni").focus();
+            //    return;
+            //}
+
+
+            //if (_FecFin.length == 0) {
+            //    $("#txtFecFin").focus();
+            //    return;
+            //}
+            //alert("?IdOwner=" + _IdOwner + "&IdTienda=" + _tiendas + "&feIni=" + _FecIni + "&feFin=" + _FecFin);
+
+            window.location.href = "Reportes/MercanciasGrles?IdOwner=" + _IdOwner + "&IdTienda=" + _tiendas + "&feIni=" + _FecIni + "&feFin=" + _FecFin;
+        }
+        $("#ddlAlmacenes").change(function () {
+
+            GetSupp($("#ddlAlmacenes").val());
+
+        });
+
+            function GetSupp(_idOwner) {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListSuppliersById", "Reportes")',
+                data: {
+                    idOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlTienda");
+                        sel.empty();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+
+
+
+                        @*if ($("#ddlTienda option[value='@ViewBag.IdTienda']").length == 0) {
+                            $("#ddlTienda").val("0");
+                        } else { $("#ddlTienda").val("@ViewBag.IdTienda"); }*@
+
+                        init("ddlTienda");
+
+                        var valores = "@ViewBag.IdTienda";
+
+                        if (valores != '') {
+                            var _array = valores.split(',');
+
+                            setValues(_array);
+                        }
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
+   function IniciarComboTipoAlmacen() {
+    $.ajax({
+        async: false,
+        type: "GET",
+        url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+        data: {
+
+        },
+        datatype: "html",
+        success: function (json) {
+
+            if (json.Success) {
+                var sel = $("#ddlAlmacenes");
+                sel.empty();
+
+                $('#ddlAlmacenes').get(0).options[0] = new Option("--SELECCIONE--", "0");
+                for (var i = 0; i < json.resp.length; i++) {
+                    if (json.resp[i].ownerName != 'SETC')
+                        sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +  '</option>');
+                }
+
+                $("#ddlAlmacenes").val("@ViewBag.IdOwner");
+                 GetSupp(@ViewBag.IdOwner);
+            }
+            else {
+                alert(json.Message);
+            }
+        }
+        , error: function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+
+        }
+    });
+    }
+
+        function empty() {
+            if (selectBox2 != null) {
+                selectBox2.empty();
+            }
+        }
+        function doDestroy(id) {
+
+            if (id == "ddlTienda" && selectBox2 != null) {
+                selectBox2.destroy();
+
+
+            }
+        }
+        function init(id) {
+            if (id == "ddlTienda") {
+
+                selectBox2 = new vanillaSelectBox("#ddlTienda", { "disableSelectAll": true, "maxHeight": 200, "search": false, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+        }
+        function setValues(value) {
+            if (selectBox2 != null) {
+                selectBox2.setValue(value);
+            }
+        }
+        function getValues(id) {
+            let result = [];
+            let collection = document.querySelectorAll("#" + id + " option");
+            collection.forEach(function (x) {
+                if (x.selected) {
+                    result.push(x.value);
+                }
+            });
+            return result;
         }
     </script>
 
