@@ -1,0 +1,538 @@
+﻿
+@{
+    ViewBag.Title = "RptNivelDeServicio";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Nivel de Servicio</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Inicio</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker1">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecIni"
+                           type="text" value="@ViewBag.FecIni">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Fin</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker2">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecFin"
+                           type="text" value="@ViewBag.FecFin">
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
+            <label>&nbsp;</label>
+            @*<input class="btn btn-primary" id="btnBuscar" onclick="Busqueda()" type="button" value="Buscar" />*@
+            <button class="btn btn-lg btn-block btn-primary mt-auto" type="button" onclick="GetConsulta()">
+                Buscar
+            </button>
+
+        </div>
+    </div>
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+        <br />
+        <div class="row scroll_horizontal">
+            <div class="col-12">
+                <h3>Consignaciones recolectadas en tiempo de origen de surtido a cliente final</h3>
+                <table id="tblEnTransito" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="no-sort">Transportista</th>
+                            <th class="no-sort">Total de consignaciones</th>
+                            <th class="no-sort">Consignaciones recolectadas en tiempo</th>
+                            <th class="no-sort">Consignaciones recolectadas fuera de tiempo</th>
+                            <th class="no-sort">% Nivel de servicio</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <h3>% de Consignaciones con incidencia</h3>
+                <table id="tblEnIncidencia" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="no-sort">Transportista</th>
+                            <th class="no-sort">Total de consignaciones</th>
+                            <th class="no-sort">Total de Incidencias</th>
+                            <th class="no-sort">% de Incidencias</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <h3>Consignaciones Entregadas en Tiempo de fecha de embarque</h3>
+                <table id="tblEntregadas" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="no-sort">Transportista</th>
+                            <th class="no-sort">Total de consignaciones</th>
+                            <th class="no-sort">Consignaciones entregadas en tiempo</th>
+                            <th class="no-sort">Consignaciones entregadas fuera de tiempo</th>
+                            <th class="no-sort">% Nivel de servicio</th>
+                            <th class="no-sort">Costo Promedio por Consignación</th>
+                            <th class="no-sort">Ingreso Promedio por Consignación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <h3>Consignaciones Entregadas en Tiempo de fecha de creación</h3>
+                <table id="tblPorAlmacen" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="no-sort">General</th>
+                            <th class="no-sort">Total de consignaciones con pago autorizado</th>
+                            <th class="no-sort">Consignaciones entregadas en tiempo</th>
+                            <th class="no-sort">Consignaciones entregadas fuera de tiempo</th>
+                            <th class="no-sort">% Nivel de servicio</th>
+                            <th class="no-sort">Costo Promedio por Consignación</th>
+                            <th class="no-sort">Ingreso Promedio por Consignación</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+
+    <script>
+
+        //$('#radioBtn a').on('click', function () {
+        //    var sel = $(this).data('title');
+        //    var tog = $(this).data('toggle');
+        //    $('#' + tog).prop('value', sel);
+
+        //    $('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+        //    $('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        //})
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $('#tblEnTransito thead tr').clone(true).appendTo('#tblEnTransito thead');
+            $('#tblEnTransito thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $('#tblEnTransito').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "sSortAscending":"false",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [25],
+                        ['Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                    ],
+                    columnDefs: [
+                        { targets: 'no-sort', orderable: false }
+                    ],
+                    "aaSorting": [],
+                    "scrollX": true
+           
+                }
+            );
+
+            $('#tblEnIncidencia thead tr').clone(true).appendTo('#tblEnIncidencia thead');
+            $('#tblEnIncidencia thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table2 = $('#tblEnIncidencia').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [25],
+                        ['Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                    ],
+                    columnDefs: [
+                        { targets: 'no-sort', orderable: false }
+                    ],
+                    "aaSorting": [],
+                    "scrollX": true
+
+                }
+            );
+            $('#tblEntregadas thead tr').clone(true).appendTo('#tblEntregadas thead');
+            $('#tblEntregadas thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table3 = $('#tblEntregadas').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [25],
+                        ['Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                    ], columnDefs: [
+                        { targets: 'no-sort', orderable: false }
+                    ],
+                    "aaSorting": [],
+                    "scrollX": true
+
+                }
+            );
+            $('#tblPorAlmacen thead tr').clone(true).appendTo('#tblPorAlmacen thead');
+            $('#tblPorAlmacen thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table4 = $('#tblPorAlmacen').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [25],
+                        ['Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' },
+                        { extend: 'excel', className: 'btn-primary' }
+                    ], columnDefs: [
+                        { targets: 'no-sort', orderable: false }
+                    ],
+                    "aaSorting": [],
+                    "scrollX": true
+
+                }
+            );
+            GetConsulta();
+
+        });
+
+        function GetConsulta() {
+            //var _Id_Num_UN = $("#hddTda").val();
+            //debugger;
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("GetNivelDeServicio", "Reportes")',
+                data: {
+                    fechaInicio: $("#txtFecIni").val(),
+                    fechaFin: $("#txtFecFin").val()
+                },
+                datatype: "html",
+                success: function (json) {
+                    console.log(json);
+
+                    debugger;
+                    if (json.Success) {
+
+
+                        var myTable1 = $('#tblEnTransito').DataTable();
+                        myTable1
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.enTransito.length; i++) {
+
+
+                            myTable1.row.add([
+                                json.enTransito[i].Transportista,
+                                json.enTransito[i].ConsignacionesTotales,
+                                json.enTransito[i].ConsignacionesRecolectadasEnTiempo,
+                                json.enTransito[i].ConsignacionesRecolectadasFueraTiempo,
+                                json.enTransito[i].NivelDeServicio
+                            ]).draw();
+                        }
+                        var myTable2 = $('#tblEnIncidencia').DataTable();
+                        myTable2
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.enIncidencias.length; i++) {
+
+
+                            myTable2.row.add([
+                                json.enIncidencias[i].Transportista,
+                                json.enIncidencias[i].ConsignacionesTotales,
+                                json.enIncidencias[i].ConsignacionesIncidencias,
+                                json.enIncidencias[i].PorcentajeIncidencias
+                            ]).draw();
+                        }
+                        var myTable3 = $('#tblEntregadas').DataTable();
+                        myTable3
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.entregadas.length; i++) {
+
+
+                            myTable3.row.add([
+                                json.entregadas[i].Transportista,
+                                json.entregadas[i].ConsignacionesTotales,
+                                json.entregadas[i].ConsignacionesEntregadasEnTiempo,
+                                json.entregadas[i].ConsignacionesEntregadasFueraTiempo,
+                                json.entregadas[i].NivelDeServicio,
+                                json.entregadas[i].CostoPromedio,
+                                json.entregadas[i].IngresoPromedio
+                            ]).draw();
+                        }
+                        var myTable4 = $('#tblPorAlmacen').DataTable();
+                        myTable4
+                            .clear()
+                            .draw();
+                        for (var i = 0; i < json.porAlmacen.length; i++) {
+
+
+                            myTable4.row.add([
+                                json.porAlmacen[i].Almacen,
+                                json.porAlmacen[i].TotalConsignacionesPagadas,
+                                json.porAlmacen[i].ConsignacionesEntregadasEnTiempo,
+                                json.porAlmacen[i].ConsignacionesEntregadasFueraTiempo,
+                                json.porAlmacen[i].NivelDeServicio,
+                                json.porAlmacen[i].CostoPromedio,
+                                json.porAlmacen[i].IngresoPromedio
+                            ]).draw();
+                        }
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+    </script>
+
+}

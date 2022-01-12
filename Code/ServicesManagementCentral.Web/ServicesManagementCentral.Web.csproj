@@ -307,6 +307,11 @@
     <Compile Include="Models\PromocionesCostoEnvio\orderfacts_PostalCodes.cs" />
     <Compile Include="Models\PromocionesCostoEnvio\PromocionesCostoEnvio.cs" />
     <Compile Include="Models\Reportes\MercanciasGeneralesModel.cs" />
+    <Compile Include="Models\Reportes\NivelDeServicioEntregadas.cs" />
+    <Compile Include="Models\Reportes\NivelDeServicioIncidencias.cs" />
+    <Compile Include="Models\Reportes\NivelDeServicioModel.cs" />
+    <Compile Include="Models\Reportes\NivelDeServicioTransitoModel.cs" />
+    <Compile Include="Models\Reportes\NivelDeSevicioAlmacenModel.cs" />
     <Compile Include="Models\Reportes\SuppliersByIdModel.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
@@ -3703,6 +3708,7 @@
     <Content Include="Views\Catalogo\ClasesEnvios.cshtml" />
     <Content Include="Views\Impex\Example.cshtml" />
     <Content Include="Views\Reportes\RptMercanciasGrles.cshtml" />
+    <Content Include="Views\Reportes\RptNivelDeServicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
