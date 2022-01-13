@@ -354,6 +354,11 @@
                             <th>Número, calle y colonia</th>
                             <th>Estado Destino</th>
                             <th>Ciudad Destino</th>
+                            <th>Dirección1 Destino</th>
+                            <th>Dirección2 Destino</th>
+                            <th>Referencia Destino</th>
+                            <th>Remitente Destino</th>
+                            <th>Telefono Destino</th>
                             <th>Codigo postal Destino</th>
                             <th>ID Plaza Destino</th>
                             <th>ZONA</th>
@@ -403,71 +408,76 @@
 
                             foreach (System.Data.DataRow p in dt.Rows)
                             {
-                                <tr>
-                                    <td>@p["UeNo"]</td>
-                                    <td>@p["AnioConsignacion"]</td>
-                                    <td>@p["NoMesConsignacion"]</td>
-                                    <td>@p["MesConsignacion"]</td>
-                                    <td>@p["OrderDate"]</td>
-                                    <td>@p["ConsignmentType"]</td>
-                                    <td>@p["UeNoRMA"]</td>
-                                    <td>@p["AnioServicio"]</td>
-                                    <td>@p["NoMesServicio"]</td>
-                                    <td>@p["MesServicio"]</td>
-                                    <td>@p["idSupplierWH"]</td>
-                                    <td>@p["supplierName"]</td>
-                                    <td>@p["idSupplierWHCode"]</td>
-                                    <td>@p["SupplierWHName"]</td>
-                                    <td>@p["UeType"]</td>
-                                    <td>@p["ordenDeCompraPDP"]</td>
-                                    <td>@p["addressState"]</td>
-                                    <td>@p["addressCity"]</td>
-                                    <td>@p["addressPostalCode"]</td>
-                                    <td>@p["IdPlaza"]</td>
-                                    <td>@p["addressReference1"] </td>
-                                    @*<td>@p["addressReference2"]</td>*@
-                                    <td>@p["Abrev_Estado"]</td>
-                                    <td>@p["Locality"]</td>
-                                    <td>@p["PostalCode"]</td>
-                                    <td>@p["idplazadestino"]</td>
-                                    <td>@p["zona"]</td>
-                                    <td>@p["tipodeenvio"]</td>
-                                    <td>@p["tipodeservicio"]</td>
-                                    <td>@p["tipodelogistica"]</td>
-                                    <td>@p["fechaestatusalmacen"]</td>
-                                    <td>@p["estatusalmacen"]</td>
-                                    <td>@p["fechaestatusentregas"]</td>
-                                    <td>@p["TrackingServiceStatus"]</td>
-                                    <td>@p["transportistaasignado"]</td>
-                                    <td>@p["TrackingServiceName"]</td>
-                                    <td>@p["IdTrackingService"]</td>
-                                    <td>@p["TrackingExpDate"]</td>
-                                    <td>@p["CreationDate"]</td>
-                                    <td>@p["fecharecoleccion"]</td>
-                                    <td>@p["visitas"]</td>
-                                    <td>@p["fechaprimerintento"]</td>
-                                    <td>@p["fechasegundointento"]</td>
-                                    <td>@p["fechaentregacliente"]</td>
-                                    <td>@p["diashabilescompromiso"]</td>
-                                    <td>@p["fechamaximacompromiso"]</td>
-                                    <td>@p["Fdiastranscurridosdesdelarecoleccion"]</td>
-                                    <td>@p["Fdiastranscurridosdesdelacreacion"]</td>
-                                    <td>@p["diascompromisotransportista"]</td>
-                                    <td>@p["Fvariacionvsrecoleccion"]</td>
-                                    <td>@p["Fvariacionvscreacion"]</td>
-                                    <td>@p["Fcumplimientovsembarque"]</td>
-                                    <td>@p["Fcumplimientovscreacion"]</td>
-                                    <td>@p["causaincumplimiento"]</td>
-                                    <td>@p["enviosporconsignacion"]</td>
-                                    <td>@p["totalPrice"]</td>
-                                    <td>@p["costoenvioclientecotizado"]</td>
-                                    <td>@p["costoenvioclientereal"]</td>
-                                    <td>@p["OrderTotal"]</td>
-                                    <td>@p["total"]</td>
-                                    <td>@p["ProductosPorAsignacion"]</td>
-                                    <td>@p["PiezasPorAsignacion"]</td>
+                        <tr>
+                            <td>@p["UeNo"]</td>
+                            <td>@p["AnioConsignacion"]</td>
+                            <td>@p["NoMesConsignacion"]</td>
+                            <td>@p["MesConsignacion"]</td>
+                            <td>@p["OrderDate"]</td>
+                            <td>@p["ConsignmentType"]</td>
+                            <td>@p["UeNoRMA"]</td>
+                            <td>@p["AnioServicio"]</td>
+                            <td>@p["NoMesServicio"]</td>
+                            <td>@p["MesServicio"]</td>
+                            <td>@p["idSupplierWH"]</td>
+                            <td>@p["supplierName"]</td>
+                            <td>@p["idSupplierWHCode"]</td>
+                            <td>@p["SupplierWHName"]</td>
+                            <td>@p["UeType"]</td>
+                            <td>@p["ordenDeCompraPDP"]</td>
+                            <td>@p["addressState"]</td>
+                            <td>@p["addressCity"]</td>
+                            <td>@p["addressPostalCode"]</td>
+                            <td>@p["IdPlaza"]</td>
+                            <td>@p["addressReference1"] </td>
+                            @*<td>@p["addressReference2"]</td>*@
+                            <td>@p["EstadoDestino"]</td>
+                            <td>@p["CiudadDestino"]</td>
+                            <td>@p["DireccionDestino1"]</td>
+                            <td>@p["DireccionDestino2"]</td>
+                            <td>@p["ReferenciaDestino"]</td>
+                            <td>@p["RemitenteDestino"]</td>
+                            <td>@p["TelefonoDestino"]</td>
+                            <td>@p["PostalCode"]</td>
+                            <td>@p["idplazadestino"]</td>
+                            <td>@p["zona"]</td>
+                            <td>@p["tipodeenvio"]</td>
+                            <td>@p["tipodeservicio"]</td>
+                            <td>@p["tipodelogistica"]</td>
+                            <td>@p["fechaestatusalmacen"]</td>
+                            <td>@p["estatusalmacen"]</td>
+                            <td>@p["fechaestatusentregas"]</td>
+                            <td>@p["TrackingServiceStatus"]</td>
+                            <td>@p["transportistaasignado"]</td>
+                            <td>@p["TrackingServiceName"]</td>
+                            <td>@p["IdTrackingService"]</td>
+                            <td>@p["TrackingExpDate"]</td>
+                            <td>@p["CreationDate"]</td>
+                            <td>@p["fecharecoleccion"]</td>
+                            <td>@p["visitas"]</td>
+                            <td>@p["fechaprimerintento"]</td>
+                            <td>@p["fechasegundointento"]</td>
+                            <td>@p["fechaentregacliente"]</td>
+                            <td>@p["diashabilescompromiso"]</td>
+                            <td>@p["fechamaximacompromiso"]</td>
+                            <td>@p["Fdiastranscurridosdesdelarecoleccion"]</td>
+                            <td>@p["Fdiastranscurridosdesdelacreacion"]</td>
+                            <td>@p["diascompromisotransportista"]</td>
+                            <td>@p["Fvariacionvsrecoleccion"]</td>
+                            <td>@p["Fvariacionvscreacion"]</td>
+                            <td>@p["Fcumplimientovsembarque"]</td>
+                            <td>@p["Fcumplimientovscreacion"]</td>
+                            <td>@p["causaincumplimiento"]</td>
+                            <td>@p["enviosporconsignacion"]</td>
+                            <td>@p["totalPrice"]</td>
+                            <td>@p["costoenvioclientecotizado"]</td>
+                            <td>@p["costoenvioclientereal"]</td>
+                            <td>@p["OrderTotal"]</td>
+                            <td>@p["total"]</td>
+                            <td>@p["ProductosPorAsignacion"]</td>
+                            <td>@p["PiezasPorAsignacion"]</td>
 
-                                </tr>
+                        </tr>
                             }
                         }
                     </tbody>
@@ -584,144 +594,6 @@
             IniciarComboTipoAlmacen();
         });
 
-        function GetConsulta() {
-            //var _Id_Num_UN = $("#hddTda").val();
-            //debugger;
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("GetMercanciasGrles", "Reportes")',
-                data: {
-                    //  Id_Num_UN: _Id_Num_UN
-                },
-                datatype: "html",
-                success: function (json) {
-                    if (json.Success) {
-
-                        console.log(json);
-                        var myTable = $('#tblConsulta').DataTable();
-                        myTable
-                            .clear()
-                            .draw();
-                        for (var i = 0; i < json.resp.length; i++) {
-
-
-                            myTable.row.add([
-                                json.resp[i].UeNo,
-                                json.resp[i].AnioConsignacion,
-                                json.resp[i].NoMesConsignacion,
-                                '',//ObtenerMes(json.resp[i].NoMesConsignacion),
-                                json.resp[i].OrderDate,
-                                json.resp[i].ConsignmentType,
-                                json.resp[i].UeNoRMA,
-                                json.resp[i].AnioServicio,
-                                json.resp[i].NoMesServicio,
-                                '',//ObtenerMes(json.resp[i].NoMesServicio),
-                                json.resp[i].idSupplierWH,
-                                json.resp[i].supplierName,
-                                json.resp[i].idSupplierWHCode,
-                                json.resp[i].SupplierWHName,
-                                json.resp[i].UeType,
-                                json.resp[i].ordenDeCompraPDP,
-                                json.resp[i].addressState,
-                                json.resp[i].addressCity,
-                                json.resp[i].addressPostalCode,
-                                json.resp[i].IdPlaza,
-                                json.resp[i].addressReference1,
-                                json.resp[i].addressReference2,
-                                json.resp[i].Abrev_Estado,
-                                json.resp[i].Locality,
-                                json.resp[i].PostalCode,
-                                json.resp[i].idplazadestino,
-                                json.resp[i].zona,
-                                json.resp[i].tipodeenvio,
-                                json.resp[i].tipodeservicio,
-                                json.resp[i].tipodelogistica,
-                                json.resp[i].Ufechaestatusalmacen,
-                                json.resp[i].Uestatusalmacen,
-                                json.resp[i].fechaestatusentregas,
-                                json.resp[i].TrackingServiceStatus,
-                                json.resp[i].transportistaasignado,
-                                json.resp[i].TrackingServiceName,
-                                json.resp[i].IdTrackingService,
-                                json.resp[i].TrackingExpDate,
-                                json.resp[i].CreationDate,
-                                json.resp[i].fecharecoleccion,
-                                json.resp[i].visitas,
-                                json.resp[i].fechaprimerintento,
-                                json.resp[i].fechasegundointento,
-                                json.resp[i].fechaentregacliente,
-                                json.resp[i].diashabilescompromiso,
-                                json.resp[i].fechamaximacompromiso,
-                                json.resp[i].Fdiastranscurridosdesdelarecoleccion,
-                                json.resp[i].Fdiastranscurridosdesdelacreacion,
-                                json.resp[i].diascompromisotransportista,
-                                json.resp[i].Fvariacionvsrecoleccion,
-                                json.resp[i].Fvariacionvscreacion,
-                                json.resp[i].Fcumplimientovsembarque,
-                                json.resp[i].Fcumplimientovscreacion,
-                                json.resp[i].Ucausaincumplimiento,
-                                json.resp[i].enviosporconsignacion,
-                                json.resp[i].totalPrice,
-                                json.resp[i].costoenvioclientecotizado,
-                                json.resp[i].costoenvioclientereal,
-                                json.resp[i].OrderTotal,
-                                json.resp[i].total,
-                                json.resp[i].ProductosPorAsignacion,
-                                json.resp[i].PiezasPorAsignacion
-                            ]).draw();
-                        }
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
-
-        function ObtenerMes(_mes) {
-            var nombre='';
-            switch (_mes) {
-                case 1:
-                    nombre = 'Enero';
-                    break;
-                case 2:
-                    nombre = 'Febrero';
-                    break;
-                case 3:
-                    nombre = 'Marzo';
-                    break;
-                case 4:
-                    nombre = 'Abril';
-                    break;
-                case 5:
-                    nombre = 'Mayo';
-                    break;
-                case 6:
-                    nombre = 'Junio';
-                    break;
-                case 7:
-                    nombre = 'Julio';
-                    break;
-                case 8:
-                    nombre = 'Agosto';
-                    break;
-                case 9:
-                    nombre = 'Septiembre';
-                    break;
-                case 10:
-                    nombre = 'Octubre';
-                    break;
-                case 11:
-                    nombre = 'Noviembre';
-                    break;
-                case 12:
-                    nombre = 'Diciembre';
-                    break;
-            }
-
-            return nombre ;
-        }
         function Busqueda() {
             var _FecIni = $("#txtFecIni").val();
             var _FecFin = $("#txtFecFin").val();
