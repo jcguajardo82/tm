@@ -1,0 +1,304 @@
+﻿@model  ServicesManagement.Web.Models.Dashboard.IndicadoresOpModel
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <h5>INDICADORES DE OPERACION</h5>
+                <div class="ibox-tools">
+                    <div class="btn-group">
+                        <button type="button" id="btnIndCns1" name="indicadores" class="btn btn-xs btn-white active" onclick="Consulta('1')">Hoy</button>
+                        <button type="button" id="btnIndCns2" name="indicadores" class="btn btn-xs btn-white " onclick="Consulta('2')">Mensual</button>
+                        <button type="button" id="btnIndCns3" name="indicadores" class="btn btn-xs btn-white" onclick="Consulta('3')">Anual</button>
+                        <div class="input-group date" id="datetimepicker1">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control datepicker" id="txtFecIndIni"
+                                   type="text" placeholder="Fecha Inicio" value="">
+                        </div>
+                        <div class="input-group date" id="datetimepicker2">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control datepicker" id="txtFecIndFin"
+                                   type="text" placeholder="Fecha Fin" value="">
+                        </div>
+                        <button type="button" id="btnIndCns4" name="indicadores" class="btn btn-xs btn-white" onclick="Consulta('4')">Calendario</button>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <h2>Mercancias Generales</h2>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos pendientes por recolectar
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.mercancias.TotalPend </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.mercancias.PorcPend %
+                                </div>
+                                @*<small>Total income</small>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos en transito
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.mercancias.TotalTransito </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.mercancias.PorcTransito %
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos entregados
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.mercancias.TotalEnt </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.mercancias.PorcEntregadas %
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    En Tiempo
+
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.mercancias.TotalTiempo </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.mercancias.PorcEnTiempo %
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Fuera de Tiempo
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.mercancias.TotalFueraTiempo </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.mercancias.PorcFueraTiempo %
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h2>
+                    Súper en tu casa
+                </h2>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos pendientes por recolectar
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.super.TotalPend </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.super.PorcPend %
+                                </div>
+                                @*<small>Total income</small>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos en transito
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.super.TotalTransito </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.super.PorcTransito %
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos entregados
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.super.TotalEnt </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.super.PorcEntregadas %
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    En Tiempo
+
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.super.TotalTiempo </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.super.PorcEnTiempo %
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Fuera de Tiempo
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.super.TotalFueraTiempo </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.super.PorcFueraTiempo %
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h2>
+                   Indicadores de Ingreso y Egreso
+                </h2>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Ingreso promedio por consignación
+
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.indicadores.TotalIngreso </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.indicadores.PorcIngresoPromedio %
+                                </div>
+                                @*<small>Total income</small>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos en transito
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.indicadores.TotalGasto </h1>
+                                <div class="stat-percent font-bold text-success">
+                                    @Model.indicadores.PorcGastoPromedio %
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <div class="ibox-tools">
+                                    <span class="label label-info float-right">@Model.Frecuencia</span>
+                                </div>
+                                <h5>
+                                    Envíos entregados
+                                </h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins"> @Model.indicadores.PorcNetoPromedio </h1>
+                                <div class="stat-percent font-bold text-success">
+                                  @*  @Model.indicadores.PorcEntregadas %*@
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</div>

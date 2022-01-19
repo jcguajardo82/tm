@@ -217,6 +217,7 @@
     <Compile Include="Controllers\TMSController.cs" />
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
+    <Compile Include="DAL\DALDashboard.cs" />
     <Compile Include="DAL\DALRangosTiemposExcepciones.cs" />
     <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALDefRangosTiempo.cs" />
@@ -258,6 +259,10 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
+    <Compile Include="Models\Dashboard\IndicadoresOpModel.cs" />
+    <Compile Include="Models\Dashboard\IndIngresosEgresos.cs" />
+    <Compile Include="Models\Dashboard\MercanciasGenerales.cs" />
+    <Compile Include="Models\Dashboard\SuperCasa.cs" />
     <Compile Include="Models\DefRangosTiempo\ParametrosDias.cs" />
     <Compile Include="Models\DefRangosTiempo\RangosTiemposExcepciones.cs" />
     <Compile Include="Models\DivisionModel.cs" />
@@ -3709,6 +3714,7 @@
     <Content Include="Views\Impex\Example.cshtml" />
     <Content Include="Views\Reportes\RptMercanciasGrles.cshtml" />
     <Content Include="Views\Reportes\RptNivelDeServicio.cshtml" />
+    <Content Include="Views\Shared\_IndicadoresOp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

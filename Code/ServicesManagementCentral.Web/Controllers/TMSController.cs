@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Globalization;
+using ServicesManagement.Web.Models.Dashboard;
 
 namespace ServicesManagement.Web.Controllers
 {
@@ -239,22 +240,22 @@ namespace ServicesManagement.Web.Controllers
 
         [HttpPost]
         public async Task<JsonResult> InsTransportista(string IdTransportista
-                                                        ,string Nombre
-                                                        ,string TarifaFija
-                                                        ,string CostoTarifaFija
-                                                        ,string Prioridad
-                                                        ,string NivelServicio
-                                                        ,string FactorPaqueteria
-                                                        ,string LimitePaqueteria
-                                                        ,string PorcAdicPaquete
-                                                        ,string DiasVigenciaGuias
-                                                        ,string IdTipoLogistica
-                                                        ,string Estatus
+                                                        , string Nombre
+                                                        , string TarifaFija
+                                                        , string CostoTarifaFija
+                                                        , string Prioridad
+                                                        , string NivelServicio
+                                                        , string FactorPaqueteria
+                                                        , string LimitePaqueteria
+                                                        , string PorcAdicPaquete
+                                                        , string DiasVigenciaGuias
+                                                        , string IdTipoLogistica
+                                                        , string Estatus
 )
         {
             try
             {
-         
+
 
                 try
                 {
@@ -412,7 +413,7 @@ namespace ServicesManagement.Web.Controllers
             return ds;
 
 
-        } 
+        }
 
 
 
@@ -458,7 +459,8 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
-        public DataSet cmbTL() {
+        public DataSet cmbTL()
+        {
             DataSet ds = new DataSet();
 
             try
@@ -496,19 +498,19 @@ namespace ServicesManagement.Web.Controllers
             string msj = string.Empty;
             int result;
             try
-                {
-                    string CreatedId = User.Identity.Name;
+            {
+                string CreatedId = User.Identity.Name;
 
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
-                    parametros.Add("@usuario", CreatedId);
+                parametros.Add("@usuario", CreatedId);
                 //parametros.Add("@Marca", marca);
                 //parametros.Add("@Anio", anio);
 
 
-               DataSet ds= Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_GastosVehiculosPorTienda", false, parametros);
+                DataSet ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_GastosVehiculosPorTienda", false, parametros);
 
                 result = int.Parse(ds.Tables[0].Rows[0]["resultado"].ToString());
 
@@ -519,26 +521,26 @@ namespace ServicesManagement.Web.Controllers
 
                 //return ds;
             }
-                catch (SqlException ex)
-                {
+            catch (SqlException ex)
+            {
 
-                    throw ex;
-                }
-                catch (System.Exception ex)
-                {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
 
-                    throw ex;
-                }
+                throw ex;
+            }
 
 
-                var result1 = new { Success = true, Gastos = conGastos, Mensaje = msj };
-                return Json(result1, JsonRequestBehavior.AllowGet);
-         
+            var result1 = new { Success = true, Gastos = conGastos, Mensaje = msj };
+            return Json(result1, JsonRequestBehavior.AllowGet);
+
         }
 
 
         [HttpGet]
-        public async Task<JsonResult> InsVehiculo(string descripcion, string motor, string placas,string idTipoVehiculo)
+        public async Task<JsonResult> InsVehiculo(string descripcion, string motor, string placas, string idTipoVehiculo)
         {
             try
             {
@@ -572,14 +574,14 @@ namespace ServicesManagement.Web.Controllers
                     Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
                     System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                        
-                        parametros.Add("@Descripcion", descripcion);
-                        parametros.Add("@Placas", placas);
-                        parametros.Add("@Motor", motor);
-                        parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
-                        parametros.Add("@user", CreatedId);
-                        //parametros.Add("@Marca", marca);
-                        //parametros.Add("@Anio", anio);
+
+                    parametros.Add("@Descripcion", descripcion);
+                    parametros.Add("@Placas", placas);
+                    parametros.Add("@Motor", motor);
+                    parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
+                    parametros.Add("@user", CreatedId);
+                    //parametros.Add("@Marca", marca);
+                    //parametros.Add("@Anio", anio);
 
 
                     Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Vehiculo", false, parametros);
@@ -610,33 +612,33 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> InsVehiculoCat(int id_vehiculo,string descripcion, string motor, string placas, string idTipoVehiculo,
+        public async Task<JsonResult> InsVehiculoCat(int id_vehiculo, string descripcion, string motor, string placas, string idTipoVehiculo,
                                                     string estatus, string marca, string anio, int IdOwner, int? IdTienda)
         {
-           try
-           {
-                    string CreatedId = User.Identity.Name;
+            try
+            {
+                string CreatedId = User.Identity.Name;
 
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
-                    parametros.Add("@Descripcion", descripcion);
-                    parametros.Add("@Placas", placas);
-                    parametros.Add("@Motor", motor);
-                    parametros.Add("@created_user", CreatedId);
-                    parametros.Add("@Marca", marca);
-                    parametros.Add("@Anio", anio);
-                    parametros.Add("@id_Vehiculo", id_vehiculo);
-                    parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
-                    parametros.Add("@Estatus", estatus);
-                    parametros.Add("@IdOwner", IdOwner);
-                    parametros.Add("@IdTienda", IdTienda);
+                parametros.Add("@Descripcion", descripcion);
+                parametros.Add("@Placas", placas);
+                parametros.Add("@Motor", motor);
+                parametros.Add("@created_user", CreatedId);
+                parametros.Add("@Marca", marca);
+                parametros.Add("@Anio", anio);
+                parametros.Add("@id_Vehiculo", id_vehiculo);
+                parametros.Add("@Id_TipoVehiculo", idTipoVehiculo);
+                parametros.Add("@Estatus", estatus);
+                parametros.Add("@IdOwner", IdOwner);
+                parametros.Add("@IdTienda", IdTienda);
 
                 Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.upCorpTMS_Ins_Vehiculo", false, parametros);
 
 
-                    //return ds;
+                //return ds;
                 var result1 = new { Success = true };
                 return Json(result1, JsonRequestBehavior.AllowGet);
             }
@@ -661,9 +663,9 @@ namespace ServicesManagement.Web.Controllers
                         newItem.activo = r["Estatus"].ToString();
                         newItem.Anio = r["Anio"].ToString();
                         newItem.Descripcion = r["Descripcion"].ToString();
-                        newItem.Estatus = r["Estatus"].ToString() == "1" ? true:false;
+                        newItem.Estatus = r["Estatus"].ToString() == "1" ? true : false;
                         newItem.Id_TipoVehiculo = int.Parse(r["Id_TipoVehiculo"].ToString());
-                        newItem.Id_Vehiculo = int.Parse( r["Id_Vehiculo"].ToString());
+                        newItem.Id_Vehiculo = int.Parse(r["Id_Vehiculo"].ToString());
                         newItem.Marca = r["Marca"].ToString();
                         newItem.TipoVehiculo = r["TipoVehiculo"].ToString();
                         newItem.Placas = r["Placas"].ToString();
@@ -675,9 +677,9 @@ namespace ServicesManagement.Web.Controllers
                     }
                 }
 
-                    
-                    var result = new { Success = true, json = newItem };
-                    return Json(result, JsonRequestBehavior.AllowGet);
+
+                var result = new { Success = true, json = newItem };
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -755,7 +757,7 @@ namespace ServicesManagement.Web.Controllers
                     System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
                     parametros.Add("@Id_Vehiculo", Id);
-                    
+
                     Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_del_Vehiculo", false, parametros);
 
 
@@ -1224,7 +1226,7 @@ namespace ServicesManagement.Web.Controllers
 
                     string pdfS = Convert.ToBase64String(re.pdf);
 
-                    var result4 = new { Success = true , guia = re.Guia, pdf = pdfS};
+                    var result4 = new { Success = true, guia = re.Guia, pdf = pdfS };
                     return Json(result4, JsonRequestBehavior.AllowGet);
 
                 }
@@ -1652,7 +1654,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult AddGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto )
+        public ActionResult AddGastoVehiculo(int IdGasto, int Id_Vehiculo, decimal CantidadGasto, int Kilometraje, string FecGasto)
 
         {
 
@@ -1726,7 +1728,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult DeleteGastoVehiculo( decimal CantidadGasto, int Kilometraje, string FecGasto, int IdConsecutivo)
+        public ActionResult DeleteGastoVehiculo(decimal CantidadGasto, int Kilometraje, string FecGasto, int IdConsecutivo)
 
         {
 
@@ -1738,7 +1740,7 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-                DALGastosVehiculo.DeleteGastoVehiculo_uUp( IdConsecutivo, FecGasto, Kilometraje, CantidadGasto, UserCreate);
+                DALGastosVehiculo.DeleteGastoVehiculo_uUp(IdConsecutivo, FecGasto, Kilometraje, CantidadGasto, UserCreate);
 
 
 
@@ -1769,8 +1771,8 @@ namespace ServicesManagement.Web.Controllers
             try
 
             {
-              
-                       
+
+
                 DALGastosVehiculo.GastoVehiculo_dUp(IdConsecutivo, User.Identity.Name);
 
 
@@ -1813,7 +1815,7 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult SaveTipoVehiculo(int Id_TipoVehiculo,string Descripcion, string Comentarios, bool Estatus)
+        public ActionResult SaveTipoVehiculo(int Id_TipoVehiculo, string Descripcion, string Comentarios, bool Estatus)
         {
             try
             {
@@ -1821,8 +1823,9 @@ namespace ServicesManagement.Web.Controllers
                 {
                     DALCatalogo.up_CorpTMS_Ins_TipoVehiculo(Descripcion, Comentarios, User.Identity.Name, Estatus);
                 }
-                else {
-                    DALCatalogo.up_CorpTMS_upd_TipoVehiculo(Id_TipoVehiculo,Descripcion, Comentarios, User.Identity.Name, Estatus);
+                else
+                {
+                    DALCatalogo.up_CorpTMS_upd_TipoVehiculo(Id_TipoVehiculo, Descripcion, Comentarios, User.Identity.Name, Estatus);
                 }
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -1876,7 +1879,7 @@ namespace ServicesManagement.Web.Controllers
 
             {
 
-              DALCatalogo.up_CorpTMS_Del_TipoVehiculo(Id_TipoVehiculo,User.Identity.Name);
+                DALCatalogo.up_CorpTMS_Del_TipoVehiculo(Id_TipoVehiculo, User.Identity.Name);
 
 
 
@@ -2010,13 +2013,66 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult CostosFijos() {
+        public ActionResult CostosFijos()
+        {
 
 
             return View();
-        
+
         }
 
 
+
+        #region Dashboard
+        public ActionResult IndicadoresOp(DateTime? FecIni, DateTime? FecFin, string op = "1")
+        {
+
+            string frecuencia = string.Empty;
+            switch (op)
+            {
+                case "1":
+                    frecuencia = "Hoy";
+                    FecIni = DateTime.Now;
+                    FecFin = DateTime.Now;
+                    break;
+                case "2":
+                    frecuencia = "Mensual";
+                    FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                    FecFin = DateTime.Now;
+                    break;
+                case "3":
+                    frecuencia = "Anual";
+                    FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                    FecFin = DateTime.Now;
+                    break;
+                case "4":
+                    frecuencia = "Calendario";
+
+                    break;
+
+            }
+
+
+            //if (FecIni == null || FecFin == null)
+            //{
+            //    FecIni = DateTime.Now;
+            //    FecFin = DateTime.Now;
+            //}
+
+            IndicadoresOpModel obj = new IndicadoresOpModel();
+
+            var ds = DALDashboard.upCorpOms_Cns_Tableros(FecIni,FecFin);
+            obj.Frecuencia = frecuencia;
+            obj.mercancias = DataTableToModel.ConvertTo<MercanciasGenerales>(ds.Tables[0]).FirstOrDefault();
+            obj.super = DataTableToModel.ConvertTo<SuperCasa>(ds.Tables[1]).FirstOrDefault();
+            obj.indicadores = DataTableToModel.ConvertTo<IndIngresosEgresos>(ds.Tables[2]).FirstOrDefault();
+
+
+            return PartialView("_IndicadoresOp", obj);
+        }
+
+      
+
+        #endregion
     }
 }
