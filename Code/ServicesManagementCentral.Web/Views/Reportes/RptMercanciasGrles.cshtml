@@ -613,10 +613,11 @@
                 count++;
             });
 
-            if (count == 1)
+            if (_IdOwner == '0') {
+                alert('Debe de seleccionar un Almacen');
                 return;
-
-
+            }
+            //alert(_IdOwner);
             //if (_FecIni.length == 0) {
             //    $("#txtFecIni").focus();
             //    return;

@@ -24,18 +24,18 @@ namespace ServicesManagement.Web.Controllers
             int IdOwner = 0, count=0;
             string IdTienda = string.Empty;
 
-            if (Request.QueryString["IdOwner"] != null)
+            if (Request.QueryString["IdOwner"] != null && Request.QueryString["IdOwner"] != "0")
             {
                 IdOwner = int.Parse(Request.QueryString["IdOwner"].ToString());
                 ViewBag.IdOwner = IdOwner;
                 Session["IdOwnerNiveles"] = IdOwner;
+                count++;
             }
 
-            if (Request.QueryString["IdTienda"] != null)
+            if (Request.QueryString["IdTienda"] != null && Request.QueryString["IdTienda"] != "")
             {
                 IdTienda = Request.QueryString["IdTienda"].ToString();
                 ViewBag.IdTienda = IdTienda;
-                count++;
             }
             if (Request.QueryString["feIni"] != null)
             {
@@ -52,7 +52,7 @@ namespace ServicesManagement.Web.Controllers
             //Session["lstNiveles"] = null;
 
             if (count == 3)
-                Session["MercanciasGrles"] = DALReportes.MercanciasGrles_sUp(IdTienda, Convert.ToDateTime(ViewBag.FecIni), Convert.ToDateTime(ViewBag.FecFin));
+                Session["MercanciasGrles"] = DALReportes.MercanciasGrles_sUp(IdTienda, IdOwner, Convert.ToDateTime(ViewBag.FecIni), Convert.ToDateTime(ViewBag.FecFin));
             else
                 Session["MercanciasGrles"] = null;
             return View("RptMercanciasGrles");

@@ -7,7 +7,7 @@ namespace ServicesManagement.Web.DAL
 {
     public class DALReportes
     {
-        public static DataSet MercanciasGrles_sUp(string Tienda, DateTime fechaini, DateTime fechafin)
+        public static DataSet MercanciasGrles_sUp(string Tienda, int idOwner, DateTime fechaini, DateTime fechafin)
         {
             DataSet ds = new DataSet();
 
@@ -20,7 +20,9 @@ namespace ServicesManagement.Web.DAL
             {
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                parametros.Add("@Tienda", Tienda);
+                parametros.Add("@idOwner", idOwner);
+                if(Tienda != string.Empty)
+                    parametros.Add("@Tienda", Tienda);
                 parametros.Add("@fechaini", fechaini);
                 parametros.Add("@fechafin", fechafin);
 
