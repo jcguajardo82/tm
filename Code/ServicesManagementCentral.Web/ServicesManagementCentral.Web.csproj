@@ -317,7 +317,9 @@
     <Compile Include="Models\Reportes\NivelDeServicioModel.cs" />
     <Compile Include="Models\Reportes\NivelDeServicioTransitoModel.cs" />
     <Compile Include="Models\Reportes\NivelDeSevicioAlmacenModel.cs" />
+    <Compile Include="Models\Reportes\SETCE.cs" />
     <Compile Include="Models\Reportes\SuppliersByIdModel.cs" />
+    <Compile Include="Models\Reportes\TarifasTransportista.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TiendaModel.cs" />
@@ -3715,6 +3717,8 @@
     <Content Include="Views\Reportes\RptMercanciasGrles.cshtml" />
     <Content Include="Views\Reportes\RptNivelDeServicio.cshtml" />
     <Content Include="Views\Shared\_IndicadoresOp.cshtml" />
+    <Content Include="Views\Reportes\Setce.cshtml" />
+    <Content Include="Views\Reportes\TarifasTransportistas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

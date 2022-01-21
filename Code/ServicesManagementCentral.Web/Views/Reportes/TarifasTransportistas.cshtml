@@ -1,0 +1,621 @@
+﻿
+@{
+    ViewBag.Title = "Reporte Tarifas Transportista";
+}
+
+<style>
+    .vsb-menu {
+        cursor: pointer;
+        z-index: 1000;
+        display: block;
+        visibility: hidden;
+        position: absolute; /*Don't change*/
+        border: 1px solid #B2B2B2;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        border-radius: 4px;
+        font-size: 11px;
+        width: 450px
+    }
+
+    .vsb-js-search-zone {
+        position: absolute; /*Don't change*/
+        z-index: 1001;
+        width: 80%;
+        min-height: 1.8em;
+        padding: 2px;
+        background-color: #fff;
+    }
+
+        .vsb-js-search-zone input {
+            border: 1px solid grey;
+            margin-left: 2px;
+            width: 96%;
+            border-radius: 4px;
+            height: 25px !important;
+        }
+
+    .vsb-main {
+        position: relative; /*Don't change*/
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        width: 100%;
+    }
+
+    .vsb-menu li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-menu ul {
+        user-select: none;
+        list-style: none;
+        white-space: nowrap;
+        margin: 0px;
+        margin-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3px;
+        color: black;
+        cursor: pointer;
+        overflow: scroll;
+    }
+
+    li.disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.overflow {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.short {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vsb-main button {
+        min-width: 120px;
+        border-radius: 0;
+        width: 100%;
+        text-align: left;
+        z-index: 1;
+        color: yellow;
+        background: red !important;
+        border: 1px solid #999 !important;
+        line-height: 20px;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+        .vsb-main button.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+    .vsb-main .title {
+        margin-right: 6px;
+        user-select: none;
+    }
+
+    .vsb-main li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-main ul {
+        white-space: nowrap;
+    }
+
+    .vsb-menu li {
+        font-size: 14px;
+        background-color: #fff;
+        min-height: 1.4em;
+        padding: 0.2em 2em 0.2em 1em;
+    }
+
+        .vsb-menu li.grouped-option b {
+            display: inline-block;
+            font-size: 15px;
+            margin-left: 10px;
+            transform: translate(-18px);
+        }
+
+        .vsb-menu li.grouped-option.open span {
+            display: inline-block;
+            font-size: inherit;
+            margin-top: -2px;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option.closed span {
+            display: inline-block;
+            font-size: inherit;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(-45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option i {
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: 22px;
+            margin-right: 2px;
+            height: 11px;
+            width: 8px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 1px 3px 2px 3px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu li.grouped-option.checked i::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: 0px;
+            display: inline-block;
+            transform: rotate(45deg);
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .vsb-menu :not(.multi) li.active {
+        margin-left: 7px;
+    }
+
+        .vsb-menu :not(.multi) li.active::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            margin-left: -18px;
+            transform: rotate(45deg);
+            height: 10px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+    .vsb-menu .multi li {
+        font-size: 14px;
+        background-color: #fff;
+        width: 600px;
+    }
+
+        .vsb-menu .multi li.grouped-option {
+            font-size: 15px;
+            padding-left: 5px;
+        }
+
+
+            .vsb-menu .multi li.grouped-option:hover {
+                font-weight: bold;
+                text-decoration: underline;
+                color: rgb(52, 31, 112);
+            }
+
+        .vsb-menu .multi li:not(.grouped-option)::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: -22px;
+            margin-right: 2px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 7px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu .multi li:not(.grouped-option).active::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: -18px;
+            display: inline-block;
+            transform: rotate(45deg);
+            margin-top: 1px;
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+
+    li[data-parent] {
+        padding-left: 50px !important;
+    }
+
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Reporte Tarifas Transportista</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Inicio</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker1">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecIni"
+                           type="text" value="@ViewBag.FecIni">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Fin</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker2">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecFin"
+                           type="text" value="@ViewBag.FecFin">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Reporte </label>
+                <select class="form-control m-b" id="ddlReporte">
+
+                    @if (ViewBag.reporte == "1")
+                    {
+                        <option value="1" selected>
+                            Tarifas transportistas SETCE
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="1">
+                            Tarifas transportistas SETCE
+                        </option>
+                    }
+                    @if (ViewBag.reporte == "2")
+                    {
+                        <option value="2" selected>Tarifas transportistas MG</option>
+                    }
+                    else
+                    {
+                        <option value="2">Tarifas transportistas MG</option>
+                    }
+
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                @*<label>Tienda/Proveedor</label>
+                    <select class="form-control m-b" id="ddlTienda" name="ddlTienda" multiple size="3">
+                    </select>*@
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
+            <label>&nbsp;</label>
+            @*<input class="btn btn-primary" id="btnBuscar" onclick="Busqueda()" type="button" value="Buscar" />*@
+            <button class="btn btn-lg btn-block btn-primary mt-auto" type="button" onclick="Busqueda()">
+                Buscar
+            </button>
+
+        </div>
+    </div>
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+        <br />
+        <div class="row scroll_horizontal">
+            <div class="col-12">
+                <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Consignación</th>
+                            <th>Codigo Almacen</th>
+                            <th>Nombre Almacen</th>
+                            <th>Tipo de Almacen</th>
+                            <th>Zona</th>
+                            <th>Transportista asignado</th>
+                            <th>Tipo de envio (Guia paq / guia LTL)</th>
+                            <th>Guia Transportista</th>
+                            <th>Guia interna Soriana</th>
+                            <th>Estatus Entregas</th>
+                            <th>Fecha de recolección</th>
+                            <th>Fecha de entrega al cliente</th>
+                            <th>Peso KG (Sistema)</th>
+                            <th>Peso Vol (Sistema)</th>
+                            <th>Peso Mayor (Sistema)</th>
+                            <th>Costo transportista cotizado</th>
+                            <th>Peso KG (Solicitud guías)</th>
+                            <th>Peso Vol (Solicitud guías)</th>
+                            <th>Peso Mayor (Solicitud guías)</th>
+                            <th>Costo transportista (Solicitud guías)</th>
+                            <th>Peso KG (Transporte)</th>
+                            <th>Peso Vol (Transporte)</th>
+                            <th>Peso Mayor (Transporte)</th>
+                            <th>Costo transportista real</th>
+                            <th>Variación1</th>
+                            <th>Variación2</th>                                                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
+
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+        $(document).ready(function () {
+
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    //$(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+                    $(this).html("<input type='search' class='form-control form-control-sm' placeholder='" + title + "' id='filtro" + i + "'  />");
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+            var _reporte = $("#ddlReporte").val();
+        table = $('#tblConsulta').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "@Url.Content("~/Reportes/GetTarifaTransportista")",
+                "type": "POST",
+                data: {
+                     fechaInicio: _FecIni,
+                     fechaFin: _FecFin,
+                    reporte: _reporte,
+
+                },
+                "datatype": "json"
+
+            },
+            "pageLength": 10,
+            "filter": true,
+            "responsivePriority": 1,
+            "data": null,
+            "columns": [
+                { "data": "Consignacion", "name": "Consignacion", "autoWidth": true },
+                { "data": "CodigoAlmacen", "name": "CodigoAlmacen", "autoWidth": true },
+                { "data": "NomAlmacen", "name": "NomAlmacen", "autoWidth": true },
+                { "data": "TipoAlmacen", "name": "TipoAlmacen", "autoWidth": true },
+                { "data": "Zona", "name": "Zona", "autoWidth": true },
+                { "data": "TransAsignado", "name": "TransAsignado", "autoWidth": true },
+                { "data": "TipoEnvio", "name": "TipoEnvio", "autoWidth": true },
+                { "data": "GuiaTrans", "name": "GuiaTrans", "autoWidth": true },
+                { "data": "GuiaSoriana", "name": "GuiaSoriana", "autoWidth": true },
+                { "data": "EstatusEntrega", "name": "EstatusEntrega", "autoWidth": true },
+                { "data": "FecRecoleccion", "name": "FecRecoleccion", "autoWidth": true },
+                { "data": "FecEntClient", "name": "FecEntClient", "autoWidth": true },
+                { "data": "PesoKGSis", "name": "PesoKGSis", "autoWidth": true },
+                { "data": "PesoVolSis", "name": "PesoVolSis", "autoWidth": true },
+                { "data": "PesoMayorSis", "name": "PesoMayorSis", "autoWidth": true },
+                { "data": "CostoTransCotizado", "name": "CostoTransCotizado", "autoWidth": true },
+                { "data": "PesoKGGuias", "name": "PesoKGGuias", "autoWidth": true },
+                { "data": "PesoVolGuias", "name": "PesoVolGuias", "autoWidth": true },
+                { "data": "PesoMayorGuias", "name": "PesoMayorGuias", "autoWidth": true },
+                { "data": "CostoTransGuias", "name": "CostoTransGuias", "autoWidth": true },
+                { "data": "PesoKGTrans", "name": "PesoKGTrans", "autoWidth": true },
+                { "data": "PesoVolTrans", "name": "PesoVolTrans", "autoWidth": true },
+                { "data": "PesoMayorTrans", "name": "PesoMayorTrans", "autoWidth": true },
+                { "data": "CostoTransReal", "name": "CostoTransReal", "autoWidth": true },
+                { "data": "Variacion1", "name": "Variacion1", "autoWidth": true },
+                { "data": "Variacion2", "name": "Variacion2", "autoWidth": true }
+               
+
+            ]
+            , language:
+            {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                },
+                "buttons": {
+                    "print": "Imprimir",
+                    "pageLength": 'Mostrar %d Registros'
+
+                }
+            },
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+            ],
+            buttons: [
+                { extend: 'pageLength', className: 'btn-primary' },
+                {
+                    text: 'Excel General',
+                    action: function (e, dt, node, config) {
+                        Excel();
+                    }
+                    , className: 'btn-primary'
+                }
+
+            ],
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            "scrollX": true
+            , "scrollY": "500px"
+            , "scrollCollapse": true
+        });
+        });
+
+        function Busqueda() {
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+            var _reporte = $("#ddlReporte").val();
+
+            window.location.href = "Reportes/TarifasTransportistas?feIni=" + _FecIni + "&feFin=" + _FecFin+"&reporte="+_reporte;
+        }
+
+        function Excel() {
+
+            Consignacion = $("#filtro0").val();
+            CodigoAlmacen = $("#filtro1").val();
+            NomAlmacen = $("#filtro2").val();
+            TipoAlmacen = $("#filtro3").val();
+            Zona = $("#filtro4").val();
+            TransAsignado = $("#filtro5").val();
+            TipoEnvio = $("#filtro6").val();
+            GuiaTrans = $("#filtro7").val();
+            GuiaSoriana = $("#filtro8").val();
+            EstatusEntrega = $("#filtro9").val();
+
+
+            FecRecoleccion = $("#filtro10").val();
+            FecEntClient = $("#filtro11").val();
+            PesoKGSis = $("#filtro12").val();
+            PesoVolSis = $("#filtro13").val();
+            PesoMayorSis = $("#filtro14").val();
+            CostoTransCotizado = $("#filtro15").val();
+            PesoKGGuias = $("#filtro16").val();
+            PesoVolGuias = $("#filtro17").val();
+            PesoMayorGuias = $("#filtro18").val();
+            CostoTransGuias = $("#filtro19").val();
+
+            PesoKGTrans = $("#filtro20").val();
+            PesoVolTrans = $("#filtro21").val();
+            PesoMayorTrans = $("#filtro22").val();
+            CostoTransReal = $("#filtro23").val();
+            Variacion1 = $("#filtro24").val();
+            Variacion2 = $("#filtro25").val();
+            
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+            var _reporte = $("#ddlReporte").val();
+
+            var dataTable = $('#tblConsulta').DataTable();
+            var _searchValue = dataTable.search();
+
+   
+            window.location = window.location.origin + '/Reportes/ExcelTarifaTransportista?Consignacion=' + Consignacion + "&CodigoAlmacen=" + CodigoAlmacen
+                + "&NomAlmacen=" + NomAlmacen + "&TipoAlmacen=" + TipoAlmacen
+                + "&Zona=" + Zona + "&TransAsignado=" + TransAsignado
+                + "&TipoEnvio=" + TipoEnvio + "&GuiaTrans=" + GuiaTrans
+                + "&GuiaSoriana=" + GuiaSoriana + "&EstatusEntrega=" + EstatusEntrega
+                + "&FecRecoleccion=" + FecRecoleccion + "&FecEntClient=" + FecEntClient
+                + "&PesoKGSis=" + PesoKGSis + "&PesoVolSis=" + PesoVolSis
+                + "&PesoMayorSis=" + PesoMayorSis + "&CostoTransCotizado=" + CostoTransCotizado
+                + "&PesoKGGuias=" + PesoKGGuias + "&PesoVolGuias=" + PesoVolGuias
+                + "&PesoMayorGuias=" + PesoMayorGuias + "&CostoTransGuias=" + CostoTransGuias
+                + "&PesoKGTrans=" + PesoKGTrans + "&PesoVolTrans=" + PesoVolTrans
+                + "&PesoMayorTrans=" + PesoMayorTrans + "&CostoTransReal=" + CostoTransReal
+                + "&Variacion1=" + Variacion1 + "&Variacion2=" + Variacion2
+                + "&fechaInicio=" + _FecIni + "&fechaFin=" + _FecFin
+                + "&reporte=" + _reporte
+
+            
+                + "&searchValue=" + _searchValue
+
+
+        }
+    </script>
+
+}
