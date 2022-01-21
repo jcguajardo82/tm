@@ -1,0 +1,680 @@
+﻿
+@{
+    ViewBag.Title = "Reporte SETCE";
+}
+
+<style>
+    .vsb-menu {
+        cursor: pointer;
+        z-index: 1000;
+        display: block;
+        visibility: hidden;
+        position: absolute; /*Don't change*/
+        border: 1px solid #B2B2B2;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.15);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+        border-radius: 4px;
+        font-size: 11px;
+        width: 450px
+    }
+
+    .vsb-js-search-zone {
+        position: absolute; /*Don't change*/
+        z-index: 1001;
+        width: 80%;
+        min-height: 1.8em;
+        padding: 2px;
+        background-color: #fff;
+    }
+
+        .vsb-js-search-zone input {
+            border: 1px solid grey;
+            margin-left: 2px;
+            width: 96%;
+            border-radius: 4px;
+            height: 25px !important;
+        }
+
+    .vsb-main {
+        position: relative; /*Don't change*/
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        width: 100%;
+    }
+
+    .vsb-menu li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-menu ul {
+        user-select: none;
+        list-style: none;
+        white-space: nowrap;
+        margin: 0px;
+        margin-top: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3px;
+        color: black;
+        cursor: pointer;
+        overflow: scroll;
+    }
+
+    li.disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.overflow {
+        cursor: not-allowed;
+        opacity: 0.3;
+        background-color: #999;
+    }
+
+    li.short {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vsb-main button {
+        min-width: 120px;
+        border-radius: 0;
+        width: 100%;
+        text-align: left;
+        z-index: 1;
+        color: yellow;
+        background: red !important;
+        border: 1px solid #999 !important;
+        line-height: 20px;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+        .vsb-main button.disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+    .vsb-main .title {
+        margin-right: 6px;
+        user-select: none;
+    }
+
+    .vsb-main li:hover {
+        background: linear-gradient(#f5f5f5, #e8e8e8);
+    }
+
+    .vsb-main ul {
+        white-space: nowrap;
+    }
+
+    .vsb-menu li {
+        font-size: 14px;
+        background-color: #fff;
+        min-height: 1.4em;
+        padding: 0.2em 2em 0.2em 1em;
+    }
+
+        .vsb-menu li.grouped-option b {
+            display: inline-block;
+            font-size: 15px;
+            margin-left: 10px;
+            transform: translate(-18px);
+        }
+
+        .vsb-menu li.grouped-option.open span {
+            display: inline-block;
+            font-size: inherit;
+            margin-top: -2px;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option.closed span {
+            display: inline-block;
+            font-size: inherit;
+            height: 8px;
+            width: 8px;
+            transform: translate(-38px) rotate(-45deg);
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+        .vsb-menu li.grouped-option i {
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: 22px;
+            margin-right: 2px;
+            height: 11px;
+            width: 8px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 1px 3px 2px 3px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu li.grouped-option.checked i::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: 0px;
+            display: inline-block;
+            transform: rotate(45deg);
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .vsb-menu :not(.multi) li.active {
+        margin-left: 7px;
+    }
+
+        .vsb-menu :not(.multi) li.active::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            margin-left: -18px;
+            transform: rotate(45deg);
+            height: 10px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+            border-radius: 2px;
+        }
+
+    .vsb-menu .multi li {
+        font-size: 14px;
+        background-color: #fff;
+        width: 600px;
+    }
+
+        .vsb-menu .multi li.grouped-option {
+            font-size: 15px;
+            padding-left: 5px;
+        }
+
+
+            .vsb-menu .multi li.grouped-option:hover {
+                font-weight: bold;
+                text-decoration: underline;
+                color: rgb(52, 31, 112);
+            }
+
+        .vsb-menu .multi li:not(.grouped-option)::before {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            float: left;
+            font-weight: bold;
+            margin-left: -22px;
+            margin-right: 2px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding: 7px;
+            margin-top: 0px;
+            color: black;
+        }
+
+        .vsb-menu .multi li:not(.grouped-option).active::after {
+            content: "";
+            display: inline-block;
+            font-size: inherit;
+            color: #333;
+            float: left;
+            margin-left: -18px;
+            display: inline-block;
+            transform: rotate(45deg);
+            margin-top: 1px;
+            height: 8px;
+            width: 5px;
+            border-bottom: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+    .caret {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 4px dashed;
+        border-top: 4px solid;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
+
+
+    li[data-parent] {
+        padding-left: 50px !important;
+    }
+
+    #radioBtn .notActive {
+        color: #3276b1;
+        background-color: #fff;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"><h2>Reporte SETCE</h2></div>
+        <div class="col-4"></div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Inicio</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker1">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecIni"
+                           type="text" value="@ViewBag.FecIni">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                <label>Fecha Fin</label>
+                @*<input type="date" id="txtFecIniTarifa" class="form-control" />*@
+                <div class="input-group date" id="datetimepicker2">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecFin"
+                           type="text" value="@ViewBag.FecFin">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                @*<label>Almacen </label>
+                <select class="form-control m-b" id="ddlAlmacenes">
+                    <option value="0">--SELECCIONE--</option>
+                </select>*@
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-3 col-lg-2">
+            <div class="form-group">
+                @*<label>Tienda/Proveedor</label>
+                <select class="form-control m-b" id="ddlTienda" name="ddlTienda" multiple size="3">
+                </select>*@
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
+            <label>&nbsp;</label>
+            @*<input class="btn btn-primary" id="btnBuscar" onclick="Busqueda()" type="button" value="Buscar" />*@
+            <button class="btn btn-lg btn-block btn-primary mt-auto" type="button" onclick="Busqueda()">
+                Buscar
+            </button>
+
+        </div>
+    </div>
+    <div class="ibox-content p-xl" style="padding-top: 0px;padding-bottom: 0px;">
+        <br />
+        <div class="row scroll_horizontal">
+            <div class="col-12">
+                <table id="tblConsulta" class="table table-striped dataTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Año del servicio</th>
+                            <th>No. Mes del servicio</th>
+                            <th>Mes del servicio</th>
+                            <th>Año de la consignación</th>
+                            <th>No. Mes de la consignacion</th>
+                            <th>Mes de la consignacion</th>
+                            <th>Fecha creación consignación</th>
+                            <th>Hora creación consignación</th>
+                            <th>Consignación</th>
+                            <th>Numero de tienda</th>
+
+                            <th>Nombre de tienda </th>
+                            <th>Formato</th>
+                            <th>Dirección</th>
+                            <th>Director</th>
+                            <th>Región</th>
+                            <th>Estado Origen</th>
+                            <th>Estado Destino</th>
+                            <th>Codigo postal Origen</th>
+                            <th>Codigo postal Destino</th>
+                            <th>Tipo de entrega (Recoge en tienda / Entrega a domicilio)</th>
+                            <th>Fecha pago consignación</th>
+                            <th>Hora pago consignación</th>
+                            <th>Estatus de pago</th>
+                            <th>Fecha  consignación de surtido</th>
+                            <th>Hora de surtido consignación</th>
+                            <th>Transportista asignado</th>
+                            <th> Guia Transportista </th>
+                            <th>Guia interna Soriana</th>
+                            <th>Fecha de recolección</th>
+                            <th>Hora de recolección</th>
+                            <th>Estatus Home Delivery</th>
+                            <th>Fecha de entrega al cliente</th>
+                            <th>Hora máxima de entrega al cliente</th>
+                            <th>Fecha compromiso de entrega</th>
+                            <th>Hora compromiso de entrega</th>
+                            <th>Días transcurridos desde la recolección a la entrega</th>
+                            <th>Días transcurridos desde la creación a la entrega</th>
+                            <th>Horas compromiso Transportista</th>
+                            <th>Variación Vs Recolección</th>
+                            <th>Variación Vs Creación</th>
+                            <th>Cumplimiento Vs Embarque (Dias transportista)</th>
+                            <th>Cumplimiento Vs creación (Dias compromiso clientes)</th>
+                            <th>Envios (Guías) por consignacion</th>
+                            <th>Costo transportista</th>
+                            <th>Costo de envío al cliente Cotizado</th>
+                            <th>Costo de envío al cliente Real</th>
+                            <th>Ticket $ Venta</th>
+                            <th>Productos por consignación</th>
+                            <th>Piezas por consignación</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section scripts {
+
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
+
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+        $(document).ready(function () {
+
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    //$(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+                    $(this).html("<input type='search' class='form-control form-control-sm' placeholder='" + title + "' id='filtro" + i + "'  />");
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+
+                    table = $('#tblConsulta').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "@Url.Content("~/Reportes/GetSetce")",
+                "type": "POST",
+                data: {
+                    FechaIni: _FecIni,
+                    FechaFin: _FecFin
+
+
+                },
+                "datatype":"json"
+            },
+            "pageLength": 10,
+            "filter": true,
+            "responsivePriority": 1,
+            "data": null,
+          "columns": [
+                { "data": "AnioServ", "name": "AnioServ", "autoWidth": true },
+                { "data": "NoMesServ", "name": "NoMesServ", "autoWidth": true },
+                { "data": "NomMesSer", "name": "NomMesSer", "autoWidth": true },
+                { "data": "AnioConsig", "name": "AnioConsig", "autoWidth": true },
+                { "data": "NoMesConsig", "name": "NoMesConsig", "autoWidth": true },
+                { "data": "NomMesConsig", "name": "NomMesConsig", "autoWidth": true },
+                { "data": "FecCreacionConsig", "name": "FecCreacionConsig", "autoWidth": true },
+                { "data": "HoraCreacionConsig", "name": "HoraCreacionConsig", "autoWidth": true },
+                { "data": "Consignacion", "name": "Consignacion", "autoWidth": true },
+                { "data": "NoTda", "name": "NoTda", "autoWidth": true },
+                { "data": "NomTda", "name": "NomTda", "autoWidth": true },
+                { "data": "Formato", "name": "Formato", "autoWidth": true },
+                { "data": "Direccion", "name": "Direccion", "autoWidth": true },
+                { "data": "Director", "name": "Director", "autoWidth": true },
+                { "data": "Region", "name": "Region", "autoWidth": true },
+                { "data": "EdoOrigen", "name": "EdoOrigen", "autoWidth": true },
+                { "data": "EdoDestino", "name": "EdoDestino", "autoWidth": true },
+                { "data": "CpOrigen", "name": "CpOrigen", "autoWidth": true },
+                { "data": "CpDestino", "name": "CpDestino", "autoWidth": true },
+                { "data": "TipoEntrega", "name": "TipoEntrega", "autoWidth": true },
+                { "data": "FecPagoConsig", "name": "FecPagoConsig", "autoWidth": true },
+                { "data": "HoraPagoConsig", "name": "HoraPagoConsig", "autoWidth": true },
+                { "data": "EstatusPAgo", "name": "EstatusPAgo", "autoWidth": true },
+                { "data": "FecConsigSurtido", "name": "FecConsigSurtido", "autoWidth": true },
+                { "data": "HoraConsigSurtido", "name": "HoraConsigSurtido", "autoWidth": true },
+                { "data": "TransAsignado", "name": "TransAsignado", "autoWidth": true },
+                { "data": "GuiaTrans", "name": "GuiaTrans", "autoWidth": true },
+                { "data": "GuiaSoriana", "name": "GuiaSoriana", "autoWidth": true },
+                { "data": "FecRecoleccion", "name": "FecRecoleccion", "autoWidth": true },
+                { "data": "HoraRecoleccion", "name": "HoraRecoleccion", "autoWidth": true },
+                { "data": "EstatusHD", "name": "EstatusHD", "autoWidth": true },
+                { "data": "FecEntregaClient", "name": "FecEntregaClient", "autoWidth": true },
+                { "data": "HoraMaxComEntrClie", "name": "HoraMaxComEntrClie", "autoWidth": true },
+                { "data": "FecComEnt", "name": "FecComEnt", "autoWidth": true },
+                { "data": "HoraComEnt", "name": "HoraComEnt", "autoWidth": true },
+                { "data": "DiasTransRecEntrega", "name": "DiasTransRecEntrega", "autoWidth": true },
+                { "data": "DiasCreacionEntrega", "name": "DiasCreacionEntrega", "autoWidth": true },
+                { "data": "HorasComTrans", "name": "HorasComTrans", "autoWidth": true },
+                { "data": "VariacionRecoleccion", "name": "VariacionRecoleccion", "autoWidth": true },
+                { "data": "VariacionCreacion", "name": "VariacionCreacion", "autoWidth": true },
+                { "data": "CumplimientEmbarque", "name": "CumplimientEmbarque", "autoWidth": true },
+                { "data": "CumplimientoCreacion", "name": "CumplimientoCreacion", "autoWidth": true },
+                { "data": "EnviosConsignacion", "name": "EnviosConsignacion", "autoWidth": true },
+                { "data": "CostoTrans", "name": "CostoTrans", "autoWidth": true },
+                { "data": "CostoEnvClienteCot", "name": "CostoEnvClienteCot", "autoWidth": true },
+                { "data": "CostoEnvClienteReal", "name": "CostoEnvClienteReal", "autoWidth": true },
+                { "data": "TicketVta", "name": "TicketVta", "autoWidth": true },
+                { "data": "ProdConsignacion", "name": "ProdConsignacion", "autoWidth": true },
+                { "data": "PzasConsignacion", "name": "PzasConsignacion", "autoWidth": true }
+               
+            ]
+            , language:
+            {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+
+                },
+                "buttons": {
+                    "print": "Imprimir",
+                    "pageLength": 'Mostrar %d Registros'
+
+                }
+            },
+            dom: 'Bfrtip',
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10 Registros', '25 Registros', '50 Registros', 'Mostrar Todos']
+            ],
+            buttons: [
+                { extend: 'pageLength', className: 'btn-primary' },
+                {
+                    text: 'Excel General',
+                    action: function (e, dt, node, config) {
+                        Excel();
+                    }
+                    , className: 'btn-primary'
+                }
+
+            ],
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            "scrollX": true
+            , "scrollY": "500px"
+            , "scrollCollapse": true
+        });
+
+
+        });
+
+        function Busqueda() {
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+
+
+            window.location.href = "Reportes/Setce?feIni=" + _FecIni + "&feFin=" + _FecFin;
+        }
+
+        function Excel() {
+
+            AnioServ = $("#filtro0").val();
+            NoMesServ = $("#filtro1").val();
+            NomMesSer = $("#filtro2").val();
+            AnioConsig = $("#filtro3").val();
+            NoMesConsig = $("#filtro4").val();
+            NomMesConsig = $("#filtro5").val();
+            FecCreacionConsig = $("#filtro6").val();
+            HoraCreacionConsig = $("#filtro7").val();
+            Consignacion = $("#filtro8").val();
+            NoTda = $("#filtro9").val();
+
+
+            NomTda = $("#filtro10").val();
+            Formato = $("#filtro11").val();
+            Direccion = $("#filtro12").val();
+            Director = $("#filtro13").val();
+            Region = $("#filtro14").val();
+            EdoOrigen = $("#filtro15").val();
+            EdoDestino = $("#filtro16").val();
+            CpOrigen = $("#filtro17").val();
+            CpDestino = $("#filtro18").val();
+            TipoEntrega = $("#filtro19").val();
+
+            FecPagoConsig = $("#filtro20").val();
+            HoraPagoConsig = $("#filtro21").val();
+            EstatusPAgo = $("#filtro22").val();
+            FecConsigSurtido = $("#filtro23").val();
+            HoraConsigSurtido = $("#filtro24").val();
+            TransAsignado = $("#filtro25").val();
+            GuiaTrans = $("#filtro26").val();
+            GuiaSoriana = $("#filtro27").val();
+            FecRecoleccion = $("#filtro28").val();
+            HoraRecoleccion = $("#filtro29").val();
+
+            EstatusHD = $("#filtro30").val();
+            FecEntregaClient = $("#filtro31").val();
+            HoraMaxComEntrClie = $("#filtro32").val();
+            FecComEnt = $("#filtro33").val();
+            HoraComEnt = $("#filtro34").val();
+            DiasTransRecEntrega = $("#filtro35").val();
+            DiasCreacionEntrega = $("#filtro36").val();
+            HorasComTrans = $("#filtro37").val();
+            VariacionRecoleccion = $("#filtro38").val();
+            VariacionCreacion = $("#filtro39").val();
+
+            CumplimientEmbarque = $("#filtro40").val();
+            CumplimientoCreacion = $("#filtro41").val();
+            EnviosConsignacion = $("#filtro42").val();
+            CostoTrans = $("#filtro43").val();
+            CostoEnvClienteCot = $("#filtro44").val();
+            CostoEnvClienteReal = $("#filtro45").val();
+            TicketVta = $("#filtro46").val();
+            ProdConsignacion = $("#filtro47").val();
+            PzasConsignacion = $("#filtro48").val();
+
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+
+            var dataTable = $('#tblConsulta').DataTable();
+            var _searchValue = dataTable.search();
+
+
+            window.location = window.location.origin + '/Reportes/ExcelSetce?AnioServ=' + AnioServ + "&NoMesServ=" + NoMesServ
+                + "&NomMesSer=" + NomMesSer + "&AnioConsig=" + AnioConsig
+                + "&NoMesConsig=" + NoMesConsig + "&NomMesConsig=" + NomMesConsig
+                + "&FecCreacionConsig=" + FecCreacionConsig + "&HoraCreacionConsig=" + HoraCreacionConsig
+                + "&Consignacion=" + Consignacion + "&NoTda=" + NoTda
+                + "&NomTda=" + NomTda + "&Formato=" + Formato
+                + "&Direccion=" + Direccion + "&Director=" + Director
+                + "&Region=" + Region + "&EdoOrigen=" + EdoOrigen
+                + "&EdoDestino=" + EdoDestino + "&NoTda=" + CpOrigen
+                + "&CpDestino=" + CpDestino + "&TipoEntrega=" + TipoEntrega
+                + "&FecPagoConsig=" + FecPagoConsig + "&HoraPagoConsig=" + HoraPagoConsig
+                + "&EstatusPAgo=" + EstatusPAgo + "&FecConsigSurtido=" + FecConsigSurtido
+                + "&HoraConsigSurtido=" + HoraConsigSurtido + "&TransAsignado=" + TransAsignado
+                + "&GuiaTrans=" + GuiaTrans + "&GuiaSoriana=" + GuiaSoriana
+                + "&FecRecoleccion=" + FecRecoleccion + "&HoraRecoleccion=" + HoraRecoleccion
+                + "&EstatusHD=" + EstatusHD + "&FecEntregaClient=" + FecEntregaClient
+                + "&HoraMaxComEntrClie=" + HoraMaxComEntrClie + "&FecComEnt=" + FecComEnt
+                + "&HoraComEnt=" + HoraComEnt + "&DiasTransRecEntrega=" + DiasTransRecEntrega
+                + "&DiasCreacionEntrega=" + DiasCreacionEntrega + "&HorasComTrans=" + HorasComTrans
+                + "&VariacionRecoleccion=" + VariacionRecoleccion + "&VariacionCreacion=" + VariacionCreacion
+                + "&CumplimientEmbarque=" + CumplimientEmbarque + "&CumplimientoCreacion=" + CumplimientoCreacion
+                + "&EnviosConsignacion=" + EnviosConsignacion + "&CostoTrans=" + CostoTrans
+                + "&CostoEnvClienteCot=" + CostoEnvClienteCot + "&CostoEnvClienteReal=" + CostoEnvClienteReal
+                + "&TicketVta=" + TicketVta + "&ProdConsignacion=" + ProdConsignacion
+                + "&PzasConsignacion=" + PzasConsignacion
+
+                + "&FecIni=" + _FecIni + "&FecFin=" + _FecFin
+                + "&searchValue=" + _searchValue
+
+
+        }
+    </script>
+
+}
