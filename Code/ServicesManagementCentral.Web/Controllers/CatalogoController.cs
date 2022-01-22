@@ -714,88 +714,15 @@ namespace ServicesManagement.Web.Controllers
         [HttpGet]
 
         public async Task<JsonResult> GetTransportistas()
-
         {
-
-
-
-            try
-
-            {
-
-
-
-                string apiUrl = string.Format("{0}api/Oredenes/GetCarrier", UrlApi);
-
-
+            try{
 
                 DataSet ds = DALServicesM.GetCarriers();
-
-
-
-                // List<CarrierModel> listC = ConvertTo<CarrierModel>(ds.Tables[0]);
                 List<CarrierModelTMS> listC = ConvertTo<CarrierModelTMS>(ds.Tables[0]);
 
                 var result = new { Success = true, json = listC };
 
                 return Json(result, JsonRequestBehavior.AllowGet);
-
-
-
-                //using (HttpClient client = new HttpClient())
-
-                //{
-
-                //    client.BaseAddress = new Uri(apiUrl);
-
-                //    client.DefaultRequestHeaders.Accept.Clear();
-
-                //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-
-
-                //    HttpResponseMessage response = await client.GetAsync(apiUrl);
-
-                //    if (response.IsSuccessStatusCode)
-
-                //    {
-
-                //        var data = await response.Content.ReadAsStringAsync();
-
-                //        // var jsonResult = JsonConvert.DeserializeObject(data).ToString();
-
-                //        var resp = JsonConvert.DeserializeObject<List<CarrierModel>>(data);
-
-
-
-                //        var result = new { Success = true, json = resp };
-
-                //        return Json(result, JsonRequestBehavior.AllowGet);
-
-                //    }
-
-                //    else //web api sent error response 
-
-                //    {
-
-                //        //log response status here..
-
-
-
-                //        var result = new { Success = false, Message = response.StatusCode };
-
-                //        return Json(result, JsonRequestBehavior.AllowGet);
-
-
-
-                //    }
-
-
-
-                //}
-
-
-
             }
 
             catch (Exception ex)
