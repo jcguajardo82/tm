@@ -46,6 +46,10 @@ namespace ServicesManagement.Web.Models
         public string IdTipoLogistica { get; set; }
         public string FechaCreacion { get; set; }
         public string TipoLogistica { get; set; }
+        public string IdCarriers { get; set; }
+        public string Carriers { get; set; }
+        public string Integracion { get; set; }
+        public int? IdIntegracion { get; set; }
 
     }
 
@@ -75,6 +79,10 @@ namespace ServicesManagement.Web.Models
 
         public string IdTipoLogistica { get; set; }//bit
         public string TipoLogistica { get; set; }//varchar
+        public string IdCarriers { get; set; }
+        public string Carriers { get; set; }
+        public string Integracion { get; set; }
+        public int? IdIntegracion { get; set; }
     }
 
 }
