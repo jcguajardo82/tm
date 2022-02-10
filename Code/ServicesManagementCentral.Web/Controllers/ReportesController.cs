@@ -104,8 +104,8 @@ namespace ServicesManagement.Web.Controllers
                 IQueryable<NivelDeServicioModel> list = from row in DALReportes.NivelDeServicio_sUp(fechaInicio, fechaFin).Tables[0].AsEnumerable().AsQueryable()
                                                         select new NivelDeServicioModel()
                                                         {
-                                                            Costo = row["Costo"].ToString() == "" ? 0 : decimal.Parse(row["Costo"].ToString()),
-                                                            totalIngreso = row["totalIngreso"].ToString() == "" ? 0 : decimal.Parse(row["totalIngreso"].ToString()),
+                                                            Costo = decimal.Parse(row["Costo"].ToString()),
+                                                            totalIngreso = decimal.Parse(row["totalIngreso"].ToString()),
                                                             Transportista = row["Transportista"].ToString(),
                                                             TrackingServiceStatus = row["TrackingServiceStatus"].ToString(),
                                                             UeType = row["UeType"].ToString(),

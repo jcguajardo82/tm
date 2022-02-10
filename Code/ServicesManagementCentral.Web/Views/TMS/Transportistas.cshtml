@@ -328,16 +328,14 @@
                             <th>Vida Guias</th>
 
                             @*<th>Paqueteria</th>
-        <th>Big Ticket</th>
-        <th>Servicio Estandar</th>
-        <th>Servicio Express</th>*@
+                                <th>Big Ticket</th>
+                                <th>Servicio Estandar</th>
+                                <th>Servicio Express</th>*@
                             <th>Usuario Creacion</th>
                             <th>Fecha Cracion</th>
                             <th>Hora Creacion</th>
 
                             <th>Activo</th>
-                            <th>Carriers</th>
-                            <th>Canal Integracion</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -388,11 +386,11 @@
                                     <label>Id Transportista</label>
                                     <input type="text" placeholder="Id Transportista" id="ProveedorLista" name="ProveedorLista" class="form-control" readonly />
                                     @*<select class="form-control" id="ProveedorLista" name="ProveedorLista">
-                        <option selected="selected" value="0">--Transportista--</option>
+                                            <option selected="selected" value="0">--Transportista--</option>
 
 
 
-                    </select>*@
+                                        </select>*@
                                 </div>
                             </div>
                             <div class="col col-xs-8 col-md-8">
@@ -426,34 +424,34 @@
                         <div class="row">
                             <div class="col col-xs-8 col-md-4">
                                 @*
-                                            <div class="form-group">
-                    <label>Tarifa Fija</label>
-                    <div class="input-group">
-                        <div id="radioBtn" class="btn-group">
-                            <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
-                            <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
-                        </div>
-                        <input type="hidden" name="TarifaFija" id="TarifaFija">
-                    </div>
-                </div>*@
+                                                                <div class="form-group">
+                                        <label>Tarifa Fija</label>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="TarifaFija" id="TarifaFija">
+                                        </div>
+                                    </div>*@
                             </div>
                             <div class="col col-xs-8 col-md-4">
                                 @*<div class="form-group">
-                    <label>Tarifa Fija</label>
-                    <input type="text" placeholder="Costo Tarifa Fija" id="CostoTarifaFija" name="CostoTarifaFija" class="form-control" />
+                                        <label>Tarifa Fija</label>
+                                        <input type="text" placeholder="Costo Tarifa Fija" id="CostoTarifaFija" name="CostoTarifaFija" class="form-control" />
 
-                </div>*@
+                                    </div>*@
 
                             </div>
                             <div class="col col-xs-8 col-md-4">
 
                                 @*<div class="form-group">
 
-                    <label>Porc. Adic. Paquete</label>
+                                        <label>Porc. Adic. Paquete</label>
 
-                    <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
+                                        <input type="text" placeholder="Porc. Adic. Paquete" id="PorcAdicPaquete" name="PorcAdicPaquete" class="form-control" />
 
-                </div>*@
+                                    </div>*@
 
                             </div>
                         </div>
@@ -494,60 +492,48 @@
                             </div>
 
                         </div>
+
                         <div class="row">
                             <div class="col col-xs-8 col-md-4">
                                 <div class="form-group">
-                                    <label>Carriers</label>
-                                    <select class="form-control" id="ddlCarriers" name="ddlCarriers" multiple size="3">
-                                        @{ if (Session["cmbCarriers"] != null)
-                                            {
-                                                var myDataSet = Session["cmbCarriers"] as System.Data.DataSet;
-                                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
-                                                {
-                                                    <option value="@r["IdCarrier"]">@r["Nombre"]</option>
-
-                                                }
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col col-xs-8 col-md-4">
-                                <div class="form-group">
-                                    <label>Canal de Integración</label>
-                                    <select class="form-control" id="ddlCanal" name="ddlCanal">
-                                        @{ if (Session["cmbCanales"] != null)
-                                            {
-                                                var myDataSet = Session["cmbCanales"] as System.Data.DataSet;
-                                                foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
-                                                {
-                                                    <option value="@r["IdIntegracion"]">@r["Nombre"]</option>
-
-                                                }
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                            <div class="row">
-                                <div class="col col-xs-8 col-md-4">
-                                    <div class="form-group">
-                                        <label>Tarifa Fija</label>
-                                        <div class="input-group">
-                                            <div id="radioBtn" class="btn-group">
-                                                <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
-                                                <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
-                                            </div>
-                                            <input type="hidden" name="TarifaFija" id="TarifaFija">
+                                    <label>Tarifa Fija</label>
+                                    <div class="input-group">
+                                        <div id="radioBtn" class="btn-group">
+                                            <a class="btn btn-primary btn-sm active" data-toggle="TarifaFija" data-title="Y">SI</a>
+                                            <a class="btn btn-primary btn-sm notActive" data-toggle="TarifaFija" data-title="N">NO</a>
                                         </div>
+                                        <input type="hidden" name="TarifaFija" id="TarifaFija">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col col-xs-8 col-md-3">
+
+                                <div class="form-group">
+
+                                    <label>Estatus</label>
+
+                                    <div class="input-group">
+                                        <div id="radioBtn" class="btn-group">
+                                            <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
+                                            <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
+                                        </div>
+                                        <input type="hidden" name="Paqueteria" id="Paqueteria">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        @*<div class="row">
                                 <div class="col col-xs-8 col-md-3">
 
                                     <div class="form-group">
 
-                                        <label>Estatus</label>
+                                        <label>Paqueteria</label>
 
                                         <div class="input-group">
                                             <div id="radioBtn" class="btn-group">
@@ -560,82 +546,59 @@
                                     </div>
 
                                 </div>
+                                <div class="col col-xs-8 col-md-3">
 
+                                    <div class="form-group">
 
-                            </div>
+                                        <label>Big Ticket</label>
 
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="BigTicket" id="BigTicket">
+                                        </div>
 
-                            @*<div class="row">
-                <div class="col col-xs-8 col-md-3">
+                                    </div>
 
-                    <div class="form-group">
+                                </div>
+                                <div class="col col-xs-8 col-md-3">
 
-                        <label>Paqueteria</label>
+                                    <div class="form-group">
 
-                        <div class="input-group">
-                            <div id="radioBtn" class="btn-group">
-                                <a class="btn btn-primary btn-sm active" data-toggle="Paqueteria" data-title="Y">SI</a>
-                                <a class="btn btn-primary btn-sm notActive" data-toggle="Paqueteria" data-title="N">NO</a>
-                            </div>
-                            <input type="hidden" name="Paqueteria" id="Paqueteria">
-                        </div>
+                                        <label>Servicio Estandar</label>
 
-                    </div>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
+                                        </div>
 
-                </div>
-                <div class="col col-xs-8 col-md-3">
+                                    </div>
 
-                    <div class="form-group">
+                                </div>
+                                <div class="col col-xs-8 col-md-3">
 
-                        <label>Big Ticket</label>
+                                    <div class="form-group">
 
-                        <div class="input-group">
-                            <div id="radioBtn" class="btn-group">
-                                <a class="btn btn-primary btn-sm active" data-toggle="BigTicket" data-title="Y">SI</a>
-                                <a class="btn btn-primary btn-sm notActive" data-toggle="BigTicket" data-title="N">NO</a>
-                            </div>
-                            <input type="hidden" name="BigTicket" id="BigTicket">
-                        </div>
+                                        <label>Servicio Express</label>
 
-                    </div>
+                                        <div class="input-group">
+                                            <div id="radioBtn" class="btn-group">
+                                                <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
+                                                <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
+                                            </div>
+                                            <input type="hidden" name="ServicioExpress" id="ServicioExpress">
+                                        </div>
 
-                </div>
-                <div class="col col-xs-8 col-md-3">
+                                    </div>
 
-                    <div class="form-group">
+                                </div>
 
-                        <label>Servicio Estandar</label>
-
-                        <div class="input-group">
-                            <div id="radioBtn" class="btn-group">
-                                <a class="btn btn-primary btn-sm active" data-toggle="ServicioEstandar" data-title="Y">SI</a>
-                                <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioEstandar" data-title="N">NO</a>
-                            </div>
-                            <input type="hidden" name="ServicioEstandar" id="ServicioEstandar">
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="col col-xs-8 col-md-3">
-
-                    <div class="form-group">
-
-                        <label>Servicio Express</label>
-
-                        <div class="input-group">
-                            <div id="radioBtn" class="btn-group">
-                                <a class="btn btn-primary btn-sm active" data-toggle="ServicioExpress" data-title="Y">SI</a>
-                                <a class="btn btn-primary btn-sm notActive" data-toggle="ServicioExpress" data-title="N">NO</a>
-                            </div>
-                            <input type="hidden" name="ServicioExpress" id="ServicioExpress">
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>*@
+                            </div>*@
                     </form>
 
                 </div>
@@ -683,7 +646,6 @@
 
         $(document).ready(function () {
             init("tipoLogistica");
-            init("ddlCarriers");
             $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
             $('#tblConsulta thead tr:eq(0) th').each(function (i) {
                 if ($(this).attr('name') != "accion") {
@@ -806,37 +768,34 @@
             if (selectBox2 != null) {
                 selectBox2.empty();
             }
-            if (selectBox != null) {
-                selectBox.empty();
-            }
         }
         function doDestroy(id) {
 
             if (id == "tipoLogistica" && selectBox2 != null) {
                 selectBox2.destroy();
+                //let zone = document.getElementById("demo-multiple");
+                //buttons = zone.querySelector(".btns-active");
+                //buttons.style.display = "none";
+                //buttons = zone.querySelector(".btns-inactive");
+                //buttons.style.display = "block";
 
-            } else {
-                selectBox.destroy();
             }
         }
         function init(id) {
             if (id == "tipoLogistica") {
 
                 selectBox2 = new vanillaSelectBox("#tipoLogistica", { "disableSelectAll": true, "maxHeight": 200, "search": true, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+                //let zone = document.getElementById("demo-multiple");
+                //buttons = zone.querySelector(".btns-active");
+                //buttons.style.display = "block";
+                //buttons = zone.querySelector(".btns-inactive");
+                //buttons.style.display = "none";
 
-            } else {
-                selectBox = new vanillaSelectBox("#ddlCarriers", { "disableSelectAll": true, "maxHeight": 200, "search": true, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
             }
-            
         }
         function setValues(value) {
             if (selectBox2 != null) {
                 selectBox2.setValue(value);
-            }
-        }
-        function setValuesCarrier(value) {
-            if (selectBox != null) {
-                selectBox.setValue(value);
             }
         }
         function getValues(id) {
@@ -946,11 +905,6 @@
 
                                 setValues(_array);
                             }
-                            if (json.json[i].IdCarriers != null) {
-                                var _arrayC = json.json[i].IdCarriers.split(',');
-
-                                setValuesCarrier(_arrayC);
-                            }
                             document.getElementById("in_limite").value = json.json[i].LimitePaqueteria;
                             document.getElementById("in_vida").value = json.json[i].DiasVigenciaGuias;
                             //document.getElementById("TarifaFija").value = "N";//json.json[i].ServicioExpress;
@@ -960,8 +914,7 @@
                             $('a[data-toggle="TarifaFija"][data-title="' + valTarifaFija + '"]').click();
                             $('a[data-toggle="Paqueteria"][data-title="' + valActivo + '"]').click();
 
-                            document.getElementById("in_nombre").value = json.json[i].Nombre;
-                            document.getElementById("ddlCanal").value = json.json[i].IdIntegracion;
+                            document.getElementById("in_nombre").value = json.json[i].Nombre
 
 
 
@@ -999,19 +952,6 @@
                 count++;
             });
 
-            count = 1;
-            var valuesCarriers = getValues('ddlCarriers');
-            var _carriers = '';
-
-            valuesCarriers.forEach(x => {
-
-                if (count > 1)
-                    _carriers = _carriers + ',' + x;
-                else
-                    _carriers = x;
-
-                count++;
-            });
 
 
 
@@ -1025,7 +965,6 @@
             var _TarifaFija = document.getElementById("TarifaFija").value == 'Y' ? '1' : '0';
             var _Estatus = document.getElementById("Paqueteria").value ==  'Y'? '1' : '0';
             var _in_nombre = document.getElementById("in_nombre").value;
-            var _idIntegracion = document.getElementById("ddlCanal").value;
 
             //var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);
             //var _TarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
@@ -1111,9 +1050,7 @@
                     PorcAdicPaquete: 0,
                     DiasVigenciaGuias: _in_vida,
                     IdTipoLogistica: _tipoLogistica,
-                    Estatus: _Estatus,
-                    IdCarriers: _carriers,
-                    IdIntegracion: _idIntegracion
+                    Estatus: _Estatus
 
                 },
                 datatype: "html",
@@ -1282,9 +1219,8 @@
                                 json.json[i].UsuarioUltModif,
                                 json.json[i].FechaUltModif,
                                 json.json[i].HoraUltModif,
-                                json.json[i].BitActivo == '1' ? 'Activo' : 'Inactivo',
-                                json.json[i].Carriers,
-                                json.json[i].Integracion,
+                                json.json[i].BitActivo == '1'? 'Activo': 'Inactivo',
+
                                 "<button title=\"Editar\" onclick='EditSurtidores(" + json.json[i].IdTransportista + ")' type = 'button' class= 'btn btn-white btn-circle'> <i class='fa fa-edit'></i></button>"
                                 //<button title=\"Eliminar\" type='button'  onclick='DeleteSurtidores(" + json.json[i].Id_Carrier + ")'  class='btn btn-warning btn-circle'> <i class='fa fa-minus'></i></button>
                             ]).draw();

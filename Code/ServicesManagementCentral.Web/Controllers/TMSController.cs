@@ -232,15 +232,14 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult Transportistas()
         {
-            Session["cmbTL"] = DALCatalogo.TiposLogistica();
-            Session["cmbCarriers"] = DALCatalogo.Carriers();
-            Session["cmbCanales"] = DALCatalogo.Canales();
+            Session["cmbTL"] = cmbTL();
+
             return View();
         }
 
 
         [HttpPost]
-        public ActionResult InsTransportista(string IdTransportista
+        public async Task<JsonResult> InsTransportista(string IdTransportista
                                                         , string Nombre
                                                         , string TarifaFija
                                                         , string CostoTarifaFija
@@ -252,12 +251,14 @@ namespace ServicesManagement.Web.Controllers
                                                         , string DiasVigenciaGuias
                                                         , string IdTipoLogistica
                                                         , string Estatus
-                                                        , string IdCarriers
-                                                        , int IdIntegracion
 )
         {
             try
             {
+
+
+                try
+                {
                     Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
                     System.Collections.Hashtable parametros = new System.Collections.Hashtable();
@@ -275,11 +276,23 @@ namespace ServicesManagement.Web.Controllers
                     parametros.Add("@UsuarioCreacion", "sysAdmin");
                     parametros.Add("@IdTipoLogistica", IdTipoLogistica);
                     parametros.Add("@Estatus", Estatus);
-                    parametros.Add("@IdCarriers", IdCarriers);
-                    parametros.Add("@IdIntegracion", IdIntegracion);
 
-                Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Transportista", false, parametros);
 
+                    Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Transportista", false, parametros);
+
+
+                    //return ds;
+                }
+                catch (SqlException ex)
+                {
+
+                    throw ex;
+                }
+                catch (System.Exception ex)
+                {
+
+                    throw ex;
+                }
 
 
                 var result1 = new { Success = true };
@@ -293,11 +306,11 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult GetTransportistas(int IdTransportista)
+        public async Task<JsonResult> GetTransportistas(int IdTransportista)
         {
             try
             {
-                DataSet ds =  DALServicesM.GetCarrier(IdTransportista);
+                DataSet ds = DALServicesM.GetCarrier(IdTransportista);
 
                 List<CarrierModel2> listC = ConvertTo<CarrierModel2>(ds.Tables[0]);
                 var result = new { Success = true, json = listC };
@@ -446,6 +459,38 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
+        public DataSet cmbTL()
+        {
+            DataSet ds = new DataSet();
+
+            try
+            {
+
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("tms.up_CorpTMS_cmb_TipoLogostica", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        using (SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return ds;
+
+        }
         [HttpGet]
         public async Task<JsonResult> VerificarGastosPorTienda()
         {
