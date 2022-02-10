@@ -102,7 +102,7 @@ namespace ServicesManagement.Web.Controllers
             {
                 //var list = DataTableToModel.ConvertTo<NivelDeServicioModel>(DALReportes.NivelDeServicio_sUp(fechaInicio, fechaFin).Tables[0]);
                 IQueryable<NivelDeServicioModel> list = from row in DALReportes.NivelDeServicio_sUp(fechaInicio, fechaFin).Tables[0].AsEnumerable().AsQueryable()
-                                                        select new NivelDeServicioModel()
+                                                        select new NivelDeServicioModel() 
                                                         {
                                                             Costo = row["Costo"].ToString() == "" ? 0 : decimal.Parse(row["Costo"].ToString()),
                                                             totalIngreso = row["totalIngreso"].ToString() == "" ? 0 : decimal.Parse(row["totalIngreso"].ToString()),
@@ -123,7 +123,7 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesRecolectadasEnTiempo = list.Where(x => x.RecoleccionAtiempo == true).Count(),
                             ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.RecoleccionAtiempo == false).Count(),
                             ConsignacionesTotales = list.Count(),
-                            NivelDeServicio = list.Where(x => x.RecoleccionAtiempo == false).Count() / list.Count(),
+                            NivelDeServicio = decimal.Round(list.Where(x => x.RecoleccionAtiempo == false).Count() / list.Count(), 2),
                         }
                         );
                     lstIncidencias.Add(
@@ -132,7 +132,7 @@ namespace ServicesManagement.Web.Controllers
                                Transportista = "General",
                                ConsignacionesTotales = list.Count(),
                                ConsignacionesIncidencias = list.Where(x => x.TrackingServiceStatus == "INCIDENCIA").Count(),
-                               PorcentajeIncidencias = list.Where(x => x.TrackingServiceStatus == "INCIDENCIA").Count() / list.Count(),
+                               PorcentajeIncidencias = decimal.Round(list.Where(x => x.TrackingServiceStatus == "INCIDENCIA").Count() / list.Count(), 2),
                            }
                            );
                     lstEntregadas.Add(
@@ -142,9 +142,9 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesEntregadasEnTiempo = list.Where(x => x.EntregadaATiempo == true).Count(),
                             ConsignacionesEntregadasFueraTiempo = list.Where(x => x.EntregadaATiempo == false).Count(),
                             ConsignacionesTotales = list.Count(),
-                            NivelDeServicio = list.Where(x => x.EntregadaATiempo == false).Count() / list.Count(),
-                            CostoPromedio = list.Sum(x => x.Costo) / list.Count(),
-                            IngresoPromedio = list.Sum(x => x.totalIngreso) / list.Count(),
+                            NivelDeServicio = decimal.Round(list.Where(x => x.EntregadaATiempo == false).Count() / list.Count(), 2),
+                            CostoPromedio = decimal.Round(list.Sum(x => x.Costo) / list.Count(), 2),
+                            IngresoPromedio = decimal.Round(list.Sum(x => x.totalIngreso) / list.Count(), 2),
                         }
                         );
                     lstAlmacen.Add(
@@ -154,9 +154,9 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesEntregadasEnTiempo = list.Where(x => x.EntregadaATiempo == true).Count(),
                             ConsignacionesEntregadasFueraTiempo = list.Where(x => x.EntregadaATiempo == false).Count(),
                             ConsignacionesTotales = list.Count(),
-                            NivelDeServicio = list.Where(x => x.EntregadaATiempo == false).Count() / list.Count(),
-                            CostoPromedio = list.Sum(x => x.Costo) / list.Count(),
-                            IngresoPromedio = list.Sum(x => x.totalIngreso) / list.Count(),
+                            NivelDeServicio = decimal.Round(list.Where(x => x.EntregadaATiempo == false).Count() / list.Count(), 2),
+                            CostoPromedio = decimal.Round(list.Sum(x => x.Costo) / list.Count(), 2),
+                            IngresoPromedio = decimal.Round(list.Sum(x => x.totalIngreso) / list.Count(), 2),
                             TotalConsignacionesPagadas = list.Where(x => x.PagoAutorizado == true).Count()
                         }
                         );
@@ -167,7 +167,7 @@ namespace ServicesManagement.Web.Controllers
                         newTransito.ConsignacionesTotales = list.Where(x => x.Transportista == carrier).Count();
                         newTransito.ConsignacionesRecolectadasEnTiempo = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count();
                         newTransito.ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count();
-                        newTransito.NivelDeServicio = newTransito.ConsignacionesRecolectadasFueraTiempo > 0 ? decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo / newTransito.ConsignacionesTotales, 3) : 0;
+                        newTransito.NivelDeServicio = decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo > 0 ? decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo / newTransito.ConsignacionesTotales, 3) : 0, 2);
                         newTransito.Tipo = "MG";
 
                         lstTransitos.Add(newTransito);
@@ -176,7 +176,7 @@ namespace ServicesManagement.Web.Controllers
                         newIncidencias.Transportista = carrier;
                         newIncidencias.ConsignacionesTotales = list.Where(x => x.Transportista == carrier).Count();
                         newIncidencias.ConsignacionesIncidencias = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "INCIDENCIA").Count();
-                        newIncidencias.PorcentajeIncidencias = newIncidencias.ConsignacionesIncidencias > 0 ? newIncidencias.ConsignacionesIncidencias / newIncidencias.ConsignacionesTotales : 0;
+                        newIncidencias.PorcentajeIncidencias = decimal.Round(newIncidencias.ConsignacionesIncidencias > 0 ? newIncidencias.ConsignacionesIncidencias / newIncidencias.ConsignacionesTotales : 0, 2);
                         newIncidencias.Tipo = "MG";
 
                         lstIncidencias.Add(newIncidencias);
@@ -186,9 +186,9 @@ namespace ServicesManagement.Web.Controllers
                         newEntregadas.ConsignacionesTotales = list.Where(x => x.Transportista == carrier).Count();
                         newEntregadas.ConsignacionesEntregadasEnTiempo = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == true).Count();
                         newEntregadas.ConsignacionesEntregadasFueraTiempo = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count();
-                        newEntregadas.NivelDeServicio = newEntregadas.ConsignacionesEntregadasFueraTiempo > 0 ? newEntregadas.ConsignacionesEntregadasFueraTiempo / newEntregadas.ConsignacionesTotales : 0;
-                        newEntregadas.CostoPromedio = list.Where(x => x.Transportista == carrier).Sum(x => x.Costo) > 0 ? list.Where(x => x.Transportista == carrier).Sum(x => x.Costo) / newEntregadas.ConsignacionesTotales : 0;
-                        newEntregadas.IngresoPromedio = list.Where(x => x.Transportista == carrier).Sum(x => x.totalIngreso) > 0 ? list.Where(x => x.Transportista == carrier).Sum(x => x.totalIngreso) / newEntregadas.ConsignacionesTotales : 0;
+                        newEntregadas.NivelDeServicio = decimal.Round(newEntregadas.ConsignacionesEntregadasFueraTiempo > 0 ? newEntregadas.ConsignacionesEntregadasFueraTiempo / newEntregadas.ConsignacionesTotales : 0, 2);
+                        newEntregadas.CostoPromedio = decimal.Round(list.Where(x => x.Transportista == carrier).Sum(x => x.Costo) > 0 ? list.Where(x => x.Transportista == carrier).Sum(x => x.Costo) / newEntregadas.ConsignacionesTotales : 0, 2);
+                        newEntregadas.IngresoPromedio = decimal.Round(list.Where(x => x.Transportista == carrier).Sum(x => x.totalIngreso) > 0 ? list.Where(x => x.Transportista == carrier).Sum(x => x.totalIngreso) / newEntregadas.ConsignacionesTotales : 0, 2);
                         newEntregadas.Tipo = "MG";
 
                         lstEntregadas.Add(newEntregadas);
@@ -202,9 +202,9 @@ namespace ServicesManagement.Web.Controllers
                         newAlmacen.ConsignacionesTotales = list.Where(x => x.UeType == almacen).Count();
                         newAlmacen.ConsignacionesEntregadasEnTiempo = list.Where(x => x.UeType == almacen && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == true).Count();
                         newAlmacen.ConsignacionesEntregadasFueraTiempo = list.Where(x => x.UeType == almacen && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count();
-                        newAlmacen.NivelDeServicio = newAlmacen.ConsignacionesEntregadasFueraTiempo > 0 ? newAlmacen.ConsignacionesEntregadasFueraTiempo / newAlmacen.ConsignacionesTotales : 0;
-                        newAlmacen.CostoPromedio = list.Where(x => x.UeType == almacen).Sum(x => x.Costo) > 0 ? list.Where(x => x.UeType == almacen).Sum(x => x.Costo) / newAlmacen.ConsignacionesTotales : 0;
-                        newAlmacen.IngresoPromedio = list.Where(x => x.UeType == almacen).Sum(x => x.totalIngreso) > 0 ? list.Where(x => x.UeType == almacen).Sum(x => x.totalIngreso) / newAlmacen.ConsignacionesTotales : 0;
+                        newAlmacen.NivelDeServicio = decimal.Round(newAlmacen.ConsignacionesEntregadasFueraTiempo > 0 ? newAlmacen.ConsignacionesEntregadasFueraTiempo / newAlmacen.ConsignacionesTotales : 0, 2);
+                        newAlmacen.CostoPromedio = decimal.Round(list.Where(x => x.UeType == almacen).Sum(x => x.Costo) > 0 ? list.Where(x => x.UeType == almacen).Sum(x => x.Costo) / newAlmacen.ConsignacionesTotales : 0, 2);
+                        newAlmacen.IngresoPromedio = decimal.Round(list.Where(x => x.UeType == almacen).Sum(x => x.totalIngreso) > 0 ? list.Where(x => x.UeType == almacen).Sum(x => x.totalIngreso) / newAlmacen.ConsignacionesTotales : 0 ,2);
                         newAlmacen.Tipo = "MG";
 
                         lstAlmacen.Add(newAlmacen);
@@ -218,7 +218,7 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesRecolectadasEnTiempo = lstTransitos.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesRecolectadasEnTiempo),
                             ConsignacionesRecolectadasFueraTiempo = lstTransitos.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesRecolectadasFueraTiempo),
                             ConsignacionesTotales = lstTransitos.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesTotales),
-                            NivelDeServicio = lstTransitos.Where(x => x.Tipo == "MG").Sum(x => x.NivelDeServicio),
+                            NivelDeServicio = decimal.Round(lstTransitos.Where(x => x.Tipo == "MG").Sum(x => x.NivelDeServicio), 2),
                         }
                         );
                     lstIncidencias.Add(
@@ -227,7 +227,7 @@ namespace ServicesManagement.Web.Controllers
                                Transportista = "Subtotal MG",
                                ConsignacionesTotales = lstIncidencias.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesTotales),
                                ConsignacionesIncidencias = lstIncidencias.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesIncidencias),
-                               PorcentajeIncidencias = lstIncidencias.Where(x => x.Tipo == "MG").Sum(x => x.PorcentajeIncidencias)
+                               PorcentajeIncidencias = decimal.Round(lstIncidencias.Where(x => x.Tipo == "MG").Sum(x => x.PorcentajeIncidencias), 2)
                            }
                            );
                     lstEntregadas.Add(
@@ -237,9 +237,9 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesEntregadasEnTiempo = lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesEntregadasEnTiempo),
                             ConsignacionesEntregadasFueraTiempo = lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesEntregadasFueraTiempo),
                             ConsignacionesTotales = lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesTotales),
-                            NivelDeServicio = lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.NivelDeServicio),
-                            CostoPromedio = lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.CostoPromedio),
-                            IngresoPromedio = lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.IngresoPromedio)
+                            NivelDeServicio = decimal.Round(lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.NivelDeServicio), 2),
+                            CostoPromedio = decimal.Round(lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.CostoPromedio), 2),
+                            IngresoPromedio = decimal.Round(lstEntregadas.Where(x => x.Tipo == "MG").Sum(x => x.IngresoPromedio), 2)
                         }
                         );
                     lstAlmacen.Add(
@@ -249,78 +249,78 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesEntregadasEnTiempo = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesEntregadasEnTiempo),
                             ConsignacionesEntregadasFueraTiempo = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesEntregadasFueraTiempo),
                             ConsignacionesTotales = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.ConsignacionesTotales),
-                            CostoPromedio = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.CostoPromedio),
+                            CostoPromedio = decimal.Round(lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.CostoPromedio), 2),
                             TotalConsignacionesPagadas = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.TotalConsignacionesPagadas),
-                            NivelDeServicio = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.NivelDeServicio),
-                            IngresoPromedio = lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.IngresoPromedio),
+                            NivelDeServicio = decimal.Round(lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.NivelDeServicio), 2),
+                            IngresoPromedio = decimal.Round(lstAlmacen.Where(x => x.Tipo == "MG").Sum(x => x.IngresoPromedio), 2),
                         }
                         );
 
-                    foreach (var carrierSETC in list.Where(x => x.UeType == "SETC").DistinctBy(x => x.Transportista).Select(x => x.Transportista))
-                    {
-                        NivelDeServicioTransitoModel newTransito = new NivelDeServicioTransitoModel();
-                        newTransito.Transportista = carrierSETC;
-                        newTransito.ConsignacionesTotales = list.Where(x => x.Transportista == carrierSETC).Count();
-                        newTransito.ConsignacionesRecolectadasEnTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count();
-                        newTransito.ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count();
-                        newTransito.NivelDeServicio = newTransito.ConsignacionesRecolectadasFueraTiempo > 0 ? decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo / newTransito.ConsignacionesTotales, 3) : 0;
-                        newTransito.Tipo = "SETC";
+                    //foreach (var carrierSETC in list.Where(x => x.UeType == "SETC").DistinctBy(x => x.Transportista).Select(x => x.Transportista))
+                    //{
+                    //    NivelDeServicioTransitoModel newTransito = new NivelDeServicioTransitoModel();
+                    //    newTransito.Transportista = carrierSETC;
+                    //    newTransito.ConsignacionesTotales = list.Where(x => x.Transportista == carrierSETC).Count();
+                    //    newTransito.ConsignacionesRecolectadasEnTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count();
+                    //    newTransito.ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count();
+                    //    newTransito.NivelDeServicio = newTransito.ConsignacionesRecolectadasFueraTiempo > 0 ? decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo / newTransito.ConsignacionesTotales, 3) : 0;
+                    //    newTransito.Tipo = "SETC";
 
-                        lstTransitos.Add(newTransito);
+                    //    lstTransitos.Add(newTransito);
 
-                        NivelDeServicioIncidencias newIncidencias = new NivelDeServicioIncidencias();
-                        newIncidencias.Transportista = carrierSETC;
-                        newIncidencias.ConsignacionesTotales = list.Where(x => x.Transportista == carrierSETC).Count();
-                        newIncidencias.ConsignacionesIncidencias = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "INCIDENCIA").Count();
-                        newIncidencias.PorcentajeIncidencias = newIncidencias.ConsignacionesIncidencias > 0 ? newIncidencias.ConsignacionesIncidencias / newIncidencias.ConsignacionesTotales : 0;
-                        newIncidencias.Tipo = "SETC";
+                    //    NivelDeServicioIncidencias newIncidencias = new NivelDeServicioIncidencias();
+                    //    newIncidencias.Transportista = carrierSETC;
+                    //    newIncidencias.ConsignacionesTotales = list.Where(x => x.Transportista == carrierSETC).Count();
+                    //    newIncidencias.ConsignacionesIncidencias = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "INCIDENCIA").Count();
+                    //    newIncidencias.PorcentajeIncidencias = newIncidencias.ConsignacionesIncidencias > 0 ? newIncidencias.ConsignacionesIncidencias / newIncidencias.ConsignacionesTotales : 0;
+                    //    newIncidencias.Tipo = "SETC";
 
-                        lstIncidencias.Add(newIncidencias);
+                    //    lstIncidencias.Add(newIncidencias);
 
-                        NivelDeServicioEntregadas newEntregadas = new NivelDeServicioEntregadas();
-                        newEntregadas.Transportista = carrierSETC;
-                        newEntregadas.ConsignacionesTotales = list.Where(x => x.Transportista == carrierSETC).Count();
-                        newEntregadas.ConsignacionesEntregadasEnTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == true).Count();
-                        newEntregadas.ConsignacionesEntregadasFueraTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count();
-                        newEntregadas.NivelDeServicio = newEntregadas.ConsignacionesEntregadasFueraTiempo > 0 ? newEntregadas.ConsignacionesEntregadasFueraTiempo / newEntregadas.ConsignacionesTotales : 0;
-                        newEntregadas.CostoPromedio = list.Where(x => x.Transportista == carrierSETC).Sum(x => x.Costo) > 0 ? list.Where(x => x.Transportista == carrierSETC).Sum(x => x.Costo) / newEntregadas.ConsignacionesTotales : 0;
-                        newEntregadas.IngresoPromedio = list.Where(x => x.Transportista == carrierSETC).Sum(x => x.totalIngreso) > 0 ? list.Where(x => x.Transportista == carrierSETC).Sum(x => x.totalIngreso) / newEntregadas.ConsignacionesTotales : 0;
-                        newEntregadas.Tipo = "SETC";
+                    //    NivelDeServicioEntregadas newEntregadas = new NivelDeServicioEntregadas();
+                    //    newEntregadas.Transportista = carrierSETC;
+                    //    newEntregadas.ConsignacionesTotales = list.Where(x => x.Transportista == carrierSETC).Count();
+                    //    newEntregadas.ConsignacionesEntregadasEnTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == true).Count();
+                    //    newEntregadas.ConsignacionesEntregadasFueraTiempo = list.Where(x => x.Transportista == carrierSETC && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count();
+                    //    newEntregadas.NivelDeServicio = newEntregadas.ConsignacionesEntregadasFueraTiempo > 0 ? newEntregadas.ConsignacionesEntregadasFueraTiempo / newEntregadas.ConsignacionesTotales : 0;
+                    //    newEntregadas.CostoPromedio = list.Where(x => x.Transportista == carrierSETC).Sum(x => x.Costo) > 0 ? list.Where(x => x.Transportista == carrierSETC).Sum(x => x.Costo) / newEntregadas.ConsignacionesTotales : 0;
+                    //    newEntregadas.IngresoPromedio = list.Where(x => x.Transportista == carrierSETC).Sum(x => x.totalIngreso) > 0 ? list.Where(x => x.Transportista == carrierSETC).Sum(x => x.totalIngreso) / newEntregadas.ConsignacionesTotales : 0;
+                    //    newEntregadas.Tipo = "SETC";
 
-                        lstEntregadas.Add(newEntregadas);
+                    //    lstEntregadas.Add(newEntregadas);
 
 
-                    }
+                    //}
 
                     lstTransitos.Add(
                         new NivelDeServicioTransitoModel()
                         {
                             Transportista = "Subtotal SETC",
-                            ConsignacionesRecolectadasEnTiempo = lstTransitos.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesRecolectadasEnTiempo),
-                            ConsignacionesRecolectadasFueraTiempo = lstTransitos.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesRecolectadasFueraTiempo),
-                            ConsignacionesTotales = lstTransitos.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesTotales),
-                            NivelDeServicio = lstTransitos.Where(x => x.Tipo == "SETC").Sum(x => x.NivelDeServicio),
+                            ConsignacionesRecolectadasEnTiempo = list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count(),
+                            ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count(),
+                            ConsignacionesTotales = list.Where(x => x.UeType == "SETC").Count(),
+                            NivelDeServicio = decimal.Round(list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count() > 0 ? list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count() / list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count() :0, 2),
                         }
                         );
                     lstIncidencias.Add(
                            new NivelDeServicioIncidencias()
                            {
                                Transportista = "Subtotal SETC",
-                               ConsignacionesTotales = lstIncidencias.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesTotales),
-                               ConsignacionesIncidencias = lstIncidencias.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesIncidencias),
-                               PorcentajeIncidencias = lstIncidencias.Where(x => x.Tipo == "SETC").Sum(x => x.PorcentajeIncidencias)
+                               ConsignacionesTotales = list.Where(x => x.UeType == "SETC").Count(),
+                               ConsignacionesIncidencias = list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "INCIDENCIA").Count(),
+                               PorcentajeIncidencias = decimal.Round(list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "INCIDENCIA").Count() > 0 ? list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "INCIDENCIA").Count() / list.Where(x => x.UeType == "SETC").Count() : 0, 2)
                            }
                            );
                     lstEntregadas.Add(
                         new NivelDeServicioEntregadas()
                         {
                             Transportista = "Subtotal SETC",
-                            ConsignacionesEntregadasEnTiempo = lstEntregadas.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesEntregadasEnTiempo),
-                            ConsignacionesEntregadasFueraTiempo = lstEntregadas.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesEntregadasFueraTiempo),
-                            ConsignacionesTotales = lstEntregadas.Where(x => x.Tipo == "SETC").Sum(x => x.ConsignacionesTotales),
-                            NivelDeServicio = lstEntregadas.Where(x => x.Tipo == "SETC").Sum(x => x.NivelDeServicio),
-                            CostoPromedio = lstEntregadas.Where(x => x.Tipo == "SETC").Sum(x => x.CostoPromedio),
-                            IngresoPromedio = lstEntregadas.Where(x => x.Tipo == "SETC").Sum(x => x.IngresoPromedio)
+                            ConsignacionesEntregadasEnTiempo = list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == true).Count(),
+                            ConsignacionesEntregadasFueraTiempo = list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count(),
+                            ConsignacionesTotales = list.Where(x => x.UeType == "SETC").Count(),
+                            NivelDeServicio = decimal.Round(list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count() > 0 ? list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == false).Count() / list.Where(x => x.UeType == "SETC" && x.TrackingServiceStatus == "Entregada" && x.EntregadaATiempo == true).Count() :0, 2),
+                            CostoPromedio = decimal.Round(list.Where(x => x.UeType == "SETC").Sum(x => x.Costo) / list.Where(x => x.UeType == "SETC").Count(), 2),
+                            IngresoPromedio = decimal.Round(list.Where(x => x.UeType == "SETC").Sum(x => x.totalIngreso) / list.Where(x => x.UeType == "SETC").Count(), 2)
                         }
                         );
                     lstAlmacen.Add(
@@ -330,14 +330,14 @@ namespace ServicesManagement.Web.Controllers
                             ConsignacionesEntregadasEnTiempo = list.Where(x => x.UeType == "SETC" && x.EntregadaATiempo == true).Count(),
                             ConsignacionesEntregadasFueraTiempo = list.Where(x => x.UeType == "SETC" && x.EntregadaATiempo == false).Count(),
                             ConsignacionesTotales = list.Where(x => x.UeType == "SETC").Count(),
-                            CostoPromedio = list.Where(x => x.UeType == "SETC").Sum(x => x.Costo) / list.Where(x => x.UeType == "SETC").Count(),
+                            CostoPromedio = decimal.Round(list.Where(x => x.UeType == "SETC").Sum(x => x.Costo) / list.Where(x => x.UeType == "SETC").Count(), 2),
                             TotalConsignacionesPagadas = list.Where(x => x.UeType == "SETC").Count(),
-                            NivelDeServicio = list.Where(x => x.UeType == "SETC" && x.EntregadaATiempo == false).Count() / list.Where(x => x.UeType == "SETC").Count(),
-                            IngresoPromedio = list.Where(x => x.UeType == "SETC").Sum(x => x.totalIngreso) / list.Where(x => x.UeType == "SETC").Count(),
+                            NivelDeServicio = decimal.Round(list.Where(x => x.UeType == "SETC" && x.EntregadaATiempo == false).Count() / list.Where(x => x.UeType == "SETC").Count(), 2),
+                            IngresoPromedio = decimal.Round(list.Where(x => x.UeType == "SETC").Sum(x => x.totalIngreso) / list.Where(x => x.UeType == "SETC").Count(),2),
                         }
                         );
                 }
-                var result = new { Success = true, enTransito = lstTransitos, enIncidencias = lstIncidencias, entregadas = lstEntregadas, porAlmacen = lstAlmacen };
+                var result = new { Success = true, enTransito = lstTransitos.Where(x => x.Tipo != "SETC"), enIncidencias = lstIncidencias.Where(x => x.Tipo != "SETC"), entregadas = lstEntregadas.Where(x => x.Tipo != "SETC"), porAlmacen = lstAlmacen.Where(x => x.Tipo != "SETC") };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception x)
