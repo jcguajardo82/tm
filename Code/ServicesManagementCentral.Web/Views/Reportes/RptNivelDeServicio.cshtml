@@ -2,7 +2,16 @@
 @{
     ViewBag.Title = "RptNivelDeServicio";
 }
+<style>
+    
 
+    .rowRR {
+        color: black;
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+</style>
 @using (Html.BeginForm())
 {
     <div class="row">
@@ -443,6 +452,17 @@
 
         });
 
+        function NivelDeServicio(v1, v2) {
+
+            if(v1 == 0 && v2 == 0)
+                return '0'
+
+            var n = (v1 / v2) * 100
+            let t = n.toString();
+            let regex = /(\d*.\d{0,2})/;
+            return t.match(regex)[0];
+        }
+
         function GetConsulta() {
             //var _Id_Num_UN = $("#hddTda").val();
             //debugger;
@@ -469,13 +489,18 @@
                         for (var i = 0; i < json.enTransito.length; i++) {
 
 
-                            myTable1.row.add([
+                            var row = myTable1.row.add([
                                 json.enTransito[i].Transportista,
                                 json.enTransito[i].ConsignacionesTotales,
                                 json.enTransito[i].ConsignacionesRecolectadasEnTiempo,
                                 json.enTransito[i].ConsignacionesRecolectadasFueraTiempo,
-                                json.enTransito[i].NivelDeServicio
-                            ]).draw();
+                                NivelDeServicio(json.enTransito[i].ConsignacionesRecolectadasFueraTiempo,json.enTransito[i].ConsignacionesTotales) + '%'
+                            ]);
+
+                            if (json.enTransito[i].Transportista == 'General' || json.enTransito[i].Transportista == 'Subtotal MG' || json.enTransito[i].Transportista == 'Subtotal SETC') {
+                                myTable1.row(row).nodes().to$().addClass('rowRR');
+                            }
+                            myTable1.row(row).draw();
                         }
                         var myTable2 = $('#tblEnIncidencia').DataTable();
                         myTable2
@@ -483,13 +508,18 @@
                             .draw();
                         for (var i = 0; i < json.enIncidencias.length; i++) {
 
-
-                            myTable2.row.add([
+                           var row2 = myTable2.row.add([
                                 json.enIncidencias[i].Transportista,
                                 json.enIncidencias[i].ConsignacionesTotales,
                                 json.enIncidencias[i].ConsignacionesIncidencias,
-                                json.enIncidencias[i].PorcentajeIncidencias
-                            ]).draw();
+                               NivelDeServicio(json.enIncidencias[i].ConsignacionesIncidencias, json.enIncidencias[i].ConsignacionesTotales) + '%'
+                            ]);
+
+                            if (json.enIncidencias[i].Transportista == 'General' || json.enIncidencias[i].Transportista == 'Subtotal MG' || json.enIncidencias[i].Transportista == 'Subtotal SETC')
+                            {
+                                myTable2.row(row2).nodes().to$().addClass('rowRR');
+                            }
+                            myTable2.row(row2).draw();
                         }
                         var myTable3 = $('#tblEntregadas').DataTable();
                         myTable3
@@ -498,32 +528,45 @@
                         for (var i = 0; i < json.entregadas.length; i++) {
 
 
-                            myTable3.row.add([
+                            var row = myTable3.row.add([
                                 json.entregadas[i].Transportista,
                                 json.entregadas[i].ConsignacionesTotales,
                                 json.entregadas[i].ConsignacionesEntregadasEnTiempo,
                                 json.entregadas[i].ConsignacionesEntregadasFueraTiempo,
-                                json.entregadas[i].NivelDeServicio,
+                                NivelDeServicio(json.entregadas[i].ConsignacionesEntregadasFueraTiempo, json.entregadas[i].ConsignacionesTotales) + '%',
                                 json.entregadas[i].CostoPromedio,
                                 json.entregadas[i].IngresoPromedio
-                            ]).draw();
+                            ]);
+
+                            if (json.entregadas[i].Transportista == 'General' || json.entregadas[i].Transportista == 'Subtotal MG' || json.entregadas[i].Transportista == 'Subtotal SETC') {
+                                myTable3.row(row).nodes().to$().addClass('rowRR');
+                            }
+                            myTable3.row(row).draw();
                         }
+
                         var myTable4 = $('#tblPorAlmacen').DataTable();
                         myTable4
                             .clear()
                             .draw();
+
                         for (var i = 0; i < json.porAlmacen.length; i++) {
 
 
-                            myTable4.row.add([
+                            var row4 = myTable4.row.add([
                                 json.porAlmacen[i].Almacen,
                                 json.porAlmacen[i].TotalConsignacionesPagadas,
                                 json.porAlmacen[i].ConsignacionesEntregadasEnTiempo,
                                 json.porAlmacen[i].ConsignacionesEntregadasFueraTiempo,
-                                json.porAlmacen[i].NivelDeServicio,
+                                NivelDeServicio(json.porAlmacen[i].TotalConsignacionesPagadas, json.porAlmacen[i].ConsignacionesTotales) + '%',
                                 json.porAlmacen[i].CostoPromedio,
                                 json.porAlmacen[i].IngresoPromedio
-                            ]).draw();
+                            ]);
+
+                            if (json.porAlmacen[i].Almacen == 'General' || json.porAlmacen[i].Almacen == 'Subtotal MG' || json.porAlmacen[i].Almacen == 'Subtotal SETC')
+                            {
+                                myTable4.row(row4).nodes().to$().addClass('rowRR');
+                            }
+                            myTable4.row(row4).draw();
                         }
                     }
                 }

@@ -120,10 +120,10 @@ namespace ServicesManagement.Web.Controllers
                         new NivelDeServicioTransitoModel()
                         {
                             Transportista = "General",
-                            ConsignacionesRecolectadasEnTiempo = list.Where(x => x.RecoleccionAtiempo == true).Count(),
-                            ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.RecoleccionAtiempo == false).Count(),
+                            ConsignacionesRecolectadasEnTiempo = list.Where(x => x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count(),
+                            ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count(),
                             ConsignacionesTotales = list.Count(),
-                            NivelDeServicio = decimal.Round(list.Where(x => x.RecoleccionAtiempo == false).Count() / list.Count(), 2),
+                            NivelDeServicio = (list.Where(x => x.RecoleccionAtiempo == false).Count() / list.Count()) * 100,
                         }
                         );
                     lstIncidencias.Add(
@@ -160,14 +160,14 @@ namespace ServicesManagement.Web.Controllers
                             TotalConsignacionesPagadas = list.Where(x => x.PagoAutorizado == true).Count()
                         }
                         );
-                    foreach (var carrier in lstCarriers)
+                    foreach (var carrier in list.Where(x => x.UeType != "SETC").DistinctBy(x => x.Transportista).Select(x => x.Transportista))
                     {
                         NivelDeServicioTransitoModel newTransito = new NivelDeServicioTransitoModel();
                         newTransito.Transportista = carrier;
                         newTransito.ConsignacionesTotales = list.Where(x => x.Transportista == carrier).Count();
                         newTransito.ConsignacionesRecolectadasEnTiempo = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == true).Count();
                         newTransito.ConsignacionesRecolectadasFueraTiempo = list.Where(x => x.Transportista == carrier && x.TrackingServiceStatus == "EN_TRANSITO" && x.RecoleccionAtiempo == false).Count();
-                        newTransito.NivelDeServicio = decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo > 0 ? decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo / newTransito.ConsignacionesTotales, 3) : 0, 2);
+                        newTransito.NivelDeServicio = decimal.Round(newTransito.ConsignacionesRecolectadasFueraTiempo > 0 ? decimal.Round((newTransito.ConsignacionesRecolectadasFueraTiempo / newTransito.ConsignacionesTotales) * 100, 3) : 0, 2);
                         newTransito.Tipo = "MG";
 
                         lstTransitos.Add(newTransito);
