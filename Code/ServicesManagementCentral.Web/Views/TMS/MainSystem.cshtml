@@ -130,7 +130,7 @@
 <link href="~/Content/DeliveryLineTime.css" rel="stylesheet" />
 <div id="divIndicadores">
     @{
-        Html.RenderAction("IndicadoresOp");
+        Html.RenderAction("IndicadoresOp",new {  FecIni=DateTime.Now.AddDays(-15), FecFin=DateTime.Now } );
     }
 </div>
 <!--<div class="row">-->
