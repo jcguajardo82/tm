@@ -715,7 +715,8 @@ namespace ServicesManagement.Web.Controllers
 
         public async Task<JsonResult> GetTransportistas()
         {
-            try{
+            try
+            {
 
                 DataSet ds = DALServicesM.GetCarriers();
                 List<CarrierModelTMS> listC = ConvertTo<CarrierModelTMS>(ds.Tables[0]);
@@ -1126,13 +1127,14 @@ namespace ServicesManagement.Web.Controllers
                 #region Se Obtienen Filtros Por Columna
                 var Id_CP = Request.Form.GetValues("columns[0][search][value]").FirstOrDefault().ToLower();
                 var idSupplierWH = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault().ToLower();
-                var Latitud = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
-                var Longitud = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
-                var CP = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
-                var Usuario_Creation = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
-                var Fecha_Creacion = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
-                var Fecha_Modificacion = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
-                var BitActivo = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+                var TipoAlmacen = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault().ToLower();
+                var Latitud = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault().ToLower();
+                var Longitud = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault().ToLower();
+                var CP = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault().ToLower();
+                var Usuario_Creation = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault().ToLower();
+                var Fecha_Creacion = Request.Form.GetValues("columns[7][search][value]").FirstOrDefault().ToLower();
+                var Fecha_Modificacion = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault().ToLower();
+                var BitActivo = Request.Form.GetValues("columns[9][search][value]").FirstOrDefault().ToLower();
 
 
 
@@ -1149,6 +1151,7 @@ namespace ServicesManagement.Web.Controllers
                                                                     Id_CP = (row["Id_CP"].ToString()),
                                                                     IdOwner = (row["idOwner"].ToString()),
                                                                     IdSupplierWH = row["idSupplierWH"].ToString(),
+                                                                    TipoAlmacen = row["TipoAlmacen"].ToString(),
                                                                     IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
                                                                     Latitud = row["Latitud"].ToString(),
                                                                     Longitud = row["Longitud"].ToString(),
@@ -1165,6 +1168,7 @@ namespace ServicesManagement.Web.Controllers
 
                 if (searchValue != "")
                     query = query.Where(d => d.Id_CP.ToString().ToLower().Contains(searchValue)
+                    || d.TipoAlmacen.ToLower().Contains(searchValue)
                     || d.IdSupplierWH.ToLower().Contains(searchValue)
                     || d.Latitud.ToString().ToLower().Contains(searchValue)
                     || d.Longitud.ToLower().Contains(searchValue)
@@ -1186,7 +1190,10 @@ namespace ServicesManagement.Web.Controllers
                 {
                     query = query.Where(a => a.IdSupplierWH.ToLower().Contains(idSupplierWH));
                 }
-
+                if (!string.IsNullOrEmpty(TipoAlmacen))
+                {
+                    query = query.Where(a => a.TipoAlmacen.ToLower().Contains(TipoAlmacen));
+                }
                 if (!string.IsNullOrEmpty(Latitud))
                 {
                     query = query.Where(a => a.Latitud.ToString().ToLower().Contains(Latitud));
@@ -1250,7 +1257,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                if(ids != "")
+                if (ids != "")
                     Session["IdsBusqueda"] = ids;
 
                 return Json(new { Success = true });
@@ -1284,6 +1291,7 @@ namespace ServicesManagement.Web.Controllers
                                                                 Id_CP = (row["Id_CP"].ToString()),
                                                                 IdOwner = (row["idOwner"].ToString()),
                                                                 IdSupplierWH = row["idSupplierWH"].ToString(),
+                                                                TipoAlmacen = row["TipoAlmacen"].ToString(),
                                                                 IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
                                                                 Latitud = row["Latitud"].ToString(),
                                                                 Longitud = row["Longitud"].ToString(),
@@ -1295,68 +1303,6 @@ namespace ServicesManagement.Web.Controllers
                                                                 Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
                                                             };
 
-
-
-
-            if (searchValue != "")
-                query = query.Where(dd => dd.Id_CP.ToString().ToLower().Contains(searchValue)
-                || dd.IdSupplierWH.ToLower().Contains(searchValue)
-                || dd.Latitud.ToString().ToLower().Contains(searchValue)
-                || dd.Longitud.ToLower().Contains(searchValue)
-                || dd.CP.ToLower().Contains(searchValue)
-                || dd.Usuario_Creation.ToLower().Contains(searchValue)
-                || dd.Fecha_Creacion.ToLower().Contains(searchValue)
-                || dd.Fecha_Modificacion.ToLower().Contains(searchValue)
-                || dd.BitActivo.ToLower().Contains(searchValue)
-                );
-
-
-            //Filter By Columns
-            #region Filter By Columns
-            if (!string.IsNullOrEmpty(Id_CP))
-            {
-                query = query.Where(a => a.Id_CP.ToString().ToLower().Contains(Id_CP));
-            }
-            if (!string.IsNullOrEmpty(idSupplierWH))
-            {
-                query = query.Where(a => a.IdSupplierWH.ToLower().Contains(idSupplierWH));
-            }
-
-            if (!string.IsNullOrEmpty(Latitud))
-            {
-                query = query.Where(a => a.Latitud.ToString().ToLower().Contains(Latitud));
-            }
-            if (!string.IsNullOrEmpty(Longitud))
-            {
-                query = query.Where(a => a.Longitud.ToLower().Contains(Longitud));
-            }
-
-            if (!string.IsNullOrEmpty(CP))
-            {
-                query = query.Where(a => a.CP.ToLower().Contains(CP));
-            }
-
-            if (!string.IsNullOrEmpty(Usuario_Creation))
-            {
-                query = query.Where(a => a.Usuario_Creation.ToLower().Contains(Usuario_Creation));
-            }
-
-            if (!string.IsNullOrEmpty(Fecha_Creacion))
-            {
-                query = query.Where(a => a.Fecha_Creacion.ToLower().Contains(Fecha_Creacion));
-            }
-
-            if (!string.IsNullOrEmpty(Fecha_Modificacion))
-            {
-                query = query.Where(a => a.Fecha_Modificacion.ToLower().Contains(Fecha_Modificacion));
-            }
-
-            if (!string.IsNullOrEmpty(BitActivo))
-            {
-                query = query.Where(a => a.BitActivo.ToLower().Contains(BitActivo));
-            }
-
-            #endregion
 
             recordsTotal = query.Count();
 
@@ -1382,13 +1328,14 @@ namespace ServicesManagement.Web.Controllers
 
             row1.CreateCell(0).SetCellValue("Id");
             row1.CreateCell(1).SetCellValue("Almacen");
-            row1.CreateCell(2).SetCellValue("Latitud");
-            row1.CreateCell(3).SetCellValue("Longitud");
-            row1.CreateCell(4).SetCellValue("CP");
-            row1.CreateCell(5).SetCellValue("Usuario Creacion");
-            row1.CreateCell(6).SetCellValue("Fecha Creacion");
-            row1.CreateCell(7).SetCellValue("Fecha Modificación");
-            row1.CreateCell(8).SetCellValue("BitActivo");
+            row1.CreateCell(2).SetCellValue("TipoAlmacen");
+            row1.CreateCell(3).SetCellValue("Latitud");
+            row1.CreateCell(4).SetCellValue("Longitud");
+            row1.CreateCell(5).SetCellValue("CP");
+            row1.CreateCell(6).SetCellValue("Usuario Creacion");
+            row1.CreateCell(7).SetCellValue("Fecha Creacion");
+            row1.CreateCell(8).SetCellValue("Fecha Modificación");
+            row1.CreateCell(9).SetCellValue("BitActivo");
 
 
             //                                                
@@ -1399,13 +1346,14 @@ namespace ServicesManagement.Web.Controllers
                 NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
                 rowtemp.CreateCell(0).SetCellValue(lst[i].Id_CP.ToString());
                 rowtemp.CreateCell(1).SetCellValue(lst[i].IdSupplierWH.ToString());
-                rowtemp.CreateCell(2).SetCellValue(lst[i].Latitud.ToString());
-                rowtemp.CreateCell(3).SetCellValue(lst[i].Longitud.ToString());
-                rowtemp.CreateCell(4).SetCellValue(lst[i].CP.ToString());
-                rowtemp.CreateCell(5).SetCellValue(lst[i].Usuario_Creation.ToString());
-                rowtemp.CreateCell(6).SetCellValue(lst[i].Fecha_Creacion.ToString());
-                rowtemp.CreateCell(7).SetCellValue(lst[i].Fecha_Modificacion.ToString());
-                rowtemp.CreateCell(8).SetCellValue(lst[i].BitActivo.ToString());
+                rowtemp.CreateCell(2).SetCellValue(lst[i].TipoAlmacen.ToString());
+                rowtemp.CreateCell(3).SetCellValue(lst[i].Latitud.ToString());
+                rowtemp.CreateCell(4).SetCellValue(lst[i].Longitud.ToString());
+                rowtemp.CreateCell(5).SetCellValue(lst[i].CP.ToString());
+                rowtemp.CreateCell(6).SetCellValue(lst[i].Usuario_Creation.ToString());
+                rowtemp.CreateCell(7).SetCellValue(lst[i].Fecha_Creacion.ToString());
+                rowtemp.CreateCell(8).SetCellValue(lst[i].Fecha_Modificacion.ToString());
+                rowtemp.CreateCell(9).SetCellValue(lst[i].BitActivo.ToString());
 
 
             }
@@ -1622,7 +1570,7 @@ namespace ServicesManagement.Web.Controllers
                 parametros.Add("@idSupplierWHCode", idSupplierWHCode);
                 parametros.Add("@Latitud", lat);
                 parametros.Add("@Longitud", lon);
-                parametros.Add("@codigos", codigos.Substring(0,codigos.Length -2));
+                parametros.Add("@codigos", codigos.Substring(0, codigos.Length - 2));
                 parametros.Add("@Usuario_Creation", User.Identity.Name);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_CodigosPostales_Por_Almacen", false, parametros);
@@ -1708,7 +1656,7 @@ namespace ServicesManagement.Web.Controllers
 
                 var list = DataTableToModel.ConvertTo<upCorpTms_Cns_EstadosMuniCodigos>(DALCatalogo.upCorpTms_Cns_EstadosMuniCodigos(dt).Tables[0]);
 
-                var result = new { Success = true ,list = list};
+                var result = new { Success = true, list = list };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
             catch (Exception x)
@@ -4294,7 +4242,22 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult ListSuppliersById2(string idsOwner)
+        {
+            try
+            {
+                var list = DataTableToModel.ConvertTo<SuppliersByIds>(DALCatalogo.upCorpTms_Cns_SuppliersByIds(idsOwner).Tables[0]);
 
+                var result = new { Success = true, resp = list };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
         [HttpGet]
         public ActionResult GetSuppliersWarehousest(string IdProv, int idOwner)
         {
@@ -4436,8 +4399,8 @@ namespace ServicesManagement.Web.Controllers
             {
                 if (IdConsecutivo == 0)
                 {
-                   ds = DALCatalogo.upCorpTms_Ins_TiendasCostoEnvio(StoreNum, Direccion, IdTipoFormato, Director, Region
-            , CostoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, User.Identity.Name);
+                    ds = DALCatalogo.upCorpTms_Ins_TiendasCostoEnvio(StoreNum, Direccion, IdTipoFormato, Director, Region
+             , CostoEnvio, Convert.ToBoolean(BitActivo), User.Identity.Name, User.Identity.Name);
 
                     if (ds.Tables[0].Rows[0][0].ToString().Equals("ERROR"))
                     {

@@ -322,23 +322,22 @@
             <input class="btn btn-primary" id="btnUpload" type="button" value="Subir Archivo" />
         </div>
         <div class="col-xs-1">
-            <label>Almacenes:</label>
+            <span>Tipo de Almacen </span>
         </div>
-        <div class="col-xs-4 col-md-4 text-left">
-            <select class="form-control" id="ddlAlmacen" name="ddlAlmacen" multiple size="3">
-                @{ if (Session["lstAlmacenesConCP"] != null)
-                    {
-                        var myDataSet = Session["lstAlmacenesConCP"] as System.Data.DataSet;
-                        foreach (System.Data.DataRow r in myDataSet.Tables[0].Rows)
-                        {
-                            <option value="@r["idSupplierWH"]">@r["supplierName"]</option>
+        <div class="col-xs-2 col-md-2 col-lg-2">
 
-                        }
-                    }
-                }
+            <select class="form-control m-b" id="ddlAlmacenes" name="ddlAlmacenes" multiple size="3">
+            </select>
+
+        </div>
+        <div class="col-xs-1">
+            <span>Tienda/Proveedor</span>
+        </div>
+        <div class="col-xs-2 col-md-2 col-lg-2">
+            <select class="form-control m-b" id="ddlTienda" name="ddlTienda" multiple size="3">
             </select>
         </div>
-        <div class="col-xs-2 col-md-2 text-left">
+        <div class="col-xs-1 col-md-2 text-left">
             <input class="btn btn-primary" id="btnBuscar" onclick="Buscar()" type="button" value="Buscar" />
         </div>
 
@@ -354,6 +353,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Almacen</th>
+                            <th>Tipo de Almacen</th>
                             <th>Latitud</th>
                             <th>Longitud</th>
                             <th>CP</th>
@@ -851,6 +851,107 @@
         }
     </style>
     <script>
+        function ListAlmacen() {
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlAlmacenes");
+                        sel.empty();
+                        /*sel.append('<option value="0">--TODOS--</option>');*/
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +'</option>');
+                        }
+                        init("ddlAlmacenes");
+                        @*var almacenesSelected =  "@ViewBag.IdOwner";
+
+                        if (almacenesSelected != '') {
+                            var _array = almacenesSelected.split(',');
+
+                            setValuesAlmacen(_array);
+
+                            GetSupp(almacenesSelected);
+                        }*@
+
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
+
+        $("#ddlAlmacenes").change(function () {
+
+                var count = 1;
+                var values = getValues('ddlAlmacenes');
+            var _almacenes = '';
+
+                values.forEach(x => {
+
+                    if (count > 1)
+                        _almacenes = _almacenes + ',' + x;
+                    else
+                        _almacenes = x;
+
+                    count++;
+                });
+            //alert(_tiendas);
+            GetSupp(_almacenes);
+
+        });
+
+            function GetSupp(_idOwner) {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListSuppliersById2", "Catalogo")',
+                data: {
+                    idsOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlTienda");
+                        sel.empty();
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].id + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+
+
+                        init("ddlTienda");
+
+                        @*var tiendasSelected = "@ViewBag.IdTienda";
+
+                        if (tiendasSelected != '') {
+                            var _array = tiendasSelected.split(',');
+
+                            setValues(_array);
+
+                        }*@
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+
+                }
+            });
+        }
         function getEstado(e) {
 
             $.ajax({
@@ -991,15 +1092,8 @@
 
 
         $(document).ready(function () {
-            init("ddlAlmacen");
 
-
-            //selectBox2 = new vanillaSelectBox("#cmbMnpo", { "maxHeight": 200, "search": true, "stayOpen": true });
-            //GetTmsUNs();
-            GetAlmacen();
-
-
-
+            ListAlmacen();
             $('#tbAlmacen thead tr').clone(true).appendTo('#tbAlmacen thead');
             $('#tbAlmacen thead tr:eq(0) th').each(function (i) {
             if ($(this).attr('name') != "accion") {
@@ -1043,6 +1137,7 @@
             "columns": [
                 { "data": "Id_CP", "name": "Id_CP", "autoWidth": true },
                 { "data": "IdSupplierWH", "name": "IdSupplierWH", "autoWidth": true },
+                { "data": "TipoAlmacen", "name": "TipoAlmacen", "autoWidth": true },
                 { "data": "Latitud", "name": "Latitud", "autoWidth": true },
                 { "data": "Longitud", "name": "Longitud", "autoWidth": true },
                 { "data": "CP", "name": "CP", "autoWidth": true },
@@ -1295,7 +1390,7 @@
         function Buscar() {
 
             var count = 1;
-            var values = getValues('ddlAlmacen');
+            var values = getValues('ddlTienda');
             var _almacenes = '';
 
             values.forEach(x => {
@@ -1362,29 +1457,34 @@
             if (selectBox2 != null) {
                 selectBox2.empty();
             }
+            if (selectBox1 != null) {
+                selectBox1.empty();
+            }
         }
         function doDestroy(id) {
 
-            if (id == "ddlAlmacen" && selectBox2 != null) {
+            if (id == "ddlTienda" && selectBox2 != null) {
                 selectBox2.destroy();
-                //let zone = document.getElementById("demo-multiple");
-                //buttons = zone.querySelector(".btns-active");
-                //buttons.style.display = "none";
-                //buttons = zone.querySelector(".btns-inactive");
-                //buttons.style.display = "block";
+
 
             }
         }
         function init(id) {
-            if (id == "ddlAlmacen") {
+            if (id == "ddlAlmacenes") {
 
-                selectBox2 = new vanillaSelectBox("#ddlAlmacen", { "disableSelectAll": true, "maxHeight": 200, "search": true, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
-                //let zone = document.getElementById("demo-multiple");
-                //buttons = zone.querySelector(".btns-active");
-                //buttons.style.display = "block";
-                //buttons = zone.querySelector(".btns-inactive");
-                //buttons.style.display = "none";
+                selectBox1 = new vanillaSelectBox("#ddlAlmacenes", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
 
+            }
+            if (id == "ddlTienda") {
+
+                selectBox2 = new vanillaSelectBox("#ddlTienda", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "All", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+        }
+        function setValuesAlmacen(value) {
+            if (selectBox1 != null) {
+                selectBox1.setValue(value);
             }
         }
         function setValues(value) {
@@ -1400,6 +1500,7 @@
                     result.push(x.value);
                 }
             });
+            console.log('result', result);
             return result;
         }
         function remove_circle(circle) {
