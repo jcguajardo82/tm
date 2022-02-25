@@ -19,7 +19,7 @@ namespace ServicesManagement.Web.Models.Catalogos
         public string BitActivo { get; set; }
         public string Fecha_Modificacion { get; set; }
         public string Usuario_Modificacion { get; set; }
-  
+        public string TipoAlmacen { get; set; }
 
         //Id_CP
         //idOwner

@@ -47,6 +47,39 @@ namespace ServicesManagement.Web.DAL
 
         }
 
+        public static DataSet upCorpTms_Cns_SuppliersByIds(string idOwner)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@idsOwner", idOwner);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.upCorpTms_Cns_SuppliersByIds", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
         public static DataSet almacenTMS_sUp()
         {
@@ -759,7 +792,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@IdGasto", Id_gasto);
                 parametros.Add("@Desc_Gasto", gasto);
                 parametros.Add("@created_user", usuario);
-                parametros.Add("@activo", activo); 
+                parametros.Add("@activo", activo);
 
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.Gastos_iUp", false, parametros);
@@ -966,7 +999,7 @@ namespace ServicesManagement.Web.DAL
         }
 
 
-        public static DataSet TipoEnvio_iUp(string Desc_TipoEnvio, bool BitActivo, string Created_User, decimal PesoMinimo, decimal PesoMaximo,int Clase)
+        public static DataSet TipoEnvio_iUp(string Desc_TipoEnvio, bool BitActivo, string Created_User, decimal PesoMinimo, decimal PesoMaximo, int Clase)
         {
             DataSet ds = new DataSet();
 
@@ -1007,7 +1040,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet TipoEnvio_uUp(int IdTipoEnvio, string Desc_TipoEnvio, bool BitActivo, string Modified_User, decimal PesoMinimo, decimal PesoMaximo,int Clase)
+        public static DataSet TipoEnvio_uUp(int IdTipoEnvio, string Desc_TipoEnvio, bool BitActivo, string Modified_User, decimal PesoMinimo, decimal PesoMaximo, int Clase)
         {
 
             DataSet ds = new DataSet();
@@ -2150,7 +2183,7 @@ namespace ServicesManagement.Web.DAL
             try
             {
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-  
+
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Sel_TipoVehiculo", false);
 
@@ -2185,7 +2218,7 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@Id_TipoVehiculo", Id_TipoVehiculo);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_SelById_TipoVehiculo", false,parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_SelById_TipoVehiculo", false, parametros);
 
                 return ds;
             }
@@ -2201,7 +2234,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet up_CorpTMS_upd_TipoVehiculo(int Id_TipoVehiculo,string Descripcion,string Comentarios, string Usuario,bool Estatus)
+        public static DataSet up_CorpTMS_upd_TipoVehiculo(int Id_TipoVehiculo, string Descripcion, string Comentarios, string Usuario, bool Estatus)
         {
             DataSet ds = new DataSet();
 
@@ -2226,7 +2259,7 @@ namespace ServicesManagement.Web.DAL
 
 
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_upd_TipoVehiculo", false,parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_upd_TipoVehiculo", false, parametros);
 
                 return ds;
             }
@@ -2242,7 +2275,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet up_CorpTMS_Ins_TipoVehiculo( string Descripcion, string Comentarios, string Usuario, bool Estatus)
+        public static DataSet up_CorpTMS_Ins_TipoVehiculo(string Descripcion, string Comentarios, string Usuario, bool Estatus)
         {
             DataSet ds = new DataSet();
 
@@ -2267,7 +2300,7 @@ namespace ServicesManagement.Web.DAL
 
 
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Ins_TipoVehiculo", false,parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Ins_TipoVehiculo", false, parametros);
 
                 return ds;
             }
@@ -2283,7 +2316,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet up_CorpTMS_Del_TipoVehiculo(int Id_TipoVehiculo,string Usuario)
+        public static DataSet up_CorpTMS_Del_TipoVehiculo(int Id_TipoVehiculo, string Usuario)
         {
             DataSet ds = new DataSet();
 
@@ -2301,7 +2334,7 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@Id_TipoVehiculo", Id_TipoVehiculo);
                 parametros.Add("@Usuario", Usuario);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Del_TipoVehiculo", false,parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_CorpTMS_Del_TipoVehiculo", false, parametros);
 
                 return ds;
             }
@@ -2384,9 +2417,9 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet ClaseEnvio_iUp(string Desc_ClaseEnvio,bool BitActivo,string Created_User)
+        public static DataSet ClaseEnvio_iUp(string Desc_ClaseEnvio, bool BitActivo, string Created_User)
         {
-         
+
 
             DataSet ds = new DataSet();
 
@@ -2421,7 +2454,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet ClaseEnvio_uUp(int IdClase,string Desc_ClaseEnvio, bool BitActivo, string Modified_User)
+        public static DataSet ClaseEnvio_uUp(int IdClase, string Desc_ClaseEnvio, bool BitActivo, string Modified_User)
         {
 
 
@@ -2495,7 +2528,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static DataSet ClaseEnvioByBit_sUp(bool BitActivo=true)
+        public static DataSet ClaseEnvioByBit_sUp(bool BitActivo = true)
         {
             DataSet ds = new DataSet();
 
@@ -2563,7 +2596,7 @@ namespace ServicesManagement.Web.DAL
             }
         }
 
-        public static void upCorpTms_Ins_AlmacenesCodigos(DataTable AlmacenesCPType,string Usuario_Creation)
+        public static void upCorpTms_Ins_AlmacenesCodigos(DataTable AlmacenesCPType, string Usuario_Creation)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString))
             {
@@ -2615,7 +2648,7 @@ namespace ServicesManagement.Web.DAL
                     };
                     sqlComm.Parameters.Add(param);
 
-                    
+
 
                     con.Open();
                     //sqlComm.ExecuteReader();
@@ -2645,7 +2678,7 @@ namespace ServicesManagement.Web.DAL
             try
             {
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
-                
+
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.up_CorpTMS_cmb_TipoLogostica", false);
 
                 return ds;

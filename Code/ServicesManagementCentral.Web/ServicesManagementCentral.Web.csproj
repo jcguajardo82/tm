@@ -243,6 +243,7 @@
     <Compile Include="Models\Catalogos\Owners.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Plazas.cs" />
+    <Compile Include="Models\Catalogos\SuppliersByIds.cs" />
     <Compile Include="Models\Catalogos\SuppliersCmb.cs" />
     <Compile Include="Models\Catalogos\TiendaCostoEnvio.cs" />
     <Compile Include="Models\Catalogos\TipoCatalogoTMS.cs" />
