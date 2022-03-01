@@ -33,13 +33,13 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@fechaini", fechaini);
                 parametros.Add("@fechafin", fechafin);
 
-                if(IdTransportista!=null & IdTipoEnvio != 0)
+                if(IdTransportista!=null & IdTransportista != 0)
                     parametros.Add("@IdTransportista", IdTransportista);
                 if (IdTipoEnvio != null & IdTipoEnvio !=0)
                     parametros.Add("@IdTipoEnvio", IdTipoEnvio);
-                if (IdTipoServicio != null & IdTipoEnvio != 0)
+                if (IdTipoServicio != null & IdTipoServicio != 0)
                     parametros.Add("@IdTipoServicio", IdTipoServicio);
-                if (IdTipoLogistica != null & IdTipoEnvio != 0)
+                if (IdTipoLogistica != null & IdTipoLogistica != 0)
                     parametros.Add("@IdTipoLogistica", IdTipoLogistica);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_Tableros]", false,parametros);
