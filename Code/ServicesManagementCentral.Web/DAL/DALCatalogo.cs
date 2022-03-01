@@ -2563,7 +2563,7 @@ namespace ServicesManagement.Web.DAL
         #endregion
 
         #region CodigosPostales
-        public static DataSet up_CorpTMS_sel_CodigosPostales_Por_Almacen(string ids)
+        public static DataSet up_CorpTMS_sel_CodigosPostales_Por_Almacen(string ids, string owners)
         {
             DataSet ds = new DataSet();
 
@@ -2579,6 +2579,8 @@ namespace ServicesManagement.Web.DAL
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@supplierIds", ids);
+                if(owners != null)
+                    parametros.Add("@ownersIds", owners);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "tms.up_CorpTMS_sel_CodigosPostales_Por_Almacen", false, parametros);
 

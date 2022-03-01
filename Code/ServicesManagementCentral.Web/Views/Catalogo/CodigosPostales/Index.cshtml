@@ -1403,6 +1403,19 @@
                 count++;
             });
 
+            count = 1;
+            var valuesT = getValues('ddlAlmacenes');
+            var _almacenesT = '';
+
+           valuesT.forEach(x => {
+
+                if (count > 1)
+                    _almacenesT = _almacenesT + ',' + x;
+                else
+                    _almacenesT = x;
+
+                count++;
+            });
             //alert(_almacenes);
 
             $.ajax({
@@ -1411,7 +1424,7 @@
                     url: '@Url.Action("Buscar", "Catalogo")',
                     data: {
                         ids: _almacenes,
-
+                        owners: _almacenesT
                     },
                     datatype: "html",
                 success: function (json) {
