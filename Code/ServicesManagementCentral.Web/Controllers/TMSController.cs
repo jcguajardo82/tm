@@ -192,6 +192,73 @@ namespace ServicesManagement.Web.Controllers
         // GET: TMS
         public ActionResult MainSystem()
         {
+            ViewBag.FecIni = DateTime.Now.AddDays(-15).ToString("yyyy/MM/dd");
+            ViewBag.FecFin = DateTime.Now.ToString("yyyy/MM/dd");
+
+            #region combos
+            var DashboardTrans = new List<Combo>();
+            var DashboardTipoEnvio = new List<Combo>();
+            var DashboardTipoServicio = new List<Combo>();
+            var DashboardTipoLogistica = new List<Combo>();
+
+            DashboardTrans.Add(new Combo { Value = "0", Text = "---Transportista--" });
+            DashboardTipoEnvio.Add(new Combo { Value = "0", Text = "---Tipo de Envio--" });
+            DashboardTipoServicio.Add(new Combo { Value = "0", Text = "---Tipo de Servicio--" });
+            DashboardTipoLogistica.Add(new Combo { Value = "0", Text = "---Tipo Logistica--" });
+
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTrans().Tables[0].Rows)
+            {
+                DashboardTrans.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected =false
+
+                });
+            }
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTipoEnvio().Tables[0].Rows)
+            {
+                DashboardTipoEnvio.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected = false
+                });
+            }
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTipoServicio().Tables[0].Rows)
+            {
+                DashboardTipoServicio.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected = false
+                });
+            }
+
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTipoLogistica().Tables[0].Rows)
+            {
+                DashboardTipoLogistica.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected =  false
+                });
+            }
+
+            ViewBag.DashboardTipoEnvio = DashboardTipoEnvio;
+            ViewBag.DashboardTrans = DashboardTrans;
+            ViewBag.DashboardTipoServicio = DashboardTipoServicio;
+            ViewBag.DashboardTipoLogistica = DashboardTipoLogistica;
+
+
+
+            #endregion
+
+
             return View();
         }
 
@@ -2090,7 +2157,88 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
+        public ActionResult EstatusEnvio(DateTime FecIni, DateTime FecFin, string op = "4", int? IdTransportista = null
+            , int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null, int? TipoFecha=null, int? Estatus=null)
+        {
+            try
+            {
 
+
+                EnviosVsEstatus obj = new EnviosVsEstatus();
+                List<DatosEnvio> lstDatosEnvios = new List<DatosEnvio>();
+                List<DatosEstatus> lstDatosEstatus = new List<DatosEstatus>();
+                string frecuencia = string.Empty;
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, string.Empty, string.Empty, TipoFecha,Estatus);
+
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstDatosEnvios.Add(
+                        new DatosEnvio
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            FechaEnvio = fec
+
+                        }
+                        );
+                }
+
+
+                foreach (DataRow item in ds.Tables[1].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstDatosEstatus.Add(new DatosEstatus
+                    {
+                        Anio = fec.Year.ToString(),
+                        Mes = fec.Month.ToString(),
+                        Dia = fec.Day.ToString(),
+                        Valor = item[1].ToString(),
+                        FechaEstatus = fec
+
+                    });
+                }
+
+                obj.Envios = lstDatosEnvios;
+                obj.Estatus = lstDatosEstatus;
+
+               
+                var result1 = new { Success = true, Envios = lstDatosEnvios , Estatus=lstDatosEstatus};
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
     }
 }

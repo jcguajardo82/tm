@@ -218,15 +218,92 @@
                 <h5>Orders</h5>
                 <div class="ibox-tools">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-xs btn-white active">Today</button>
-                        <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                        <button type="button" class="btn btn-xs btn-white">Annual</button>
+                        <button type="button" id="btnEst1" class="btn btn-xs btn-white" onclick="Grafica('1')">Hoy</button>
+                        <button type="button" id="btnEst2" class="btn btn-xs btn-white" onclick="Grafica('2')">Mensual</button>
+                        <button type="button" id="btnEst3" class="btn btn-xs btn-white" onclick="Grafica('3')">Anual</button>
+                        <div class="input-group date" id="datetimepicker3">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control datepicker" id="txtFecEstIni"
+                                   type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
+                        </div>
+                        <div class="input-group date" id="datetimepicker4">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control datepicker" id="txtFecEstFin"
+                                   type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
+                        </div>
+                        <select id="ddlTransEst" class="form-control">
+                            @foreach (var item in ViewBag.DashboardTrans)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoEnvioEst" class="form-control">
+                            @foreach (var item in ViewBag.DashboardTipoEnvio)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoServicioEst" class="form-control">
+                            @foreach (var item in ViewBag.DashboardTipoServicio)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoLogisticaEst" class="form-control">
+
+                            @foreach (var item in ViewBag.DashboardTipoLogistica)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoFecha" class="form-control">
+                            <option value="0">--TODO TIPO DE FECHA--</option>
+                            <option value="1">fecha creacion</option>
+                            <option value="2">fecha recoleccion</option>
+                            <option value="3">fecha entrega</option>
+                        </select>
+                        <select id="ddlEstatus" class="form-control">
+                            <option value="0">--TODOS LOS ESTATUS--</option>
+                            <option value="1">EN_TRANSITO</option>
+                            <option value="2">ENTREGADO</option>
+                            <option value="3">AMBOS</option>
+                            --1-EN_TRANSITO, 2-ENTREGADO, 3-AMBOS
+                        </select>
+                        <button type="button" id="btnEst4" name="indicadores" class="btn btn-sm btn-white" onclick="Grafica('4')">Aplicar filtros</button>
                     </div>
                 </div>
             </div>
             <div class="ibox-content">
                 <div class="row">
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
                         <div class="flot-chart">
                             <div class="flot-chart-content" id="flot-dashboard-chart" style="padding: 0px; position: relative;">
                                 <canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1154.7px; height: 200px;" width="1154" height="200"></canvas>
@@ -242,13 +319,25 @@
                                         <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 98px; top: 184px; left: 844px; text-align: center;">Jan 24</div>
                                         <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 98px; top: 184px; left: 953px; text-align: center;">Jan 27</div>
                                         <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 98px; top: 184px; left: 1061px; text-align: center;">Jan 30</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 98px; top: 184px; left: 1061px; text-align: center;">Jan 31</div>
                                     </div>
                                     <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;">
                                         <div class="flot-tick-label tickLabel" style="position: absolute; top: 171px; left: 19px; text-align: right;">0</div>
-                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 131px; left: 6px; text-align: right;">250</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 91px; left: 6px; text-align: right;">500</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 51px; left: 6px; text-align: right;">750</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 11px; left: 0px; text-align: right;">1000</div>
-                                    </div><div class="flot-y-axis flot-y2-axis yAxis y2Axis" style="position: absolute; inset: 0px;">
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 131px; left: 6px; text-align: right;">250</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 91px; left: 6px; text-align: right;">500</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 51px; left: 6px; text-align: right;">750</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 11px; left: 0px; text-align: right;">1000</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 11px; left: 0px; text-align: right;">2000</div>
+                                    </div>
+                                    <div class="flot-y-axis flot-y2-axis yAxis y2Axis" style="position: absolute; inset: 0px;">
                                         <div class="flot-tick-label tickLabel" style="position: absolute; top: 171px; left: 1142px;">0</div>
-                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 143px; left: 1142px;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 114px; left: 1142px;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 86px; left: 1142px;">15</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 57px; left: 1142px;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 29px; left: 1142px;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 1142px;">30</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 143px; left: 1142px;">5</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 114px; left: 1142px;">10</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 86px; left: 1142px;">15</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 57px; left: 1142px;">20</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 29px; left: 1142px;">25</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 1142px;">30</div>
+                                        <div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 1142px;">31</div>
                                     </div>
                                 </div>
                                 <canvas class="flot-overlay" width="1154" height="200" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1154.7px; height: 200px;"></canvas>
@@ -262,43 +351,16 @@
                                                         <div style="width:4px;height:0;border:5px solid #1ab394;overflow:hidden"></div>
                                                     </div>
                                                 </td>
-                                                <td class="legendLabel">Number of orders</td>
+                                                <td class="legendLabel">Number of orders  jk</td>
                                             </tr>
-                                            <tr><td class="legendColorBox"><div style="border:1px solid #000000;padding:1px"><div style="width:4px;height:0;border:5px solid #1C84C6;overflow:hidden"></div></div></td><td class="legendLabel">Payments</td></tr>
+                                            <tr><td class="legendColorBox"><div style="border:1px solid #000000;padding:1px"><div style="width:4px;height:0;border:5px solid #1C84C6;overflow:hidden"></div></div></td><td class="legendLabel">Paymenlklkts</td></tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <ul class="stat-list">
-                            <li>
-                                <h2 class="no-margins">2,346</h2>
-                                <small>Total orders in period</small>
-                                <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 48%;" class="progress-bar"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <h2 class="no-margins ">4,422</h2>
-                                <small>Orders in last month</small>
-                                <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 60%;" class="progress-bar"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <h2 class="no-margins ">9,180</h2>
-                                <small>Monthly income from orders</small>
-                                <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                                <div class="progress progress-mini">
-                                    <div style="width: 22%;" class="progress-bar"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
             </div>
 
@@ -537,7 +599,7 @@
                                 <div class="mapcontainer">
 
                                     <div class="map">
-                                        <span>Alternative content for the map</span>
+
                                     </div>
                                 </div>
 
@@ -650,15 +712,446 @@
     <script src="~/Content/plugins/datatables/datatables.js"></script>
 
     <script type="text/javascript">
+
+                $(function () {
+            $('#datetimepicker1').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+            $('#datetimepicker2').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+            $('#datetimepicker3').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker4').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+        });
+
+
+
+        //$('#txtFecInd').change(function () {
+        //    //console.log($('#date-daily').val());
+        //    alert("#txtFecInd").val();
+        //});
+
+        //$("#txtFecInd").change(function () {
+        //    alert("The text has been changed.");
+        //});
+        function gd(year, month, day) {
+            return new Date(year, month - 1, day).getTime();
+        }
+        function Consulta(opc) {
+
+            $("#btnIndCns1").removeClass("active");
+            $("#btnIndCns2").removeClass("active");
+            $("#btnIndCns3").removeClass("active");
+            $("#btnIndCns4").removeClass("active");
+
+            $('#btnIndCns' + opc).addClass('active');
+
+            var _FecIni = $("#txtFecIndIni").val();
+            var _FecFin = $("#txtFecIndFin").val();
+
+            var _IdTransportista = $("#ddlTrans").val();
+            var _IdTipoEnvio = $("#ddlTipoEnvio").val();
+            var _IdTipoServicio = $("#ddlTipoServicio").val();
+            var _IdTipoLogistica = $("#ddlTipoLogistica").val();
+            // int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("IndicadoresOp", "TMS")',
+                dataType: "html",
+                data: {
+                    FecIni: _FecIni,
+                    FecFin: _FecFin,
+                    op: opc,
+                    IdTransportista: _IdTransportista,
+                    IdTipoEnvio: _IdTipoEnvio,
+                    IdTipoServicio: _IdTipoServicio,
+                    IdTipoLogistica: _IdTipoLogistica
+                },
+            cache: false,
+                success: function (data) {
+                    $('#divIndicadores').html(data);
+                    $('#datetimepicker1').datetimepicker({
+
+                        locale: 'es'
+                        , format: "yyyy/MM/DD"
+                    });
+
+                    $('#datetimepicker2').datetimepicker({
+
+                        locale: 'es'
+                        , format: "yyyy/MM/DD"
+                    });
+                //$('#tabItemDetails').html(grid);
+                //clientBehaviors.applyPlugins($("#tabProductDetails")); // "tabProductDetails" is an id of div in your "Details partial view"
+            }
+        });
+        }
+
+        function Grafica(opc) {
+
+
+            $("#btnEst1").removeClass("active");
+            $("#btnEst2").removeClass("active");
+            $("#btnEst3").removeClass("active");
+            $("#btnEst4").removeClass("active");
+
+            $('#btnEst' + opc).addClass('active');
+
+           
+
+            var _IdTransportista = $("#ddlTransEst").val();
+            var _IdTipoEnvio = $("#ddlTipoEnvioEst").val();
+            var _IdTipoServicio = $("#ddlTipoServicioEst").val();
+            var _IdTipoLogistica = $("#ddlTipoLogisticaEst").val();
+            var _TipoFecha = $("#ddlTipoFecha").val();
+            var _Estatus = $("#ddlEstatus").val();
+
+          
+            var fecIni = $("#txtFecEstIni").val();
+            var fecFin = $("#txtFecEstFin").val();
+             $.ajax({
+                async: false,
+                type: "GET",
+                 url: '@Url.Action("EstatusEnvio", "TMS")',
+                 data: {
+                     FecIni: fecIni,
+                     FecFin: fecFin,
+                     op: opc,
+                     IdTransportista: _IdTransportista,
+                     IdTipoEnvio: _IdTipoEnvio,
+                     IdTipoServicio: _IdTipoServicio,
+                     IdTipoLogistica: _IdTipoLogistica,
+                     TipoFecha: _TipoFecha,
+                     Estatus: _Estatus
+                 },
+                datatype: "html",
+                 success: function (data) {
+                    debugger;
+                    if (data.Success) {
+                        debugger;
+                        var data2 = [];
+                        var data3 = [];
+
+                        for (var i = 0; i < data.Envios.length; i++) {
+                            //sel.append('<option value="' + json.resp[i].idRol + '">' + json.resp[i].nombreRol + ' [' + json.resp[i].descripcion + ']</option>');
+                            //data2[i] = [gd(data.Envios.Anio, data.Envios.Mes, data.Envios.Dia), data.Envios.Valor];
+                            data3.push([gd(data.Envios[i].Anio, data.Envios[i].Mes, data.Envios[i].Dia), data.Envios[i].Valor]);
+                        }
+                        for (var i = 0; i < data.Estatus.length; i++) {
+                            //sel.append('<option value="' + json.resp[i].idRol + '">' + json.resp[i].nombreRol + ' [' + json.resp[i].descripcion + ']</option>');
+                            //data2[i] = [gd(data.Envios.Anio, data.Envios.Mes, data.Envios.Dia), data.Envios.Valor];
+                            data2.push([gd(data.Estatus[i].Anio, data.Estatus[i].Mes, data.Estatus[i].Dia), data.Estatus[i].Valor]);
+                        }
+
+                        // data2  = [
+                        //    [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
+                        //    [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
+                        //    [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
+                        //    [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
+                        //    [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
+                        //    [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
+                        //    [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
+                        //    [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 50]
+                        //];
+
+                        //data3  = [
+                        //    [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+                        //    [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+                        //    [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+                        //    [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+                        //    [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+                        //    [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+                        //    [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+                        //    [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 10]
+                        //];
+                        debugger;
+
+                        var dataset = [
+                            {
+                                label: "Envíos generados",
+                                data: data3,
+                                color: "#1ab394",
+                                bars: {
+                                    show: true,
+                                    align: "center",
+                                    barWidth: 24 * 60 * 60 * 600,
+                                    lineWidth: 0
+                                }
+
+                            }, {
+                                label: "Payments",
+                                data: data2,
+                                yaxis: 2,
+                                color: "#1C84C6",
+                                lines: {
+                                    lineWidth: 1,
+                                    show: true,
+                                    fill: true,
+                                    fillColor: {
+                                        colors: [{
+                                            opacity: 0.2
+                                        }, {
+                                            opacity: 0.4
+                                        }]
+                                    }
+                                },
+                                splines: {
+                                    show: false,
+                                    tension: 0.6,
+                                    lineWidth: 1,
+                                    fill: 0.1
+                                },
+                            }
+                        ];
+
+
+                        var options = {
+                            xaxis: {
+                                mode: "time",
+                                tickSize: [1, "day"],
+                                tickLength: 0,
+                                axisLabel: "Date",
+                                axisLabelUseCanvas: true,
+                                axisLabelFontSizePixels: 12,
+                                axisLabelFontFamily: 'Arial',
+                                axisLabelPadding: 10,
+                                color: "#d5d5d5"
+                            },
+                            yaxes: [{
+                                position: "left",
+                                axisLabel: "DNS Query Count",
+
+                                //max: 1070,
+                                color: "#d5d5d5",
+                                axisLabelUseCanvas: true,
+                                axisLabelFontSizePixels: 12,
+                                axisLabelFontFamily: 'Arial',
+                                axisLabelPadding: 3
+                            }, {
+                                position: "right",
+                                clolor: "#d5d5d5",
+                                axisLabel: "DNS Query Count",
+                                axisLabelUseCanvas: true,
+                                axisLabelFontSizePixels: 12,
+                                axisLabelFontFamily: ' Arial',
+                                axisLabelPadding: 67
+                            }
+                            ],
+                            legend: {
+                                noColumns: 1,
+                                labelBoxBorderColor: "#000000",
+                                position: "nw"
+                            },
+                            grid: {
+                                hoverable: true,
+                                borderWidth: 0
+                            }
+                        };
+
+                        //var previousPoint = null, previousLabel = null;
+
+                        $.plot($("#flot-dashboard-chart"), dataset, options);
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+        }
+
+        function Graficas() {
+
+
+
+            //DateTime FecIni, DateTime FecFin, string op = "4", int ? IdTransportista = null
+            //, int ? IdTipoEnvio = null, int ? IdTipoServicio = null, int ? IdTipoLogistica = null
+            //var data2=[];
+            //var data3 = [];
+
+         @*$.ajax({
+
+                type: "GET",
+                url: '@Url.Action("EstatusEnvio", "TMS")',
+                data: {
+                      FecIni:"2022-01-01",
+                    FecFin:"2022-01-15",
+                    op:"4",
+                    IdTransportista:"0",
+                    IdTipoEnvio: "0",
+                    IdTipoServicio: "0",
+                    IdTipoLogistica: "0"
+
+                },
+                datatype: "html",
+                success: function (data) {
+                    debugger;
+                    if (data.Success) {
+                        debugger;
+                        //for (var i = 0; i < data.Envios.length; i++) {
+                        //    //sel.append('<option value="' + json.resp[i].idRol + '">' + json.resp[i].nombreRol + ' [' + json.resp[i].descripcion + ']</option>');
+                        //    //data2[i] = [gd(data.Envios.Anio, data.Envios.Mes, data.Envios.Dia), data.Envios.Valor];
+                        //    data2.push([gd(data.Envios.Anio, data.Envios.Mes, data.Envios.Dia), data.Envios.Valor]);
+                        //}
+
+
+                        //for (var i = 0; i < data.Estatus.length; i++) {
+                        //    //sel.append('<option value="' + json.resp[i].idRol + '">' + json.resp[i].nombreRol + ' [' + json.resp[i].descripcion + ']</option>');
+                        //    data3.push([gd(data.Envios.Anio, data.Envios.Mes, data.Envios.Dia), data.Envios.Valor]);
+                        //}
+
+                        //data2  = [
+                        //    [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
+                        //    [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
+                        //    [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
+                        //    [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
+                        //    [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
+                        //    [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
+                        //    [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
+                        //    [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 50]
+                        //];
+
+                        //data3  = [
+                        //    [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
+                        //    [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
+                        //    [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
+                        //    [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
+                        //    [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
+                        //    [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
+                        //    [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
+                        //    [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 10]
+                        //];
+
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                   alert(errorThrown);
+
+                }
+            });*@
+
+
+
+
+            //var dataset = [
+            //    {
+            //        label: "Number of orders",
+            //        data: data3,
+            //        color: "#1ab394",
+            //        bars: {
+            //            show: true,
+            //            align: "center",
+            //            barWidth: 24 * 60 * 60 * 600,
+            //            lineWidth: 0
+            //        }
+
+            //    }, {
+            //        label: "Payments",
+            //        data: data2,
+            //        yaxis: 2,
+            //        color: "#1C84C6",
+            //        lines: {
+            //            lineWidth: 1,
+            //            show: true,
+            //            fill: true,
+            //            fillColor: {
+            //                colors: [{
+            //                    opacity: 0.2
+            //                }, {
+            //                    opacity: 0.4
+            //                }]
+            //            }
+            //        },
+            //        splines: {
+            //            show: false,
+            //            tension: 0.6,
+            //            lineWidth: 1,
+            //            fill: 0.1
+            //        },
+            //    }
+            //];
+
+
+            //var options = {
+            //    xaxis: {
+            //        mode: "time",
+            //        tickSize: [3, "day"],
+            //        tickLength: 0,
+            //        axisLabel: "Date",
+            //        axisLabelUseCanvas: true,
+            //        axisLabelFontSizePixels: 12,
+            //        axisLabelFontFamily: 'Arial',
+            //        axisLabelPadding: 10,
+            //        color: "#d5d5d5"
+            //    },
+            //    yaxes: [{
+            //        position: "left",
+            //        max: 1070,
+            //        color: "#d5d5d5",
+            //        axisLabelUseCanvas: true,
+            //        axisLabelFontSizePixels: 12,
+            //        axisLabelFontFamily: 'Arial',
+            //        axisLabelPadding: 3
+            //    }, {
+            //        position: "right",
+            //        clolor: "#d5d5d5",
+            //        axisLabelUseCanvas: true,
+            //        axisLabelFontSizePixels: 12,
+            //        axisLabelFontFamily: ' Arial',
+            //        axisLabelPadding: 67
+            //    }
+            //    ],
+            //    legend: {
+            //        noColumns: 1,
+            //        labelBoxBorderColor: "#000000",
+            //        position: "nw"
+            //    },
+            //    grid: {
+            //        hoverable: false,
+            //        borderWidth: 0
+            //    }
+            //};
+
+            //function gd(year, month, day) {
+            //    return new Date(year, month - 1, day).getTime();
+            //}
+
+            //var previousPoint = null, previousLabel = null;
+
+            //$.plot($("#flot-dashboard-chart"), dataset, options);
+        }
         var clock;
 
         $(document).ready(function () {
-            clock = $('.clock').FlipClock({
-                clockFace: 'TwelveHourClock'
-            });
 
-            $('#example').DataTable();
-            VerificarGastosPorTienda();
+            Grafica();
+            //clock = $('.clock').FlipClock({
+            //    clockFace: 'TwelveHourClock'
+            //});
+
+            //$('#example').DataTable();
+            //VerificarGastosPorTienda();
+
         });
 
         $(".mapcontainer").mapael({
@@ -812,130 +1305,8 @@
             },
         });
 
-        var data2 = [
-            [gd(2012, 1, 1), 7], [gd(2012, 1, 2), 6], [gd(2012, 1, 3), 4], [gd(2012, 1, 4), 8],
-            [gd(2012, 1, 5), 9], [gd(2012, 1, 6), 7], [gd(2012, 1, 7), 5], [gd(2012, 1, 8), 4],
-            [gd(2012, 1, 9), 7], [gd(2012, 1, 10), 8], [gd(2012, 1, 11), 9], [gd(2012, 1, 12), 6],
-            [gd(2012, 1, 13), 4], [gd(2012, 1, 14), 5], [gd(2012, 1, 15), 11], [gd(2012, 1, 16), 8],
-            [gd(2012, 1, 17), 8], [gd(2012, 1, 18), 11], [gd(2012, 1, 19), 11], [gd(2012, 1, 20), 6],
-            [gd(2012, 1, 21), 6], [gd(2012, 1, 22), 8], [gd(2012, 1, 23), 11], [gd(2012, 1, 24), 13],
-            [gd(2012, 1, 25), 7], [gd(2012, 1, 26), 9], [gd(2012, 1, 27), 9], [gd(2012, 1, 28), 8],
-            [gd(2012, 1, 29), 5], [gd(2012, 1, 30), 8], [gd(2012, 1, 31), 25]
-        ];
-
-        var data3 = [
-            [gd(2012, 1, 1), 800], [gd(2012, 1, 2), 500], [gd(2012, 1, 3), 600], [gd(2012, 1, 4), 700],
-            [gd(2012, 1, 5), 500], [gd(2012, 1, 6), 456], [gd(2012, 1, 7), 800], [gd(2012, 1, 8), 589],
-            [gd(2012, 1, 9), 467], [gd(2012, 1, 10), 876], [gd(2012, 1, 11), 689], [gd(2012, 1, 12), 700],
-            [gd(2012, 1, 13), 500], [gd(2012, 1, 14), 600], [gd(2012, 1, 15), 700], [gd(2012, 1, 16), 786],
-            [gd(2012, 1, 17), 345], [gd(2012, 1, 18), 888], [gd(2012, 1, 19), 888], [gd(2012, 1, 20), 888],
-            [gd(2012, 1, 21), 987], [gd(2012, 1, 22), 444], [gd(2012, 1, 23), 999], [gd(2012, 1, 24), 567],
-            [gd(2012, 1, 25), 786], [gd(2012, 1, 26), 666], [gd(2012, 1, 27), 888], [gd(2012, 1, 28), 900],
-            [gd(2012, 1, 29), 178], [gd(2012, 1, 30), 555], [gd(2012, 1, 31), 993]
-        ];
-
-        var dataset = [
-            {
-                label: "Number of orders",
-                data: data3,
-                color: "#1ab394",
-                bars: {
-                    show: true,
-                    align: "center",
-                    barWidth: 24 * 60 * 60 * 600,
-                    lineWidth: 0
-                }
-
-            }, {
-                label: "Payments",
-                data: data2,
-                yaxis: 2,
-                color: "#1C84C6",
-                lines: {
-                    lineWidth: 1,
-                    show: true,
-                    fill: true,
-                    fillColor: {
-                        colors: [{
-                            opacity: 0.2
-                        }, {
-                            opacity: 0.4
-                        }]
-                    }
-                },
-                splines: {
-                    show: false,
-                    tension: 0.6,
-                    lineWidth: 1,
-                    fill: 0.1
-                },
-            }
-        ];
 
 
-        var options = {
-            xaxis: {
-                mode: "time",
-                tickSize: [3, "day"],
-                tickLength: 0,
-                axisLabel: "Date",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Arial',
-                axisLabelPadding: 10,
-                color: "#d5d5d5"
-            },
-            yaxes: [{
-                position: "left",
-                max: 1070,
-                color: "#d5d5d5",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Arial',
-                axisLabelPadding: 3
-            }, {
-                position: "right",
-                clolor: "#d5d5d5",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: ' Arial',
-                axisLabelPadding: 67
-            }
-            ],
-            legend: {
-                noColumns: 1,
-                labelBoxBorderColor: "#000000",
-                position: "nw"
-            },
-            grid: {
-                hoverable: false,
-                borderWidth: 0
-            }
-        };
-
-        function gd(year, month, day) {
-            return new Date(year, month - 1, day).getTime();
-        }
-
-        var previousPoint = null, previousLabel = null;
-
-        $.plot($("#flot-dashboard-chart"), dataset, options);
-
-
-                    //function addNow() {
-                    //    //nowDate = moment().tz("Europe/London").format('YYYY-MM-DD');
-                    //    //nowTime = moment().tz("Europe/London").format('HH:mm:ss');
-
-                    //    nowDate = new Date().toLocaleDateString() // 8/19/2020
-                    //    nowTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
-                    //    document.getElementById('registration-date').value = nowDate;
-                    //    document.getElementById('registration-time').value = nowTime;
-                    //    set = setTimeout(function () { addNow(); }, 1000);
-                    //}
-
-                    //function stopNow() {
-                    //    clearTimeout(set);
-                    //}
         function VerificarGastosPorTienda() {
              $.ajax({
                 async: false,
@@ -974,80 +1345,8 @@
 
 
     <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-
-                locale: 'es'
-                , format: "yyyy/MM/DD"
-            });
-
-            $('#datetimepicker2').datetimepicker({
-
-                locale: 'es'
-                , format: "yyyy/MM/DD"
-            });
-        });
 
 
-
-        //$('#txtFecInd').change(function () {
-        //    //console.log($('#date-daily').val());
-        //    alert("#txtFecInd").val();
-        //});
-
-        //$("#txtFecInd").change(function () {
-        //    alert("The text has been changed.");
-        //});
-
-        function Consulta(opc) {
-
-            $("#btnIndCns1").removeClass("active");
-            $("#btnIndCns2").removeClass("active");
-            $("#btnIndCns3").removeClass("active");
-            $("#btnIndCns4").removeClass("active");
-
-            $('#btnIndCns' + opc).addClass('active');
-
-            var _FecIni = $("#txtFecIndIni").val();
-            var _FecFin = $("#txtFecIndFin").val();
-
-            var _IdTransportista = $("#ddlTrans").val();
-            var _IdTipoEnvio = $("#ddlTipoEnvio").val();
-            var _IdTipoServicio = $("#ddlTipoServicio").val();
-            var _IdTipoLogistica = $("#ddlTipoLogistica").val();
-            // int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("IndicadoresOp", "TMS")',
-                dataType: "html",
-                data: {
-                    FecIni: _FecIni,
-                    FecFin: _FecFin,
-                    op: opc,
-                    IdTransportista: _IdTransportista,
-                    IdTipoEnvio: _IdTipoEnvio,
-                    IdTipoServicio: _IdTipoServicio,
-                    IdTipoLogistica: _IdTipoLogistica
-                },
-            cache: false,
-                success: function (data) {
-                    $('#divIndicadores').html(data);
-                    $('#datetimepicker1').datetimepicker({
-
-                        locale: 'es'
-                        , format: "yyyy/MM/DD"
-                    });
-
-                    $('#datetimepicker2').datetimepicker({
-
-                        locale: 'es'
-                        , format: "yyyy/MM/DD"
-                    });
-                //$('#tabItemDetails').html(grid);
-                //clientBehaviors.applyPlugins($("#tabProductDetails")); // "tabProductDetails" is an id of div in your "Details partial view"
-            }
-        });
-        }
 
     </script>
 }
