@@ -1145,26 +1145,33 @@ namespace ServicesManagement.Web.Controllers
                 skip = start != null ? Convert.ToInt32(start) : 0;
                 recordsTotal = 0;
 
-                IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(ids).Tables[0].AsEnumerable().AsQueryable()
-                                                                select new CodigosPostales_Por_Almacen()
-                                                                {
-                                                                    Id_CP = (row["Id_CP"].ToString()),
-                                                                    IdOwner = (row["idOwner"].ToString()),
-                                                                    IdSupplierWH = row["idSupplierWH"].ToString(),
-                                                                    TipoAlmacen = row["TipoAlmacen"].ToString(),
-                                                                    IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
-                                                                    Latitud = row["Latitud"].ToString(),
-                                                                    Longitud = row["Longitud"].ToString(),
-                                                                    CP = row["CP"].ToString(),
-                                                                    Usuario_Creation = row["Usuario_Creation"].ToString(),
-                                                                    Fecha_Creacion = row["Fecha_Creacion"].ToString(),
-                                                                    BitActivo = row["BitActivo"].ToString(),
-                                                                    Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
-                                                                    Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
-                                                                };
+                IQueryable<CodigosPostales_Por_Almacen> query = null;
+                if (Session["lstCPs"] == null)
+                {
+                    query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(ids, Session["ownersIdsBusqueda"].ToString()).Tables[0].AsEnumerable().AsQueryable()
+                                                                    select new CodigosPostales_Por_Almacen()
+                                                                    {
+                                                                        Id_CP = (row["Id_CP"].ToString()),
+                                                                        IdOwner = (row["idOwner"].ToString()),
+                                                                        IdSupplierWH = row["idSupplierWH"].ToString(),
+                                                                        TipoAlmacen = row["TipoAlmacen"].ToString(),
+                                                                        IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
+                                                                        Latitud = row["Latitud"].ToString(),
+                                                                        Longitud = row["Longitud"].ToString(),
+                                                                        CP = row["CP"].ToString(),
+                                                                        Usuario_Creation = row["Usuario_Creation"].ToString(),
+                                                                        Fecha_Creacion = row["Fecha_Creacion"].ToString(),
+                                                                        BitActivo = row["BitActivo"].ToString(),
+                                                                        Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
+                                                                        Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
+                                                                    };
 
-
-
+                    Session["lstCPs"] = query;
+                }
+                else
+                {
+                    query = (IQueryable<CodigosPostales_Por_Almacen>)Session["lstCPs"];
+                }
 
                 if (searchValue != "")
                     query = query.Where(d => d.Id_CP.ToString().ToLower().Contains(searchValue)
@@ -1253,13 +1260,17 @@ namespace ServicesManagement.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Buscar(string ids)
+        public ActionResult Buscar(string ids, string owners)
         {
             try
             {
                 if (ids != "")
                     Session["IdsBusqueda"] = ids;
 
+                if (owners != "")
+                    Session["ownersIdsBusqueda"] = owners;
+
+                Session["lstCPs"] = null;
                 return Json(new { Success = true });
             }
             catch (Exception x)
@@ -1281,32 +1292,8 @@ namespace ServicesManagement.Web.Controllers
 
 
             List<CodigosPostales_Por_Almacen> lst = new List<CodigosPostales_Por_Almacen>();
-            var ids = "0";
-            if (Session["IdsBusqueda"] != null)
-                ids = Session["IdsBusqueda"].ToString();
-
-            IQueryable<CodigosPostales_Por_Almacen> query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(ids).Tables[0].AsEnumerable().AsQueryable()
-                                                            select new CodigosPostales_Por_Almacen()
-                                                            {
-                                                                Id_CP = (row["Id_CP"].ToString()),
-                                                                IdOwner = (row["idOwner"].ToString()),
-                                                                IdSupplierWH = row["idSupplierWH"].ToString(),
-                                                                TipoAlmacen = row["TipoAlmacen"].ToString(),
-                                                                IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
-                                                                Latitud = row["Latitud"].ToString(),
-                                                                Longitud = row["Longitud"].ToString(),
-                                                                CP = row["CP"].ToString(),
-                                                                Usuario_Creation = row["Usuario_Creation"].ToString(),
-                                                                Fecha_Creacion = row["Fecha_Creacion"].ToString(),
-                                                                BitActivo = row["BitActivo"].ToString(),
-                                                                Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
-                                                                Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
-                                                            };
-
-
-            recordsTotal = query.Count();
-
-            lst = query.Take(recordsTotal).ToList();
+            var query = (IQueryable<CodigosPostales_Por_Almacen>)Session["lstCPs"];
+            lst = query.ToList();
 
             var d = new DataSet();
 
@@ -1448,6 +1435,10 @@ namespace ServicesManagement.Web.Controllers
 
             Session["lstAlmacenesConCP"] = GetAlmacenesConCP();
             Session["IdsBusqueda"] = null;
+            Session["ownersIdsBusqueda"] = "1";
+            Session["lstCPs"] = null;
+
+
 
             return View("CodigosPostales/Index");
         }
