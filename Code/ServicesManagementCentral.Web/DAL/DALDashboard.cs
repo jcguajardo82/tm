@@ -60,7 +60,7 @@ namespace ServicesManagement.Web.DAL
         }
 
         public static DataSet upCorpOms_Cns_GraphEnviosVsEstatus(DateTime? fechaini, DateTime? fechafin, int? IdTransportista, int? IdTipoEnvio, int? IdTipoServicio
-            , int? IdTipoLogistica,string TipoAlmacen,string Almacen,int? TipoFecha,int? Estatus)
+            , int? IdTipoLogistica,int? TipoAlmacen,int? Almacen,int? TipoFecha,int? Estatus)
         {
             DataSet ds = new DataSet();
 
@@ -99,9 +99,9 @@ namespace ServicesManagement.Web.DAL
                     parametros.Add("@IdTipoServicio", IdTipoServicio);
                 if (IdTipoLogistica != null & IdTipoEnvio != 0)
                     parametros.Add("@IdTipoLogistica", IdTipoLogistica);
-                if (!string.IsNullOrEmpty(TipoAlmacen))
+                if (TipoAlmacen != null & TipoAlmacen != 0)
                     parametros.Add("@TipoAlmacen", TipoAlmacen);
-                if (!string.IsNullOrEmpty(Almacen))
+                if (Almacen != null & Almacen != 0)
                     parametros.Add("@Almacen", Almacen);
                 if (TipoFecha != null & TipoFecha != 0)
                     parametros.Add("@TipoFecha", TipoFecha);
