@@ -2158,7 +2158,8 @@ namespace ServicesManagement.Web.Controllers
 
 
         public ActionResult EstatusEnvio(DateTime FecIni, DateTime FecFin, string op = "4", int? IdTransportista = null
-            , int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null, int? TipoFecha=null, int? Estatus=null)
+            , int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null, int? TipoFecha=null, int? Estatus=null
+            ,int? TipoAlmacen=null,int? Almacen=null)
         {
             try
             {
@@ -2192,7 +2193,7 @@ namespace ServicesManagement.Web.Controllers
 
                 }
 
-                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, string.Empty, string.Empty, TipoFecha,Estatus);
+                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, TipoAlmacen,Almacen, TipoFecha,Estatus);
 
 
                 foreach (DataRow item in ds.Tables[0].Rows)

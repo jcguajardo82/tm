@@ -310,8 +310,13 @@
                             <option value="1">EN_TRANSITO</option>
                             <option value="2">ENTREGADO</option>
                             <option value="3">AMBOS</option>
-                            --1-EN_TRANSITO, 2-ENTREGADO, 3-AMBOS
+
                         </select>
+                        <select id="lstIdAlmacen" class="form-control">
+                        </select>
+                        <select id="ddlSuppliers" class="form-control">
+                        </select>
+                        
                         <button type="button" id="btnEst4" name="indicadores" class="btn btn-sm btn-white" onclick="Grafica('4')">Aplicar filtros</button>
                     </div>
                 </div>
@@ -826,7 +831,7 @@
 
             $('#btnEst' + opc).addClass('active');
 
-           
+
 
             var _IdTransportista = $("#ddlTransEst").val();
             var _IdTipoEnvio = $("#ddlTipoEnvioEst").val();
@@ -834,8 +839,10 @@
             var _IdTipoLogistica = $("#ddlTipoLogisticaEst").val();
             var _TipoFecha = $("#ddlTipoFecha").val();
             var _Estatus = $("#ddlEstatus").val();
+            var _TipoAlmacen = $("#lstIdAlmacen").val();
+            var _Almacen = $("#ddlSuppliers").val();
+     
 
-          
             var fecIni = $("#txtFecEstIni").val();
             var fecFin = $("#txtFecEstFin").val();
              $.ajax({
@@ -851,7 +858,9 @@
                      IdTipoServicio: _IdTipoServicio,
                      IdTipoLogistica: _IdTipoLogistica,
                      TipoFecha: _TipoFecha,
-                     Estatus: _Estatus
+                     Estatus: _Estatus,
+                     TipoAlmacen: _TipoAlmacen,
+                     Almacen: _Almacen,
                  },
                 datatype: "html",
                  success: function (data) {
@@ -1159,6 +1168,8 @@
 
         $(document).ready(function () {
 
+            IniciarComboTipoAlmacen();
+
             Grafica();
             //clock = $('.clock').FlipClock({
             //    clockFace: 'TwelveHourClock'
@@ -1356,12 +1367,77 @@
             });
         }
 
+        function IniciarComboTipoAlmacen() {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("IniciarComboTipoAlmacen", "Catalogo")',
+                data: {
+
+                },
+                datatype: "html",
+                success: function (json) {
+
+                    if (json.Success) {
+                        var sel = $("#lstIdAlmacen");
+                        sel.empty();
+
+                        $('#lstIdAlmacen').get(0).options[0] = new Option("--TODOS LOS TIPOS DE ALMACEN--", "0");
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +  '</option>');
+                        }
+                        GetSupp(0);
+
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+        }
+
+        $('#lstIdAlmacen').change(function () {
+            _idOwner = $("#lstIdAlmacen").val();
+            GetSupp(_idOwner);
+        
+        });
+         function GetSupp(_idOwner) {
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("ListSuppliersById2", "Catalogo")',
+                data: {
+                    idsOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                        var sel = $("#ddlSuppliers");
+                        sel.empty();
+                        $('#ddlSuppliers').get(0).options[0] = new Option("--TODOS LOS PROVEEDORES--", "0");
+
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].id + '">' + json.resp[i].NombreProveedor + '</option>');
+                        }
+
+
+                      
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+        }
     </script>
 
-
-    <script type="text/javascript">
-
-
-
-    </script>
 }
