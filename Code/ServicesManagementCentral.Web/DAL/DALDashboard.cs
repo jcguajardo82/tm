@@ -60,7 +60,7 @@ namespace ServicesManagement.Web.DAL
         }
 
         public static DataSet upCorpOms_Cns_GraphEnviosVsEstatus(DateTime? fechaini, DateTime? fechafin, int? IdTransportista, int? IdTipoEnvio, int? IdTipoServicio
-            , int? IdTipoLogistica,int? TipoAlmacen,int? Almacen,int? TipoFecha,int? Estatus)
+            , int? IdTipoLogistica,int? TipoAlmacen,int? Almacen,int? TipoFecha,int? Estatus,int? Formato)
         {
             DataSet ds = new DataSet();
 
@@ -73,17 +73,6 @@ namespace ServicesManagement.Web.DAL
 
             try
             {
-
-//@fechaini datetime = null,
-//@fechafin datetime = null,
-//@IdTransportista bigint = null,
-//@IdTipoEnvio int = null,
-//@IdTipoServicio int = null,
-//@IdTipoLogistica int = null,
-//@TipoAlmacen varchar(5) = null,
-//@Almacen varchar(100) = null,
-//@TipoFecha int = null, --1 - fecha creacion, 2 - fecha recoleccion, 3 - fecha entrega
-//@Estatus int = null-- 1 - EN_TRANSITO, 2 - ENTREGADO, 3 - AMBOS
 
                 Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString);
 
@@ -108,6 +97,10 @@ namespace ServicesManagement.Web.DAL
                 if (Estatus != null & Estatus != 0)
                     parametros.Add("@Estatus", Estatus);
 
+
+                    parametros.Add("@Formato", Formato);
+  
+
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_GraphEnviosVsEstatus]", false, parametros);
 
                 return ds;
@@ -126,6 +119,41 @@ namespace ServicesManagement.Web.DAL
         }
 
 
+
+        public static DataSet spOwners_v3_sUP()
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[common].[spOwners_v3_sUP]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
 
         public static DataSet upCorpTms_Cns_DashboardTrans()

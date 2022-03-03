@@ -2169,6 +2169,7 @@ namespace ServicesManagement.Web.Controllers
                 List<DatosEnvio> lstDatosEnvios = new List<DatosEnvio>();
                 List<DatosEstatus> lstDatosEstatus = new List<DatosEstatus>();
                 string frecuencia = string.Empty;
+                int formato = 1;
                 switch (op)
                 {
                     case "1":
@@ -2185,6 +2186,7 @@ namespace ServicesManagement.Web.Controllers
                         frecuencia = "Anual";
                         FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
                         FecFin = DateTime.Now;
+                        formato = 2;
                         break;
                     case "4":
                         frecuencia = "Calendario";
@@ -2193,7 +2195,9 @@ namespace ServicesManagement.Web.Controllers
 
                 }
 
-                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, TipoAlmacen,Almacen, TipoFecha,Estatus);
+       
+
+                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, TipoAlmacen,Almacen, TipoFecha,Estatus, formato);
 
 
                 foreach (DataRow item in ds.Tables[0].Rows)
@@ -2227,16 +2231,28 @@ namespace ServicesManagement.Web.Controllers
                     });
                 }
 
-                obj.Envios = lstDatosEnvios;
-                obj.Estatus = lstDatosEstatus;
-
-               
                 var result1 = new { Success = true, Envios = lstDatosEnvios , Estatus=lstDatosEstatus};
                 return Json(result1, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult IniciarComboTipoAlmacen()
+        {
+            try
+            {
+                var dropdownVD = DataTableToModel.ConvertTo<Owners>(DALDashboard.spOwners_v3_sUP().Tables[0]);
+
+                var result = new { Success = true, resp = dropdownVD };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
