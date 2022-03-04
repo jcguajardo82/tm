@@ -258,25 +258,25 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                    Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
 
-                    System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
-                    parametros.Add("@IdTransportista", IdTransportista);
-                    parametros.Add("@Nombre", Nombre);
-                    parametros.Add("@TarifaFija", TarifaFija);
-                    parametros.Add("@CostoTarifaFija", CostoTarifaFija);
-                    parametros.Add("@Prioridad", Prioridad);
-                    parametros.Add("@NivelServicio", NivelServicio);
-                    parametros.Add("@FactorPaqueteria", FactorPaqueteria);
-                    parametros.Add("@LimitePaqueteria", LimitePaqueteria);
-                    parametros.Add("@PorcAdicPaquete", PorcAdicPaquete);
-                    parametros.Add("@DiasVigenciaGuias", DiasVigenciaGuias);
-                    parametros.Add("@UsuarioCreacion", "sysAdmin");
-                    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
-                    parametros.Add("@Estatus", Estatus);
-                    parametros.Add("@IdCarriers", IdCarriers);
-                    parametros.Add("@IdIntegracion", IdIntegracion);
+                parametros.Add("@IdTransportista", IdTransportista);
+                parametros.Add("@Nombre", Nombre);
+                parametros.Add("@TarifaFija", TarifaFija);
+                parametros.Add("@CostoTarifaFija", CostoTarifaFija);
+                parametros.Add("@Prioridad", Prioridad);
+                parametros.Add("@NivelServicio", NivelServicio);
+                parametros.Add("@FactorPaqueteria", FactorPaqueteria);
+                parametros.Add("@LimitePaqueteria", LimitePaqueteria);
+                parametros.Add("@PorcAdicPaquete", PorcAdicPaquete);
+                parametros.Add("@DiasVigenciaGuias", DiasVigenciaGuias);
+                parametros.Add("@UsuarioCreacion", "sysAdmin");
+                parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+                parametros.Add("@Estatus", Estatus);
+                parametros.Add("@IdCarriers", IdCarriers);
+                parametros.Add("@IdIntegracion", IdIntegracion);
 
                 Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Transportista", false, parametros);
 
@@ -297,7 +297,7 @@ namespace ServicesManagement.Web.Controllers
         {
             try
             {
-                DataSet ds =  DALServicesM.GetCarrier(IdTransportista);
+                DataSet ds = DALServicesM.GetCarrier(IdTransportista);
 
                 List<CarrierModel2> listC = ConvertTo<CarrierModel2>(ds.Tables[0]);
                 var result = new { Success = true, json = listC };
@@ -367,9 +367,9 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public DataSet GetVehiculos_index() 
+        public DataSet GetVehiculos_index()
         {
-             DataSet ds = new DataSet();
+            DataSet ds = new DataSet();
 
             try
             {
@@ -380,7 +380,7 @@ namespace ServicesManagement.Web.Controllers
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
 
                 parametros.Add("@usuario", usuario);
-                
+
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "dbo.up_TMS_sel_Vehiculo", false, parametros);
 
                 Session["listaV"] = ds;
@@ -1979,9 +1979,10 @@ namespace ServicesManagement.Web.Controllers
 
 
         #region Dashboard
-        public ActionResult IndicadoresOp(DateTime FecIni, DateTime FecFin, string op = "4")
+        public ActionResult IndicadoresOp(DateTime FecIni, DateTime FecFin, string op = "4", int? IdTransportista = null
+            , int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null)
         {
-
+            IndicadoresOpModel obj = new IndicadoresOpModel();
             string frecuencia = string.Empty;
             switch (op)
             {
@@ -2002,21 +2003,80 @@ namespace ServicesManagement.Web.Controllers
                     break;
                 case "4":
                     frecuencia = "Calendario";
-                   
+
                     break;
 
             }
 
 
-            //if (FecIni == null || FecFin == null)
-            //{
-            //    FecIni = DateTime.Now;
-            //    FecFin = DateTime.Now;
-            //}
 
-            IndicadoresOpModel obj = new IndicadoresOpModel();
+            #region combos
+            var DashboardTrans = new List<Combo>();
+            var DashboardTipoEnvio = new List<Combo>();
+            var DashboardTipoServicio = new List<Combo>();
+            var DashboardTipoLogistica = new List<Combo>();
 
-            var ds = DALDashboard.upCorpOms_Cns_Tableros(FecIni,FecFin);
+            DashboardTrans.Add(new Combo { Value = "0", Text = "---Transportista--" });
+            DashboardTipoEnvio.Add(new Combo { Value = "0", Text = "---Tipo de Envio--" });
+            DashboardTipoServicio.Add(new Combo { Value = "0", Text = "---Tipo de Servicio--" });
+            DashboardTipoLogistica.Add(new Combo { Value = "0", Text = "---Tipo Logistica--" });
+
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTrans().Tables[0].Rows)
+            {
+                DashboardTrans.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected = item[0].ToString() == IdTransportista.ToString() ? true : false
+
+                });
+            }
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTipoEnvio().Tables[0].Rows)
+            {
+                DashboardTipoEnvio.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected = item[0].ToString() == IdTipoEnvio.ToString() ? true : false
+                });
+            }
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTipoServicio().Tables[0].Rows)
+            {
+                DashboardTipoServicio.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected = item[0].ToString() == IdTipoServicio.ToString() ? true : false
+                });
+            }
+
+
+            foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTipoLogistica().Tables[0].Rows)
+            {
+                DashboardTipoLogistica.Add(new Combo
+                {
+                    Value = item[0].ToString(),
+                    Text = item[1].ToString(),
+                    Selected = item[0].ToString() == IdTipoLogistica.ToString() ? true : false
+                });
+            }
+
+            obj.DashboardTipoEnvio = DashboardTipoEnvio;
+            obj.DashboardTrans = DashboardTrans;
+            obj.DashboardTipoServicio = DashboardTipoServicio;
+            obj.DashboardTipoLogistica = DashboardTipoLogistica;
+
+
+
+            #endregion
+
+
+
+
+            var ds = DALDashboard.upCorpOms_Cns_Tableros(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica);
             obj.Frecuencia = frecuencia;
             obj.general = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[0]).FirstOrDefault();
             obj.dst = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[1]).FirstOrDefault();
@@ -2029,7 +2089,7 @@ namespace ServicesManagement.Web.Controllers
             return PartialView("_IndicadoresOp", obj);
         }
 
-      
+
 
         #endregion
     }

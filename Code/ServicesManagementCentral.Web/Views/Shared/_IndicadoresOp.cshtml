@@ -33,6 +33,8 @@
                         {
                             <button type="button" id="btnIndCns3" name="indicadores" class="btn btn-xs btn-white " onclick="Consulta('3')">Anual</button>
                         }
+
+
                         <div class="input-group date" id="datetimepicker1">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input class="form-control datepicker" id="txtFecIndIni"
@@ -43,7 +45,62 @@
                             <input class="form-control datepicker" id="txtFecIndFin"
                                    type="text" placeholder="Fecha Fin" value="@Model.FecFin">
                         </div>
-                        <button type="button" id="btnIndCns4" name="indicadores" class="btn btn-xs btn-white" onclick="Consulta('4')">Calendario</button>
+
+
+                        <select id="ddlTrans" class="form-control">
+                            @foreach (var item in Model.DashboardTrans)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoEnvio" class="form-control">
+                            @foreach (var item in Model.DashboardTipoEnvio)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoServicio" class="form-control">
+                            @foreach (var item in Model.DashboardTipoServicio)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                        <select id="ddlTipoLogistica" class="form-control">
+                            @foreach (var item in Model.DashboardTipoLogistica)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+
+                        <button type="button" id="btnIndCns4" name="indicadores" class="btn btn-xs btn-white" onclick="Consulta('4')">Aplicar filtros</button>
                     </div>
                 </div>
             </div>
