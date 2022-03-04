@@ -1979,7 +1979,7 @@ namespace ServicesManagement.Web.Controllers
 
 
         #region Dashboard
-        public ActionResult IndicadoresOp(DateTime? FecIni, DateTime? FecFin, string op = "1")
+        public ActionResult IndicadoresOp(DateTime FecIni, DateTime FecFin, string op = "4")
         {
 
             string frecuencia = string.Empty;
@@ -2002,7 +2002,7 @@ namespace ServicesManagement.Web.Controllers
                     break;
                 case "4":
                     frecuencia = "Calendario";
-
+                   
                     break;
 
             }
@@ -2018,10 +2018,13 @@ namespace ServicesManagement.Web.Controllers
 
             var ds = DALDashboard.upCorpOms_Cns_Tableros(FecIni,FecFin);
             obj.Frecuencia = frecuencia;
-            obj.mercancias = DataTableToModel.ConvertTo<MercanciasGenerales>(ds.Tables[0]).FirstOrDefault();
-            obj.super = DataTableToModel.ConvertTo<SuperCasa>(ds.Tables[1]).FirstOrDefault();
-            obj.indicadores = DataTableToModel.ConvertTo<IndIngresosEgresos>(ds.Tables[2]).FirstOrDefault();
-
+            obj.general = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[0]).FirstOrDefault();
+            obj.dst = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[1]).FirstOrDefault();
+            obj.cedis = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[2]).FirstOrDefault();
+            obj.dsv = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[3]).FirstOrDefault();
+            obj.FecIni = FecIni.ToString("yyyy/MM/dd");
+            obj.FecFin = FecFin.ToString("yyyy/MM/dd");
+            obj.op = op;
 
             return PartialView("_IndicadoresOp", obj);
         }

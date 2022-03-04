@@ -260,6 +260,7 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
+    <Compile Include="Models\Dashboard\EstatusOP.cs" />
     <Compile Include="Models\Dashboard\IndicadoresOpModel.cs" />
     <Compile Include="Models\Dashboard\IndIngresosEgresos.cs" />
     <Compile Include="Models\Dashboard\MercanciasGenerales.cs" />
