@@ -2184,7 +2184,8 @@ namespace ServicesManagement.Web.Controllers
                         break;
                     case "3":
                         frecuencia = "Anual";
-                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
                         FecFin = DateTime.Now;
                         formato = 2;
                         break;
