@@ -107,108 +107,13 @@
     }
 </style>
 
-
-@*<h2>MainSystem</h2>*@
-
-@*<div class="row">
-        <form class="form-horizontal col-sm-7 col-sm-offset-2" action="" method="post">
-            <div class="form-group registration-date">
-                <label class="control-label col-sm-3" for="registration-date">Date:</label>
-                <div class="input-group registration-date-time">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                    <input class="form-control" name="registration_date" id="registration-date" type="date">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
-                    <input class="form-control" name="registration_time" id="registration-time" type="time">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick="addNow()"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Now</button>
-                        <button class="btn btn-default" type="button" onclick="stopNow()"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Stop</button>
-                    </span>
-                </div>
-            </div>
-        </form>
-    </div>*@
 <link href="~/Content/DeliveryLineTime.css" rel="stylesheet" />
 <div id="divIndicadores">
     @{
         Html.RenderAction("IndicadoresOp", new { FecIni = DateTime.Now.AddDays(-15), FecFin = DateTime.Now });
     }
 </div>
-<!--<div class="row">-->
-@*<div class="col-lg-2">
-        <div class="widget-head-color-box navy-bg p-lg text-center">
-            <div class="m-b-md">
-                <h2 class="font-bold no-margins">
-                    Alex Smith
-                </h2>
-                <small>Transportista</small>
-            </div>
-            <a style="color:white" href="javascript:;"><i class="flaticon2-new-email"></i>julio_lopez36@hotmail.com</a>
 
-        </div>
-        <div class="widget-text-box">
-            <h4 class="media-heading">Fletes Bajio Sur S.A. de C.V.</h4>
-            <p>Transportista Zona Bajio , Gdl. #619 Col. Val Paraiso.</p>
-
-        </div>
-    </div>*@
-
-<!--<div class="col-lg-2">
-    <div class="ibox ">
-        <div class="ibox-title">
-            <div class="ibox-tools">
-                <span class="label label-info float-right">Diario</span>
-            </div>
-            <h5>Envios</h5>
-        </div>
-        <div class="ibox-content">
-            <h1 class="no-margins">275,800</h1>
-            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-            <small>Entregados</small>
-        </div>
-    </div>
-</div>
-<div class="col-lg-2">
-</div>
-
-<div class="col-lg-2">
-    <div class="ibox ">
-        <div class="ibox-title">
-            <div class="ibox-tools">
-                <span class="label label-info float-right">Diario</span>
-            </div>
-            <h5>Envios</h5>
-        </div>
-        <div class="ibox-content">
-            <h1 class="no-margins">275,800</h1>
-            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-            <small>Programados</small>
-        </div>
-    </div>
-</div>
-<div class="col-lg-2">
-</div>
-
-<div class="col-lg-2">
-    <div class="ibox ">
-        <div class="ibox-title">
-            <div class="ibox-tools">
-                <span class="label label-info float-right">Diario</span>
-            </div>
-            <h5>Envios</h5>
-        </div>
-        <div class="ibox-content">
-            <h1 class="no-margins">275,800</h1>
-            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-            <small>En Ruta</small>
-        </div>
-    </div>
-</div>-->
-@*<div class="col-6">
-        <div class="clock" style="margin:2em;"></div>
-    </div>*@
-
-
-<!--</div>-->
 
 
 <div class="row">
@@ -218,9 +123,9 @@
                 <h5>Orders</h5>
                 <div class="ibox-tools">
                     <div class="btn-group">
-                        <button type="button" id="btnEst1" class="btn btn-xs btn-white" onclick="Grafica('1')">Hoy</button>
-                        <button type="button" id="btnEst2" class="btn btn-xs btn-white" onclick="Grafica('2')">Mensual</button>
-                        <button type="button" id="btnEst3" class="btn btn-xs btn-white" onclick="Grafica('3')">Anual</button>
+                        <button type="button" id="btnEst1" class="btn btn-xs btn-white" onclick="Grafica('1',1)">Hoy</button>
+                        <button type="button" id="btnEst2" class="btn btn-xs btn-white" onclick="Grafica('2',1)">Mensual</button>
+                        <button type="button" id="btnEst3" class="btn btn-xs btn-white" onclick="Grafica('3',1)">Anual</button>
                         <div class="input-group date" id="datetimepicker3">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input class="form-control datepicker" id="txtFecEstIni"
@@ -231,7 +136,7 @@
                             <input class="form-control datepicker" id="txtFecEstFin"
                                    type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
                         </div>
-                        <select id="ddlTransEst" class="form-control">
+                        <select id="ddlTransEst" class="form-control" multiple size="6">
                             @foreach (var item in ViewBag.DashboardTrans)
                             {
                                 if (item.Selected)
@@ -244,7 +149,7 @@
                                 }
                             }
                         </select>
-                        <select id="ddlTipoEnvioEst" class="form-control">
+                        <select id="ddlTipoEnvioEst" class="form-control" multiple size="6">
                             @foreach (var item in ViewBag.DashboardTipoEnvio)
                             {
                                 if (item.Selected)
@@ -257,7 +162,7 @@
                                 }
                             }
                         </select>
-                        <select id="ddlTipoServicioEst" class="form-control">
+                        <select id="ddlTipoServicioEst" class="form-control" multiple size="6">
                             @foreach (var item in ViewBag.DashboardTipoServicio)
                             {
                                 if (item.Selected)
@@ -270,7 +175,7 @@
                                 }
                             }
                         </select>
-                        <select id="ddlTipoLogisticaEst" class="form-control">
+                        <select id="ddlTipoLogisticaEst" class="form-control" multiple size="6">
 
                             @foreach (var item in ViewBag.DashboardTipoLogistica)
                             {
@@ -291,21 +196,47 @@
                             <option value="3">fecha entrega</option>
                         </select>
                         <select id="ddlEstatus" class="form-control">
-                            @*<option value="0">--TODOS LOS ESTATUS--</option>*@
                             <option value="3">AMBOS ESTATUS</option>
                             <option value="1">EN TRANSITO</option>
                             <option value="2">ENTREGADO</option>
                         </select>
-                        <select id="lstIdAlmacen" class="form-control">
+
+                        <select class="form-control" id="lstIdAlmacen" name="lstIdAlmacen" multiple size="6">
+                            @foreach (var item in ViewBag.DashboardTipoAlmacen)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+
                         </select>
-                        <select id="ddlSuppliers" class="form-control">
-                        </select>
-                        
-                        <button type="button" id="btnEst4" name="indicadores" class="btn btn-sm btn-white" onclick="Grafica('4')">Aplicar filtros</button>
+
+                        <select class="form-control m-b" id="ddlSuppliers" name="ddlSuppliers" multiple size="6">
+                            @foreach (var item in ViewBag.DashboardAlmacen)
+                            {
+                                if (item.Selected)
+                                {
+                                    <option value="@item.Value" selected>@item.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+
+                        </select><br />
+
+                        <button type="button" id="btnEst4" name="indicadores" class="btn btn-sm btn-white" onclick="Grafica('4',1)">Aplicar filtros</button>
                     </div>
                 </div>
             </div>
             <div class="ibox-content">
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="flot-chart">
@@ -428,94 +359,7 @@
 
 
 <div class="row">
-    @*<div class="col-lg-4">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h5>COTIZACIONES</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content ibox-heading">
-                    <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-                    <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
-                </div>
-                <div class="ibox-content">
-                    <div class="feed-activity-list">
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right text-navy">1m ago</small>
-                                <strong>Monica Smith</strong>
-                                <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</div>
-                                <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                            </div>
-                        </div>
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">2m ago</small>
-                                <strong>Jogn Angel</strong>
-                                <div>There are many variations of passages of Lorem Ipsum available</div>
-                                <small class="text-muted">Today 2:23 pm - 11.06.2014</small>
-                            </div>
-                        </div>
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Jesica Ocean</strong>
-                                <div>Contrary to popular belief, Lorem Ipsum</div>
-                                <small class="text-muted">Today 1:00 pm - 08.06.2014</small>
-                            </div>
-                        </div>
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Monica Jackson</strong>
-                                <div>The generated Lorem Ipsum is therefore </div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Anna Legend</strong>
-                                <div>All the Lorem Ipsum generators on the Internet tend to repeat </div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Damian Nowak</strong>
-                                <div>The standard chunk of Lorem Ipsum used </div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Gary Smith</strong>
-                                <div>200 Latin words, combined with a handful</div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-    <div class="col-lg-8">
+    <div class="col-lg-12">
 
         <div class="row">
             <div class="col-lg-12">
@@ -615,7 +459,6 @@
         </div>
 
     </div>
-
 </div>
 
 <br />
@@ -685,9 +528,12 @@
 
 @section scripts {
 
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>
+    <link href="~/Content/plugins/multiselect/vanillaSelectBox.css" rel="stylesheet" />
+
     @*<script src="~/Content/plugins/jQuery-Mapael-2.2.0/jQuery-Mapael-2.2.0/js/jquery.mapael.js" charset="utf-8"></script>
-    <script src="~/Content/plugins/jQuery-Mapael-2.2.0/jQuery-Mapael-2.2.0/mexico.min.js"></script>
-    <script src="~/Content/plugins/jQuery-Mapael-2.2.0/jQuery-Mapael-2.2.0/mexico.js"></script>*@
+        <script src="~/Content/plugins/jQuery-Mapael-2.2.0/jQuery-Mapael-2.2.0/mexico.min.js"></script>
+        <script src="~/Content/plugins/jQuery-Mapael-2.2.0/jQuery-Mapael-2.2.0/mexico.js"></script>*@
 
     <script src="~/Content/Inspinia/plugins/datapicker/bootstrap-datepicker.js"></script>
     <!-- Flot -->
@@ -744,14 +590,6 @@
 
 
 
-        //$('#txtFecInd').change(function () {
-        //    //console.log($('#date-daily').val());
-        //    alert("#txtFecInd").val();
-        //});
-
-        //$("#txtFecInd").change(function () {
-        //    alert("The text has been changed.");
-        //});
         function gd(year, month, day) {
             return new Date(year, month - 1, day).getTime();
         }
@@ -805,7 +643,7 @@
         });
         }
 
-        function Grafica(opc) {
+        function Grafica(opc,origen) {
 
 
             $("#btnEst1").removeClass("active");
@@ -817,34 +655,101 @@
 
 
 
-            var _IdTransportista = $("#ddlTransEst").val();
-            var _IdTipoEnvio = $("#ddlTipoEnvioEst").val();
-            var _IdTipoServicio = $("#ddlTipoServicioEst").val();
-            var _IdTipoLogistica = $("#ddlTipoLogisticaEst").val();
+
+           
+            var count = 1;
+
+
+
             var _TipoFecha = $("#ddlTipoFecha").val();
             var _Estatus = $("#ddlEstatus").val();
-            var _TipoAlmacen = $("#lstIdAlmacen").val();
-            var _Almacen = $("#ddlSuppliers").val();
+         
             var etiqueta = $("#ddlEstatus option:selected").text();
+
+
+
+            var _IdTransportista = getValues('ddlTransEst');
+            var _IdTipoEnvio = getValues('ddlTipoEnvioEst');
+            var _IdTipoServicio = getValues('ddlTipoServicioEst');
+            var _IdTipoLogistica = getValues('ddlTipoLogisticaEst');
+
+            var _TipoAlmacen = getValues('lstIdAlmacen');
+            var _Almacen = getValues('ddlSuppliers');
+
+
+            debugger;
+            if (_IdTransportista.length == 0) {
+                alert('Debe de Seleccionar minimo un Transportista');
+                $("#ddlTransEst").focus();
+                return;
+            }
+
+            if (_IdTipoEnvio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de envío');
+                $("#ddlTipoEnvioEst").focus();
+                return;
+            }
+
+            if (_IdTipoServicio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Servicio');
+                $("#ddlTipoServicioEst").focus();
+                return;
+            }
+
+            if (_IdTipoLogistica.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Logistica');
+                $("#ddlTipoLogisticaEst").focus();
+                return;
+            }
+
+            if (origen != 0) {
+                if (_TipoAlmacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#lstIdAlmacen").focus();
+                    return;
+                }
+
+                if (_Almacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#ddlSuppliers").focus();
+                    return;
+                }
+            }
+
+            var _json = [];
+
+            getValues('ddlSuppliers').forEach(x => {
+
+                let _obj = {};
+                _obj.IdTienda = x.split('-')[0];
+                _obj.IdOwner = x.split('-')[1];
+                _obj.Nombre = x.split('-')[2];
+                _obj.NombreProveedor = x.split('-')[3];
+                _json.push(_obj);
+
+                count = count + 1;
+            });
+
+
+            debugger;
 
             var fecIni = $("#txtFecEstIni").val();
             var fecFin = $("#txtFecEstFin").val();
              $.ajax({
                 async: false,
-                type: "GET",
+                type: "POST",
                  url: '@Url.Action("EstatusEnvio", "TMS")',
                  data: {
                      FecIni: fecIni,
                      FecFin: fecFin,
                      op: opc,
-                     IdTransportista: _IdTransportista,
-                     IdTipoEnvio: _IdTipoEnvio,
-                     IdTipoServicio: _IdTipoServicio,
-                     IdTipoLogistica: _IdTipoLogistica,
+                     IdTransportista: _IdTransportista.join(','),
+                     IdTipoEnvio: _IdTipoEnvio.join(','),
+                     IdTipoServicio: _IdTipoServicio.join(','),
+                     IdTipoLogistica: _IdTipoLogistica.join(','),
                      TipoFecha: _TipoFecha,
                      Estatus: _Estatus,
-                     TipoAlmacen: _TipoAlmacen,
-                     Almacen: _Almacen,
+                     json: JSON.stringify(_json)
                  },
                 datatype: "html",
                  success: function (data) {
@@ -865,7 +770,7 @@
                             data2.push([gd(data.Estatus[i].Anio, data.Estatus[i].Mes, data.Estatus[i].Dia), data.Estatus[i].Valor]);
                         }
 
-                     
+
                         debugger;
 
                         var dataset = [
@@ -908,7 +813,7 @@
 
 
                         var options = {
-                          
+
                             xaxis: {
                                 mode: "time",
                                 tickSize: [1, "day"],
@@ -938,7 +843,7 @@
                                 axisLabelFontSizePixels: 12,
                                 axisLabelFontFamily: ' Arial',
                                 axisLabelPadding: 67,
-                                  
+
                             }
                             ],
                             legend: {
@@ -1030,7 +935,7 @@
                         //var previousPoint = null, previousLabel = null;
 
                         $.plot($("#flot-dashboard-chart"), dataset, options);
-                  
+
                     }
                     else {
                         alert(data.Message);
@@ -1043,14 +948,29 @@
             });
         }
 
- 
+
         var clock;
 
         $(document).ready(function () {
 
-            IniciarComboTipoAlmacen();
+            init("ddlTransEst");
+            init("ddlTipoEnvioEst");
+            init("ddlTipoServicioEst");
+            init("ddlTipoLogisticaEst");
+            init("lstIdAlmacen");
+            init("ddlSuppliers");
 
-            Grafica();
+            setValues("ddlTransEst", 'all');
+            setValues("ddlTipoEnvioEst", 'all');
+            setValues("ddlTipoServicioEst", 'all');
+            setValues("ddlTipoLogisticaEst", 'all');
+            setValues("lstIdAlmacen", 'all');
+            setValues("ddlSuppliers", 'all');
+
+
+            //IniciarComboTipoAlmacen();
+            //GetSupp(getValues('lstIdAlmacen').join(','))
+            Grafica("4",0);
             //clock = $('.clock').FlipClock({
             //    clockFace: 'TwelveHourClock'
             //});
@@ -1247,9 +1167,9 @@
             });
         }
 
-        function IniciarComboTipoAlmacen() {
+        @*function IniciarComboTipoAlmacen() {
             $.ajax({
-                async: false,
+          
                 type: "GET",
                 url: '@Url.Action("IniciarComboTipoAlmacen", "TMS")',
                 data: {
@@ -1259,52 +1179,17 @@
                 success: function (json) {
 
                     if (json.Success) {
+
                         var sel = $("#lstIdAlmacen");
                         sel.empty();
 
-                        $('#lstIdAlmacen').get(0).options[0] = new Option("--TODOS LOS TIPOS DE ALMACEN--", "0");
                         for (var i = 0; i < json.resp.length; i++) {
-                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +  '</option>');
-                        }
-                        GetSupp(0);
-
-                    }
-                    else {
-                        alert(json.Message);
-                    }
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    alert(errorThrown);
-
-                }
-            });
-        }
-
-        $('#lstIdAlmacen').change(function () {
-            _idOwner = $("#lstIdAlmacen").val();
-            GetSupp(_idOwner);
-        
-        });
-         function GetSupp(_idOwner) {
-            $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("ListSuppliersById2", "Catalogo")',
-                data: {
-                    idsOwner: _idOwner
-                },
-                datatype: "html",
-                success: function (json) {
-                    debugger;
-                    if (json.Success) {
-                        var sel = $("#ddlSuppliers");
-                        sel.empty();
-                        $('#ddlSuppliers').get(0).options[0] = new Option("--TODOS LOS PROVEEDORES--", "0");
-
-                        for (var i = 0; i < json.resp.length; i++) {
-                            sel.append('<option value="' + json.resp[i].id + '">' + json.resp[i].NombreProveedor + '</option>');
+                            sel.append('<option value="' + json.resp[i].idOwner + '">' + json.resp[i].ownerName +'</option>');
                         }
 
+                        init("lstIdAlmacen");
+
+                        setValues('lstIdAlmacen', 'all');
 
                       
                     }
@@ -1317,6 +1202,160 @@
 
                 }
             });
+        }*@
+
+
+
+        $("#lstIdAlmacen").change(function () {
+
+            GetSupp(getValues('lstIdAlmacen').join(','));
+
+        });
+
+
+
+
+            function GetSupp(_idOwner) {
+            $.ajax({
+
+                type: "GET",
+                url: '@Url.Action("ListSuppliersById2", "Catalogo")',
+                data: {
+                    idsOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+                    debugger;
+                    if (json.Success) {
+                      
+                        var sel = $("#ddlSuppliers");
+                        sel.empty();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor.replace(/'/g, '').trim() + '</option>');
+
+                        }
+
+                        init("ddlSuppliers");
+
+                        setValues('ddlSuppliers', 'all');
+
+               
+
+
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+
+        }
+
+    </script>
+    <script>
+        function empty() {
+            if (selectBox2 != null) {
+                selectBox2.empty();
+            }
+            if (selectBox1 != null) {
+                selectBox1.empty();
+            }
+        }
+        function doDestroy(id) {
+
+            if (id == "ddlSuppliers" && selectBox2 != null) {
+                selectBox2.destroy();
+
+
+            }
+        }
+        function init(id) {
+            if (id == "lstIdAlmacen") {
+
+                selectBox1 = new vanillaSelectBox("#lstIdAlmacen", { "disableSelectAll": true, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Almacenes", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlSuppliers") {
+                selectBox2 = new vanillaSelectBox("#ddlSuppliers", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todas las Tiendas", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            }
+            if (id == "ddlTransEst") {
+
+                selectBoxTransEst = new vanillaSelectBox("#ddlTransEst", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items":  "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoEnvioEst") {
+
+                selectBoxTipoEnvioEst = new vanillaSelectBox("#ddlTipoEnvioEst", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Envio", "items": " Tipo de Envio Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+            if (id == "ddlTipoServicioEst") {
+
+                selectBoxTipoServoEst = new vanillaSelectBox("#ddlTipoServicioEst", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Servicios", "items": " Tipo de Servicios Seleccionados ", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+            if (id == "ddlTipoLogisticaEst") {
+
+                selectBoxTipoLogisticaEst = new vanillaSelectBox("#ddlTipoLogisticaEst", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+
+            
+        }
+        function setValuesAlmacen(value) {
+            if (selectBox1 != null) {
+                selectBox1.setValue(value);
+            }
+        }
+        function setValues(value) {
+            if (selectBox2 != null) {
+                selectBox2.setValue(value);
+            }
+        }
+        function getValues(id) {
+            let result = [];
+            let collection = document.querySelectorAll("#" + id + " option");
+            collection.forEach(function (x) {
+                if (x.selected) {
+                    result.push(x.value);
+                }
+            });
+
+            return result;
+        }
+
+        function setValues(id, value) {
+            if (id == "lstIdAlmacen" && selectBox1 != null) {
+                selectBox1.setValue(value);
+            }
+            if (id == "ddlSuppliers" && selectBox2 != null) {
+                selectBox2.setValue(value);
+            }
+
+            if (id == "ddlTransEst" && selectBoxTransEst != null) {
+                selectBoxTransEst.setValue(value);
+            }
+
+            if (id == "ddlTipoEnvioEst" && selectBoxTipoEnvioEst != null) {
+                selectBoxTipoEnvioEst.setValue(value);
+            }
+
+            if (id == "ddlTipoServicioEst" && selectBoxTipoServoEst != null) {
+                selectBoxTipoServoEst.setValue(value);
+            }
+
+            if (id == "ddlTipoLogisticaEst" && selectBoxTipoLogisticaEst != null) {
+                selectBoxTipoLogisticaEst.setValue(value);
+            }
+
+        
         }
     </script>
 
