@@ -125,6 +125,74 @@ namespace ServicesManagement.Web.DAL
         }
 
 
+        public static DataSet upCorpTms_Cns_DashboardEnviosLogistica(DateTime? fechaini, DateTime? fechafin
+    , string IdTransportista, string IdTipoEnvio, string IdTipoServicio
+    , string IdTipoLogistica, string json, int? Estatus)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@fechaini", fechaini);
+                parametros.Add("@fechafin", fechafin);
+
+                if (!string.IsNullOrEmpty(IdTransportista))
+                    parametros.Add("@IdTransportista", IdTransportista);
+
+                if (!string.IsNullOrEmpty(IdTipoEnvio))
+                    parametros.Add("@IdTipoEnvio", IdTipoEnvio);
+
+                if (!string.IsNullOrEmpty(IdTipoServicio))
+                    parametros.Add("@IdTipoServicio", IdTipoServicio);
+
+                //if (!string.IsNullOrEmpty(IdTipoLogistica))
+                //    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+
+
+                if (!string.IsNullOrEmpty(json))
+                    parametros.Add("@json", json);
+
+                if (Estatus != null & Estatus != 0)
+                    parametros.Add("@Estatus", Estatus);
+
+
+//@fechaini datetime = null,      --fecha inicio del periodo
+//@fechafin  datetime = null,      --fecha final del periodo
+//@IdTransportista varchar(250) = null,  --Numero de transportista
+//@IdTipoEnvio varchar(250) = null,  --'1,2,3'-- tipo de envio
+//@IdTipoServicio varchar(250) = null,  --'1,4,5'-- tipo de servicio
+//@json varchar(max),                   --json con lista de tipo almacen + nro.tienda / proveedor
+//@Estatus   int = null-- 1 - EN_TRANSITO, 2 - ENTREGADO, 3 - AMBOS
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[upCorpTms_Cns_DashboardEnviosLogistica]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
 
         public static DataSet spOwners_v3_sUP()
         {
