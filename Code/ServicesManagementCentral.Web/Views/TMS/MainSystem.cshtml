@@ -107,26 +107,6 @@
     }
 </style>
 
-
-@*<h2>MainSystem</h2>*@
-
-@*<div class="row">
-        <form class="form-horizontal col-sm-7 col-sm-offset-2" action="" method="post">
-            <div class="form-group registration-date">
-                <label class="control-label col-sm-3" for="registration-date">Date:</label>
-                <div class="input-group registration-date-time">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                    <input class="form-control" name="registration_date" id="registration-date" type="date">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></span>
-                    <input class="form-control" name="registration_time" id="registration-time" type="time">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick="addNow()"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Now</button>
-                        <button class="btn btn-default" type="button" onclick="stopNow()"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Stop</button>
-                    </span>
-                </div>
-            </div>
-        </form>
-    </div>*@
 <link href="~/Content/DeliveryLineTime.css" rel="stylesheet" />
 <div id="divIndicadores">
     @{
@@ -140,9 +120,9 @@
                 <h5>Orders</h5>
                 <div class="ibox-tools">
                     <div class="btn-group">
-                        <button type="button" id="btnEst1" class="btn btn-xs btn-white" onclick="Grafica('1')">Hoy</button>
-                        <button type="button" id="btnEst2" class="btn btn-xs btn-white" onclick="Grafica('2')">Mensual</button>
-                        <button type="button" id="btnEst3" class="btn btn-xs btn-white" onclick="Grafica('3')">Anual</button>
+                        <button type="button" id="btnEst1" class="btn btn-xs btn-white" onclick="Grafica('1',1)">Hoy</button>
+                        <button type="button" id="btnEst2" class="btn btn-xs btn-white" onclick="Grafica('2',1)">Mensual</button>
+                        <button type="button" id="btnEst3" class="btn btn-xs btn-white" onclick="Grafica('3',1)">Anual</button>
                         <div class="input-group date" id="datetimepicker3">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             <input class="form-control datepicker" id="txtFecEstIni"
@@ -153,7 +133,7 @@
                             <input class="form-control datepicker" id="txtFecEstFin"
                                    type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
                         </div>
-                        <select id="ddlTransEst" class="form-control">
+                        <select id="ddlTransEst" class="form-control" multiple size="6">
                             @foreach (var item in ViewBag.DashboardTrans)
                             {
                                 if (item.Selected)
@@ -166,7 +146,7 @@
                                 }
                             }
                         </select>
-                        <select id="ddlTipoEnvioEst" class="form-control">
+                        <select id="ddlTipoEnvioEst" class="form-control" multiple size="6">
                             @foreach (var item in ViewBag.DashboardTipoEnvio)
                             {
                                 if (item.Selected)
@@ -179,7 +159,7 @@
                                 }
                             }
                         </select>
-                        <select id="ddlTipoServicioEst" class="form-control">
+                        <select id="ddlTipoServicioEst" class="form-control" multiple size="6">
                             @foreach (var item in ViewBag.DashboardTipoServicio)
                             {
                                 if (item.Selected)
@@ -192,7 +172,7 @@
                                 }
                             }
                         </select>
-                        <select id="ddlTipoLogisticaEst" class="form-control">
+                        <select id="ddlTipoLogisticaEst" class="form-control" multiple size="6">
 
                             @foreach (var item in ViewBag.DashboardTipoLogistica)
                             {
@@ -213,7 +193,6 @@
                             <option value="3">fecha entrega</option>
                         </select>
                         <select id="ddlEstatus" class="form-control">
-                            @*<option value="0">--TODOS LOS ESTATUS--</option>*@
                             <option value="3">AMBOS ESTATUS</option>
                             <option value="1">EN TRANSITO</option>
                             <option value="2">ENTREGADO</option>
@@ -318,94 +297,7 @@
     </div>
 </div>
 <div class="row">
-    @*<div class="col-lg-4">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h5>COTIZACIONES</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content ibox-heading">
-                    <h3><i class="fa fa-envelope-o"></i> New messages</h3>
-                    <small><i class="fa fa-tim"></i> You have 22 new messages and 16 waiting in draft folder.</small>
-                </div>
-                <div class="ibox-content">
-                    <div class="feed-activity-list">
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right text-navy">1m ago</small>
-                                <strong>Monica Smith</strong>
-                                <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum</div>
-                                <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
-                            </div>
-                        </div>
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">2m ago</small>
-                                <strong>Jogn Angel</strong>
-                                <div>There are many variations of passages of Lorem Ipsum available</div>
-                                <small class="text-muted">Today 2:23 pm - 11.06.2014</small>
-                            </div>
-                        </div>
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Jesica Ocean</strong>
-                                <div>Contrary to popular belief, Lorem Ipsum</div>
-                                <small class="text-muted">Today 1:00 pm - 08.06.2014</small>
-                            </div>
-                        </div>
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Monica Jackson</strong>
-                                <div>The generated Lorem Ipsum is therefore </div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-
-
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Anna Legend</strong>
-                                <div>All the Lorem Ipsum generators on the Internet tend to repeat </div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Damian Nowak</strong>
-                                <div>The standard chunk of Lorem Ipsum used </div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-                        <div class="feed-element">
-                            <div>
-                                <small class="float-right">5m ago</small>
-                                <strong>Gary Smith</strong>
-                                <div>200 Latin words, combined with a handful</div>
-                                <small class="text-muted">Yesterday 8:48 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-    <div class="col-lg-8">
+    <div class="col-lg-12">
 
         <div class="row">
             <div class="col-lg-12">
@@ -664,14 +556,6 @@
 
 
 
-        //$('#txtFecInd').change(function () {
-        //    //console.log($('#date-daily').val());
-        //    alert("#txtFecInd").val();
-        //});
-
-        //$("#txtFecInd").change(function () {
-        //    alert("The text has been changed.");
-        //});
         function gd(year, month, day) {
             return new Date(year, month - 1, day).getTime();
         }
@@ -725,7 +609,7 @@
         });
         }
 
-        function Grafica(opc) {
+        function Grafica(opc,origen) {
 
 
             $("#btnEst1").removeClass("active");
@@ -819,20 +703,19 @@
             var fecFin = $("#txtFecEstFin").val();
              $.ajax({
                 async: false,
-                type: "GET",
+                type: "POST",
                  url: '@Url.Action("EstatusEnvio", "TMS")',
                  data: {
                      FecIni: fecIni,
                      FecFin: fecFin,
                      op: opc,
-                     IdTransportista: _IdTransportista,
-                     IdTipoEnvio: _IdTipoEnvio,
-                     IdTipoServicio: _IdTipoServicio,
-                     IdTipoLogistica: _IdTipoLogistica,
+                     IdTransportista: _IdTransportista.join(','),
+                     IdTipoEnvio: _IdTipoEnvio.join(','),
+                     IdTipoServicio: _IdTipoServicio.join(','),
+                     IdTipoLogistica: _IdTipoLogistica.join(','),
                      TipoFecha: _TipoFecha,
                      Estatus: _Estatus,
-                     TipoAlmacen: _TipoAlmacen,
-                     Almacen: _Almacen,
+                     json: JSON.stringify(_json)
                  },
                 datatype: "html",
                  success: function (data) {
@@ -1249,7 +1132,12 @@
 
         $(document).ready(function () {
 
-            IniciarComboTipoAlmacen();
+            init("ddlTransEst");
+            init("ddlTipoEnvioEst");
+            init("ddlTipoServicioEst");
+            init("ddlTipoLogisticaEst");
+            init("lstIdAlmacen");
+            init("ddlSuppliers");
 
             init("ddlTransMapa");
             init("ddlTipoEnvioMapa");
@@ -1515,7 +1403,7 @@
         });
             function GetSupp(_idOwner) {
             $.ajax({
-                async: false,
+
                 type: "GET",
                 url: '@Url.Action("ListSuppliersById2", "Catalogo")',
                 data: {
@@ -1528,13 +1416,15 @@
 
                         var sel = $("#ddlSuppliers");
                         sel.empty();
-                        $('#ddlSuppliers').get(0).options[0] = new Option("--TODOS LOS PROVEEDORES--", "0");
 
                         for (var i = 0; i < json.resp.length; i++) {
-                            sel.append('<option value="' + json.resp[i].id + '">' + json.resp[i].NombreProveedor + '</option>');
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor.replace(/'/g, '').trim() + '</option>');
+
                         }
 
+                        init("ddlSuppliers");
 
+                        setValues('ddlSuppliers', 'all');
 
 
 
@@ -1549,8 +1439,20 @@
 
                 }
             });
+
         }
+
     </script>
+    <script>
+        function empty() {
+            if (selectBox2 != null) {
+                selectBox2.empty();
+            }
+            if (selectBox1 != null) {
+                selectBox1.empty();
+            }
+        }
+        function doDestroy(id) {
 
             if (id == "ddlSuppliers" && selectBox2 != null) {
                 selectBox2.destroy();

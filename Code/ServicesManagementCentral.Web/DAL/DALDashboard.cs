@@ -10,7 +10,7 @@ namespace ServicesManagement.Web.DAL
 {
     public class DALDashboard
     {
-        public static DataSet upCorpOms_Cns_Tableros(DateTime? fechaini,DateTime? fechafin,int? IdTransportista,int? IdTipoEnvio,int? IdTipoServicio,int? IdTipoLogistica)
+        public static DataSet upCorpOms_Cns_Tableros(DateTime? fechaini, DateTime? fechafin, int? IdTransportista, int? IdTipoEnvio, int? IdTipoServicio, int? IdTipoLogistica)
         {
 
 
@@ -33,16 +33,16 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@fechaini", fechaini);
                 parametros.Add("@fechafin", fechafin);
 
-                if(IdTransportista!=null & IdTransportista != 0)
+                if (IdTransportista != null & IdTransportista != 0)
                     parametros.Add("@IdTransportista", IdTransportista);
-                if (IdTipoEnvio != null & IdTipoEnvio !=0)
+                if (IdTipoEnvio != null & IdTipoEnvio != 0)
                     parametros.Add("@IdTipoEnvio", IdTipoEnvio);
                 if (IdTipoServicio != null & IdTipoServicio != 0)
                     parametros.Add("@IdTipoServicio", IdTipoServicio);
                 if (IdTipoLogistica != null & IdTipoLogistica != 0)
                     parametros.Add("@IdTipoLogistica", IdTipoLogistica);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_Tableros]", false,parametros);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_Tableros]", false, parametros);
 
                 return ds;
             }
@@ -59,8 +59,9 @@ namespace ServicesManagement.Web.DAL
 
         }
 
-        public static DataSet upCorpOms_Cns_GraphEnviosVsEstatus(DateTime? fechaini, DateTime? fechafin, int? IdTransportista, int? IdTipoEnvio, int? IdTipoServicio
-            , int? IdTipoLogistica,int? TipoAlmacen,int? Almacen,int? TipoFecha,int? Estatus,int? Formato)
+        public static DataSet upCorpOms_Cns_GraphEnviosVsEstatus_v2(DateTime? fechaini, DateTime? fechafin
+            , string IdTransportista, string IdTipoEnvio, string IdTipoServicio
+            , string IdTipoLogistica, string json, int? TipoFecha, int? Estatus, int? Formato)
         {
             DataSet ds = new DataSet();
 
@@ -80,28 +81,33 @@ namespace ServicesManagement.Web.DAL
                 parametros.Add("@fechaini", fechaini);
                 parametros.Add("@fechafin", fechafin);
 
-                if (IdTransportista != null & IdTipoEnvio != 0)
+                if (!string.IsNullOrEmpty(IdTransportista))
                     parametros.Add("@IdTransportista", IdTransportista);
-                if (IdTipoEnvio != null & IdTipoEnvio != 0)
+
+                if (!string.IsNullOrEmpty(IdTipoEnvio))
                     parametros.Add("@IdTipoEnvio", IdTipoEnvio);
-                if (IdTipoServicio != null & IdTipoEnvio != 0)
+
+                if (!string.IsNullOrEmpty(IdTipoServicio))
                     parametros.Add("@IdTipoServicio", IdTipoServicio);
-                if (IdTipoLogistica != null & IdTipoEnvio != 0)
+
+                if (!string.IsNullOrEmpty(IdTipoLogistica))
                     parametros.Add("@IdTipoLogistica", IdTipoLogistica);
-                if (TipoAlmacen != null & TipoAlmacen != 0)
-                    parametros.Add("@TipoAlmacen", TipoAlmacen);
-                if (Almacen != null & Almacen != 0)
-                    parametros.Add("@Almacen", Almacen);
+
+
+                if (!string.IsNullOrEmpty(json))
+                    parametros.Add("@json", json);
+               
+
                 if (TipoFecha != null & TipoFecha != 0)
                     parametros.Add("@TipoFecha", TipoFecha);
                 if (Estatus != null & Estatus != 0)
                     parametros.Add("@Estatus", Estatus);
 
 
-                    parametros.Add("@Formato", Formato);
-  
+                parametros.Add("@Formato", Formato);
 
-                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_GraphEnviosVsEstatus]", false, parametros);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_GraphEnviosVsEstatus_v2]", false, parametros);
 
                 return ds;
             }

@@ -200,11 +200,13 @@ namespace ServicesManagement.Web.Controllers
             var DashboardTipoEnvio = new List<Combo>();
             var DashboardTipoServicio = new List<Combo>();
             var DashboardTipoLogistica = new List<Combo>();
+            var DashboardTipoAlmacen = new List<Combo>();
+            var DashboardAlmacen = new List<Combo>();
 
-            DashboardTrans.Add(new Combo { Value = "0", Text = "---Transportista--" });
-            DashboardTipoEnvio.Add(new Combo { Value = "0", Text = "---Tipo de Envio--" });
-            DashboardTipoServicio.Add(new Combo { Value = "0", Text = "---Tipo de Servicio--" });
-            DashboardTipoLogistica.Add(new Combo { Value = "0", Text = "---Tipo Logistica--" });
+            //DashboardTrans.Add(new Combo { Value = "0", Text = "---Transportista--" });
+            //DashboardTipoEnvio.Add(new Combo { Value = "0", Text = "---Tipo de Envio--" });
+            //DashboardTipoServicio.Add(new Combo { Value = "0", Text = "---Tipo de Servicio--" });
+            //DashboardTipoLogistica.Add(new Combo { Value = "0", Text = "---Tipo Logistica--" });
 
 
             foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTrans().Tables[0].Rows)
@@ -213,7 +215,7 @@ namespace ServicesManagement.Web.Controllers
                 {
                     Value = item[0].ToString(),
                     Text = item[1].ToString(),
-                    Selected =false
+                    Selected = false
 
                 });
             }
@@ -245,14 +247,43 @@ namespace ServicesManagement.Web.Controllers
                 {
                     Value = item[0].ToString(),
                     Text = item[1].ToString(),
-                    Selected =  false
+                    Selected = false
                 });
             }
+
+ 
+            foreach (DataRow item in DALDashboard.spOwners_v3_sUP().Tables[0].Rows)
+            {
+                DashboardTipoAlmacen.Add(new Combo
+                {
+                    Value = item["idOwner"].ToString(),
+                    Text = item["ownerName"].ToString(),
+                    Selected = false
+                });
+
+            }
+
+            string idsOwner = string.Join(",", DashboardTipoAlmacen.Select(x => x.Value.ToString()).ToArray());
+
+
+            foreach (DataRow item in DALCatalogo.upCorpTms_Cns_SuppliersByIds(idsOwner).Tables[0].Rows)
+            {
+                DashboardAlmacen.Add(new Combo
+                {
+                    Value = item["IdProveedor"].ToString(),
+                    Text = item["NombreProveedor"].ToString(),
+                    Selected = false
+                });
+
+            }
+
 
             ViewBag.DashboardTipoEnvio = DashboardTipoEnvio;
             ViewBag.DashboardTrans = DashboardTrans;
             ViewBag.DashboardTipoServicio = DashboardTipoServicio;
             ViewBag.DashboardTipoLogistica = DashboardTipoLogistica;
+            ViewBag.DashboardTipoAlmacen = DashboardTipoAlmacen;
+            ViewBag.DashboardAlmacen = DashboardAlmacen;
 
 
 
@@ -2157,9 +2188,9 @@ namespace ServicesManagement.Web.Controllers
         }
 
 
-        public ActionResult EstatusEnvio(DateTime FecIni, DateTime FecFin, string op = "4", int? IdTransportista = null
-            , int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null, int? TipoFecha=null, int? Estatus=null
-            ,int? TipoAlmacen=null,int? Almacen=null)
+        public ActionResult EstatusEnvio(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+            , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha=null, int? Estatus=null
+            ,string json =null)
         {
             try
             {
@@ -2198,7 +2229,7 @@ namespace ServicesManagement.Web.Controllers
 
        
 
-                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, TipoAlmacen,Almacen, TipoFecha,Estatus, formato);
+                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus_v2(FecIni,FecFin,IdTransportista,IdTipoEnvio,IdTipoServicio,IdTipoLogistica,json,TipoFecha,Estatus,formato);
 
 
                 foreach (DataRow item in ds.Tables[0].Rows)
