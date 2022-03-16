@@ -107,13 +107,13 @@
     }
 </style>
 
-<link href="~/Content/DeliveryLineTime.css" rel="stylesheet" />
+@*<link href="~/Content/DeliveryLineTime.css" rel="stylesheet" />*@
 <div id="divIndicadores">
     @{
         Html.RenderAction("IndicadoresOp", new { FecIni = DateTime.Now.AddDays(-15), FecFin = DateTime.Now });
     }
 </div>
-<div class="row">
+<div class="row" id="divEnviosGenVsEst">
     <div class="col-lg-12">
         <div class="ibox ">
             <div class="ibox-title">
@@ -296,7 +296,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" id="divEnviosTipoLog">
     <div class="col-lg-12">
 
         <div class="row">
@@ -487,6 +487,141 @@
         </div>
     </div>
 </div>
+<div class="row" id="divEnviosEstDes">
+    <div class="col-lg-12">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Envíos por tipo de logística</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button type="button" id="btnEstDes1" class="btn btn-xs btn-white" onclick="EstDes('1',1)">Hoy</button>
+                                <button type="button" id="btnEstDes2" class="btn btn-xs btn-white" onclick="EstDes('2',1)">Mensual</button>
+                                <button type="button" id="btnEstDes3" class="btn btn-xs btn-white" onclick="EstDes('3',1)">Anual</button>
+                                <div class="input-group date" id="datetimepicker7">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecEstDesIni"
+                                           type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
+                                </div>
+                                <div class="input-group date" id="datetimepicker8">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecEstDesFin"
+                                           type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
+                                </div>
+                                <select id="ddlTransEstDes" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTrans)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                @*<select id="ddlTipoEnvioEstDes" class="form-control" multiple size="6">
+                                        @foreach (var item in ViewBag.DashboardTipoEnvio)
+                                        {
+                                            if (item.Selected)
+                                            {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </select>*@
+                                <select id="ddlTipoServicioEstDes" class="form-ddlTipoServicioEstDes" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoServicio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                @*<select id="ddlTipoLogisticaMapa" class="form-control" multiple size="6">
+
+                                        @foreach (var item in ViewBag.DashboardTipoLogistica)
+                                        {
+                                            if (item.Selected)
+                                            {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </select>*@
+                                <select id="ddlEstatusEstDes" class="form-control">
+                                    <option value="3">AMBOS ESTATUS</option>
+                                    <option value="1">EN TRANSITO</option>
+                                    <option value="2">ENTREGADO</option>
+                                </select>
+                                <select class="form-control" id="lstIdAlmacenEstDes" name="lstIdAlmacenEstDes" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select>
+                                <select class="form-control m-b" id="ddlSuppliersEstDes" name="ddlSuppliersEstDes" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select><br />
+                                <button type="button" id="btnEstDes4" name="btnEstDes4" class="btn btn-sm btn-white" onclick="EstDes('4',1)">Aplicar filtros</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="row" style="padding-top:50px;">
+                            <div class="col-lg-3">
+
+                            </div>
+                            <div class="col-lg-3">
+
+                            </div>
+                            <div class="col-lg-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 @section scripts {
@@ -517,7 +652,7 @@
     <script src="~/Content/plugins/datatables/datatables.js"></script>
 
     <script type="text/javascript">
-
+        var clock;
         $(function () {
             $('#datetimepicker1').datetimepicker({
 
@@ -552,8 +687,81 @@
                 locale: 'es'
                 , format: "yyyy/MM/DD"
             });
-        });
 
+            $('#datetimepicker7').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker8').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+        });
+        $(document).ready(function () {
+
+            init("ddlTrans");
+            init("ddlTipoEnvio");
+            init("ddlTipoServicio");
+            init("ddlTipoLogistica");
+
+
+            init("ddlTransEst");
+            init("ddlTipoEnvioEst");
+            init("ddlTipoServicioEst");
+            init("ddlTipoLogisticaEst");
+            init("lstIdAlmacen");
+            init("ddlSuppliers");
+
+            init("ddlTransMapa");
+            init("ddlTipoEnvioMapa");
+            init("ddlTipoServicioMapa");
+            //init("ddlTipoLogisticaMapa");
+            init("lstIdAlmacenMapa");
+            init("ddlSuppliersMapa");
+
+            init("ddlTransEstDes");
+            init("ddlTipoServicioEstDes");
+            init("lstIdAlmacenEstDes");
+            init("ddlSuppliersEstDes");
+
+
+
+            setValues("ddlTrans", 'all');
+            setValues("ddlTipoEnvio", 'all');
+            setValues("ddlTipoServicio", 'all');
+            setValues("ddlTipoLogistica", 'all');
+
+
+            setValues("ddlTransEst", 'all');
+            setValues("ddlTipoEnvioEst", 'all');
+            setValues("ddlTipoServicioEst", 'all');
+            setValues("ddlTipoLogisticaEst", 'all');
+            setValues("lstIdAlmacen", 'all');
+            setValues("ddlSuppliers", 'all');
+
+            setValues("ddlTransMapa", 'all');
+            setValues("ddlTipoEnvioMapa", 'all');
+            setValues("ddlTipoServicioMapa", 'all');
+            //setValues("ddlTipoLogisticaMapa", 'all');
+            setValues("lstIdAlmacenMapa", 'all');
+            setValues("ddlSuppliersMapa", 'all');
+
+            setValues("ddlTransEstDes", 'all');
+            setValues("ddlTipoServicioEstDes", 'all');
+            setValues("lstIdAlmacenEstDes", 'all');
+            setValues("ddlSuppliersEstDes", 'all');
+
+            Grafica("4", 0);
+            Mapa("4", 0);
+            //clock = $('.clock').FlipClock({
+            //    clockFace: 'TwelveHourClock'
+            //});
+
+            //VerificarGastosPorTienda();
+
+        });
 
 
         function gd(year, month, day) {
@@ -571,11 +779,37 @@
             var _FecIni = $("#txtFecIndIni").val();
             var _FecFin = $("#txtFecIndFin").val();
 
-            var _IdTransportista = $("#ddlTrans").val();
-            var _IdTipoEnvio = $("#ddlTipoEnvio").val();
-            var _IdTipoServicio = $("#ddlTipoServicio").val();
-            var _IdTipoLogistica = $("#ddlTipoLogistica").val();
-            // int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null
+
+
+            var _IdTransportista = getValues('ddlTrans');
+            var _IdTipoEnvio = getValues('ddlTipoEnvio');
+            var _IdTipoServicio = getValues('ddlTipoServicio');
+            var _IdTipoLogistica = getValues('ddlTipoLogistica');
+
+            if (_IdTransportista.length == 0) {
+                alert('Debe de Seleccionar minimo un Transportista');
+                $("#ddlTrans").focus();
+                return;
+            }
+
+            if (_IdTipoEnvio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de envío');
+                $("#ddlTipoEnvio").focus();
+                return;
+            }
+
+            if (_IdTipoServicio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Servicio');
+                $("#ddlTipoServicio").focus();
+                return;
+            }
+
+            if (_IdTipoLogistica.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Logistica');
+                $("#ddlTipoLogistica").focus();
+                return;
+            }
+
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("IndicadoresOp", "TMS")',
@@ -584,10 +818,10 @@
                     FecIni: _FecIni,
                     FecFin: _FecFin,
                     op: opc,
-                    IdTransportista: _IdTransportista,
-                    IdTipoEnvio: _IdTipoEnvio,
-                    IdTipoServicio: _IdTipoServicio,
-                    IdTipoLogistica: _IdTipoLogistica
+                    IdTransportista: _IdTransportista.join(','),
+                    IdTipoEnvio: _IdTipoEnvio.join(','),
+                    IdTipoServicio: _IdTipoServicio.join(','),
+                    IdTipoLogistica: _IdTipoLogistica.join(','),
                 },
             cache: false,
                 success: function (data) {
@@ -603,12 +837,21 @@
                         locale: 'es'
                         , format: "yyyy/MM/DD"
                     });
+                    init("ddlTrans");
+                    init("ddlTipoEnvio");
+                    init("ddlTipoServicio");
+                    init("ddlTipoLogistica");
+
+
+                    setValues("ddlTrans", _IdTransportista.join(','));
+                    setValues("ddlTipoEnvio", _IdTipoEnvio.join(','));
+                    setValues("ddlTipoServicio", _IdTipoServicio.join(','));
+                    setValues("ddlTipoLogistica", _IdTipoLogistica.join(','));
                 //$('#tabItemDetails').html(grid);
                 //clientBehaviors.applyPlugins($("#tabProductDetails")); // "tabProductDetails" is an id of div in your "Details partial view"
             }
         });
         }
-
         function Grafica(opc,origen) {
 
 
@@ -619,13 +862,7 @@
 
             $('#btnEst' + opc).addClass('active');
 
-
-
-
-
             var count = 1;
-
-
 
             var _TipoFecha = $("#ddlTipoFecha").val();
             var _Estatus = $("#ddlEstatus").val();
@@ -643,7 +880,7 @@
             var _Almacen = getValues('ddlSuppliers');
 
 
-            
+
             if (_IdTransportista.length == 0) {
                 alert('Debe de Seleccionar minimo un Transportista');
                 $("#ddlTransEst").focus();
@@ -697,7 +934,7 @@
             });
 
 
-            
+
 
             var fecIni = $("#txtFecEstIni").val();
             var fecFin = $("#txtFecEstFin").val();
@@ -719,9 +956,9 @@
                  },
                 datatype: "html",
                  success: function (data) {
-                    
+
                     if (data.Success) {
-                        
+
                         var data2 = [];
                         var data3 = [];
 
@@ -737,7 +974,7 @@
                         }
 
 
-                        
+
 
                         var dataset = [
                             {
@@ -913,8 +1150,6 @@
                 }
             });
         }
-
-
         function Mapa(opc,origen) {
 
 
@@ -925,19 +1160,8 @@
 
             $('#btnMapa' + opc).addClass('active');
 
-
-
-
-
             var count = 1;
-
-
-
-
             var _Estatus = $("#ddlEstatusMapa").val();
-
-
-
 
 
             var _IdTransportista = getValues('ddlTransMapa');
@@ -949,7 +1173,7 @@
             var _Almacen = getValues('ddlSuppliersMapa');
 
 
-            
+
             if (_IdTransportista.length == 0) {
                 alert('Debe de Seleccionar minimo un Transportista');
                 $("#ddlTransMapa").focus();
@@ -990,7 +1214,7 @@
 
             var _json = [];
 
-            getValues('ddlSuppliers').forEach(x => {
+            getValues('ddlSuppliersMapa').forEach(x => {
 
                 let _obj = {};
                 _obj.IdTienda = x.split('-')[0];
@@ -1003,7 +1227,7 @@
             });
 
 
-            
+
 
             var fecIni = $("#txtFecMapaIni").val();
             var fecFin = $("#txtFecMapaFin").val();
@@ -1024,7 +1248,7 @@
                  },
                 datatype: "html",
                  success: function (data) {
-                    
+
                     if (data.Success) {
                         $('#tblEnvioLogistica tbody').empty();
                         $(data.tabla).each(function (index, item) {
@@ -1048,11 +1272,11 @@
 
 
                         var _areas = {};
-                        
+
 
 
                         $(data.mapa).each(function (index, item) {
-                            var statedata = [];  
+                            var statedata = [];
                             var state = item.NomEstado;
 
                             var attrs = {
@@ -1109,7 +1333,217 @@
                             // Customize some areas of the map
                             areas: _areas
 
-    
+
+
+
+
+                        });
+                    }
+                    else {
+                        alert(data.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+        }
+        function EstDes(opc,origen) {
+
+
+            $("#btnEstDes1").removeClass("active");
+            $("#btnEstDes2").removeClass("active");
+            $("#btnEstDes3").removeClass("active");
+            $("#btnEstDes4").removeClass("active");
+
+            $('#btnEstDes' + opc).addClass('active');
+
+
+
+
+
+            var count = 1;
+
+
+
+
+            var _Estatus = $("#ddlEstatusEstDes").val();
+
+
+
+
+
+            var _IdTransportista = getValues('ddlTransEstDes');
+            var _IdTipoEnvio = getValues('ddlTipoEnvioEstDes');
+            var _IdTipoServicio = getValues('ddlTipoServicioEstDes');
+            //var _IdTipoLogistica = getValues('ddlTipoLogisticaMapa');
+
+            var _TipoAlmacen = getValues('lstIdAlmacenEstDes');
+            var _Almacen = getValues('ddlSuppliersEstDes');
+
+
+
+            if (_IdTransportista.length == 0) {
+                alert('Debe de Seleccionar minimo un Transportista');
+                $("#ddlTransEstDes").focus();
+                return;
+            }
+
+            if (_IdTipoEnvio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de envío');
+                $("#ddlTipoEnvioEstDes").focus();
+                return;
+            }
+
+            if (_IdTipoServicio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Servicio');
+                $("#ddlTipoServicioEstDes").focus();
+                return;
+            }
+
+            //if (_IdTipoLogistica.length == 0) {
+            //    alert('Debe de Seleccionar minimo un Tipo de Logistica');
+            //    $("#ddlTipoLogisticaMapa").focus();
+            //    return;
+            //}
+
+            if (origen != 0) {
+                if (_TipoAlmacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#lstIdAlmacenEstDes").focus();
+                    return;
+                }
+
+                if (_Almacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#ddlSuppliersEstDes").focus();
+                    return;
+                }
+            }
+
+            var _json = [];
+
+            getValues('ddlSuppliersEstDes').forEach(x => {
+
+                let _obj = {};
+                _obj.IdTienda = x.split('-')[0];
+                _obj.IdOwner = x.split('-')[1];
+                _obj.Nombre = x.split('-')[2];
+                _obj.NombreProveedor = x.split('-')[3];
+                _json.push(_obj);
+
+                count = count + 1;
+            });
+
+
+
+
+            var fecIni = $("#txtFecEstDesIni").val();
+            var fecFin = $("#txtFecEstDesFin").val();
+             $.ajax({
+                async: false,
+                type: "POST",
+                 url: '@Url.Action("EnvioLogistica", "TMS")',
+                 data: {
+                     FecIni: fecIni,
+                     FecFin: fecFin,
+                     op: opc,
+                     IdTransportista: _IdTransportista.join(','),
+                     IdTipoEnvio: _IdTipoEnvio.join(','),
+                     IdTipoServicio: _IdTipoServicio.join(','),
+                     //IdTipoLogistica: _IdTipoLogistica.join(','),
+                     Estatus: _Estatus,
+                     json: JSON.stringify(_json)
+                 },
+                datatype: "html",
+                 success: function (data) {
+
+                    if (data.Success) {
+                        $('#tblEnvioLogistica tbody').empty();
+                        $(data.tabla).each(function (index, item) {
+
+                            $('#tblEnvioLogistica tbody').append(
+                                '<tr><td class="text-center">' + item.Ordenamiento + '</td>'
+                                + '<td>' + item.TipoLogistica + '</td>'
+                                + '<td class="text-center small">' + item.Porcentaje + '</td>'
+                                + '<td class="text-center"><span style="background-color:' + item.Color +';" class="label label-primary">' + item.TotEnvios + '</span></td></tr>'
+                                //  + '<td class="text-center"><span  style="color:#FFFFFF;background-color:' + item.Color+'">' + item.TotEnvios + '</span></td></tr>'
+                            )
+
+
+                        });
+                        //console.log(data.mapa)
+                        //var estados = JSON.stringify(data.mapa);
+                        //var obj = JSON.parse(estados);
+                        //console.log(estados)
+
+                        //var _areas = {};
+
+
+                        var _areas = {};
+
+
+
+                        $(data.mapa).each(function (index, item) {
+                            var statedata = [];
+                            var state = item.NomEstado;
+
+                            var attrs = {
+                                fill: item.Color
+                            };
+
+                            var attrsHover = {
+                                fill: item.Color
+                            };
+
+                            var tooltip = {
+                                content: item.Tooltip
+                            }
+
+                            statedata.push(state);
+                            _areas[statedata] = {
+
+                                attrsHover: attrsHover,
+                                attrs: attrs,
+                                tooltip: tooltip
+                            };
+                        });
+
+
+                        $(".mapcontainer").mapael({
+                            map: {
+                                name: "mexico"
+                                // Enable zoom on the map
+                                , zoom: {
+                                    enabled: true,
+                                    maxLevel: 10
+                                }
+                                , defaultArea: {
+                                    attrs: {
+                                        fill: "#f4f4e8"
+                                        , stroke: "#ced8d0"
+                                    }
+                                    , attrsHover: {
+                                        fill: "#a4e100"
+                                    }
+                                    , text: {
+                                        attrs: {
+                                            fill: "#505444"
+                                        }
+                                        , attrsHover: {
+                                            fill: "#000"
+                                        }
+                                    }
+                                }
+                            },
+
+
+
+                            // Customize some areas of the map
+                            areas: _areas
+
+
 
 
 
@@ -1126,242 +1560,6 @@
             });
         }
 
-
-
-        var clock;
-
-        $(document).ready(function () {
-
-            init("ddlTransEst");
-            init("ddlTipoEnvioEst");
-            init("ddlTipoServicioEst");
-            init("ddlTipoLogisticaEst");
-            init("lstIdAlmacen");
-            init("ddlSuppliers");
-
-            init("ddlTransMapa");
-            init("ddlTipoEnvioMapa");
-            init("ddlTipoServicioMapa");
-            //init("ddlTipoLogisticaMapa");
-            init("lstIdAlmacenMapa");
-            init("ddlSuppliersMapa");
-
-
-
-            setValues("ddlTransEst", 'all');
-            setValues("ddlTipoEnvioEst", 'all');
-            setValues("ddlTipoServicioEst", 'all');
-            setValues("ddlTipoLogisticaEst", 'all');
-            setValues("lstIdAlmacen", 'all');
-            setValues("ddlSuppliers", 'all');
-
-            setValues("ddlTransMapa", 'all');
-            setValues("ddlTipoEnvioMapa", 'all');
-            setValues("ddlTipoServicioMapa", 'all');
-            //setValues("ddlTipoLogisticaMapa", 'all');
-            setValues("lstIdAlmacenMapa", 'all');
-            setValues("ddlSuppliersMapa", 'all');
-
-            Grafica("4",0);
-            Mapa("4",0);
-            //clock = $('.clock').FlipClock({
-            //    clockFace: 'TwelveHourClock'
-            //});
-
-            //VerificarGastosPorTienda();
-
-        });
-
-
-
-
-        //$(".mapcontainer").mapael({
-        //    map: {
-        //        name: "mexico"
-        //        // Enable zoom on the map
-        //        , zoom: {
-        //            enabled: true,
-        //            maxLevel: 10
-        //        }
-        //        , defaultArea: {
-        //            attrs: {
-        //                fill: "#f4f4e8"
-        //                , stroke: "#ced8d0"
-        //            }
-        //            , attrsHover: {
-        //                fill: "#a4e100"
-        //            }
-        //            , text: {
-        //                attrs: {
-        //                    fill: "#505444"
-        //                }
-        //                , attrsHover: {
-        //                    fill: "#000"
-        //                }
-        //            }
-        //        }
-        //    },
-
-        //    // Customize some areas of the map
-        //    areas: {
-
-        //        "ciudad de mexico": {
-        //            attrs: {
-        //                fill: "#c70619"
-        //            }
-        //            , attrsHover: {
-        //                fill: "#ed2d40"
-        //            }
-        //            , value: 499
-        //            , tooltip: { content: "<span style=\"font-weight:bold;\">Nord (59)</span><br />Population : 2617939" }
-        //        },
-        //        //"baja california": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"baja california sur": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"baja california sur": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"campeche": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"coahuila": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"colima": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"chiapas": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"chihuahua": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"durango": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    },
-        //        //    value: "162068",
-        //        //    href: "#",
-        //        //    tooltip: { content: "<center> Durango </center> <br> Toronja 118 Local 5 Plaza Ãngel Fracc. La Glorieta, C.P. 34207<br><br> Durango, Dgo. <br><br>Presidente: Ing. Wilfrido RincÃ³n Arredondo" }
-        //        //},
-
-
-
-        //        //"guanajuato": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"guerrero": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"hidalgo": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-        //        //"nuevo leon": {
-        //        //    attrs: {
-        //        //        fill: "#c70619"
-        //        //    }
-        //        //    , attrsHover: {
-        //        //        fill: "#ed2d40"
-        //        //    }
-        //        //},
-
-        //    },
-
-        //    //plots: {
-
-
-        //    //    'NL': {
-        //    //        latitude: 25.6750698,
-        //    //        longitude: -100.3184662,
-        //    //        tooltip: { content: "Guadalupe" },
-        //    //        value: "circle",
-        //    //        size: 30,
-        //    //        text: {
-        //    //            content: "33",
-        //    //            position: "inner",
-        //    //            attrs: {
-        //    //                "font-size": 16
-        //    //                , "font-weight": "bold"
-        //    //                , fill: "#fff"
-        //    //            },
-        //    //            attrsHover: {
-        //    //                "font-size": 16
-        //    //                , "font-weight": "bold"
-        //    //                , fill: "#fff"
-        //    //            }
-        //    //        }
-        //    //    },
-
-        //    //}
-
-        //});
-
-
-
-
-
-
         function VerificarGastosPorTienda() {
              $.ajax({
                 async: false,
@@ -1372,7 +1570,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    
+
                     if (json.Success) {
 
                         if (!json.Gastos)
@@ -1396,12 +1594,8 @@
             });
         }
 
-        $("#lstIdAlmacen").change(function () {
 
-            GetSupp(getValues('lstIdAlmacen').join(','));
-
-        });
-            function GetSupp(_idOwner) {
+        @*function GetSupp(_idOwner) {
             $.ajax({
 
                 type: "GET",
@@ -1411,7 +1605,7 @@
                 },
                 datatype: "html",
                 success: function (json) {
-                    
+
                     if (json.Success) {
 
                         var sel = $("#ddlSuppliers");
@@ -1440,8 +1634,59 @@
                 }
             });
 
-        }
+        }*@
 
+        $("#lstIdAlmacen").change(function () {
+
+            GetSupp(getValues('lstIdAlmacen').join(','), 'ddlSuppliers');
+
+        });
+
+        $("#lstIdAlmacenMapa").change(function () {
+
+            GetSupp(getValues('lstIdAlmacenMapa').join(','), 'ddlSuppliersMapa');
+
+        });
+        function GetSupp(_idOwner,idCombo) {
+            $.ajax({
+
+                type: "GET",
+                url: '@Url.Action("ListSuppliersById2", "Catalogo")',
+                data: {
+                    idsOwner: _idOwner
+                },
+                datatype: "html",
+                success: function (json) {
+
+                    if (json.Success) {
+
+                        var sel = $("#" + idCombo);
+                        sel.empty();
+
+                        for (var i = 0; i < json.resp.length; i++) {
+                            sel.append('<option value="' + json.resp[i].IdProveedor + '">' + json.resp[i].NombreProveedor.replace(/'/g, '').trim() + '</option>');
+
+                        }
+
+                        init(idCombo);
+
+                        setValues(idCombo, 'all');
+
+
+
+
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+
+                }
+            });
+
+        }
     </script>
     <script>
         function empty() {
@@ -1461,6 +1706,28 @@
             }
         }
         function init(id) {
+
+            if (id == "ddlTrans") {
+
+                selectBoxTrans = new vanillaSelectBox("#ddlTrans", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items": "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoEnvio") {
+
+                selectBoxTipoEnvio = new vanillaSelectBox("#ddlTipoEnvio", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Envio", "items": " Tipo de Envio Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoServicio") {
+
+                selectBoxTipoServo = new vanillaSelectBox("#ddlTipoServicio", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Servicios", "items": " Tipo de Servicios Seleccionados ", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoLogistica") {
+
+                selectBoxTipoLogistica = new vanillaSelectBox("#ddlTipoLogistica", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
             if (id == "lstIdAlmacen") {
 
                 selectBox1 = new vanillaSelectBox("#lstIdAlmacen", { "disableSelectAll": true, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Almacenes", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
@@ -1524,7 +1791,36 @@
             }
 
 
+            if (id == "lstIdAlmacenEstDes") {
 
+                selectBoxlstIdAlmacenEstDes = new vanillaSelectBox("#lstIdAlmacenEstDes", { "disableSelectAll": true, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Almacenes", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlSuppliersEstDes") {
+                selectBoxddlSuppliersEstDes = new vanillaSelectBox("#ddlSuppliersEstDes", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todas las Tiendas", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            }
+            if (id == "ddlTransEstDes") {
+
+                selectBoxTransEstDes = new vanillaSelectBox("#ddlTransEstDes", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items": "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoEnvioEstDes") {
+
+                selectBoxTipoEnvioEstDes = new vanillaSelectBox("#ddlTipoEnvioEstDes", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Envio", "items": " Tipo de Envio Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+            if (id == "ddlTipoServicioEstDes") {
+
+                selectBoxTipoServoEstDes = new vanillaSelectBox("#ddlTipoServicioEstDes", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Servicios", "items": " Tipo de Servicios Seleccionados ", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+            if (id == "ddlTipoLogisticaEstDes") {
+
+                selectBoxTipoLogisticaEstDes = new vanillaSelectBox("#ddlTipoLogisticaEstDes", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
         }
         function setValuesAlmacen(value) {
             if (selectBox1 != null) {
@@ -1549,6 +1845,24 @@
         }
 
         function setValues(id, value) {
+            if (id == "ddlTrans" && selectBoxTrans != null) {
+                selectBoxTrans.setValue(value);
+            }
+
+            if (id == "ddlTipoEnvio" && selectBoxTipoEnvio != null) {
+                selectBoxTipoEnvio.setValue(value);
+            }
+
+            if (id == "ddlTipoServicio" && selectBoxTipoServo != null) {
+                selectBoxTipoServo.setValue(value);
+            }
+
+            if (id == "ddlTipoLogistica" && selectBoxTipoLogistica != null) {
+                selectBoxTipoLogistica.setValue(value);
+            }
+
+
+
             if (id == "lstIdAlmacen" && selectBox1 != null) {
                 selectBox1.setValue(value);
             }
@@ -1594,6 +1908,30 @@
             if (id == "ddlTipoLogisticaMapa" && selectBoxTipoLogisticaMapa != null) {
                 selectBoxTipoLogisticaMapa.setValue(value);
             }
+
+            if (id == "lstIdAlmacenEstDes" && selectBoxlstIdAlmacenEstDes != null) {
+                selectBoxlstIdAlmacenEstDes.setValue(value);
+            }
+            if (id == "ddlSuppliersEstDes" && selectBoxddlSuppliersEstDes != null) {
+                selectBoxddlSuppliersEstDes.setValue(value);
+            }
+
+            if (id == "ddlTransEstDes" && selectBoxTransEstDes != null) {
+                selectBoxTransEstDes.setValue(value);
+            }
+
+
+
+            if (id == "ddlTipoServicioEstDes" && selectBoxTipoServoEstDes != null) {
+                selectBoxTipoServoEstDes.setValue(value);
+            }
+
+            if (id == "ddlTipoLogisticaEstDes" && selectBoxTipoLogisticaEstDes != null) {
+                selectBoxTipoLogisticaEstDes.setValue(value);
+            }
+
+
+
         }
     </script>
 
