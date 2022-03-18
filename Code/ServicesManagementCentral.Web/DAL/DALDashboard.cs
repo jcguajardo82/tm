@@ -77,45 +77,45 @@ namespace ServicesManagement.Web.DAL
 
             try
             {
-                //Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString);
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString);
 
-                //System.Collections.Hashtable parametros = new System.Collections.Hashtable();
-                //parametros.Add("@fechaini", fechaini.ToString("yyyy-MM-dd"));
-                //parametros.Add("@fechafin", fechafin.ToString("yyyy-MM-dd"));
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@fechaini", fechaini.ToString("yyyy-MM-dd"));
+                parametros.Add("@fechafin", fechafin.ToString("yyyy-MM-dd"));
 
-                //parametros.Add("@IdTransportista", IdTransportista);
+                parametros.Add("@IdTransportista", IdTransportista);
 
-                //parametros.Add("@IdTipoEnvio", IdTipoEnvio);
+                parametros.Add("@IdTipoEnvio", IdTipoEnvio);
 
-                //parametros.Add("@IdTipoServicio", IdTipoServicio);
+                parametros.Add("@IdTipoServicio", IdTipoServicio);
 
-                //parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+                parametros.Add("@IdTipoLogistica", IdTipoLogistica);
 
-                //ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_Tableros_v2]", false, parametros);
-
-                //return ds;
-                using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("dbo.upCorpOms_Cns_Tableros_v2", con))
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@fechaini", fechafin);
-                        cmd.Parameters.AddWithValue("@fechafin", fechafin);
-                        cmd.Parameters.AddWithValue("@IdTransportista", IdTransportista);
-                        cmd.Parameters.AddWithValue("@IdTipoEnvio", IdTipoEnvio);
-                        cmd.Parameters.AddWithValue("@IdTipoServicio", IdTipoServicio);
-                        cmd.Parameters.AddWithValue("@IdTipoLogistica", IdTipoLogistica);
-
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        SqlDataAdapter da = new SqlDataAdapter();
-                        da.SelectCommand = cmd;
-
-                        da.Fill(ds);
-                    }
-                }
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_Tableros_v2]", false, parametros);
 
                 return ds;
+                //using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString))
+                //{
+                //    using (SqlCommand cmd = new SqlCommand("dbo.upCorpOms_Cns_Tableros_v2", con))
+                //    {
+                //        cmd.CommandType = CommandType.StoredProcedure;
+                //        cmd.Parameters.AddWithValue("@fechaini", fechaini);
+                //        cmd.Parameters.AddWithValue("@fechafin", fechafin);
+                //        cmd.Parameters.AddWithValue("@IdTransportista", IdTransportista);
+                //        cmd.Parameters.AddWithValue("@IdTipoEnvio", IdTipoEnvio);
+                //        cmd.Parameters.AddWithValue("@IdTipoServicio", IdTipoServicio);
+                //        cmd.Parameters.AddWithValue("@IdTipoLogistica", IdTipoLogistica);
+
+                //        cmd.CommandType = CommandType.StoredProcedure;
+
+                //        SqlDataAdapter da = new SqlDataAdapter();
+                //        da.SelectCommand = cmd;
+
+                //        da.Fill(ds);
+                //    }
+                //}
+
+                //return ds;
             }
             catch (SqlException ex)
             {
