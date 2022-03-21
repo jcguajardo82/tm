@@ -260,6 +260,7 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
+    <Compile Include="Models\Dashboard\CumplimientoEntrega.cs" />
     <Compile Include="Models\Dashboard\EnviosLogistica.cs" />
     <Compile Include="Models\Dashboard\EnviosVsEstatus.cs" />
     <Compile Include="Models\Dashboard\EstatusOP.cs" />
@@ -583,6 +584,7 @@
     <Content Include="Content\Inspinia\plugins\easypiechart\jquery.easypiechart.js" />
     <Content Include="Content\Inspinia\plugins\flot\curvedLines.js" />
     <Content Include="Content\Inspinia\plugins\flot\excanvas.min.js" />
+    <Content Include="Content\Inspinia\plugins\flot\jquery.flot.axislabels.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.pie.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.resize.js" />
