@@ -265,6 +265,7 @@ namespace ServicesManagement.Web.DAL
         }
 
 
+        
         public static DataSet spOwners_v3_sUP()
         {
 
@@ -693,6 +694,64 @@ namespace ServicesManagement.Web.DAL
 
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[upCorpTms_Cns_DashboardCumplimientoTransporte]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public static DataSet upCorpTms_Cns_DashboardEnviosEstadoDestino(DateTime? fechaini, DateTime? fechafin
+, string IdTransportista,  string IdTipoServicio
+, string json, int? Estatus)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@fechaini", fechaini);
+                parametros.Add("@fechafin", fechafin);
+
+                if (!string.IsNullOrEmpty(IdTransportista))
+                    parametros.Add("@IdTransportista", IdTransportista);
+
+
+
+                if (!string.IsNullOrEmpty(IdTipoServicio))
+                    parametros.Add("@IdTipoServicio", IdTipoServicio);
+
+
+
+                if (!string.IsNullOrEmpty(json))
+                    parametros.Add("@json", json);
+
+                if (Estatus != null & Estatus != 0)
+                    parametros.Add("@Estatus", Estatus);
+
+
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[upCorpTms_Cns_DashboardEnviosEstadoDestino]", false, parametros);
 
                 return ds;
             }

@@ -2355,6 +2355,77 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
+
+        public ActionResult EnvioEstadoDestino(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+, string IdTipoServicio = null, int? Estatus = null
+, string json = null)
+        {
+            try
+            {
+
+
+
+
+                List<DatosEstatus> lstDatosEstatus = new List<DatosEstatus>();
+                string frecuencia = string.Empty;
+
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+
+
+                //FecIni = Convert.ToDateTime("2022-01-01");
+                //FecFin   = Convert.ToDateTime("2022-01-15");
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardEnviosEstadoDestino(FecIni, FecFin, IdTransportista, IdTipoServicio, json, Estatus);
+
+                var _tabla = DataTableToModel.ConvertTo<EnviosLogistica>(ds.Tables[0]);
+
+                var _tabla2 = DataTableToModel.ConvertTo<EnviosLogistica>(ds.Tables[1]);
+
+                var _tabla3 = DataTableToModel.ConvertTo<EnviosLogistica>(ds.Tables[2]);
+
+                var estados = ProcesaInfoEdosPaq(_tabla3);
+
+
+                var result1 = new { Success = true, tabla = _tabla,
+                    tabla2 = _tabla2
+                    , mapa = estados 
+                };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
         public List<EnviosLogistica> ProcesaInfoEdos(List<EnviosLogistica> info)
         {
             try
@@ -2395,6 +2466,48 @@ namespace ServicesManagement.Web.Controllers
             }
 
         }
+
+        public List<EnviosLogistica> ProcesaInfoEdosPaq(List<EnviosLogistica> info)
+        {
+            try
+            {
+                var result = new List<EnviosLogistica>();
+
+                var edos = (from d in info select d.NomEstado).Distinct().ToArray();
+
+                foreach (var item in edos)
+                {
+                    string tooltip = string.Empty;
+                    var edo = info.OrderByDescending(x => x.Porcentaje).Where(x => x.NomEstado == item).FirstOrDefault();
+
+                    int con = 0;
+                    foreach (var i in info.OrderByDescending(x => x.Porcentaje).Where(y => y.NomEstado == item).ToList())
+                    {
+                        if (con == 0)
+                        {
+                            tooltip += string.Format("<span style =\"font-weight:bold;\">{0} ({1} - {2}%)</span>", i.TipoEnvio.ToUpperInvariant(), i.TotEnvios, i.Porcentaje);
+                        }
+                        else
+                        {
+                            tooltip += string.Format("<br/>{0} ({1} - {2}%)", i.TipoEnvio.ToUpperInvariant(), i.TotEnvios, i.Porcentaje);
+                        }
+                        con++;
+                    }
+
+                    edo.Tooltip = tooltip;
+                    result.Add(edo);
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public ActionResult IniciarComboTipoAlmacen()
         {
             try
