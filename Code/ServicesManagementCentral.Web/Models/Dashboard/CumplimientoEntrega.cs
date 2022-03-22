@@ -8,7 +8,7 @@ namespace ServicesManagement.Web.Models.Dashboard
     public class CumplimientoEntrega
     {
             public DateTime Fecha { get; set; }
-            public int TotaL { get; set; }
+            public int Total { get; set; }
 
             public string Anio { get; set; }
             public string Mes { get; set; }

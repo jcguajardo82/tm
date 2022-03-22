@@ -261,6 +261,7 @@
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
     <Compile Include="Models\Dashboard\CumplimientoEntrega.cs" />
+    <Compile Include="Models\Dashboard\CumplimientoTransporte.cs" />
     <Compile Include="Models\Dashboard\EnviosLogistica.cs" />
     <Compile Include="Models\Dashboard\EnviosVsEstatus.cs" />
     <Compile Include="Models\Dashboard\EstatusOP.cs" />
