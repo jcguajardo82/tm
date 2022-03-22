@@ -2508,6 +2508,106 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpPost]
+        public ActionResult CumplCliente(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+            , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha = null, int? TipoPago = null
+            , string json = null)
+        {
+            try
+            {
+                List<CumplimientoEntrega> lstPaqueteria = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstBigTicket = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstGeneral = new List<CumplimientoEntrega>();
+                string frecuencia = string.Empty;
+                int formato = 1;
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+                        formato = 2;
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardCumplimientoCliente(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, json, TipoFecha, TipoPago, formato);
+
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstPaqueteria.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+
+
+                foreach (DataRow item in ds.Tables[1].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstBigTicket.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                foreach (DataRow item in ds.Tables[2].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstGeneral.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                var result1 = new { Success = true, Paqueteria = lstPaqueteria, BigTicket = lstBigTicket, General = lstGeneral };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
         public class Mapa
         {
 

@@ -632,12 +632,12 @@
                                 <button type="button" id="btnCumplEntrega1" class="btn btn-xs btn-white" onclick="GraficaCumplimientoEntrega(1)">Hoy</button>
                                 <button type="button" id="btnCumplEntrega2" class="btn btn-xs btn-white" onclick="GraficaCumplimientoEntrega(2)">Mensual</button>
                                 <button type="button" id="btnCumplEntrega3" class="btn btn-xs btn-white" onclick="GraficaCumplimientoEntrega(3)">Anual</button>
-                                <div class="input-group date" id="datetimepicker7">
+                                <div class="input-group date" id="datetimepickerCumplEntrega">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input class="form-control datepicker" id="txtFecCumplEntregaIni"
                                            type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
                                 </div>
-                                <div class="input-group date" id="datetimepicker8">
+                                <div class="input-group date" id="datetimepicker2CumplEntrega">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input class="form-control datepicker" id="txtFecCumplEntregaFin"
                                            type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
@@ -750,6 +750,138 @@
         </div>
     </div>
 </div>
+<div class="row" id="divEnviosCumplCliente">
+    <div class="col-lg-12">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Envíos por tipo de logística</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button type="button" id="btnCumplCliente1" class="btn btn-xs btn-white" onclick="GraficaCumplCliente(1)">Hoy</button>
+                                <button type="button" id="btnCumplCliente2" class="btn btn-xs btn-white" onclick="GraficaCumplCliente(2)">Mensual</button>
+                                <button type="button" id="btnCumplCliente3" class="btn btn-xs btn-white" onclick="GraficaCumplCliente(3)">Anual</button>
+                                <div class="input-group date" id="datetimepickerCumplCliente">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecCumplClienteIni"
+                                           type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
+                                </div>
+                                <div class="input-group date" id="datetimepicker2CumplCliente">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecCumplClienteFin"
+                                           type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
+                                </div>
+                                <select id="ddlTransCumplCliente" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTrans)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoEnvioCumplCliente" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoEnvio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoServicioCumplCliente" class="form-ddlTipoServicioEstDes" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoServicio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoLogisticaCumplCliente" class="form-control" multiple size="6">
+
+                                    @foreach (var item in ViewBag.DashboardTipoLogistica)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoFechaCumplCliente" class="form-control">
+                                    <option value="1">fecha creacion</option>
+                                    <option value="2">fecha entrega</option>
+                                </select>
+                                <select id="ddlTipoPagoCumplCliente" class="form-control">
+                                    <option value="3">AMBOS</option>
+                                    <option value="1">EN LINEA</option>
+                                    <option value="2">EN TIENDA</option>
+                                </select>
+                                <select class="form-control" id="lstIdAlmacenCumplCliente" name="lstIdAlmacenCumplCliente" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select>
+                                <select class="form-control m-b" id="ddlSuppliersCumplCliente" name="ddlSuppliersCumplCliente" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select><br />
+                                <button type="button" id="btnCumplCliente4" name="btnCumplCliente4" class="btn btn-sm btn-white" onclick="GraficaCumplCliente(4)">Aplicar filtros</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row" style="padding-top:50px;">
+                            <div class="col-lg-12">
+                                <div class="flot-chart">
+                                    <div class="flot-chart-content" id="flot-Chart-CumplCliente"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -820,12 +952,22 @@
                 , format: "yyyy/MM/DD"
             });
 
-            $('#datetimepicker7').datetimepicker({
+            $('#datetimepickerCumplEntrega').datetimepicker({
 
                 locale: 'es'
                 , format: "yyyy/MM/DD"
             });
-            $('#datetimepicker8').datetimepicker({
+            $('#datetimepicker2CumplEntrega').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepickerCumplCliente').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2CumplCliente').datetimepicker({
 
                 locale: 'es'
                 , format: "yyyy/MM/DD"
@@ -865,6 +1007,13 @@
             init("lstIdAlmacenCumplEntrega");
             init("ddlSuppliersCumplEntrega");
 
+            init("ddlTipoEnvioCumplCliente");
+            init("ddlTipoLogisticaCumplCliente");
+            init("ddlTransCumplCliente");
+            init("ddlTipoServicioCumplCliente");
+            init("lstIdAlmacenCumplCliente");
+            init("ddlSuppliersCumplCliente");
+
 
             setValues("ddlTrans", 'all');
             setValues("ddlTipoEnvio", 'all');
@@ -898,6 +1047,13 @@
             setValues("lstIdAlmacenCumplEntrega", 'all');
             setValues("ddlSuppliersCumplEntrega", 'all');
 
+            setValues("ddlTipoEnvioCumplCliente", 'all');
+            setValues("ddlTipoLogisticaCumplCliente", 'all');
+            setValues("ddlTransCumplCliente", 'all');
+            setValues("ddlTipoServicioCumplCliente", 'all');
+            setValues("lstIdAlmacenCumplCliente", 'all');
+            setValues("ddlSuppliersCumplCliente", 'all');
+
             Grafica("4", 0);
             Mapa("4", 0);
             //clock = $('.clock').FlipClock({
@@ -906,6 +1062,7 @@
 
             //VerificarGastosPorTienda();
             GraficaCumplimientoEntrega(3);
+            GraficaCumplCliente(3);
         });
 
 
@@ -1985,16 +2142,43 @@
                 selectBoxTipoEnvioCumplEntrega = new vanillaSelectBox("#ddlTipoEnvioCumplEntrega", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Envio", "items": " Tipo de Envio Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
 
             }
-
             if (id == "ddlTipoServicioCumplEntrega") {
 
                 selectBoxTipoServoCumplEntrega = new vanillaSelectBox("#ddlTipoServicioCumplEntrega", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Servicios", "items": " Tipo de Servicios Seleccionados ", "selectAll": "Check All", "clearAll": "Clear All" } });
 
             }
-
             if (id == "ddlTipoLogisticaCumplEntrega") {
 
                 selectBoxTipoLogisticaCumplEntrega = new vanillaSelectBox("#ddlTipoLogisticaCumplEntrega", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+
+            if (id == "lstIdAlmacenCumplCliente") {
+
+                selectBoxlstIdAlmacenCumplCliente = new vanillaSelectBox("#lstIdAlmacenCumplCliente", { "disableSelectAll": true, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Almacenes", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlSuppliersCumplCliente") {
+                selectBoxddlSuppliersCumplCliente = new vanillaSelectBox("#ddlSuppliersCumplCliente", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todas las Tiendas", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            }
+            if (id == "ddlTransCumplCliente") {
+
+                selectBoxTransCumplCliente = new vanillaSelectBox("#ddlTransCumplCliente", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items": "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoEnvioCumplCliente") {
+
+                selectBoxTipoEnvioCumplCliente = new vanillaSelectBox("#ddlTipoEnvioCumplCliente", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Envio", "items": " Tipo de Envio Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoServicioCumplCliente") {
+
+                selectBoxTipoServoCumplCliente = new vanillaSelectBox("#ddlTipoServicioCumplCliente", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Servicios", "items": " Tipo de Servicios Seleccionados ", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoLogisticaCumplCliente") {
+
+                selectBoxTipoLogisticaCumplCliente = new vanillaSelectBox("#ddlTipoLogisticaCumplCliente", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
 
             }
         }
@@ -2122,17 +2306,36 @@
             if (id == "ddlSuppliersCumplEntrega" && selectBoxddlSuppliersCumplEntrega != null) {
                 selectBoxddlSuppliersCumplEntrega.setValue(value);
             }
-
             if (id == "ddlTransCumplEntrega" && selectBoxTransCumplEntrega != null) {
                 selectBoxTransCumplEntrega.setValue(value);
             }
             if (id == "ddlTipoServicioCumplEntrega" && selectBoxTipoServoCumplEntrega != null) {
                 selectBoxTipoServoCumplEntrega.setValue(value);
             }
-
             if (id == "ddlTipoLogisticaCumplEntrega" && selectBoxTipoLogisticaCumplEntrega != null) {
                 selectBoxTipoLogisticaCumplEntrega.setValue(value);
             }
+
+            if (id == "ddlTipoEnvioCumplCliente" && selectBoxTipoEnvioCumplCliente != null) {
+                selectBoxTipoEnvioCumplCliente.setValue(value);
+            }
+            if (id == "lstIdAlmacenCumplCliente" && selectBoxlstIdAlmacenCumplCliente != null) {
+                selectBoxlstIdAlmacenCumplCliente.setValue(value);
+            }
+            if (id == "ddlSuppliersCumplCliente" && selectBoxddlSuppliersCumplCliente != null) {
+                selectBoxddlSuppliersCumplCliente.setValue(value);
+            }
+            if (id == "ddlTransCumplCliente" && selectBoxTransCumplCliente != null) {
+                selectBoxTransCumplCliente.setValue(value);
+            }
+            if (id == "ddlTipoServicioCumplCliente" && selectBoxTipoServoCumplCliente != null) {
+                selectBoxTipoServoCumplCliente.setValue(value);
+            }
+            if (id == "ddlTipoLogisticaCumplCliente" && selectBoxTipoLogisticaCumplCliente != null) {
+                selectBoxTipoLogisticaCumplCliente.setValue(value);
+            }
+
+
 
 
         }
@@ -2457,6 +2660,250 @@
             //$("#flot-Chart-Line").UseTooltip();
         }
 
+        function GraficaCumplCliente(opc) {
+
+            $("#btnCumplCliente1").removeClass("active");
+            $("#btnCumplCliente2").removeClass("active");
+            $("#btnCumplCliente3").removeClass("active");
+            $("#btnCumplCliente4").removeClass("active");
+
+            $('#btnCumplCliente' + opc).addClass('active');
+
+            var count = 1;
+
+            var _TipoFecha = $("#ddlTipoFechaCumplCliente").val();
+            var _TipoPago = $("#ddlTipoPagoCumplCliente").val();
+
+            //var etiqueta = $("#ddlEstatus option:selected").text();
+
+
+
+            var _IdTransportista = getValues('ddlTransCumplCliente');
+            var _IdTipoEnvio = getValues('ddlTipoEnvioCumplCliente');
+            var _IdTipoServicio = getValues('ddlTipoServicioCumplCliente');
+            var _IdTipoLogistica = getValues('ddlTipoLogisticaCumplCliente');
+
+            var _TipoAlmacen = getValues('lstIdAlmacenCumplCliente');
+            var _Almacen = getValues('ddlSuppliersCumplCliente');
+
+
+
+            if (_IdTransportista.length == 0) {
+                alert('Debe de Seleccionar minimo un Transportista');
+                $("#ddlTransCumplCliente").focus();
+                return;
+            }
+
+            if (_IdTipoEnvio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de envío');
+                $("#ddlTipoEnvioCumplCliente").focus();
+                return;
+            }
+
+            if (_IdTipoServicio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Servicio');
+                $("#ddlTipoServicioCumplCliente").focus();
+                return;
+            }
+
+            if (_IdTipoLogistica.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Logistica');
+                $("#ddlTipoLogisticaCumplCliente").focus();
+                return;
+            }
+
+            //if (origen != 0) {
+                if (_TipoAlmacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#lstIdAlmacenCumplCliente").focus();
+                    return;
+                }
+
+                if (_Almacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#ddlSuppliersCumplCliente").focus();
+                    return;
+                }
+            //}
+
+            var _json = [];
+
+            getValues('ddlSuppliersCumplCliente').forEach(x => {
+
+                let _obj = {};
+                _obj.IdTienda = x.split('-')[0];
+                _obj.IdOwner = x.split('-')[1];
+                _obj.Nombre = x.split('-')[2];
+                _obj.NombreProveedor = x.split('-')[3];
+                _json.push(_obj);
+
+                count = count + 1;
+            });
+
+
+
+
+            var fecIni = $("#txtFecCumplClienteIni").val();
+            var fecFin = $("#txtFecCumplClienteFin").val();
+             $.ajax({
+                async: false,
+                type: "POST",
+                 url: '@Url.Action("CumplCliente", "TMS")',
+                 data: {
+                     FecIni: fecIni,
+                     FecFin: fecFin,
+                     op: opc,
+                     IdTransportista: _IdTransportista.join(','),
+                     IdTipoEnvio: _IdTipoEnvio.join(','),
+                     IdTipoServicio: _IdTipoServicio.join(','),
+                     IdTipoLogistica: _IdTipoLogistica.join(','),
+                     TipoFecha: _TipoFecha,
+                     TipoPago: _TipoPago,
+                     json: JSON.stringify(_json)
+                 },
+                datatype: "html",
+                 success: function (data) {
+
+                     if (data.Success) {
+
+                         var dataPaqueteria = [];
+                         var dataBigTicket = [];
+                         var dataGeneral = [];
+
+                         for (var i = 0; i < data.Paqueteria.length; i++) {
+                             dataPaqueteria.push([gd(data.Paqueteria[i].Anio, data.Paqueteria[i].Mes, data.Paqueteria[i].Dia), data.Paqueteria[i].Valor]);
+                         }
+                         for (var i = 0; i < data.BigTicket.length; i++) {
+                             dataBigTicket.push([gd(data.BigTicket[i].Anio, data.BigTicket[i].Mes, data.BigTicket[i].Dia), data.BigTicket[i].Valor]);
+                         }
+                         for (var i = 0; i < data.General.length; i++) {
+                             dataGeneral.push([gd(data.General[i].Anio, data.General[i].Mes, data.General[i].Dia), data.General[i].Valor]);
+                         }
+
+                         var dataset = [
+                             { label: "Paqueteria", data: dataPaqueteria, points: { symbol: "triangle" } },
+                             { label: "BigTicket", data: dataBigTicket },
+                             { label: "General", data: dataGeneral }
+                         ];
+
+
+                         var options = {
+                             series: {
+                                 lines: {
+                                     show: true
+                                 },
+                                 points: {
+                                     radius: 3,
+                                     fill: true,
+                                     show: true
+                                 }
+                             },
+                             xaxis: {
+                                 mode: "time",
+                                 tickSize: [1, "day"],
+                                 tickLength: 0,
+                                 axisLabel: "2012",
+                                 axisLabelUseCanvas: true,
+                                 axisLabelFontSizePixels: 12,
+                                 axisLabelFontFamily: 'Verdana, Arial',
+                                 axisLabelPadding: 10
+                             },
+                             yaxes: [{
+                                 axisLabel: "Cantidad",
+                                 axisLabelUseCanvas: true,
+                                 axisLabelFontSizePixels: 12,
+                                 axisLabelFontFamily: 'Verdana, Arial',
+                                 axisLabelPadding: 3
+                             }, {
+                                 position: "right",
+                                 axisLabel: "Change(%)",
+                                 axisLabelUseCanvas: true,
+                                 axisLabelFontSizePixels: 12,
+                                 axisLabelFontFamily: 'Verdana, Arial',
+                                 axisLabelPadding: 3
+                             }
+                             ],
+                             legend: {
+                                 noColumns: 0,
+                                 labelBoxBorderColor: "#000000",
+                                 position: "nw"
+                             },
+                             grid: {
+                                 hoverable: true,
+                                 borderWidth: 2,
+                                 borderColor: "#633200",
+                                 backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
+                             },
+                             colors: ["#FFF200", "#0022FF", "#FF00E8"]
+                         };
+
+                         if (opc == 3) {
+                             options = {
+                                 series: {
+                                     lines: {
+                                         show: true
+                                     },
+                                     points: {
+                                         radius: 3,
+                                         fill: true,
+                                         show: true
+                                     }
+                                 },
+                                 xaxis: {
+                                     mode: "time",
+                                     tickSize: [1, "month"],
+                                     tickLength: 0,
+                                     axisLabel: "2012",
+                                     axisLabelUseCanvas: true,
+                                     axisLabelFontSizePixels: 12,
+                                     axisLabelFontFamily: 'Verdana, Arial',
+                                     axisLabelPadding: 10
+                                 },
+                                 yaxes: [{
+                                     axisLabel: "Cantidad",
+                                     axisLabelUseCanvas: true,
+                                     axisLabelFontSizePixels: 12,
+                                     axisLabelFontFamily: 'Verdana, Arial',
+                                     axisLabelPadding: 3
+                                 }, {
+                                     position: "right",
+                                     axisLabel: "Change(%)",
+                                     axisLabelUseCanvas: true,
+                                     axisLabelFontSizePixels: 12,
+                                     axisLabelFontFamily: 'Verdana, Arial',
+                                     axisLabelPadding: 3
+                                 }
+                                 ],
+                                 legend: {
+                                     noColumns: 0,
+                                     labelBoxBorderColor: "#000000",
+                                     position: "nw"
+                                 },
+                                 grid: {
+                                     hoverable: true,
+                                     borderWidth: 2,
+                                     borderColor: "#633200",
+                                     backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
+                                 },
+                                 colors: ["#FFF200", "#0022FF", "#FF00E8"]
+                             };
+                         }
+
+                         $.plot($("#flot-Chart-CumplCliente"), dataset, options);
+                         $("#flot-Chart-CumplCliente").UseTooltip();
+                     }
+                     else {
+                         alert('error: '+data.Message);
+                     }
+                 }
+                 , error: function (jqXHR, textStatus, errorThrown) {
+                     debugger;
+                     alert('error 2: ' + errorThrown);
+
+                 }
+             });
+        }
+
         var previousPoint = null, previousLabel = null;
         var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -2480,7 +2927,7 @@
                             showTooltip(item.pageX,
                                 item.pageY,
                                 color,
-                                "<strong>" + item.series.label + "</strong><br>" + monthNames[month] + " : <strong>" + y + "</strong>(USD)");
+                                "<strong>" + item.series.label + "</strong><br>" + monthNames[month] + " : <strong>" + y + "</strong>");
                         } else {
                             showTooltip(item.pageX,
                                 item.pageY,
