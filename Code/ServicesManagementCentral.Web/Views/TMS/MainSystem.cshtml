@@ -881,7 +881,137 @@
         </div>
     </div>
 </div>
+<div class="row" id="divEnviosCumplSurtido">
+    <div class="col-lg-12">
 
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Envíos por tipo de logística</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button type="button" id="btnCumplSurtido1" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(1)">Hoy</button>
+                                <button type="button" id="btnCumplSurtido2" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(2)">Mensual</button>
+                                <button type="button" id="btnCumplSurtido3" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(3)">Anual</button>
+                                <div class="input-group date" id="datetimepickerCumplSurtido">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecCumplSurtidoIni"
+                                           type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
+                                </div>
+                                <div class="input-group date" id="datetimepicker2CumplSurtido">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecCumplSurtidoFin"
+                                           type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
+                                </div>
+                                <select id="ddlTransCumplSurtido" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTrans)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoEnvioCumplSurtido" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoEnvio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoServicioCumplSurtido" class="form-ddlTipoServicioEstDes" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoServicio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoLogisticaCumplSurtido" class="form-control" multiple size="6">
+
+                                    @foreach (var item in ViewBag.DashboardTipoLogistica)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoFechaCumplSurtido" class="form-control">
+                                    <option value="1">fecha creacion</option>
+                                    <option value="2">fecha entrega</option>
+                                </select>
+                                <select id="ddlTipoPagoCumplSurtido" class="form-control">
+                                    <option value="3">AMBOS</option>
+                                    <option value="1">EN LINEA</option>
+                                    <option value="2">EN TIENDA</option>
+                                </select>
+                                <select class="form-control" id="lstIdAlmacenCumplSurtido" name="lstIdAlmacenCumplSurtido" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select>
+                                <select class="form-control m-b" id="ddlSuppliersCumplSurtido" name="ddlSuppliersCumplSurtido" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select><br />
+                                <button type="button" id="btnCumplSurtido4" name="btnCumplSurtido4" class="btn btn-sm btn-white" onclick="GraficaCumplSurtido(4)">Aplicar filtros</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row" style="padding-top:50px;">
+                            <div class="col-lg-12">
+                                <div class="flot-chart">
+                                    <div class="flot-chart-content" id="flot-Chart-CumplSurtido"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -972,6 +1102,16 @@
                 locale: 'es'
                 , format: "yyyy/MM/DD"
             });
+            $('#datetimepickerCumplSurtido').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2CumplSurtido').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
         });
         $(document).ready(function () {
 
@@ -1014,6 +1154,12 @@
             init("lstIdAlmacenCumplCliente");
             init("ddlSuppliersCumplCliente");
 
+            init("ddlTipoEnvioCumplSurtido");
+            init("ddlTipoLogisticaCumplSurtido");
+            init("ddlTransCumplSurtido");
+            init("ddlTipoServicioCumplSurtido");
+            init("lstIdAlmacenCumplSurtido");
+            init("ddlSuppliersCumplSurtido");
 
             setValues("ddlTrans", 'all');
             setValues("ddlTipoEnvio", 'all');
@@ -1054,6 +1200,13 @@
             setValues("lstIdAlmacenCumplCliente", 'all');
             setValues("ddlSuppliersCumplCliente", 'all');
 
+            setValues("ddlTipoEnvioCumplSurtido", 'all');
+            setValues("ddlTipoLogisticaCumplSurtido", 'all');
+            setValues("ddlTransCumplSurtido", 'all');
+            setValues("ddlTipoServicioCumplSurtido", 'all');
+            setValues("lstIdAlmacenCumplSurtido", 'all');
+            setValues("ddlSuppliersCumplSurtido", 'all');
+
             Grafica("4", 0);
             Mapa("4", 0);
             //clock = $('.clock').FlipClock({
@@ -1063,6 +1216,7 @@
             //VerificarGastosPorTienda();
             GraficaCumplimientoEntrega(3);
             GraficaCumplCliente(3);
+            GraficaCumplSurtido(3);
         });
 
 
@@ -2181,6 +2335,35 @@
                 selectBoxTipoLogisticaCumplCliente = new vanillaSelectBox("#ddlTipoLogisticaCumplCliente", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
 
             }
+
+            if (id == "lstIdAlmacenCumplSurtido") {
+
+                selectBoxlstIdAlmacenCumplSurtido = new vanillaSelectBox("#lstIdAlmacenCumplSurtido", { "disableSelectAll": true, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Almacenes", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlSuppliersCumplSurtido") {
+                selectBoxddlSuppliersCumplSurtido = new vanillaSelectBox("#ddlSuppliersCumplSurtido", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todas las Tiendas", "items": "Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            }
+            if (id == "ddlTransCumplSurtido") {
+
+                selectBoxTransCumplSurtido = new vanillaSelectBox("#ddlTransCumplSurtido", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items": "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoEnvioCumplSurtido") {
+
+                selectBoxTipoEnvioCumplSurtido = new vanillaSelectBox("#ddlTipoEnvioCumplSurtido", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Envio", "items": " Tipo de Envio Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoServicioCumplSurtido") {
+
+                selectBoxTipoServoCumplSurtido = new vanillaSelectBox("#ddlTipoServicioCumplSurtido", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Servicios", "items": " Tipo de Servicios Seleccionados ", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
+            if (id == "ddlTipoLogisticaCumplSurtido") {
+
+                selectBoxTipoLogisticaCumplSurtido = new vanillaSelectBox("#ddlTipoLogisticaCumplSurtido", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Tipo de Logistica", "items": "  de Logistica Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+
+            }
         }
         function setValuesAlmacen(value) {
             if (selectBox1 != null) {
@@ -2335,7 +2518,24 @@
                 selectBoxTipoLogisticaCumplCliente.setValue(value);
             }
 
-
+            if (id == "ddlTipoEnvioCumplSurtido" && selectBoxTipoEnvioCumplSurtido != null) {
+                selectBoxTipoEnvioCumplSurtido.setValue(value);
+            }
+            if (id == "lstIdAlmacenCumplSurtido" && selectBoxlstIdAlmacenCumplSurtido != null) {
+                selectBoxlstIdAlmacenCumplSurtido.setValue(value);
+            }
+            if (id == "ddlSuppliersCumplSurtido" && selectBoxddlSuppliersCumplSurtido != null) {
+                selectBoxddlSuppliersCumplSurtido.setValue(value);
+            }
+            if (id == "ddlTransCumplSurtido" && selectBoxTransCumplSurtido != null) {
+                selectBoxTransCumplSurtido.setValue(value);
+            }
+            if (id == "ddlTipoServicioCumplSurtido" && selectBoxTipoServoCumplSurtido != null) {
+                selectBoxTipoServoCumplSurtido.setValue(value);
+            }
+            if (id == "ddlTipoLogisticaCumplSurtido" && selectBoxTipoLogisticaCumplSurtido != null) {
+                selectBoxTipoLogisticaCumplSurtido.setValue(value);
+            }
 
 
         }
@@ -2891,6 +3091,250 @@
 
                          $.plot($("#flot-Chart-CumplCliente"), dataset, options);
                          $("#flot-Chart-CumplCliente").UseTooltip();
+                     }
+                     else {
+                         alert('error: '+data.Message);
+                     }
+                 }
+                 , error: function (jqXHR, textStatus, errorThrown) {
+                     debugger;
+                     alert('error 2: ' + errorThrown);
+
+                 }
+             });
+        }
+
+        function GraficaCumplSurtido(opc) {
+
+            $("#btnCumplSurtido1").removeClass("active");
+            $("#btnCumplSurtido2").removeClass("active");
+            $("#btnCumplSurtido3").removeClass("active");
+            $("#btnCumplSurtido4").removeClass("active");
+
+            $('#btnCumplSurtido' + opc).addClass('active');
+
+            var count = 1;
+
+            var _TipoFecha = $("#ddlTipoFechaCumplSurtido").val();
+            var _TipoPago = $("#ddlTipoPagoCumplSurtido").val();
+
+            //var etiqueta = $("#ddlEstatus option:selected").text();
+
+
+
+            var _IdTransportista = getValues('ddlTransCumplSurtido');
+            var _IdTipoEnvio = getValues('ddlTipoEnvioCumplSurtido');
+            var _IdTipoServicio = getValues('ddlTipoServicioCumplSurtido');
+            var _IdTipoLogistica = getValues('ddlTipoLogisticaCumplSurtido');
+
+            var _TipoAlmacen = getValues('lstIdAlmacenCumplSurtido');
+            var _Almacen = getValues('ddlSuppliersCumplSurtido');
+
+
+
+            if (_IdTransportista.length == 0) {
+                alert('Debe de Seleccionar minimo un Transportista');
+                $("#ddlTransCumplSurtido").focus();
+                return;
+            }
+
+            if (_IdTipoEnvio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de envío');
+                $("#ddlTipoEnvioCumplSurtido").focus();
+                return;
+            }
+
+            if (_IdTipoServicio.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Servicio');
+                $("#ddlTipoServicioCumplSurtido").focus();
+                return;
+            }
+
+            if (_IdTipoLogistica.length == 0) {
+                alert('Debe de Seleccionar minimo un Tipo de Logistica');
+                $("#ddlTipoLogisticaCumplSurtido").focus();
+                return;
+            }
+
+            //if (origen != 0) {
+                if (_TipoAlmacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#lstIdAlmacenCumplSurtido").focus();
+                    return;
+                }
+
+                if (_Almacen.length == 0) {
+                    alert('Debe de Seleccionar minimo un Almacen y una Tienda/Proveedor');
+                    $("#ddlSuppliersCumplSurtido").focus();
+                    return;
+                }
+            //}
+
+            var _json = [];
+
+            getValues('ddlSuppliersCumplSurtido').forEach(x => {
+
+                let _obj = {};
+                _obj.IdTienda = x.split('-')[0];
+                _obj.IdOwner = x.split('-')[1];
+                _obj.Nombre = x.split('-')[2];
+                _obj.NombreProveedor = x.split('-')[3];
+                _json.push(_obj);
+
+                count = count + 1;
+            });
+
+
+
+
+            var fecIni = $("#txtFecCumplSurtidoIni").val();
+            var fecFin = $("#txtFecCumplSurtidoFin").val();
+             $.ajax({
+                async: false,
+                type: "POST",
+                 url: '@Url.Action("CumplSurtido", "TMS")',
+                 data: {
+                     FecIni: fecIni,
+                     FecFin: fecFin,
+                     op: opc,
+                     IdTransportista: _IdTransportista.join(','),
+                     IdTipoEnvio: _IdTipoEnvio.join(','),
+                     IdTipoServicio: _IdTipoServicio.join(','),
+                     IdTipoLogistica: _IdTipoLogistica.join(','),
+                     TipoFecha: _TipoFecha,
+                     TipoPago: _TipoPago,
+                     json: JSON.stringify(_json)
+                 },
+                datatype: "html",
+                 success: function (data) {
+
+                     if (data.Success) {
+
+                         var dataCEDIS = [];
+                         var dataDSV = [];
+                         var dataDST = [];
+
+                         for (var i = 0; i < data.CEDIS.length; i++) {
+                             dataCEDIS.push([gd(data.CEDIS[i].Anio, data.CEDIS[i].Mes, data.CEDIS[i].Dia), data.CEDIS[i].Valor]);
+                         }
+                         for (var i = 0; i < data.DSV.length; i++) {
+                             dataDSV.push([gd(data.DSV[i].Anio, data.DSV[i].Mes, data.DSV[i].Dia), data.DSV[i].Valor]);
+                         }
+                         for (var i = 0; i < data.DST.length; i++) {
+                             dataDST.push([gd(data.DST[i].Anio, data.DST[i].Mes, data.DST[i].Dia), data.DST[i].Valor]);
+                         }
+
+                         var dataset = [
+                             { label: "CEDIS", data: dataCEDIS, points: { symbol: "triangle" } },
+                             { label: "DSV", data: dataDSV },
+                             { label: "DST", data: dataDST }
+                         ];
+
+
+                         var options = {
+                             series: {
+                                 lines: {
+                                     show: true
+                                 },
+                                 points: {
+                                     radius: 3,
+                                     fill: true,
+                                     show: true
+                                 }
+                             },
+                             xaxis: {
+                                 mode: "time",
+                                 tickSize: [1, "day"],
+                                 tickLength: 0,
+                                 axisLabel: "2012",
+                                 axisLabelUseCanvas: true,
+                                 axisLabelFontSizePixels: 12,
+                                 axisLabelFontFamily: 'Verdana, Arial',
+                                 axisLabelPadding: 10
+                             },
+                             yaxes: [{
+                                 axisLabel: "Cantidad",
+                                 axisLabelUseCanvas: true,
+                                 axisLabelFontSizePixels: 12,
+                                 axisLabelFontFamily: 'Verdana, Arial',
+                                 axisLabelPadding: 3
+                             }, {
+                                 position: "right",
+                                 axisLabel: "Change(%)",
+                                 axisLabelUseCanvas: true,
+                                 axisLabelFontSizePixels: 12,
+                                 axisLabelFontFamily: 'Verdana, Arial',
+                                 axisLabelPadding: 3
+                             }
+                             ],
+                             legend: {
+                                 noColumns: 0,
+                                 labelBoxBorderColor: "#000000",
+                                 position: "nw"
+                             },
+                             grid: {
+                                 hoverable: true,
+                                 borderWidth: 2,
+                                 borderColor: "#633200",
+                                 backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
+                             },
+                             colors: ["#FFF200", "#0022FF", "#FF00E8"]
+                         };
+
+                         if (opc == 3) {
+                             options = {
+                                 series: {
+                                     lines: {
+                                         show: true
+                                     },
+                                     points: {
+                                         radius: 3,
+                                         fill: true,
+                                         show: true
+                                     }
+                                 },
+                                 xaxis: {
+                                     mode: "time",
+                                     tickSize: [1, "month"],
+                                     tickLength: 0,
+                                     axisLabel: "2012",
+                                     axisLabelUseCanvas: true,
+                                     axisLabelFontSizePixels: 12,
+                                     axisLabelFontFamily: 'Verdana, Arial',
+                                     axisLabelPadding: 10
+                                 },
+                                 yaxes: [{
+                                     axisLabel: "Cantidad",
+                                     axisLabelUseCanvas: true,
+                                     axisLabelFontSizePixels: 12,
+                                     axisLabelFontFamily: 'Verdana, Arial',
+                                     axisLabelPadding: 3
+                                 }, {
+                                     position: "right",
+                                     axisLabel: "Change(%)",
+                                     axisLabelUseCanvas: true,
+                                     axisLabelFontSizePixels: 12,
+                                     axisLabelFontFamily: 'Verdana, Arial',
+                                     axisLabelPadding: 3
+                                 }
+                                 ],
+                                 legend: {
+                                     noColumns: 0,
+                                     labelBoxBorderColor: "#000000",
+                                     position: "nw"
+                                 },
+                                 grid: {
+                                     hoverable: true,
+                                     borderWidth: 2,
+                                     borderColor: "#633200",
+                                     backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
+                                 },
+                                 colors: ["#FFF200", "#0022FF", "#FF00E8"]
+                             };
+                         }
+
+                         $.plot($("#flot-Chart-CumplSurtido"), dataset, options);
+                         $("#flot-Chart-CumplSurtido").UseTooltip();
                      }
                      else {
                          alert('error: '+data.Message);

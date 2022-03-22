@@ -580,5 +580,69 @@ namespace ServicesManagement.Web.DAL
             }
 
         }
+        public static DataSet upCorpTms_Cns_DashboardCumplimientoSurtido(DateTime? fechaini, DateTime? fechafin
+            , string IdTransportista, string IdTipoEnvio, string IdTipoServicio
+            , string IdTipoLogistica, string json, int? TipoFecha, int? TipoPago, int? Formato)
+        {
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEv"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@fechaini", fechaini);
+                parametros.Add("@fechafin", fechafin);
+
+                if (!string.IsNullOrEmpty(IdTransportista))
+                    parametros.Add("@IdTransportista", IdTransportista);
+
+                if (!string.IsNullOrEmpty(IdTipoEnvio))
+                    parametros.Add("@IdTipoEnvio", IdTipoEnvio);
+
+                if (!string.IsNullOrEmpty(IdTipoServicio))
+                    parametros.Add("@IdTipoServicio", IdTipoServicio);
+
+                if (!string.IsNullOrEmpty(IdTipoLogistica))
+                    parametros.Add("@IdTipoLogistica", IdTipoLogistica);
+
+
+                if (!string.IsNullOrEmpty(json))
+                    parametros.Add("@json", json);
+
+
+                if (TipoFecha != null & TipoFecha != 0)
+                    parametros.Add("@TipoFecha", TipoFecha);
+
+                parametros.Add("@TipoPago", TipoPago);
+
+
+                parametros.Add("@Formato", Formato);
+
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[upCorpTms_Cns_DashboardCumplimientoSurtido]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
     }
 }
