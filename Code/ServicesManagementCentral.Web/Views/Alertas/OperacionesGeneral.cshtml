@@ -1,0 +1,780 @@
+﻿
+@{
+    ViewBag.Title = "Operaciones General";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .container {
+        width: 30em;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
+
+<style>
+    /*#table-scroll {
+        height: 300px;
+        overflow-y: auto;
+        margin-top: 20px;
+        width: 1200px;
+    }*/
+
+    .rowVerde {
+        color: white;
+        background-color: #008000;
+        border-color: #c3e6cb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowAmarillo {
+        color: white;
+        background-color: #ffd11a;
+        border-color: #ffeeba;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowRojo {
+        color: white;
+        background-color: #ff0000;
+        border-color: #f5c6cb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowInfo {
+        color: #000000;
+        background-color: white;
+        border-color: #bee5eb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .rowMorado {
+        color: #0c5460;
+        background-color: #bf80ff;
+        border-color: #bee5eb;
+        padding: 10px;
+        border: ridge;
+        /*font-size: 17px;*/
+    }
+
+    .alingCenter {
+        text-align: center;
+    }
+</style>
+
+<h1>Operaciones Generales</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-2 col-md-3 col-lg-2">
+                <div class="form-group">
+                    <label>Transportista</label>
+                    <select id="SelTrans" name="cars" class="form-control">
+                        <option value="Op1">Opcion1</option>
+                        @{
+                            if (Session["ddlTransportista"] != null)
+                            {
+                                System.Data.DataSet ds = (System.Data.DataSet)Session["ddlTransportista"];
+
+                                var dt = ds.Tables[0];
+
+
+                                foreach (System.Data.DataRow p in dt.Rows)
+                                {
+                                    <option value="@p["IdTransportista"]">@p["RazonSocial"]</option>
+                                }
+                            }
+                        }
+
+                    </select>
+                    @*<input type="text" id="txtOrder" class="form-control" />*@
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-3 col-lg-2">
+                <div class="form-group">
+                    <label>Estatus Transporte</label>
+                    <select id="selEstatusTran" name="cars" class="form-control">
+                        <option value="1">Envíos entregados</option>
+                        <option value="2">Envíos sin entregarse pagados</option>
+                        <option value="3">Múltiple (A & B)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" id="txtFecIni" class="form-control" />
+                    <div class="input-group date" id="datetimepicker1"></div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <label>Fecha Fin</label>
+                <input type="date" id="txtFecFin" class="form-control" />
+                <div class="input-group date" id="datetimepicker2"></div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
+                <label>&nbsp;</label>
+                <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="BuscarOperacionGeneral()">
+                    Buscar
+                </button>
+            </div>
+        </div>
+        <div style="width: 99%;">
+            <br />
+            <br />
+            <h2>Pendiente de recolección</h2>
+            <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Días de retraso recolección</th>
+                        <th>Almacen/Proveedor</th>
+                        <th>Consignacion</th>
+                        <th>Guía transporte</th>
+                        <th>Transportista</th>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha solicitud guía real</th>
+                        <th>Días de retraso surtido</th>
+                        <th>Fecha compromiso recolección</th>
+                        <th>Reasignación de transporte</th>
+                        <th>Cancelación de guías</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Session["RevisionGeneral"] != null)
+                        {
+                            System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
+
+                            var dt = ds.Tables[0];
+
+
+                            foreach (System.Data.DataRow p in dt.Rows)
+                            {
+                                <tr>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
+                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
+                                    <td style="text-align:center;">@p["Transportista"]</td>
+                                    <td style="text-align:center;">@p["Carrier"]</td>
+                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                    <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
+                                    <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
+                                    <td style="text-align:center;">
+                                        <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="ModalReasignacion()">
+                                            Reasignación de transporte
+                                        </button>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="ModalCancelGuias()">
+                                            Cancelación de guías
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 99%;">
+            <br />
+            <br />
+            <h2>Pendiente de entrega (en transito)</h2>
+            <table id="tblConsulta2" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Días de retraso transportista</th>
+                        <th>Almacen/Proveedor</th>
+                        <th>Consignacion</th>
+                        <th>Guía transporte</th>
+                        <th>Transportista</th>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Codigo postal Destino</th>
+                        <th>Estado Destino</th>
+                        <th>Estatus transporte</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha recolección real</th>
+                        <th>Días de retraso recolección</th>
+                        <th>Fecha compromiso entrega transporte</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Session["RevisionGeneral"] != null)
+                        {
+                            System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
+
+                            var dt = ds.Tables[1];
+
+
+                            foreach (System.Data.DataRow p in dt.Rows)
+                            {
+                                <tr>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
+                                    <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
+                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
+                                    <td style="text-align:center;">@p["Transportista"]</td>
+                                    <td style="text-align:center;">@p["Carrier"]</td>
+                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                    <td style="text-align:center;">@p["CodigoPostalDestino"]</td>
+                                    <td style="text-align:center;">@p["EstadoDestino"]</td>
+                                    <td style="text-align:center;">@p["EstatusTransporte"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                    <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
+                                </tr>
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 99%;">
+            <br />
+            <br />
+            <h2>Revision general</h2>
+            <table id="tblConsulta3" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Días de retraso total</th>
+                        <th>Almacen/Proveedor</th>
+                        <th>Consignacion</th>
+                        <th>Guía transporte</th>
+                        <th>Transportista</th>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Estatus transporte</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha creación</th>
+                        <th>Fecha de pago</th>
+                        <th>Fecha compromiso surtido</th>
+                        <th>Fecha solicitud guía real</th>
+                        <th>Días de retraso surtido</th>
+                        <th>Fecha compromiso recolección</th>
+                        <th>Fecha recolección real</th>
+                        <th>Días de retraso recolección</th>
+                        <th>Fecha compromiso entrega transporte</th>
+                        <th>Fecha entrega real</th>
+                        <th>Días de retraso transportista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Session["RevisionGeneral"] != null)
+                        {
+                            System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
+
+                            var dt = ds.Tables[2];
+
+
+                            foreach (System.Data.DataRow p in dt.Rows)
+                            {
+                                <tr>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTotal"].ToString())" style="text-align:center;">@p["DiasRetrasoTotal"]</td>
+                                    <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
+                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
+                                    <td style="text-align:center;">@p["Transportista"]</td>
+                                    <td style="text-align:center;">@p["Carrier"]</td>
+                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                    <td style="text-align:center;">@p["EstatusTransporte"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                    <td style="text-align:center;">@p["fechaCreacion"]/td>
+                                    <td style="text-align:center;">@p["FechaPago"]</td>
+                                    <td style="text-align:center;">@p["FechaCompromisoSurtido"]</td>
+                                    <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
+                                    <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
+                                    <td style="text-align:center;">@p["fechaEntregaReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal inmodal fade" id="dlReasignacionTrans" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header pt-3 pb-1">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Reasignacion Transportista</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Consignacion:</label>
+                                <label id="txtConsignacionRe">18496131-2-0</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Transporte Actual:</label>
+                                <label id="txtTransActRe">
+                                    Logyt
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Carrier:</label>
+                                <label id="txtCarrierRe">
+                                    Estafeta
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Servicio:</label>
+                                <label id="txtServicioRe">
+                                    Express
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Tipo Envio:</label>
+                                <label id="txtTipoEnvioRe">
+                                    Paqueteria
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-12">
+                            <label>
+                                Transportes disponibles para reasignar:
+                           </label><br>
+                            <input type="checkbox" id="vehicle1" name="ReasignaOp1" value="Estafeta">
+                            <label for="CancOp1"> 
+                                Estafeta
+                            </label><br>
+                            <input type="checkbox" id="vehicle2" name="ReasignaOp2" value="Enviacom">
+                            <label for="CancOp2">
+                                Enviacom
+                            </label><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="" class="btn btn-primary">Guardar</button>
+                    @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal inmodal fade" id="dlCancelacionGuias" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header pt-3 pb-1">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Cancelacion Guias</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Consignacion:</label>
+                                <label id="txtConsignacion">18496131-2-0</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Transporte Actual:</label>
+                                <label id="txtTransAct">
+                                    Logyt
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Carrier:</label>
+                                <label id="txtCarrier">
+                                    Estafeta
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Servicio:</label>
+                                <label id="txtServicio">
+                                    Express
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Tipo Envio:</label>
+                                <label id="txtTipoEnvio">
+                                    Paqueteria
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-12">
+                            <label>Motivo de cancelación de guía</label><br>
+                            <input type="checkbox" id="vehicle1" name="CancOp1" value="CancOp1">
+                            <label for="CancOp1"> Almacen origen no utilizará la guía</label><br>
+                            <input type="checkbox" id="vehicle2" name="CancOp2" value="Motivo1">
+                            <label for="CancOp2"> Motivo 1</label><br>
+                            <input type="checkbox" id="vehicle3" name="CancOp3" value="Motivo2">
+                            <label for="CancOp3"> Motivo 2</label><br><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="" class="btn btn-primary">Guardar</button>
+                    @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @*CONFIGURACION DE TABLAS, FILTROS, BOTONES DE EXPORT*@
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(1) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $("#tblConsulta").DataTable(
+                {
+                    dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
+                    processing: true,
+                    searching: true,
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    filter: true,
+                    info: false,
+                    stateSave: false,
+                    select: false,
+                    select: {
+                        style: 'single'
+                    },
+                    //Paggin
+
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [10, 25, 50, 100, 500],
+
+                    // destroy: true, //destruye automaticamente la referencia a la tabla
+                    //Ajax
+                    //serverSide: true,
+                    //bServerSide: true,
+                    //sServerMethod: "GET",
+                    buttons: [],
+                    orderCellsTop: false,
+                    fixedHeader: {
+                        header: true
+                    },
+                    "scrollX": true
+
+                }
+            );
+        });
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+
+        $(document).ready(function () {
+            $('#tblConsulta2 thead tr').clone(true).appendTo('#tblConsulta2 thead');
+            $('#tblConsulta2 thead tr:eq(1) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $("#tblConsulta2").DataTable(
+                {
+                    dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
+                    processing: true,
+                    searching: true,
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    filter: true,
+                    info: false,
+                    stateSave: false,
+                    select: false,
+                    select: {
+                        style: 'single'
+                    },
+                    //Paggin
+
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [10, 25, 50, 100, 500],
+
+                    // destroy: true, //destruye automaticamente la referencia a la tabla
+                    //Ajax
+                    //serverSide: true,
+                    //bServerSide: true,
+                    //sServerMethod: "GET",
+                    buttons: [],
+                    orderCellsTop: false,
+                    fixedHeader: {
+                        header: true
+                    },
+                    "scrollX": true
+
+                }
+            );
+        });
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+
+        $(document).ready(function () {
+            $('#tblConsulta3 thead tr').clone(true).appendTo('#tblConsulta3 thead');
+            $('#tblConsulta3 thead tr:eq(1) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $("#tblConsulta3").DataTable(
+                {
+                    dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
+                    processing: true,
+                    searching: true,
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    filter: true,
+                    info: false,
+                    stateSave: false,
+                    select: false,
+                    select: {
+                        style: 'single'
+                    },
+                    //Paggin
+
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [10, 25, 50, 100, 500],
+
+                    // destroy: true, //destruye automaticamente la referencia a la tabla
+                    //Ajax
+                    //serverSide: true,
+                    //bServerSide: true,
+                    //sServerMethod: "GET",
+                    buttons: [],
+                    orderCellsTop: false,
+                    fixedHeader: {
+                        header: true
+                    },
+                    "scrollX": true
+
+                }
+            );
+        });
+    </script>
+
+    <script>
+         function BuscarOperacionGeneral() {
+            debugger;
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+            var _Transportista = $("#SelTrans").val();
+            var _EstatusTrans = $("selEstatusTran").val();
+
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("BuscarOperacionGeneralFiltros", "Alertas")',
+                data: {
+                    FecIni: _FecIni,
+                    FecFin: _FecFin,
+                    Transportista : _Transportista,
+                    EstatusTrans :_EstatusTrans
+                },
+                datatype: "html",
+                success: function (json) {
+
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
+        }
+
+        function ModalReasignacion() {
+            $("#dlReasignacionTrans").modal('toggle');
+        }
+
+        function ModalCancelGuias() {
+            $("#dlCancelacionGuias").modal('toggle');
+        }
+
+        function GuardarReasignacion() {
+
+        }
+
+        function GuardarCancelacion() {
+
+        }
+    </script>
+}
+
+@functions{
+    /**/
+
+    public string ColoresSemaforo(string numColor)
+    {
+        string estilo = string.Empty;
+
+        switch (numColor)
+
+        {
+
+            case "V":
+
+                estilo = "rowVerde";
+
+                break;
+
+            case "A":
+
+                estilo = "rowAmarillo";
+
+                break;
+
+            case "R":
+
+                estilo = "rowRojo";
+
+                break;
+
+            default:
+
+                estilo = "rowInfo";
+
+                break;
+        }
+        return estilo;
+    }
+}
+

@@ -1,0 +1,372 @@
+﻿
+@{
+    ViewBag.Title = "OperacionCedis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .container {
+        width: 30em;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
+
+<h2>Operacion Cedis</h2>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-2 col-md-3 col-lg-2">
+                <div class="form-group">
+                    <label>Transportista</label>
+                    <select id="SelTrans" name="cars" class="form-control">
+                        <option value="Op1">Opcion1</option>
+                    </select>
+                    @*<input type="text" id="txtOrder" class="form-control" />*@
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-3 col-lg-2">
+                <div class="form-group">
+                    <label>Estatus Transporte</label>
+                    <select id="selEstatusTran" name="cars" class="form-control">
+                        <option value="Op1">Opcion1</option>
+                    </select>
+                    @*<input type="text" id="txtOrder" class="form-control" />*@
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date" id="txtFecIni" class="form-control" />
+                    <div class="input-group date" id="datetimepicker1"></div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <label>Fecha Fin</label>
+                <input type="date" id="txtFecFin" class="form-control" />
+                <div class="input-group date" id="datetimepicker2"></div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
+                <label>&nbsp;</label>
+                <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="GetReporteAutBancarias()">
+                    Buscar
+                </button>
+            </div>
+        </div>
+        <div style="width: 99%;">
+            <br />
+            <br />
+            <h2>Pendiente de recolección</h2>
+            <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Días de retraso recolección</th>
+                        <th>Almacen/Proveedor</th>
+                        <th>Consignacion</th>
+                        <th>Guía transporte</th>
+                        <th>Transportista</th>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha solicitud guía real</th>
+                        <th>Días de retraso surtido</th>
+                        <th>Fecha compromiso recolección</th>
+                        <th>Reasignación de transporte</th>
+                        <th>Cancelación de guías</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 99%;">
+            <br />
+            <br />
+            <h2>Pendiente de entrega (en transito)</h2>
+            <table id="tblConsulta2" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Codigo postal Destino</th>
+                        <th>Estado Destino</th>
+                        <th>Estatus transporte</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha recolección real</th>
+                        <th>Días de retraso recolección</th>
+                        <th>Fecha compromiso entrega transporte</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 99%;">
+            <br />
+            <br />
+            <h2>Revision general</h2>
+            <table id="tblConsulta3" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Días de retraso total</th>
+                        <th>Almacen/Proveedor</th>
+                        <th>Consignacion</th>
+                        <th>Guía transporte</th>
+                        <th>Transportista</th>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Estatus transporte</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha creación</th>
+                        <th>Fecha de pago</th>
+                        <th>Fecha compromiso surtido</th>
+                        <th>Fecha solicitud guía real</th>
+                        <th>Días de retraso surtido</th>
+                        <th>Fecha compromiso recolección</th>
+                        <th>Fecha recolección real</th>
+                        <th>Días de retraso recolección</th>
+                        <th>Fecha compromiso entrega transporte</th>
+                        <th>Fecha entrega real</th>
+                        <th>Días de retraso transportista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts {
+    @*CONFIGURACION DE TABLAS, FILTROS, BOTONES DE EXPORT*@
+
+    <link href="~/Content/plugins/datatables/datatables.css" rel="stylesheet" />
+    <script src="~/Content/plugins/datatables/datatables.min.js"></script>
+    <script src="~/Content/plugins/datatables/datatables.js"></script>
+
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(1) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $("#tblConsulta").DataTable(
+                {
+                    dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
+                    processing: true,
+                    searching: true,
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    filter: true,
+                    info: false,
+                    stateSave: false,
+                    select: false,
+                    select: {
+                        style: 'single'
+                    },
+                    //Paggin
+
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [10, 25, 50, 100, 500],
+
+                    // destroy: true, //destruye automaticamente la referencia a la tabla
+                    //Ajax
+                    //serverSide: true,
+                    //bServerSide: true,
+                    //sServerMethod: "GET",
+                    buttons: [],
+                    orderCellsTop: false,
+                    fixedHeader: {
+                        header: true
+                    },
+                    "scrollX": true
+
+                }
+            );
+        });
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+
+        $(document).ready(function () {
+            $('#tblConsulta2 thead tr').clone(true).appendTo('#tblConsulta2 thead');
+            $('#tblConsulta2 thead tr:eq(1) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $("#tblConsulta2").DataTable(
+                {
+                    dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
+                    processing: true,
+                    searching: true,
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    filter: true,
+                    info: false,
+                    stateSave: false,
+                    select: false,
+                    select: {
+                        style: 'single'
+                    },
+                    //Paggin
+
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [10, 25, 50, 100, 500],
+
+                    // destroy: true, //destruye automaticamente la referencia a la tabla
+                    //Ajax
+                    //serverSide: true,
+                    //bServerSide: true,
+                    //sServerMethod: "GET",
+                    buttons: [],
+                    orderCellsTop: false,
+                    fixedHeader: {
+                        header: true
+                    },
+                    "scrollX": true
+
+                }
+            );
+        });
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+
+        $(document).ready(function () {
+            $('#tblConsulta3 thead tr').clone(true).appendTo('#tblConsulta3 thead');
+            $('#tblConsulta3 thead tr:eq(1) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+
+            table = $("#tblConsulta3").DataTable(
+                {
+                    dom: "<'row'<'col col-xs-6'B><'#topRightSection.col-xs-12 col-md-6 text-right' f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'lp>>",
+                    processing: true,
+                    searching: true,
+                    ordering: true,
+                    order: [[1, 'asc']],
+                    filter: true,
+                    info: false,
+                    stateSave: false,
+                    select: false,
+                    select: {
+                        style: 'single'
+                    },
+                    //Paggin
+
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [10, 25, 50, 100, 500],
+
+                    // destroy: true, //destruye automaticamente la referencia a la tabla
+                    //Ajax
+                    //serverSide: true,
+                    //bServerSide: true,
+                    //sServerMethod: "GET",
+                    buttons: [],
+                    orderCellsTop: false,
+                    fixedHeader: {
+                        header: true
+                    },
+                    "scrollX": true
+
+                }
+            );
+        });
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+
+        });
+    </script>
+}

@@ -199,6 +199,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\SecurityController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Helpers\DataTableToModel.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Inspinia\Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Models\Alertas\AlertasModel.cs" />
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\almacenTMS.cs" />
@@ -3724,6 +3726,10 @@
     <Content Include="Views\Reportes\Setce.cshtml" />
     <Content Include="Views\Reportes\TarifasTransportistas.cshtml" />
     <Content Include="Views\Shared\_EstatusEnvio.cshtml" />
+    <Content Include="Views\Alertas\OperacionesGeneral.cshtml" />
+    <Content Include="Views\Alertas\OperacionCedis.cshtml" />
+    <Content Include="Views\Alertas\OperacionDSV.cshtml" />
+    <Content Include="Views\Alertas\OperacionDST.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
