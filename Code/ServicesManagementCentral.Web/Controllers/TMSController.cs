@@ -251,7 +251,7 @@ namespace ServicesManagement.Web.Controllers
                 });
             }
 
- 
+
             foreach (DataRow item in DALDashboard.spOwners_v3_sUP().Tables[0].Rows)
             {
                 DashboardTipoAlmacen.Add(new Combo
@@ -2077,8 +2077,8 @@ namespace ServicesManagement.Web.Controllers
 
 
         #region Dashboard
-        public ActionResult IndicadoresOp(DateTime FecIni, DateTime FecFin, string op = "4", int? IdTransportista = null
-            , int? IdTipoEnvio = null, int? IdTipoServicio = null, int? IdTipoLogistica = null)
+        public ActionResult IndicadoresOp(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = ""
+            , string IdTipoEnvio = "", string IdTipoServicio = "", string IdTipoLogistica = "")
         {
             IndicadoresOpModel obj = new IndicadoresOpModel();
             string frecuencia = string.Empty;
@@ -2114,10 +2114,10 @@ namespace ServicesManagement.Web.Controllers
             var DashboardTipoServicio = new List<Combo>();
             var DashboardTipoLogistica = new List<Combo>();
 
-            DashboardTrans.Add(new Combo { Value = "0", Text = "---Transportista--" });
-            DashboardTipoEnvio.Add(new Combo { Value = "0", Text = "---Tipo de Envio--" });
-            DashboardTipoServicio.Add(new Combo { Value = "0", Text = "---Tipo de Servicio--" });
-            DashboardTipoLogistica.Add(new Combo { Value = "0", Text = "---Tipo Logistica--" });
+            //DashboardTrans.Add(new Combo { Value = "0", Text = "---Transportista--" });
+            //DashboardTipoEnvio.Add(new Combo { Value = "0", Text = "---Tipo de Envio--" });
+            //DashboardTipoServicio.Add(new Combo { Value = "0", Text = "---Tipo de Servicio--" });
+            //DashboardTipoLogistica.Add(new Combo { Value = "0", Text = "---Tipo Logistica--" });
 
 
             foreach (DataRow item in DALDashboard.upCorpTms_Cns_DashboardTrans().Tables[0].Rows)
@@ -2172,9 +2172,27 @@ namespace ServicesManagement.Web.Controllers
             #endregion
 
 
+            if (string.IsNullOrEmpty(IdTransportista))
+            {              
+                IdTransportista = string.Format("{0}", string.Join(",", DashboardTrans.Select(x=> x.Value)));
+            }
 
+            if (string.IsNullOrEmpty(IdTipoEnvio))
+            {
+                IdTipoEnvio = string.Format("{0}", string.Join(",", DashboardTipoEnvio.Select(x => x.Value)));
+            }
 
-            var ds = DALDashboard.upCorpOms_Cns_Tableros(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica);
+            if (string.IsNullOrEmpty(IdTipoServicio))
+            {
+                IdTipoServicio = string.Format("{0}", string.Join(",", DashboardTipoServicio.Select(x => x.Value)));
+            }
+
+            if (string.IsNullOrEmpty(IdTipoLogistica))
+            {
+                IdTipoLogistica = string.Format("{0}", string.Join(",", DashboardTipoLogistica.Select(x => x.Value)));
+            }
+            var ds = DALDashboard.upCorpOms_Cns_Tableros_v2(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica);
+
             obj.Frecuencia = frecuencia;
             obj.general = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[0]).FirstOrDefault();
             obj.dst = DataTableToModel.ConvertTo<EstatusOP>(ds.Tables[1]).FirstOrDefault();
@@ -2189,8 +2207,8 @@ namespace ServicesManagement.Web.Controllers
 
 
         public ActionResult EstatusEnvio(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
-            , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha=null, int? Estatus=null
-            ,string json =null)
+            , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha = null, int? Estatus = null
+            , string json = null)
         {
             try
             {
@@ -2227,9 +2245,9 @@ namespace ServicesManagement.Web.Controllers
 
                 }
 
-       
 
-                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus_v2(FecIni,FecFin,IdTransportista,IdTipoEnvio,IdTipoServicio,IdTipoLogistica,json,TipoFecha,Estatus,formato);
+
+                var ds = DALDashboard.upCorpOms_Cns_GraphEnviosVsEstatus_v2(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, json, TipoFecha, Estatus, formato);
 
 
                 foreach (DataRow item in ds.Tables[0].Rows)
@@ -2263,7 +2281,7 @@ namespace ServicesManagement.Web.Controllers
                     });
                 }
 
-                var result1 = new { Success = true, Envios = lstDatosEnvios , Estatus=lstDatosEstatus};
+                var result1 = new { Success = true, Envios = lstDatosEnvios, Estatus = lstDatosEstatus };
                 return Json(result1, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -2275,7 +2293,7 @@ namespace ServicesManagement.Web.Controllers
 
 
         public ActionResult EnvioLogistica(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
-      , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica  = null, int? Estatus = null
+      , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? Estatus = null
       , string json = null)
         {
             try
@@ -2283,10 +2301,10 @@ namespace ServicesManagement.Web.Controllers
 
 
 
-     
+
                 List<DatosEstatus> lstDatosEstatus = new List<DatosEstatus>();
                 string frecuencia = string.Empty;
-               
+
                 switch (op)
                 {
                     case "1":
@@ -2304,7 +2322,7 @@ namespace ServicesManagement.Web.Controllers
                         //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
                         FecIni = DateTime.Now.AddMonths(-12);
                         FecFin = DateTime.Now;
-                       
+
                         break;
                     case "4":
                         frecuencia = "Calendario";
@@ -2327,7 +2345,7 @@ namespace ServicesManagement.Web.Controllers
                 var estados = ProcesaInfoEdos(_tabla2);
 
 
-                    var result1 = new { Success = true, tabla = _tabla ,mapa = estados };
+                var result1 = new { Success = true, tabla = _tabla, mapa = estados };
                 return Json(result1, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -2337,7 +2355,79 @@ namespace ServicesManagement.Web.Controllers
             }
         }
 
-        public List<EnviosLogistica> ProcesaInfoEdos(List<EnviosLogistica> info) {
+
+        public ActionResult EnvioEstadoDestino(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+, string IdTipoServicio = null, int? Estatus = null
+, string json = null)
+        {
+            try
+            {
+
+
+
+
+                List<DatosEstatus> lstDatosEstatus = new List<DatosEstatus>();
+                string frecuencia = string.Empty;
+
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+
+
+                //FecIni = Convert.ToDateTime("2022-01-01");
+                //FecFin   = Convert.ToDateTime("2022-01-15");
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardEnviosEstadoDestino(FecIni, FecFin, IdTransportista, IdTipoServicio, json, Estatus);
+
+                var _tabla = DataTableToModel.ConvertTo<EnviosLogistica>(ds.Tables[0]);
+
+                var _tabla2 = DataTableToModel.ConvertTo<EnviosLogistica>(ds.Tables[1]);
+
+                var _tabla3 = DataTableToModel.ConvertTo<EnviosLogistica>(ds.Tables[2]);
+
+                var estados = ProcesaInfoEdosPaq(_tabla3);
+
+
+                var result1 = new { Success = true, tabla = _tabla,
+                    tabla2 = _tabla2
+                    , mapa = estados 
+                };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+        public List<EnviosLogistica> ProcesaInfoEdos(List<EnviosLogistica> info)
+        {
             try
             {
                 var result = new List<EnviosLogistica>();
@@ -2350,13 +2440,14 @@ namespace ServicesManagement.Web.Controllers
                     var edo = info.OrderByDescending(x => x.Porcentaje).Where(x => x.NomEstado == item).FirstOrDefault();
 
                     int con = 0;
-                    foreach (var i in info.OrderByDescending(x => x.Porcentaje).Where(y=> y.NomEstado==item).ToList())
+                    foreach (var i in info.OrderByDescending(x => x.Porcentaje).Where(y => y.NomEstado == item).ToList())
                     {
                         if (con == 0)
                         {
                             tooltip += string.Format("<span style =\"font-weight:bold;\">{0} ({1} - {2}%)</span>", i.TipoLogistica.ToUpperInvariant(), i.TotEnvios, i.Porcentaje);
                         }
-                        else {
+                        else
+                        {
                             tooltip += string.Format("<br/>{0} ({1} - {2}%)", i.TipoLogistica.ToUpperInvariant(), i.TotEnvios, i.Porcentaje);
                         }
                         con++;
@@ -2373,8 +2464,50 @@ namespace ServicesManagement.Web.Controllers
 
                 throw;
             }
-        
+
         }
+
+        public List<EnviosLogistica> ProcesaInfoEdosPaq(List<EnviosLogistica> info)
+        {
+            try
+            {
+                var result = new List<EnviosLogistica>();
+
+                var edos = (from d in info select d.NomEstado).Distinct().ToArray();
+
+                foreach (var item in edos)
+                {
+                    string tooltip = string.Empty;
+                    var edo = info.OrderByDescending(x => x.Porcentaje).Where(x => x.NomEstado == item).FirstOrDefault();
+
+                    int con = 0;
+                    foreach (var i in info.OrderByDescending(x => x.Porcentaje).Where(y => y.NomEstado == item).ToList())
+                    {
+                        if (con == 0)
+                        {
+                            tooltip += string.Format("<span style =\"font-weight:bold;\">{0} ({1} - {2}%)</span>", i.TipoEnvio.ToUpperInvariant(), i.TotEnvios, i.Porcentaje);
+                        }
+                        else
+                        {
+                            tooltip += string.Format("<br/>{0} ({1} - {2}%)", i.TipoEnvio.ToUpperInvariant(), i.TotEnvios, i.Porcentaje);
+                        }
+                        con++;
+                    }
+
+                    edo.Tooltip = tooltip;
+                    result.Add(edo);
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public ActionResult IniciarComboTipoAlmacen()
         {
             try
@@ -2390,9 +2523,380 @@ namespace ServicesManagement.Web.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult CumplimientoEntrega(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+            , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha = null, int? TipoPago = null
+            , string json = null)
+        {
+            try
+            {
+                List<CumplimientoEntrega> lstEntrega = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstTransporte = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstSurtido = new List<CumplimientoEntrega>();
+                string frecuencia = string.Empty;
+                int formato = 1;
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+                        formato = 2;
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
 
-        public class Mapa { 
-        
+                        break;
+
+                }
+
+
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardCumplimientoEntrega(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, json, TipoFecha, TipoPago, formato);
+
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstEntrega.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+
+
+                foreach (DataRow item in ds.Tables[1].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstTransporte.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                foreach (DataRow item in ds.Tables[2].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstSurtido.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                var result1 = new { Success = true, Entrega = lstEntrega, Transporte = lstTransporte, Surtido = lstSurtido };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CumplCliente(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+            , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha = null, int? TipoPago = null
+            , string json = null)
+        {
+            try
+            {
+                List<CumplimientoEntrega> lstPaqueteria = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstBigTicket = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstGeneral = new List<CumplimientoEntrega>();
+                string frecuencia = string.Empty;
+                int formato = 1;
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+                        formato = 2;
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardCumplimientoCliente(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, json, TipoFecha, TipoPago, formato);
+
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstPaqueteria.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+
+
+                foreach (DataRow item in ds.Tables[1].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstBigTicket.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                foreach (DataRow item in ds.Tables[2].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstGeneral.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                var result1 = new { Success = true, Paqueteria = lstPaqueteria, BigTicket = lstBigTicket, General = lstGeneral };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CumplSurtido(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+    , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha = null, int? TipoPago = null
+    , string json = null)
+        {
+            try
+            {
+                List<CumplimientoEntrega> lstCEDIS = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstDSV = new List<CumplimientoEntrega>();
+                List<CumplimientoEntrega> lstDST = new List<CumplimientoEntrega>();
+                string frecuencia = string.Empty;
+                int formato = 1;
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+                        formato = 2;
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardCumplimientoSurtido(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, json, TipoFecha, TipoPago, formato);
+
+
+                foreach (DataRow item in ds.Tables[0].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstCEDIS.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+
+
+                foreach (DataRow item in ds.Tables[1].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstDSV.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                foreach (DataRow item in ds.Tables[2].Rows)
+                {
+                    var fec = Convert.ToDateTime(item[0].ToString());
+                    lstDST.Add(
+                        new CumplimientoEntrega
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec
+
+                        }
+                        );
+                }
+                var result1 = new { Success = true, CEDIS = lstCEDIS, DSV = lstDSV, DST = lstDST };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CumplTransporte(DateTime FecIni, DateTime FecFin, string op = "4", string IdTransportista = null
+    , string IdTipoEnvio = null, string IdTipoServicio = null, string IdTipoLogistica = null, int? TipoFecha = null, int? TipoPago = null
+    , string json = null)
+        {
+            try
+            {
+                List<TendenciasTransporte> lstTendencias = new List<TendenciasTransporte>();
+                string frecuencia = string.Empty;
+                int formato = 1;
+                switch (op)
+                {
+                    case "1":
+                        frecuencia = "Hoy";
+                        FecIni = DateTime.Now;
+                        FecFin = DateTime.Now;
+                        break;
+                    case "2":
+                        frecuencia = "Mensual";
+                        FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, DateTime.Now.Month, "01"));
+                        FecFin = DateTime.Now;
+                        break;
+                    case "3":
+                        frecuencia = "Anual";
+                        //FecIni = Convert.ToDateTime(string.Format("{0}/{1}/{2}", DateTime.Now.Year, "01", "01"));
+                        FecIni = DateTime.Now.AddMonths(-12);
+                        FecFin = DateTime.Now;
+                        formato = 2;
+                        break;
+                    case "4":
+                        frecuencia = "Calendario";
+
+                        break;
+
+                }
+
+
+
+                var ds = DALDashboard.upCorpTms_Cns_DashboardCumplimientoTransporte(FecIni, FecFin, IdTransportista, IdTipoEnvio, IdTipoServicio, IdTipoLogistica, json, TipoFecha, TipoPago, formato);
+
+                List<string> lstTendenciasStr = new List<string>();
+                foreach (DataTable dt in ds.Tables)
+                {
+                    lstTendenciasStr.Add(dt.Rows[0][4].ToString());
+                    foreach (DataRow item in dt.Rows)
+                    {
+                        var fec = Convert.ToDateTime(item[0].ToString());
+
+                        lstTendencias.Add(
+                        new TendenciasTransporte
+                        {
+                            Anio = fec.Year.ToString(),
+                            Mes = fec.Month.ToString(),
+                            Dia = fec.Day.ToString(),
+                            Valor = item[1].ToString(),
+                            Fecha = fec,
+                            Tendencia = item[4].ToString(),
+
+                        }
+                        );
+                    }
+                }
+                
+                var result1 = new { Success = true, Tendencias = lstTendenciasStr, Data = lstTendencias };
+                return Json(result1, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public class Mapa
+        {
+
         }
 
         #endregion

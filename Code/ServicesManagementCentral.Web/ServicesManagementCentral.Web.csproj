@@ -199,6 +199,7 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AlertasController.cs" />
     <Compile Include="Controllers\Api\ApiBaseController.cs" />
     <Compile Include="Controllers\Api\SecurityController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Helpers\DataTableToModel.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Inspinia\Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Models\Alertas\AlertasModel.cs" />
     <Compile Include="Models\AlmacenModel.cs" />
     <Compile Include="Models\CarrierModel.cs" />
     <Compile Include="Models\Catalogos\almacenTMS.cs" />
@@ -260,6 +262,8 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
+    <Compile Include="Models\Dashboard\CumplimientoEntrega.cs" />
+    <Compile Include="Models\Dashboard\CumplimientoTransporte.cs" />
     <Compile Include="Models\Dashboard\EnviosLogistica.cs" />
     <Compile Include="Models\Dashboard\EnviosVsEstatus.cs" />
     <Compile Include="Models\Dashboard\EstatusOP.cs" />
@@ -583,6 +587,7 @@
     <Content Include="Content\Inspinia\plugins\easypiechart\jquery.easypiechart.js" />
     <Content Include="Content\Inspinia\plugins\flot\curvedLines.js" />
     <Content Include="Content\Inspinia\plugins\flot\excanvas.min.js" />
+    <Content Include="Content\Inspinia\plugins\flot\jquery.flot.axislabels.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.pie.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.resize.js" />
@@ -3724,6 +3729,10 @@
     <Content Include="Views\Reportes\Setce.cshtml" />
     <Content Include="Views\Reportes\TarifasTransportistas.cshtml" />
     <Content Include="Views\Shared\_EstatusEnvio.cshtml" />
+    <Content Include="Views\Alertas\OperacionesGeneral.cshtml" />
+    <Content Include="Views\Alertas\OperacionCedis.cshtml" />
+    <Content Include="Views\Alertas\OperacionDSV.cshtml" />
+    <Content Include="Views\Alertas\OperacionDST.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

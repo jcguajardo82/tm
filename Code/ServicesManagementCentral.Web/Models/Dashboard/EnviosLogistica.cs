@@ -14,5 +14,6 @@ namespace ServicesManagement.Web.Models.Dashboard
         public string NomEstado { get; set; }
         public string Color { get; set; }
         public string Tooltip { get; set; }
+        public string TipoEnvio { get; set; }
     }
 }
