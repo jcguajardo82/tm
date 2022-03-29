@@ -117,7 +117,9 @@
     <div class="col-lg-12">
         <div class="ibox ">
             <div class="ibox-title">
-                <h5>Orders</h5>
+                <h5>Envios Generados vs. Estatus</h5>
+            </div>
+            <div class="ibox-title">
                 <div class="ibox-tools">
                     <div class="btn-group">
                         <button type="button" id="btnEst1" class="btn btn-xs btn-white" onclick="Grafica('1',1)">Hoy</button>
@@ -139,11 +141,11 @@
                                 if (item.Selected)
                                 {
                                     <option value="@item.Value" selected>@item.Text</option>
-                                }
+ }
                                 else
                                 {
                                     <option value="@item.Value">@item.Text</option>
-                                }
+}
                             }
                         </select>
                         <select id="ddlTipoEnvioEst" class="form-control" multiple size="6">
@@ -152,11 +154,11 @@
                                 if (item.Selected)
                                 {
                                     <option value="@item.Value" selected>@item.Text</option>
-                                }
+ }
                                 else
                                 {
                                     <option value="@item.Value">@item.Text</option>
-                                }
+}
                             }
                         </select>
                         <select id="ddlTipoServicioEst" class="form-control" multiple size="6">
@@ -165,11 +167,11 @@
                                 if (item.Selected)
                                 {
                                     <option value="@item.Value" selected>@item.Text</option>
-                                }
+ }
                                 else
                                 {
                                     <option value="@item.Value">@item.Text</option>
-                                }
+}
                             }
                         </select>
                         <select id="ddlTipoLogisticaEst" class="form-control" multiple size="6">
@@ -179,11 +181,11 @@
                                 if (item.Selected)
                                 {
                                     <option value="@item.Value" selected>@item.Text</option>
-                                }
+ }
                                 else
                                 {
                                     <option value="@item.Value">@item.Text</option>
-                                }
+}
                             }
                         </select>
                         <select id="ddlTipoFecha" class="form-control">
@@ -203,11 +205,11 @@
                                 if (item.Selected)
                                 {
                                     <option value="@item.Value" selected>@item.Text</option>
-                                }
+ }
                                 else
                                 {
                                     <option value="@item.Value">@item.Text</option>
-                                }
+}
                             }
 
                         </select>
@@ -217,11 +219,11 @@
                                 if (item.Selected)
                                 {
                                     <option value="@item.Value" selected>@item.Text</option>
-                                }
+ }
                                 else
                                 {
                                     <option value="@item.Value">@item.Text</option>
-                                }
+}
                             }
 
                         </select><br />
@@ -303,7 +305,9 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Envíos por tipo de logística</h5>
+                        <h5>Envios por tipo de logistica</h5>
+                    </div>
+                    <div class="ibox-title">
                         <div class="ibox-tools">
                             <div class="btn-group">
                                 <button type="button" id="btnMapa1" class="btn btn-xs btn-white" onclick="Mapa('1',1)">Hoy</button>
@@ -325,11 +329,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 <select id="ddlTipoEnvioMapa" class="form-control" multiple size="6">
@@ -338,11 +342,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 <select id="ddlTipoServicioMapa" class="form-control" multiple size="6">
@@ -351,27 +355,13 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
-                                @*<select id="ddlTipoLogisticaMapa" class="form-control" multiple size="6">
-
-                                        @foreach (var item in ViewBag.DashboardTipoLogistica)
-                                        {
-                                            if (item.Selected)
-                                            {
-                                                <option value="@item.Value" selected>@item.Text</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@item.Value">@item.Text</option>
-                                            }
-                                        }
-                                    </select>*@
                                 <select id="ddlEstatusMapa" class="form-control">
                                     <option value="3">AMBOS ESTATUS</option>
                                     <option value="1">EN TRANSITO</option>
@@ -383,11 +373,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
 
                                 </select>
@@ -397,11 +387,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
 
                                 </select><br />
@@ -492,7 +482,10 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Envíos por tipo de logística</h5>
+                        <h5>Envios por Estado Destino/Tipo de envio</h5>
+                    </div>
+                    <div class="ibox-title">
+
                         <div class="ibox-tools">
                             <div class="btn-group">
                                 <button type="button" id="btnEstDes1" class="btn btn-xs btn-white" onclick="EstDes('1',1)">Hoy</button>
@@ -514,11 +507,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 @*<select id="ddlTipoEnvioEstDes" class="form-control" multiple size="6">
@@ -540,11 +533,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 @*<select id="ddlTipoLogisticaMapa" class="form-control" multiple size="6">
@@ -572,11 +565,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
 
                                 </select>
@@ -586,11 +579,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
 
                                 </select><br />
@@ -605,7 +598,8 @@
                                 <table class="table table-hover margin bottom" id="tblEnvioPaqueteria">
                                     <thead>
                                         <tr>
-                                            <th colspan="4" style="text-align:center"> Paquetería
+                                            <th colspan="4" style="text-align:center">
+                                                Paquetería
                                             </th>
                                         </tr>
                                         <tr>
@@ -659,7 +653,9 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Envíos por tipo de logística</h5>
+                        <h5>Cumplimiento de Entrega</h5>
+                    </div>
+                    <div class="ibox-title">
                         <div class="ibox-tools">
                             <div class="btn-group">
                                 <button type="button" id="btnCumplEntrega1" class="btn btn-xs btn-white" onclick="GraficaCumplimientoEntrega(1)">Hoy</button>
@@ -681,11 +677,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 <select id="ddlTipoEnvioCumplEntrega" class="form-control" multiple size="6">
@@ -694,11 +690,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 <select id="ddlTipoServicioCumplEntrega" class="form-ddlTipoServicioEstDes" multiple size="6">
@@ -707,11 +703,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 <select id="ddlTipoLogisticaCumplEntrega" class="form-control" multiple size="6">
@@ -721,11 +717,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
                                 </select>
                                 <select id="ddlTipoFechaCumplEntrega" class="form-control">
@@ -743,11 +739,11 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
 
                                 </select>
@@ -757,15 +753,15 @@
                                         if (item.Selected)
                                         {
                                             <option value="@item.Value" selected>@item.Text</option>
-                                        }
+ }
                                         else
                                         {
                                             <option value="@item.Value">@item.Text</option>
-                                        }
+}
                                     }
 
                                 </select><br />
-                                <button type="button" id="btnCumplEntrega4" name="btnCumplEntrega4" class="btn btn-sm btn-white" onclick="EstDes('4',1)">Aplicar filtros</button>
+                                <button type="button" id="btnCumplEntrega4" name="btnCumplEntrega4" class="btn btn-sm btn-white" onclick="GraficaCumplimientoEntrega(4)">Aplicar filtros</button>
                             </div>
                         </div>
                     </div>
@@ -790,7 +786,9 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Envíos por tipo de logística</h5>
+                        <h5>Cumplimiento de Entrega al Cliente </h5>
+                    </div>
+                    <div class="ibox-title">
                         <div class="ibox-tools">
                             <div class="btn-group">
                                 <button type="button" id="btnCumplCliente1" class="btn btn-xs btn-white" onclick="GraficaCumplCliente(1)">Hoy</button>
@@ -921,7 +919,9 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Envíos por tipo de logística</h5>
+                        <h5>Cumplimiento del Transporte</h5>
+                    </div>
+                    <div class="ibox-title">
                         <div class="ibox-tools">
                             <div class="btn-group">
                                 <button type="button" id="btnCumplSurtido1" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(1)">Hoy</button>
@@ -1052,7 +1052,9 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Envíos por tipo de logística</h5>
+                        <h5>Cumplimiento de Surtido</h5>
+                    </div>
+                    <div class="ibox-title">
                         <div class="ibox-tools">
                             <div class="btn-group">
                                 <button type="button" id="btnCumplTransporte1" class="btn btn-xs btn-white" onclick="GraficaCumplTransporte(1)">Hoy</button>
@@ -1402,10 +1404,10 @@
             //});
 
             //VerificarGastosPorTienda();
-            GraficaCumplimientoEntrega(3);
-            GraficaCumplCliente(3);
-            GraficaCumplSurtido(3);
-            GraficaCumplTransporte(3);
+            GraficaCumplimientoEntrega(4);
+            GraficaCumplCliente(4);
+            GraficaCumplSurtido(4);
+            GraficaCumplTransporte(4);
         });
 
 
@@ -2965,7 +2967,7 @@
                              },
                              grid: {
                                  hoverable: true,
-                                 borderWidth: 2,
+                                 borderWidth: 0,
                                  borderColor: "#633200",
                                  backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                              },
@@ -3016,7 +3018,7 @@
                                  },
                                  grid: {
                                      hoverable: true,
-                                     borderWidth: 2,
+                                     borderWidth: 0,
                                      borderColor: "#633200",
                                      backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                                  },
@@ -3280,7 +3282,7 @@
                              },
                              grid: {
                                  hoverable: true,
-                                 borderWidth: 2,
+                                 borderWidth: 0,
                                  borderColor: "#633200",
                                  backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                              },
@@ -3331,7 +3333,7 @@
                                  },
                                  grid: {
                                      hoverable: true,
-                                     borderWidth: 2,
+                                     borderWidth: 0,
                                      borderColor: "#633200",
                                      backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                                  },
@@ -3524,7 +3526,7 @@
                              },
                              grid: {
                                  hoverable: true,
-                                 borderWidth: 2,
+                                 borderWidth: 0,
                                  borderColor: "#633200",
                                  backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                              },
@@ -3575,7 +3577,7 @@
                                  },
                                  grid: {
                                      hoverable: true,
-                                     borderWidth: 2,
+                                     borderWidth: 0,
                                      borderColor: "#633200",
                                      backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                                  },
@@ -3774,7 +3776,7 @@
                              },
                              grid: {
                                  hoverable: true,
-                                 borderWidth: 2,
+                                 borderWidth: 0,
                                  borderColor: "#633200",
                                  backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                              },
@@ -3825,7 +3827,7 @@
                                  },
                                  grid: {
                                      hoverable: true,
-                                     borderWidth: 2,
+                                     borderWidth: 0,
                                      borderColor: "#633200",
                                      backgroundColor: { colors: ["#ffffff", "#EDF5FF"] }
                                  },

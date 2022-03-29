@@ -3661,6 +3661,7 @@
     <None Include="Properties\PublishProfiles\tmsmercurio - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\tmsmercurio2 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\tmsmercurioQA - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\TMSPROD - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
