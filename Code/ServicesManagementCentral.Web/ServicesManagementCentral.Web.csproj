@@ -207,6 +207,7 @@
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
     <Compile Include="Controllers\DefRangosTiempoController.cs" />
+    <Compile Include="Controllers\GuiasController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OpUltMillaController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
     <Compile Include="DAL\DALDashboard.cs" />
+    <Compile Include="DAL\DALGuias.cs" />
     <Compile Include="DAL\DALRangosTiemposExcepciones.cs" />
     <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALDefRangosTiempo.cs" />
@@ -288,6 +290,9 @@
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionSurtidor.cs" />
     <Compile Include="Models\EstafetaModel.cs" />
     <Compile Include="Models\EtiquetaModel.cs" />
+    <Compile Include="Models\Guias\CarrierRequest.cs" />
+    <Compile Include="Models\Guias\ProductEmbalaje.cs" />
+    <Compile Include="Models\Guias\WeightByProducts.cs" />
     <Compile Include="Models\Impex\Cns_TransportistaDestinosZonas.cs" />
     <Compile Include="Models\Impex\CobZon.cs" />
     <Compile Include="Models\Impex\KgDinero.cs" />
@@ -3736,6 +3741,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Guias\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Inspinia\bootstrap.css.map" />
