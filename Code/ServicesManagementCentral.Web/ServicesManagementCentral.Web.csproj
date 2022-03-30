@@ -206,7 +206,6 @@
     <Compile Include="Controllers\CatalogoController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
-    <Compile Include="Controllers\CumplimientoEntrega.cs" />
     <Compile Include="Controllers\DefRangosTiempoController.cs" />
     <Compile Include="Controllers\GuiasController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
