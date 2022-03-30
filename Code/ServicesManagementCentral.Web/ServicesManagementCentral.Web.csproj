@@ -206,6 +206,7 @@
     <Compile Include="Controllers\CatalogoController.cs" />
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
+    <Compile Include="Controllers\CumplimientoEntrega.cs" />
     <Compile Include="Controllers\DefRangosTiempoController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OpUltMillaController.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TMSController.cs" />
+    <Compile Include="CsvExport.cs" />
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
     <Compile Include="DAL\DALDashboard.cs" />
@@ -262,8 +264,6 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
-    <Compile Include="Models\Dashboard\CumplimientoEntrega.cs" />
-    <Compile Include="Models\Dashboard\CumplimientoTransporte.cs" />
     <Compile Include="Models\Dashboard\EnviosLogistica.cs" />
     <Compile Include="Models\Dashboard\EnviosVsEstatus.cs" />
     <Compile Include="Models\Dashboard\EstatusOP.cs" />
@@ -587,7 +587,6 @@
     <Content Include="Content\Inspinia\plugins\easypiechart\jquery.easypiechart.js" />
     <Content Include="Content\Inspinia\plugins\flot\curvedLines.js" />
     <Content Include="Content\Inspinia\plugins\flot\excanvas.min.js" />
-    <Content Include="Content\Inspinia\plugins\flot\jquery.flot.axislabels.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.pie.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.resize.js" />
