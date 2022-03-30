@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ServicesManagement.Web.Models
 {
-    public class ResponseModels
+    public class ResponseEstModels
     {
 
         public string Cve_RespCode { get; set; } = "00";

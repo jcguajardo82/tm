@@ -1175,7 +1175,6 @@ namespace ServicesManagement.Web.Controllers
         public string CreateGuiaEstafeta(string UeNo, int OrderNo, int weight, int typeId)
         {
             string result = string.Empty;
-            var ServiceTypeId = 1;
             DataSet ds = new DataSet();
             DataSet dsO = new DataSet();
 
@@ -1285,7 +1284,7 @@ namespace ServicesManagement.Web.Controllers
 
                     string msg = r2.message;
 
-                    ResponseModels re = JsonConvert.DeserializeObject<ResponseModels>(r2.message);
+                    ResponseEstModels re = JsonConvert.DeserializeObject<ResponseEstModels>(r2.message);
 
                     string pdfcadena2 = Convert.ToBase64String(re.pdf, Base64FormattingOptions.None);
 
