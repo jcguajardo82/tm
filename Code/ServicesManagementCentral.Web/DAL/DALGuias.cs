@@ -76,7 +76,7 @@ namespace ServicesManagement.Web.DAL
             }
 
         }
-        public string EliminarTarifasAnteriores(string UeNo, int OrderNo)
+        public static string EliminarTarifasAnteriores(string UeNo, int OrderNo)
         {
 
             DataSet ds = new DataSet();
@@ -269,7 +269,7 @@ namespace ServicesManagement.Web.DAL
             }
 
         }
-        public string GuardarTarifas(string UeNo, int OrderNo, string json)
+        public static string GuardarTarifas(string UeNo, int OrderNo, string json)
         {
 
             DataSet ds = new DataSet();
@@ -304,6 +304,268 @@ namespace ServicesManagement.Web.DAL
             }
 
             return "ok";
+        }
+        public static DataSet EstafetaActive()
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_EstafetaActive]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public static DataSet upCorpOms_Ins_UeNoTracking(string UeNo, int OrderNo, string IdTracking, string TrackingType,
+            string PackageType, decimal PackageLength, decimal PackageWidth, decimal PackageHeight, decimal PackageWeight,
+            string CreationId,
+            string servicioPaq,
+            string IdTrackingService,
+            string pdfstring,
+            string GuiaEstatus,
+            string contentType,
+            string trackUrl)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@UeNo", UeNo);
+                parametros.Add("@OrderNo", OrderNo);
+                parametros.Add("@IdTracking", IdTracking);
+                parametros.Add("@TrackingType", TrackingType);
+                parametros.Add("@PackageType", PackageType);
+                parametros.Add("@PackageLength", PackageLength);
+                parametros.Add("@PackageWidth", PackageWidth);
+                parametros.Add("@PackageHeight", PackageHeight);
+                parametros.Add("@PackageWeight", PackageWeight);
+                parametros.Add("@CreationId", CreationId);
+                parametros.Add("@IdTrackingService", IdTrackingService);
+                parametros.Add("@TrackingServiceName", servicioPaq);
+
+                parametros.Add("@TrackingServiceStatus", GuiaEstatus); // GuiaEstatus
+                parametros.Add("@contentType", contentType == null ? "" : contentType);
+
+                if (servicioPaq.Equals("Logyt-Estafeta") || servicioPaq.Equals("Soriana-Estafeta"))
+                {
+                    parametros.Add("@pdfstring", pdfstring);
+                }
+                else
+                {
+                    parametros.Add("@labelUrl", pdfstring);
+                    parametros.Add("@trackUrl", trackUrl);
+                }
+                if (PackageWeight <= 70)
+                {
+                    parametros.Add("@serviceId", "60");
+                }
+                else
+                {
+                    parametros.Add("@serviceId", "L0");
+                }
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Ins_UeNoTracking]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public static DataSet upCorpOms_Ins_UeNoTrackingDetail(string UeNo, int OrderNo, string IdTracking, string TrackingType,
+                    int ProductId, long Barcode, string ProductName,
+                    string CreationId)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@UeNo", UeNo);
+                parametros.Add("@OrderNo", OrderNo);
+                parametros.Add("@IdTracking", IdTracking);
+                parametros.Add("@TrackingType", TrackingType);
+                parametros.Add("@ProductId", ProductId);
+                parametros.Add("@Barcode", Barcode);
+                parametros.Add("@ProductName", ProductName);
+                parametros.Add("@CreationId", CreationId);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Ins_UeNoTrackingDetail]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public static DataSet CarrierSelected(int orderNo, long cotizeId)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@orderNo", orderNo);
+                parametros.Add("@CotizeId", cotizeId);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Upd_CarrierSelected]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public static DataSet GuardarPickUp(string UeNo, int OrderNo, string IdTracking, string json, string user, string carrier, string date, string postalCode)
+        {
+
+            DataSet ds = new DataSet();
+            string result = string.Empty;
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+
+
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@UeNo", UeNo);
+                parametros.Add("@OrderNo", OrderNo);
+                parametros.Add("@IdTracking", IdTracking);
+                parametros.Add("@json", json);
+                parametros.Add("@createdUser", user);
+                if (!string.IsNullOrEmpty(carrier))
+                    parametros.Add("@carrier", carrier);
+                if (!string.IsNullOrEmpty(date))
+                    parametros.Add("@date", date);
+                if (!string.IsNullOrEmpty(postalCode))
+                    parametros.Add("@postalCode", postalCode);
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Ins_UeNoPickUp]", false, parametros);
+
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+
+            return ds;
+        }
+        public static DataSet CarrierRates(int orderNo)
+        {
+
+            DataSet ds = new DataSet();
+
+            string conection = ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]];
+            if (System.Configuration.ConfigurationManager.AppSettings["flagConectionDBEcriptado"].ToString().Trim().Equals("1"))
+            {
+                conection = Soriana.FWK.FmkTools.Seguridad.Desencriptar(ConfigurationManager.AppSettings[ConfigurationManager.AppSettings["AmbienteSC"]]);
+            }
+            try
+            {
+                Soriana.FWK.FmkTools.SqlHelper.connection_Name(ConfigurationManager.ConnectionStrings["Connection_DEV"].ConnectionString);
+
+                System.Collections.Hashtable parametros = new System.Collections.Hashtable();
+                parametros.Add("@orderNo", orderNo);
+
+                ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[dbo].[upCorpOms_Cns_CarrierRates]", false, parametros);
+
+                return ds;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
     }
 }
