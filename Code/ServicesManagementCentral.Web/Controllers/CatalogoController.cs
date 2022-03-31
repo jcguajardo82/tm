@@ -1149,22 +1149,22 @@ namespace ServicesManagement.Web.Controllers
                 if (Session["lstCPs"] == null)
                 {
                     query = from row in DALCatalogo.up_CorpTMS_sel_CodigosPostales_Por_Almacen(ids, Session["ownersIdsBusqueda"].ToString()).Tables[0].AsEnumerable().AsQueryable()
-                                                                    select new CodigosPostales_Por_Almacen()
-                                                                    {
-                                                                        Id_CP = (row["Id_CP"].ToString()),
-                                                                        IdOwner = (row["idOwner"].ToString()),
-                                                                        IdSupplierWH = row["idSupplierWH"].ToString(),
-                                                                        TipoAlmacen = row["TipoAlmacen"].ToString(),
-                                                                        IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
-                                                                        Latitud = row["Latitud"].ToString(),
-                                                                        Longitud = row["Longitud"].ToString(),
-                                                                        CP = row["CP"].ToString(),
-                                                                        Usuario_Creation = row["Usuario_Creation"].ToString(),
-                                                                        Fecha_Creacion = row["Fecha_Creacion"].ToString(),
-                                                                        BitActivo = row["BitActivo"].ToString(),
-                                                                        Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
-                                                                        Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
-                                                                    };
+                            select new CodigosPostales_Por_Almacen()
+                            {
+                                Id_CP = (row["Id_CP"].ToString()),
+                                IdOwner = (row["idOwner"].ToString()),
+                                IdSupplierWH = row["idSupplierWH"].ToString(),
+                                TipoAlmacen = row["TipoAlmacen"].ToString(),
+                                IdSupplierWHCode = (row["idSupplierWHCode"].ToString()),
+                                Latitud = row["Latitud"].ToString(),
+                                Longitud = row["Longitud"].ToString(),
+                                CP = row["CP"].ToString(),
+                                Usuario_Creation = row["Usuario_Creation"].ToString(),
+                                Fecha_Creacion = row["Fecha_Creacion"].ToString(),
+                                BitActivo = row["BitActivo"].ToString(),
+                                Fecha_Modificacion = row["Fecha_Modificacion"].ToString(),
+                                Usuario_Modificacion = row["Usuario_Modificacion"].ToString()
+                            };
 
                     Session["lstCPs"] = query;
                 }
@@ -4982,6 +4982,175 @@ namespace ServicesManagement.Web.Controllers
             {
 
                 DALCatalogo.ClaseEnvio_dUp(IdClase, User.Identity.Name);
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region motivo solicitud
+        public ActionResult MotivosSolicitud()
+        {
+            return View();
+        }
+
+        public ActionResult GetMotivosSolicitud()
+        {
+            try
+            {
+
+                var listC = ConvertTo<MotivosSolicitud_Sup>(DALCatalogo.MotivosSolicitud_Sup().Tables[0]);
+
+
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetMotivosSolicitudById(int idMotivo)
+        {
+            try
+            {
+
+                var listC = ConvertTo<MotivosSolicitud_Sup>(DALCatalogo.MotivosSolicitudById_Sup(idMotivo).Tables[0]).FirstOrDefault();
+
+
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddMotivosSolicitud(int idMotivo, string Desc, bool BitActivo)
+        {
+            try
+            {
+                if (idMotivo.Equals(0))
+                {
+                    DALCatalogo.MotivosSolicitud_iup(Desc, DateTime.Now, this.User.Identity.Name, BitActivo);
+                }
+                else
+                {
+                    DALCatalogo.MotivosSolicitud_uup(Desc, idMotivo, BitActivo);
+                }
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult DelMotivosSolicitud(int idMotivo, bool BitActivo = false)
+        {
+            try
+            {
+
+                {
+                    DALCatalogo.MotivosSolicitud_dup(idMotivo, BitActivo);
+                }
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region MotivoCancelacionGuias
+        public ActionResult MotivoCancelacionGuias()
+        {
+            return View();
+        }
+        public ActionResult GetMotivoCancelacionGuias()
+        {
+            try
+            {
+
+                var listC = ConvertTo<MotivoCancelacionGuias>(DALCatalogo.MotivoCancelacionGuias_sUp().Tables[0]);
+
+
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetMotivoCancelacionGuiasById(int IdMotivoCancelacion)
+        {
+            try
+            {
+
+                var listC = ConvertTo<MotivoCancelacionGuias>(DALCatalogo.MotivoCancelacionGuias_sUp(IdMotivoCancelacion).Tables[0]).FirstOrDefault();
+
+
+                var result = new { Success = true, resp = listC };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AddMotivoCancelacionGuias(int IdMotivoCancelacion, string Desc, bool BitActivo)
+        {
+            try
+            {
+                if (IdMotivoCancelacion.Equals(0))
+                {
+                    DALCatalogo.MotivoCancelacionGuias_iUp(Desc, BitActivo, DateTime.Now, this.User.Identity.Name);
+                }
+                else
+                {
+                    DALCatalogo.MotivoCancelacionGuias_uUp(IdMotivoCancelacion, Desc, BitActivo, DateTime.Now, this.User.Identity.Name);
+                }
+
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var result = new { Success = false, Message = ex.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult DelMotivoCancelacionGuias(int IdMotivoCancelacion, bool BitActivo = false)
+        {
+            try
+            {
+
+                {
+                    DALCatalogo.MotivoCancelacionGuias_dUp(IdMotivoCancelacion, BitActivo, DateTime.Now, this.User.Identity.Name);
+                }
+
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }

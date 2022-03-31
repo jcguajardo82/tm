@@ -245,6 +245,8 @@
     <Compile Include="Models\Catalogos\EstadosMuniCpsTableType.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Logistica.cs" />
+    <Compile Include="Models\Catalogos\MotivoCancelacionGuias.cs" />
+    <Compile Include="Models\Catalogos\MotivosSolicitud_Sup.cs" />
     <Compile Include="Models\Catalogos\Owners.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Plazas.cs" />
@@ -3768,6 +3770,8 @@
     <Content Include="Views\Alertas\OperacionCedis.cshtml" />
     <Content Include="Views\Alertas\OperacionDSV.cshtml" />
     <Content Include="Views\Alertas\OperacionDST.cshtml" />
+    <Content Include="Views\Catalogo\MotivosSolicitud.cshtml" />
+    <Content Include="Views\Catalogo\MotivoCancelacionGuias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
