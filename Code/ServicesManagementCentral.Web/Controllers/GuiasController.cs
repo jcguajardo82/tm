@@ -19,102 +19,151 @@ namespace ServicesManagement.Web.Controllers
 {
     public class GuiasController : Controller
     {
-        [HttpPost]
-        public ActionResult AddEmbalaje(List<PackageMeasure> Paquetes, string UeNo, int OrderNo, List<ProductEmbalaje> Products, string TrackingType = "Normal")
+        [HttpGet]
+        public ActionResult Cotizar(string UeNo, string IdTrackingService)
         {
-            string tarifa = string.Empty, paqueteria = string.Empty, guia = string.Empty, servicioPaq = string.Empty, service = string.Empty, trackUrl = string.Empty, requestRecoleccion = string.Empty;
+            int OrderNo=0, IdTracking = 0;
             try
             {
+                var lstCabecera = DataTableToModel.ConvertTo<Cabecera>(DALGuias.ConsultarCabecera(UeNo, IdTrackingService).Tables[0]);
+                OrderNo = lstCabecera.FirstOrDefault().OrderNo;
+                IdTracking = lstCabecera.FirstOrDefault().IdTracking;
+
+                var Products = DataTableToModel.ConvertTo<ProductEmbalaje>(DALGuias.ConsultarProductosByUeno(UeNo,IdTracking).Tables[0]);
                 int enviaCom = int.Parse(DALGuias.ActiveEnviaCom().Tables[0].Rows[0][0].ToString());
+                List<CarrierRequest> lstCarrierRequests = new List<CarrierRequest>();
 
-                #region Guias
+                DALGuias.EliminarTarifasAnteriores(UeNo, OrderNo);
+                CrearCotizacionesLogyt(Products, OrderNo);
 
-                List<string> folios = new List<string>();
-                foreach (PackageMeasure item in Paquetes)
+                decimal decimalPeso = decimal.Round(decimal.Parse(Session["SumPeso"].ToString()));
+                int peso = decimal.ToInt32(decimalPeso);
+
+                if (enviaCom == 1 && peso <= 70)
                 {
-                    var FolioDisp = DALGuias.upCorpOms_Cns_NextTracking().Tables[0].Rows[0]["NextTracking"].ToString();
-                    folios.Add(FolioDisp);
-                    List<CarrierRequest> lstCarrierRequests = new List<CarrierRequest>();
-
-                    DALGuias.EliminarTarifasAnteriores(UeNo, OrderNo);
-                    CrearCotizacionesLogyt(Products, OrderNo);
-
-                    decimal decimalPeso = decimal.Round(decimal.Parse(Session["SumPeso"].ToString()));
-                    int peso = decimal.ToInt32(decimalPeso);
-
-                    if (enviaCom == 1 && peso <= 70)
+                    DataSet dsCarriers = DALGuias.CarriersPorTransportista("envia.com");
+                    foreach (DataRow row in dsCarriers.Tables[0].Rows)
                     {
-                        DataSet dsCarriers = DALGuias.CarriersPorTransportista("envia.com");
-                        foreach (DataRow row in dsCarriers.Tables[0].Rows)
-                        {
-                            var tarifaCarrier = CreateGuiaCotizador(UeNo, OrderNo, 1, row["Carrier"].ToString(), peso);
+                        var tarifaCarrier = CreateGuiaCotizador(UeNo, OrderNo, 1, row["Carrier"].ToString(), peso);
 
-                            if (tarifaCarrier.Carrier != null)
-                            {
-                                DALGuias.GuardarTarifas(UeNo, OrderNo, tarifaCarrier.msj);
-                                lstCarrierRequests.Add(tarifaCarrier);
-                            }
+                        if (tarifaCarrier.Carrier != null)
+                        {
+                            DALGuias.GuardarTarifas(UeNo, OrderNo, tarifaCarrier.msj);
+                            lstCarrierRequests.Add(tarifaCarrier);
                         }
                     }
-                    int type = 1;
+                    Session["lstCarrierRequest"] = lstCarrierRequests;
+                }
 
-                    long cotizeId = 0;
-                    if (item.Tipo.Equals("CJA") || item.Tipo.Equals("EMB") || item.Tipo.Equals("STC"))
-                        type = 4;
-
-                    DataSet dsCarrier = DALGuias.CarrierRates(OrderNo);
-
-                    foreach (DataRow row in dsCarrier.Tables[0].Rows)
+                //DataSet dsCarrier = DALGuias.CarrierRates(OrderNo);
+                //var lstCarriers = DataTableToModel.ConvertTo<CarriersRates>(DALGuias.CarrierRates(OrderNo).Tables[0]);
+                DataSet ds = DALGuias.CarrierRates(OrderNo);
+                List<CarriersRates> lstCarriers = new List<CarriersRates>();
+                foreach (DataTable dt in ds.Tables)
+                {
+                    foreach (DataRow item in dt.Rows)
                     {
-                        paqueteria = row["Carrier"].ToString();
-                        service = row["Service"].ToString();
-                        cotizeId = long.Parse(row["cotizeId"].ToString());
-
-                        if (paqueteria.Contains("Logyt"))
+                        lstCarriers.Add(
+                        new CarriersRates
                         {
-                            guia = CreateGuiaLogyt(UeNo, OrderNo, peso, type);
+                            carrier = item[0].ToString(),
+                            Service = item[1].ToString(),
+                            BitAsegurado = item[2].ToString() == "1" ? true : false,
+                            Montoasegurado = double.Parse(item[3].ToString()),
+                            diasEntrega = int.Parse(item[4].ToString()),
+                            totalPrice = decimal.Parse(item[5].ToString()),
+                            NivelServicio = decimal.Parse(item[6].ToString()),
+                            Prioridad= int.Parse(item[7].ToString()),
+                            cotizeId = long.Parse(item[8].ToString())
+                        }
+                        ) ;
+                    }
+                }
+                Session["lstCarrierRates"] = lstCarriers;
+                Session["lstProducts"] = Products;
+                Session["UeNoSelected"] = UeNo;
+                Session["OrderNoSelected"] = OrderNo;
+                Session["IdTrackingServiceSelected"] = IdTrackingService;
+                var result = new { Success = true, Carriers = lstCarriers, Cabecera = lstCabecera };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult GenerarGuia(string _cotizeId)
+        {
+            string  guia = string.Empty, servicioPaq = string.Empty, trackUrl = string.Empty, requestRecoleccion = string.Empty;
+            string UeNo = string.Empty, IdTrackingService = string.Empty;
+            int OrderNo = 0;
+            try
+            {
+                IdTrackingService = Session["IdTrackingServiceSelected"].ToString();
+                UeNo = Session["UeNoSelected"].ToString();
+                OrderNo = int.Parse(Session["OrderNoSelected"].ToString());
+                List<CarriersRates> lstCarriers = (List<CarriersRates>)Session["lstCarrierRates"];
+                CarriersRates Carrier = lstCarriers.Where(x => x.cotizeId ==long.Parse(_cotizeId)).FirstOrDefault();
+                List<ProductEmbalaje> Products = (List<ProductEmbalaje>)Session["lstProducts"];
+                List<string> folios = new List<string>();
+                //foreach (PackageMeasure item in Paquetes)
+                //{
+                    var FolioDisp = DALGuias.upCorpOms_Cns_NextTracking().Tables[0].Rows[0]["NextTracking"].ToString();
+                    folios.Add(FolioDisp);
+                    
+                    decimal decimalPeso = decimal.Round(decimal.Parse(Session["SumPeso"].ToString()));
+                    int peso = decimal.ToInt32(decimalPeso);
+                    List<CarrierRequest> lstCarrierRequests = (List<CarrierRequest>)Session["lstCarrierRequest"];
+                    int cotizeId = 0;
+                        //paqueteria = row["Carrier"].ToString();
+                        //service = row["Service"].ToString();
+                    cotizeId = int.Parse(Carrier.cotizeId.ToString());
+
+                        if (Carrier.carrier.Contains("Logyt"))
+                        {
+                            guia = CreateGuiaLogyt(UeNo, OrderNo, peso, 1);
 
                             servicioPaq = "Logyt-Estafeta"; //esta variable sera dinamica
                         }
-                        if (paqueteria.Equals("Estafeta"))
+                        if (Carrier.carrier.Equals("Estafeta"))
                         {
                             DataSet dsEstafeta = DALGuias.EstafetaActive();
                             if (dsEstafeta != null)
                             {
                                 if (dsEstafeta.Tables[0].Rows[0][1].ToString().ToLower().Equals("estafeta"))
-                                    guia = CreateGuiaEstafeta(UeNo, OrderNo, peso, type);
+                                    guia = CreateGuiaEstafeta(UeNo, OrderNo, peso, 1);
                                 else
-                                    guia = CreateGuiaEstafetaAPI(UeNo, OrderNo, decimalPeso, Products, dsCarrier, null);
+                                    guia = CreateGuiaEstafetaAPI(UeNo, OrderNo, decimalPeso, Products, Carrier, null);
                             }
                             else
                                 throw new Exception("No hay Canal de Estafeta");
-                            //guia = CreateGuiaEstafeta(UeNo, OrderNo, peso, type);
-                            //guia = CreateGuiaEstafetaAPI(OrderNo, decimalPeso, Products, dsCarrier, null);
-
+                            
                             servicioPaq = "Soriana-Estafeta"; //esta variable sera dinamica
                         }
-                        if (!paqueteria.Equals("Estafeta") && !paqueteria.Contains("Logyt"))
+                        if (!Carrier.carrier.Equals("Estafeta") && !Carrier.carrier.Contains("Logyt"))
                         {
-                            var request = lstCarrierRequests.Where(x => x.Carrier == paqueteria).FirstOrDefault().requests[0];
-                            guia = CreateGuiaEnvia(request, service, peso);
+                            var request = lstCarrierRequests.Where(x => x.Carrier == Carrier.carrier).FirstOrDefault().requests[0];
+                            guia = CreateGuiaEnvia(request, Carrier.Service, peso);
                             if (guia != "ERROR")
                             {
-                                servicioPaq = "Envia-" + paqueteria;
+                                servicioPaq = "Envia-" + Carrier.carrier;
                                 trackUrl = guia.Split(',')[2];
-                                requestRecoleccion = lstCarrierRequests.Where(x => x.Carrier == paqueteria).FirstOrDefault().requests[1];
+                                requestRecoleccion = lstCarrierRequests.Where(x => x.Carrier == Carrier.carrier).FirstOrDefault().requests[1];
                             }
                         }
-                        if (guia != "ERROR")
-                            break;
-                    }
+                    //    if (guia != "ERROR")
+                    //        break;
+                    //}
 
                     if (guia == "ERROR")
-                        throw new Exception("No se pudo generar la guia con ninguna de las paqueterias. ");
+                        throw new Exception("No se pudo generar la guia con la paqueteria elegida. ");
 
                     string GuiaEstatus = "CREADA";
 
-                    var cabeceraGuia = DALGuias.upCorpOms_Ins_UeNoTracking(UeNo, OrderNo, FolioDisp, TrackingType,
-                    item.Tipo, item.Largo, item.Ancho, item.Alto, peso,
+                    var cabeceraGuia = DALGuias.upCorpOms_Ins_UeNoTracking(UeNo, OrderNo, FolioDisp, "Normal",
+                    Products[0].Tipo, Products[0].Largo, Products[0].Ancho, Products[0].Alto, peso,
                     User.Identity.Name, servicioPaq, guia.Split(',')[0], guia.Split(',')[1], GuiaEstatus, null, trackUrl).Tables[0].Rows[0][0];
                     DALGuias.CarrierSelected(OrderNo, cotizeId);
 
@@ -127,29 +176,22 @@ namespace ServicesManagement.Web.Controllers
                         else
                         {
                             RecoleccionRequestModel request = JsonConvert.DeserializeObject<RecoleccionRequestModel>(requestRecoleccion);
-                            DALGuias.GuardarPickUp(UeNo, OrderNo, FolioDisp, "--", User.Identity.Name, paqueteria, request.shipment.pickup.date, request.origin.postalCode);
+                            DALGuias.GuardarPickUp(UeNo, OrderNo, FolioDisp, "--", User.Identity.Name, Carrier.carrier, request.shipment.pickup.date, request.origin.postalCode);
                         }
                     }
-                }
+                //}
 
                 //DESCOMENTAR
                 foreach (var folio in folios)
                 {
                     foreach (var p in Products)
                     {
-                        DALGuias.upCorpOms_Ins_UeNoTrackingDetail(UeNo, OrderNo, folio, TrackingType,
+                        DALGuias.upCorpOms_Ins_UeNoTrackingDetail(UeNo, OrderNo, folio, "Normal",
                         p.ProductId, p.Barcode, p.ProductName, User.Identity.Name);
                     }
 
                 }
-
-                // 2021-12-15: llamado a la clase de los corres, especificamente al template 7 para confirmacion de Envio.
-                //var s = UeNo.Split('-');
-                //Correos.Correos.Correo7(OrderNo);
-
-                #endregion
-
-
+                DALGuias.CancelacionGuia(UeNo, IdTrackingService, User.Identity.Name);
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
@@ -553,7 +595,7 @@ namespace ServicesManagement.Web.Controllers
 
             return result;
         }
-        private string RequestEstafeta(DataSet ds, decimal weight, List<ProductEmbalaje> Products, DataSet dsCarrier, ShipmentToTrackingModel packageCEDIS, string UeNo)
+        private string RequestEstafeta(DataSet ds, decimal weight, List<ProductEmbalaje> Products, CarriersRates Carrier, ShipmentToTrackingModel packageCEDIS, string UeNo)
         {
             string json = string.Empty;
 
@@ -662,13 +704,13 @@ namespace ServicesManagement.Web.Controllers
             serviceConfiguration.effectiveDate = ds.Tables[1].Rows[0]["effectiveDate"].ToString();
             serviceConfiguration.originZipCodeForRouting = ds.Tables[1].Rows[0]["PostalCode"].ToString();
             // validar si tiene seguro---------------
-            if (double.Parse(dsCarrier.Tables[0].Rows[0][3].ToString()) > 0)
+            if (Carrier.Montoasegurado > 0)
             {
                 serviceConfiguration.isInsurance = true;
 
                 Insurance insurance = new Insurance();
                 insurance.contentDescription = "Mercancias Generales";
-                insurance.declaredValue = double.Parse(dsCarrier.Tables[0].Rows[0][3].ToString());
+                insurance.declaredValue = Carrier.Montoasegurado;
 
                 serviceConfiguration.insurance = insurance;
 
@@ -833,7 +875,7 @@ namespace ServicesManagement.Web.Controllers
 
             return json;
         }
-        private string RequestEstafetaLTL(DataSet ds, decimal weight, List<ProductEmbalaje> Products, DataSet dsCarrier, ShipmentToTrackingModel packageCEDIS, string UeNo)
+        private string RequestEstafetaLTL(DataSet ds, decimal weight, List<ProductEmbalaje> Products, CarriersRates Carrier, ShipmentToTrackingModel packageCEDIS, string UeNo)
         {
             string json = string.Empty;
 
@@ -949,13 +991,13 @@ namespace ServicesManagement.Web.Controllers
             serviceConfiguration.effectiveDate = ds.Tables[1].Rows[0]["effectiveDate"].ToString();
             serviceConfiguration.originZipCodeForRouting = ds.Tables[1].Rows[0]["PostalCode"].ToString();
             // validar si tiene seguro---------------
-            if (double.Parse(dsCarrier.Tables[0].Rows[0][3].ToString()) > 0)
+            if (Carrier.Montoasegurado > 0)
             {
                 serviceConfiguration.isInsurance = true;
 
                 Insurance insurance = new Insurance();
                 insurance.contentDescription = "Mercancias Generales";
-                insurance.declaredValue = double.Parse(dsCarrier.Tables[0].Rows[0][3].ToString());
+                insurance.declaredValue = Carrier.Montoasegurado;
 
                 serviceConfiguration.insurance = insurance;
 
@@ -1119,7 +1161,7 @@ namespace ServicesManagement.Web.Controllers
 
             return json;
         }
-        public string CreateGuiaEstafetaAPI(string UeNo, int OrderNo, decimal weight, List<ProductEmbalaje> Products, DataSet dsCarrier, ShipmentToTrackingModel packageCEDIS)
+        public string CreateGuiaEstafetaAPI(string UeNo, int OrderNo, decimal weight, List<ProductEmbalaje> Products, CarriersRates Carrier, ShipmentToTrackingModel packageCEDIS)
         {
             string result = string.Empty;
             string json = string.Empty, url = string.Empty;
@@ -1143,12 +1185,12 @@ namespace ServicesManagement.Web.Controllers
 
                 if (weight <= 70)
                 {
-                    json = RequestEstafeta(ds, weight, Products, dsCarrier, packageCEDIS, UeNo);
+                    json = RequestEstafeta(ds, weight, Products, Carrier, packageCEDIS, UeNo);
                     url = System.Configuration.ConfigurationSettings.AppSettings["Estafeta_API"];
                 }
                 else
                 {
-                    json = RequestEstafetaLTL(ds, weight, Products, dsCarrier, packageCEDIS, UeNo);
+                    json = RequestEstafetaLTL(ds, weight, Products, Carrier, packageCEDIS, UeNo);
                     url = System.Configuration.ConfigurationSettings.AppSettings["EstafetaLTL_API"];
                 }
                 Soriana.FWK.FmkTools.RestResponse r2 = Soriana.FWK.FmkTools.RestClient.RequestRest(Soriana.FWK.FmkTools.HttpVerb.POST, url, "", json);

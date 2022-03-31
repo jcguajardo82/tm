@@ -315,7 +315,9 @@
     <Compile Include="Models\Estafeta\ResponseEstafetaModel.cs" />
     <Compile Include="Models\EstatusGuiasEnvio\EstatusGuiasEnvio.cs" />
     <Compile Include="Models\EtiquetaModel.cs" />
+    <Compile Include="Models\Guias\Cabecera.cs" />
     <Compile Include="Models\Guias\CarrierRequest.cs" />
+    <Compile Include="Models\Guias\CarriersRates.cs" />
     <Compile Include="Models\Guias\PackageMeasure.cs" />
     <Compile Include="Models\Guias\ProductEmbalaje.cs" />
     <Compile Include="Models\Guias\WeightByProducts.cs" />
