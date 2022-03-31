@@ -15,7 +15,7 @@ namespace ServicesManagement.Web.Controllers
         #region Actions
         public ActionResult OperacionesGeneral()
         {
-            Session["RevisionGeneral"] = Get_RevisionGeneral();
+            Session["RevisionGeneral"] = Get_RevisionGeneral("1");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
             return View();
@@ -23,7 +23,7 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult OperacionCedis()
         {
-            Session["RevisionGeneral"] = Get_RevisionGeneral();
+            Session["RevisionGeneral"] = Get_RevisionGeneral("3");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
             return View();
@@ -31,18 +31,24 @@ namespace ServicesManagement.Web.Controllers
 
         public ActionResult OperacionDSV()
         {
+            Session["RevisionGeneral"] = Get_RevisionGeneral("4");
+            Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
+
             return View();
         }
 
         public ActionResult OperacionDST()
         {
+            Session["RevisionGeneral"] = Get_RevisionGeneral("2");
+            Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
+
             return View();
         }
 
         #endregion
 
         #region ObtenerDatos 
-        private DataSet Get_RevisionGeneral()
+        private DataSet Get_RevisionGeneral(string operacion)
         {
             List<RevisionGeneralModel> lstRevisionGral = new List<RevisionGeneralModel>();
             DataSet ds = new DataSet();
@@ -51,6 +57,9 @@ namespace ServicesManagement.Web.Controllers
             {
                 var _ConnectionString = ConfigurationManager.ConnectionStrings["Connection_DEV"].ToString(); //Environment.GetEnvironmentVariable("ConnectionStrings:MercurioDB");
                 string sp_Name = "tms.upCorpTms_Cns_Alertas";
+
+                DateTime fecha = DateTime.Now;
+                DateTime fechaINI = fecha.AddDays(-15);
 
                 using (System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(_ConnectionString))
                 {
@@ -62,16 +71,16 @@ namespace ServicesManagement.Web.Controllers
                         System.Data.SqlClient.SqlParameter param;
 
                         param = cmd.Parameters.Add("@fechaini", SqlDbType.VarChar);
-                        param.Value = "2022-01-01";
+                        param.Value = fechaINI.ToString("yyyy-MM-dd"); //"2022-01-01";
 
                         param = cmd.Parameters.Add("@fechafin", SqlDbType.VarChar);
-                        param.Value = "2022-04-18";
+                        param.Value = fecha.ToString("yyyy-MM-dd");
 
                         param = cmd.Parameters.Add("@transportistas", SqlDbType.VarChar);
                         param.Value = "111111,6569,222222";
 
                         param = cmd.Parameters.Add("@idOwner", SqlDbType.Int);
-                        param.Value = 1;
+                        param.Value = operacion;
 
                         param = cmd.Parameters.Add("@estatusTransporte", SqlDbType.Int);
                         param.Value = 3;
@@ -90,7 +99,7 @@ namespace ServicesManagement.Web.Controllers
             return ds;
         }
 
-        public ActionResult BuscarOperacionGeneralFiltros(string FecIni, string FecFin, string Transportista, string EstatusTrans) 
+        public ActionResult BuscarOperacionGeneralFiltros(string FecIni, string FecFin, string Transportista, string EstatusTrans, string operacion) 
         {
             DataSet ds = new DataSet();
             AlertasModel Alertas = new AlertasModel();
@@ -121,7 +130,7 @@ namespace ServicesManagement.Web.Controllers
                         param.Value = Transportista; // "111111,6569,222222";
 
                         param = cmd.Parameters.Add("@idOwner", SqlDbType.Int);
-                        param.Value = 1;
+                        param.Value = operacion;
 
                         param = cmd.Parameters.Add("@estatusTransporte", SqlDbType.Int);
                         param.Value = EstatusTrans; //3;

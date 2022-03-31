@@ -227,10 +227,9 @@
                         <th>Fecha recolección real</th>
                         <th>Días de retraso recolección</th>
                         <th>Fecha compromiso entrega transporte</th>
-
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="ContenidoTransp">
                     @{
                         if (Session["RevisionGeneral"] != null)
                         {
@@ -301,7 +300,7 @@
                         <th>Días de retraso transportista</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="ContenidoGral">
                     @{
                         if (Session["RevisionGeneral"] != null)
                         {
@@ -794,16 +793,20 @@
     <script>
          function BuscarOperacionGeneral() {
             debugger;
-            var _FecIni = $("#txtFecIni").val();
-            var _FecFin = $("#txtFecFin").val();
-            var _Transportista = $("#SelTrans").val();
+             var _FecIni = $("#txtFecIni").val();
+             var _FecFin = $("#txtFecFin").val();
+             var _Transportista = $("#SelTrans").val();
              var _EstatusTrans = $("#selEstatusTran").val();
-
-             //$("#contenido").html('');
-             //$("#tblConsulta > tbody").empty();
+             var _operacion = "1";
 
              var myTable = $('#tblConsulta').DataTable();
              myTable.clear().draw();
+
+             var myTable2 = $('#tblConsulta2').DataTable();
+             myTable2.clear().draw();
+
+             var myTable3 = $('#tblConsulta3').DataTable();
+             myTable3.clear().draw();
 
              $.ajax({
                   async: false,
@@ -813,25 +816,34 @@
                       FecIni: _FecIni,
                     FecFin: _FecFin,
                     Transportista : _Transportista,
-                    EstatusTrans :_EstatusTrans
+                    EstatusTrans: _EstatusTrans,
+                    operacion: _operacion
                 },
                 datatype: "html",
                 success: function (json) {
-                          debugger;
+                    debugger;
 
                     $("#contenido").html('');
                     $("#tblConsulta > tbody").empty();
 
                     $.each(json.resp.lstPendientesRec, function (index, value) {
-                              debugger;
-                              var colorRetrasoRec;
-                              var colorRetrasoSur;
+                        debugger;
+                        var colorRetrasoRec;
+                        var colorRetrasoSur;
 
-                              if (value.ColorRetrasoRecoleccion == "V")
-                                  colorRetrasoRec = "rowVerde";
+                        if (value.ColorRetrasoRecoleccion == "V")
+                            colorRetrasoRec = "rowVerde";
+                        if (value.ColorRetrasoRecoleccion == "R")
+                            colorRetrasoRec = "rowRojo";
+                        if (value.ColorRetrasoRecoleccion == "A")
+                            colorRetrasoRec = "rowAmarillo";
 
-                              if (value.ColorRetrasoSurtido == "V")
-                                  colorRetrasoSur = "rowVerde";
+                        if (value.ColorRetrasoSurtido == "V")
+                            colorRetrasoSur = "rowVerde";
+                        if (value.ColorRetrasoSurtido == "R")
+                            colorRetrasoSur = "rowRojo";
+                        if (value.ColorRetrasoSurtido == "A")
+                            colorRetrasoSur = "rowAmarillo";
 
                         $("#contenido")
                             .append("<tr>" +
@@ -848,21 +860,148 @@
                             "<td style='text-align:center;'>" + value.FechaSolicitudReal + "</td>" +
                             "<td class='" + colorRetrasoSur + "' style='text-align:center;'>" + value.DiasRetrasoSurtido + "</td>" +
                             "<td style='text-align:center;'>" + value.FechaCompromisoRecoleccion + "</td>" +
-                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalReasignacion('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
-                                       "Reasignación de transporte</button></td>" +
+                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
+                            "Cancelación de guías</button></td>" +
                             "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
                             "Cancelación de guías</button></td>" +
                             "</tr>");
                           });
 
-                          //$("#tblConsulta").load("your-current-page.html #tblConsulta");
-                      }
+                    $("#ContenidoTransp").html('');
+                    $("#tblConsulta2 > tbody").empty();
+
+                    $.each(json.resp.lstEntregaModel, function (index, value) {
+                        debugger;
+                        var colorRetrasoT;
+                        var colorRetrasoR;
+
+                        if (value.ColorRetrasoTransportista == "V")
+                            colorRetrasoT = "rowVerde";
+                        if (value.ColorRetrasoTransportista == "R")
+                            colorRetrasoT = "rowRojo";
+                        if (value.ColorRetrasoTransportista == "A")
+                            colorRetrasoT = "rowAmarillo";
+
+                        if (value.ColorRetrasoRecoleccion == "V")
+                            colorRetrasoR = "rowVerde";
+                        if (value.ColorRetrasoRecoleccion == "R")
+                            colorRetrasoR = "rowRojo";
+                        if (value.ColorRetrasoRecoleccion == "A")
+                            colorRetrasoR = "rowAmarillo";
+
+                        $("#ContenidoTransp")
+                            .append("<tr>" +
+                            "<td class='" + colorRetrasoT + "' style='text-align:center;'>" + value.DiasRetrasoTransportista + "</td>" +
+                            "<td style='text-align:center;'>" + value.Proveedor + "</td>" +
+                            "<td style='text-align:center;'>" + value.Consignacion + "</td>" +
+                            "<td style='text-align:center;'>" + value.GuiaTransporte + "</td>" +
+                            "<td style='text-align:center;'>" + value.Transportista + "</td>" +
+                            "<td style='text-align:center;'>" + value.Carrier + "</td>" +
+                            "<td style='text-align:center;'>" + value.TipoDeEnvio + "</td>" +
+                            "<td style='text-align:center;'>" + value.TipoDeServicio + "</td>" +
+                            "<td style='text-align:center;'>" + value.CodigoPostalDestino + "</td>" +
+                            "<td style='text-align:center;'>" + value.EstadoDestino + "</td>" +
+                            "<td style='text-align:center;'>" + value.EstatusTransporte + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaComprimisoInicio + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaComprimisoFin + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaRecoleccionReal + "</td>" +
+                            "<td class='" + colorRetrasoR + "' style='text-align:center;'>" + value.DiasRetrasoRecoleccion + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaEntregaTransporte + "</td>" +
+                            "</tr>");
+                    });
+
+                    $("#ContenidoGral").html('');
+                    $("#tblConsulta3 > tbody").empty();
+
+                    $.each(json.resp.lstRevisionGral, function (index, value) {
+                        debugger;
+
+                        var colorRetrasoTot;
+                        var colorRetrasoRSur;
+                        var colorRetRec;
+                        var colorRetTran;
+
+                        if (value.ColorRetrasoTotal == "V")
+                            colorRetrasoTot = "rowVerde";
+                        if (value.ColorRetrasoTotal == "R")
+                            colorRetrasoTot = "rowRojo";
+                        if (value.ColorRetrasoTotal == "A")
+                            colorRetrasoTot = "rowAmarillo";
+
+                        if (value.ColorRetrasoSurtido == "V")
+                            colorRetrasoRSur = "rowVerde";
+                        if (value.ColorRetrasoSurtido == "R")
+                            colorRetrasoRSur = "rowRojo";
+                        if (value.ColorRetrasoSurtido == "A")
+                            colorRetrasoRSur = "rowAmarillo";
+
+                        if (value.ColorRetrasoRecoleccion == "V")
+                            colorRetRec = "rowVerde";
+                        if (value.ColorRetrasoRecoleccion == "R")
+                            colorRetRec = "rowRojo";
+                        if (value.ColorRetrasoRecoleccion == "A")
+                            colorRetRec = "rowAmarillo";
+
+                        if (value.ColorRetrasoRecoleccion == "V")
+                            colorRetTran = "rowVerde";
+                        if (value.ColorRetrasoRecoleccion == "R")
+                            colorRetTran = "rowRojo";
+                        if (value.ColorRetrasoRecoleccion == "A")
+                            colorRetTran = "rowAmarillo";
+
+                        $("#ContenidoGral")
+                            .append("<tr>" +
+                            "<td class='" + colorRetrasoTot + "' style='text-align:center;'>" + value.DiasRetrasoTotal + "</td>" +
+                            "<td style='text-align:center;'>" + value.Proveedor + "</td>" +
+                            "<td style='text-align:center;'>" + value.Consignacion + "</td>" +
+                            "<td style='text-align:center;'>" + value.GuiaTransporte + "</td>" +
+                            "<td style='text-align:center;'>" + value.Transportista + "</td>" +
+
+                            "<td style='text-align:center;'>" + value.Carrier + "</td>" +
+                            "<td style='text-align:center;'>" + value.TipoDeEnvio + "</td>" +
+                            "<td style='text-align:center;'>" + value.TipoDeServicio + "</td>" +
+                            "<td style='text-align:center;'>" + value.EstatusTransporte + "</td>" +
+
+                            "<td style='text-align:center;'>" + value.FechaComprimisoInicio + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaComprimisoFin + "</td>" +
+                            "<td style='text-align:center;'>" + value.fechaCreacion + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaPago + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaCompromisoSurtido + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaSolicitudReal + "</td>" +
+
+                            "<td class='" + colorRetrasoRSur + "' style='text-align:center;'>" + value.DiasRetrasoSurtido + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaCompromisoRecoleccion + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaRecoleccionReal + "</td>" +
+                            "<td class='" + colorRetRec + "' style='text-align:center;'>" + value.DiasRetrasoRecoleccion + "</td>" +
+                            "<td style='text-align:center;'>" + value.FechaEntregaTransporte + "</td>" +
+                            "<td style='text-align:center;'>" + value.fechaEntregaReal + "</td>" +
+                            "<td class='" + colorRetTran + "' style='text-align:center;'>" + value.DiasRetrasoTransportista + "</td>" +
+                            "</tr>");
+                    });
+
+                }
                 , error: function (jqXHR, textStatus, errorThrown) {
                           bootbox.alert(errorThrown);
                       }
                   });
+        }
 
-             //$("#tblConsulta_paginate").hide();
+        function ModalReasignacion(_consignacion) {
+             $.ajax({
+                async: false,
+                type: "GET",
+                url: '@Url.Action("CargarDatosReasignacion", "Alertas")',
+                data: {
+                    Consignacion: _consignacion,
+                },
+                datatype: "html",
+                success: function (json) {
+                    $("#dlReasignacionTrans").modal('toggle');
+                }
+                , error: function (jqXHR, textStatus, errorThrown) {
+                    bootbox.alert(errorThrown);
+                }
+            });
         }
 
         function ModalReasignacion(_consignacion, _idTrackingService) {
@@ -1055,10 +1194,6 @@
 
         function ExportarPendienteRecoleccion() {
             window.location = window.location.origin + '/Alertas/ExportarExcel?Tabla=Au';
-        }
-
-        function ColoresSemaforoParameter() {
-
         }
     </script>
 }
