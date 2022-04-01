@@ -243,12 +243,13 @@
                                 <tr>
                                     <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
                                     <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
                                     <td style="text-align:center;">
-                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                            @p["Consignacion"]
+                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el historial de la guia" class="btn btn-link">
+                                            @p["GuiaTransporte"]
                                         </a>
                                     </td>
-                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
+                                    @*<td style="text-align:center;">@p["GuiaTransporte"]</td>*@
                                     <td style="text-align:center;">@p["Transportista"]</td>
                                     <td style="text-align:center;">@p["Carrier"]</td>
                                     <td style="text-align:center;">@p["TipoDeEnvio"]</td>
@@ -314,12 +315,13 @@
                                 <tr>
                                     <td class="@ColoresSemaforo(@p["ColorRetrasoTotal"].ToString())" style="text-align:center;">@p["DiasRetrasoTotal"]</td>
                                     <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
                                     <td style="text-align:center;">
-                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                            @p["Consignacion"]
+                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el historial de la guia" class="btn btn-link">
+                                            @p["GuiaTransporte"]
                                         </a>
                                     </td>
-                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
+                                    @*<td style="text-align:center;">@p["GuiaTransporte"]</td>*@
                                     <td style="text-align:center;">@p["Transportista"]</td>
                                     <td style="text-align:center;">@p["Carrier"]</td>
                                     <td style="text-align:center;">@p["TipoDeEnvio"]</td>
