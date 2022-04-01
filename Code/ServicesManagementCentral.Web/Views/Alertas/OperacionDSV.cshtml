@@ -528,8 +528,8 @@
                     <div class="row">
                         <div class="col-sm-3 col-md-3 col-lg-6">
                             <div class="form-group">
-                                <label>Transportista:</label>
-                                <label id="txtTransportistaMov"></label>
+                                <label>Numero de Guia:</label>
+                                <label id="txtGuiaTransporte"></label>
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-lg-6">
@@ -540,6 +540,12 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Transportista:</label>
+                                <label id="txtTransportistaMov"></label>
+                            </div>
+                        </div>
                         <div class="col-sm-3 col-md-3 col-lg-6">
                             <div class="form-group">
                                 <label>Carrier:</label>
@@ -1125,6 +1131,7 @@ function ModalReasignacion(_consignacion, _idTrackingService) {
                          $('#txtAlmacenMov').text(json.resp.historialEncabezado.Proveedor);
                          $('#txtConsignacionMov').text(json.resp.historialEncabezado.Consignacion);
                          //json.resp.historialEncabezado.GuiaTransporte
+                         $('#txtGuiaTransporte').text(json.resp.historialEncabezado.GuiaTransporte);
                          $('#txtTransportistaMov').text(json.resp.historialEncabezado.Transportista);
                          $('#txtCarrierMov').text(json.resp.historialEncabezado.Carrier);
                          $('#txtCdOrigenMov').text(json.resp.historialEncabezado.CiudadOrigen);
