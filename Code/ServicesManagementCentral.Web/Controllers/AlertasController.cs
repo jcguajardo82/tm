@@ -59,7 +59,7 @@ namespace ServicesManagement.Web.Controllers
                 string sp_Name = "tms.upCorpTms_Cns_Alertas";
 
                 DateTime fecha = DateTime.Now;
-                DateTime fechaINI = fecha.AddDays(-15);
+                DateTime fechaINI = fecha.AddDays(-7);
 
                 using (System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(_ConnectionString))
                 {
