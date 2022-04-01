@@ -2982,7 +2982,8 @@
                                  axisLabelUseCanvas: true,
                                  axisLabelFontSizePixels: 12,
                                  axisLabelFontFamily: 'Verdana, Arial',
-                                 axisLabelPadding: 3
+                                 axisLabelPadding: 3,
+                                 tickFormatter: function (val, axis) { return val  + "%" }
                              }, {
                                  position: "right",
                                  axisLabel: "Change(%)",
@@ -3229,7 +3230,8 @@
                                  axisLabelUseCanvas: true,
                                  axisLabelFontSizePixels: 12,
                                  axisLabelFontFamily: 'Verdana, Arial',
-                                 axisLabelPadding: 3
+                                 axisLabelPadding: 3,
+                                 tickFormatter: function (val, axis) { return val + "%" }
                              }, {
                                  position: "right",
                                  axisLabel: "Change(%)",
@@ -3477,7 +3479,8 @@
                                  axisLabelUseCanvas: true,
                                  axisLabelFontSizePixels: 12,
                                  axisLabelFontFamily: 'Verdana, Arial',
-                                 axisLabelPadding: 3
+                                 axisLabelPadding: 3,
+                                 tickFormatter: function (val, axis) { return val + "%" }
                              }, {
                                  position: "right",
                                  axisLabel: "Change(%)",
@@ -3731,7 +3734,9 @@
                                  axisLabelUseCanvas: true,
                                  axisLabelFontSizePixels: 12,
                                  axisLabelFontFamily: 'Verdana, Arial',
-                                 axisLabelPadding: 3
+                                 axisLabelPadding: 3,
+                                 tickFormatter: function (val, axis) { return val + "%" }
+                             
                              }, {
                                  position: "right",
                                  axisLabel: "Change(%)",
