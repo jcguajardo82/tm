@@ -562,12 +562,12 @@
                                 <button type="button" id="btnEstDes1" class="btn btn-xs btn-white" onclick="EstDes('1',1)">Hoy</button>
                                 <button type="button" id="btnEstDes2" class="btn btn-xs btn-white" onclick="EstDes('2',1)">Mensual</button>
                                 <button type="button" id="btnEstDes3" class="btn btn-xs btn-white" onclick="EstDes('3',1)">Anual</button>
-                                <div class="input-group date" id="datetimepicker7">
+                                <div class="input-group date" id="datetimepickerEstDes">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input class="form-control datepicker" id="txtFecEstDesIni"
                                            type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
                                 </div>
-                                <div class="input-group date" id="datetimepicker8">
+                                <div class="input-group date" id="datetimepicker2EstDes">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input class="form-control datepicker" id="txtFecEstDesFin"
                                            type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
@@ -1362,6 +1362,16 @@
                 , format: "yyyy/MM/DD"
             });
             $('#datetimepicker2CumplTransporte').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepickerEstDes').datetimepicker({
+
+                locale: 'es'
+                , format: "yyyy/MM/DD"
+            });
+            $('#datetimepicker2EstDes').datetimepicker({
 
                 locale: 'es'
                 , format: "yyyy/MM/DD"
