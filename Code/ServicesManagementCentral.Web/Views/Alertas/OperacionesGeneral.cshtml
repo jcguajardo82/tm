@@ -860,8 +860,8 @@
                             "<td style='text-align:center;'>" + value.FechaSolicitudReal + "</td>" +
                             "<td class='" + colorRetrasoSur + "' style='text-align:center;'>" + value.DiasRetrasoSurtido + "</td>" +
                             "<td style='text-align:center;'>" + value.FechaCompromisoRecoleccion + "</td>" +
-                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
-                            "Cancelación de guías</button></td>" +
+                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalReasignacion('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
+                            "Reasignación de transporte</button></td>" +
                             "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
                             "Cancelación de guías</button></td>" +
                             "</tr>");
@@ -984,24 +984,6 @@
                           bootbox.alert(errorThrown);
                       }
                   });
-        }
-
-        function ModalReasignacion(_consignacion) {
-             $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("CargarDatosReasignacion", "Alertas")',
-                data: {
-                    Consignacion: _consignacion,
-                },
-                datatype: "html",
-                success: function (json) {
-                    $("#dlReasignacionTrans").modal('toggle');
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
         }
 
         function ModalReasignacion(_consignacion, _idTrackingService) {

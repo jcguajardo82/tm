@@ -403,20 +403,28 @@
                             <label>
                                 Transportes disponibles para reasignar:
                             </label><br>
-                            <input type="checkbox" id="vehicle1" name="ReasignaOp1" value="Estafeta">
-                            <label for="CancOp1">
-                                Estafeta
-                            </label><br>
-                            <input type="checkbox" id="vehicle2" name="ReasignaOp2" value="Enviacom">
-                            <label for="CancOp2">
-                                Enviacom
-                            </label><br>
+                            <table id="tblCarriersRates" class="table table-striped dataTable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="no-sort">Seleccione</th>
+                                        <th class="no-sort">Carrier</th>
+                                        <th class="no-sort">Servicio</th>
+                                        <th class="no-sort">Precio</th>
+                                        <th class="no-sort">Dias de Entrega</th>
+                                        <th class="no-sort">% Nivel de servicio</th>
+                                        <th class="no-sort">Prioridad</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" onclick="" class="btn btn-primary">Guardar</button>
+                    <button type="button" onclick="Solicitar()" class="btn btn-primary">Solicitar</button>
                     @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
                 </div>
             </div>
@@ -629,6 +637,53 @@
         });
 
         $(document).ready(function () {
+            table = $('#tblCarriersRates').DataTable(
+                {
+
+                    language:
+                    {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "sSortAscending": "false",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+
+                        },
+                        "buttons": {
+                            "print": "Imprimir",
+                            "pageLength": 'Mostrar %d Registros'
+
+                        }
+                    },
+                    dom: 'Bfrtip',
+                    lengthMenu: [
+                        [25],
+                        ['Mostrar Todos']
+                    ],
+                    buttons: [
+                        { extend: 'pageLength', className: 'btn-primary' }
+                    ],
+                    columnDefs: [
+                        { targets: 'no-sort', orderable: false }
+                    ],
+                    "aaSorting": [],
+                    "scrollX": true
+
+                }
+            );
             $("#tblConsulta").DataTable(
                 {
                     dom: 'Bfrtip',
@@ -784,8 +839,8 @@
                             "<td style='text-align:center;'>" + value.FechaSolicitudReal + "</td>" +
                             "<td class='" + colorRetrasoSur + "' style='text-align:center;'>" + value.DiasRetrasoSurtido + "</td>" +
                             "<td style='text-align:center;'>" + value.FechaCompromisoRecoleccion + "</td>" +
-                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
-                            "Cancelación de guías</button></td>" +
+                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalReasignacion('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
+                            "Reasignación de transporte</button></td>" +
                             "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
                             "Cancelación de guías</button></td>" +
                             "</tr>");
@@ -909,44 +964,84 @@
                       }
                   });
         }
-
-        function ModalReasignacion(_consignacion) {
+function ModalReasignacion(_consignacion, _idTrackingService) {
              $.ajax({
                 async: false,
                 type: "GET",
-                url: '@Url.Action("CargarDatosReasignacion", "Alertas")',
+                url: '@Url.Action("Cotizar", "Guias")',
                 data: {
-                    Consignacion: _consignacion,
+                    UeNo: _consignacion,
+                    IdTrackingService: _idTrackingService
                 },
                 datatype: "html",
-                success: function (json) {
-                    $("#dlReasignacionTrans").modal('toggle');
+                 success: function (json) {
+                     if (json.Success) {
+                         $("#txtConsignacionRe").empty();
+                         $("#txtConsignacionRe").append(json.Cabecera[0].Consignacion);
+
+                         $("#txtTransActRe").empty();
+                         $("#txtTransActRe").append(json.Cabecera[0].Transportista);
+
+                         $("#txtCarrierRe").empty();
+                         $("#txtCarrierRe").append(json.Cabecera[0].Carrier);
+
+                         $("#txtServicioRe").empty();
+                         $("#txtServicioRe").append(json.Cabecera[0].TipoDeServicio);
+
+                         $("#txtTipoEnvioRe").empty();
+                         $("#txtTipoEnvioRe").append(json.Cabecera[0].TipoDeEnvio);
+                         var myTable1 = $('#tblCarriersRates').DataTable();
+                         myTable1
+                             .clear()
+                             .draw();
+
+                         for (var i = 0; i < json.Carriers.length; i++) {
+
+                             debugger;
+                             myTable1.row.add([
+                                "<input type='radio' id='" + json.Carriers[i].cotizeId + "' name='carrier' value='" + json.Carriers[i].cotizeId + "'>",
+                                 json.Carriers[i].carrier,
+                                 json.Carriers[i].Service,
+                                 json.Carriers[i].totalPrice,
+                                 json.Carriers[i].diasEntrega,
+                                 json.Carriers[i].NivelServicio,
+                                 json.Carriers[i].Prioridad
+                             ]).draw();
+                         }
+
+                         $("#dlReasignacionTrans").modal('toggle');
+                     }
                 }
                 , error: function (jqXHR, textStatus, errorThrown) {
                     bootbox.alert(errorThrown);
                 }
             });
         }
-
-        function ModalReasignacion(_consignacion) {
-             $.ajax({
-                async: false,
-                type: "GET",
-                url: '@Url.Action("CargarDatosReasignacion", "Alertas")',
-                data: {
-                    Consignacion: _consignacion,
-                },
-                datatype: "html",
-                success: function (json) {
-                    $("#dlReasignacionTrans").modal('toggle');
-                }
-                , error: function (jqXHR, textStatus, errorThrown) {
-                    bootbox.alert(errorThrown);
-                }
-            });
-        }
-
-        function ModalCancelGuias(_consignacion, _guiaTransporte) {
+        function Solicitar() {
+            var _value = $("input:radio[name='carrier']:checked").val();
+            //alert('valor: ' + _value);
+            if (_value != undefined) {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: '@Url.Action("GenerarGuia", "Guias")',
+                    data: {
+                        _cotizeId: _value
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            alert('La Guia se reasigno con exito');
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            } else {
+                alert('Seleccione un Carrier.');
+            }
+        }        function ModalCancelGuias(_consignacion, _guiaTransporte) {
             $.ajax({
                 async: false,
                 type: "GET",
