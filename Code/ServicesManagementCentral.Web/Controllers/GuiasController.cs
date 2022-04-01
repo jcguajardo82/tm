@@ -191,7 +191,22 @@ namespace ServicesManagement.Web.Controllers
                     }
 
                 }
-                DALGuias.CancelacionGuia(UeNo, IdTrackingService, User.Identity.Name);
+                DALGuias.CancelacionGuia(UeNo, IdTrackingService,1, User.Identity.Name);
+                var result = new { Success = true };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                var result = new { Success = false, Message = x.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public ActionResult CancelarGuia(string UeNo, string IdTrackingService, int IdMotivo)
+        {
+            try
+            {
+                DALGuias.CancelacionGuia(UeNo, IdTrackingService, IdMotivo, User.Identity.Name);
                 var result = new { Success = true };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }

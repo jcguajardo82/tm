@@ -636,7 +636,7 @@ namespace ServicesManagement.Web.DAL
 
             return ds;
         }
-        public static DataSet CancelacionGuia(string UeNo, string IdTrackingService,string User)
+        public static DataSet CancelacionGuia(string UeNo, string IdTrackingService, int IdMotivo,string User)
         {
 
             DataSet ds = new DataSet();
@@ -653,7 +653,7 @@ namespace ServicesManagement.Web.DAL
                 System.Collections.Hashtable parametros = new System.Collections.Hashtable();
                 parametros.Add("@UeNo", UeNo);
                 parametros.Add("@IdTrackingService", IdTrackingService);
-                parametros.Add("@idMotivo", 1);
+                parametros.Add("@idMotivo", IdMotivo);
                 parametros.Add("@User", User);
 
                 ds = Soriana.FWK.FmkTools.SqlHelper.ExecuteDataSet(CommandType.StoredProcedure, "[tms].[upCorpTms_Ins_GuiaCancelacion]", false, parametros);

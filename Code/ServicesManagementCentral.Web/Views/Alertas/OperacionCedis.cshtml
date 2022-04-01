@@ -172,11 +172,7 @@
                                         @p["DiasRetrasoRecoleccion"]
                                     </td>
                                     <td style="text-align:center;">@p["Proveedor"]</td>
-                                    <td style="text-align:center;">
-                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                            @p["Consignacion"]
-                                        </a>
-                                    </td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
                                     <td style="text-align:center;">@p["GuiaTransporte"]</td>
                                     <td style="text-align:center;">@p["Transportista"]</td>
                                     <td style="text-align:center;">@p["Carrier"]</td>
@@ -240,28 +236,28 @@
 
                             foreach (System.Data.DataRow p in dt.Rows)
                             {
-                                <tr>
-                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
-                                    <td style="text-align:center;">@p["Proveedor"]</td>
-                                    <td style="text-align:center;">
-                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                            @p["Consignacion"]
-                                        </a>
-                                    </td>
-                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
-                                    <td style="text-align:center;">@p["Transportista"]</td>
-                                    <td style="text-align:center;">@p["Carrier"]</td>
-                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
-                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
-                                    <td style="text-align:center;">@p["CodigoPostalDestino"]</td>
-                                    <td style="text-align:center;">@p["EstadoDestino"]</td>
-                                    <td style="text-align:center;">@p["EstatusTransporte"]</td>
-                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
-                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
-                                    <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
-                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
-                                    <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
-                                </tr>
+                                        <tr>
+                                            <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
+                                            <td style="text-align:center;">@p["Proveedor"]</td>
+                                            <td style="text-align:center;">@p["Consignacion"]</td>
+                                            <td style="text-align:center;">
+                                                <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
+                                                    @p["GuiaTransporte"]
+                                                </a>
+                                            </td>
+                                            <td style="text-align:center;">@p["Transportista"]</td>
+                                            <td style="text-align:center;">@p["Carrier"]</td>
+                                            <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                            <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                            <td style="text-align:center;">@p["CodigoPostalDestino"]</td>
+                                            <td style="text-align:center;">@p["EstadoDestino"]</td>
+                                            <td style="text-align:center;">@p["EstatusTransporte"]</td>
+                                            <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                            <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                            <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
+                                            <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                            <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
+                                        </tr>
 
                             }
                         }
@@ -311,34 +307,34 @@
 
                             foreach (System.Data.DataRow p in dt.Rows)
                             {
-                                <tr>
-                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTotal"].ToString())" style="text-align:center;">@p["DiasRetrasoTotal"]</td>
-                                    <td style="text-align:center;">@p["Proveedor"]</td>
-                                    <td style="text-align:center;">
-                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                            @p["Consignacion"]
-                                        </a>
-                                    </td>
-                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
-                                    <td style="text-align:center;">@p["Transportista"]</td>
-                                    <td style="text-align:center;">@p["Carrier"]</td>
-                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
-                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
-                                    <td style="text-align:center;">@p["EstatusTransporte"]</td>
-                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
-                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
-                                    <td style="text-align:center;">@p["fechaCreacion"]/td>
-                                    <td style="text-align:center;">@p["FechaPago"]</td>
-                                    <td style="text-align:center;">@p["FechaCompromisoSurtido"]</td>
-                                    <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
-                                    <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
-                                    <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
-                                    <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
-                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
-                                    <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
-                                    <td style="text-align:center;">@p["fechaEntregaReal"]</td>
-                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
-                                </tr>
+                                        <tr>
+                                            <td class="@ColoresSemaforo(@p["ColorRetrasoTotal"].ToString())" style="text-align:center;">@p["DiasRetrasoTotal"]</td>
+                                            <td style="text-align:center;">@p["Proveedor"]</td>
+                                            <td style="text-align:center;">@p["Consignacion"]</td>
+                                            <td style="text-align:center;">
+                                                <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
+                                                    @p["GuiaTransporte"]
+                                                </a>
+                                            </td>
+                                            <td style="text-align:center;">@p["Transportista"]</td>
+                                            <td style="text-align:center;">@p["Carrier"]</td>
+                                            <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                            <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                            <td style="text-align:center;">@p["EstatusTransporte"]</td>
+                                            <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                            <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                            <td style="text-align:center;">@p["fechaCreacion"]/td>
+                                            <td style="text-align:center;">@p["FechaPago"]</td>
+                                            <td style="text-align:center;">@p["FechaCompromisoSurtido"]</td>
+                                            <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
+                                            <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
+                                            <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
+                                            <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
+                                            <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                            <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
+                                            <td style="text-align:center;">@p["fechaEntregaReal"]</td>
+                                            <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
+                                        </tr>
                             }
                         }
                     }
@@ -488,7 +484,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" onclick="" class="btn btn-primary">Guardar</button>
+                    <button type="button" onclick="Cancelar()" class="btn btn-primary">Confirmar</button>
                     @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
                 </div>
             </div>
@@ -606,8 +602,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" onclick="" class="btn btn-primary">Guardar</button>
-                    @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
                 </div>
             </div>
         </div>
@@ -840,9 +834,9 @@
                             "<td style='text-align:center;'>" + value.FechaSolicitudReal + "</td>" +
                             "<td class='" + colorRetrasoSur + "' style='text-align:center;'>" + value.DiasRetrasoSurtido + "</td>" +
                             "<td style='text-align:center;'>" + value.FechaCompromisoRecoleccion + "</td>" +
-                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalReasignacion('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
+                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalReasignacion(\"" + value.Consignacion + "\", \"" + value.GuiaTransporte + "\")'>" +
                             "Reasignación de transporte</button></td>" +
-                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias('" + value.Consignacion + "', '" + value.GuiaTransporte + "')'>" +
+                            "<td style='text-align:center;'> <button class='btn btn-lg btn-block btn-primary mt-auto' type='submit' onclick='ModalCancelGuias(\"" + value.Consignacion + "\", \"" + value.GuiaTransporte + "\")'>" +
                             "Cancelación de guías</button></td>" +
                             "</tr>");
                           });
@@ -874,7 +868,7 @@
                             "<td class='" + colorRetrasoT + "' style='text-align:center;'>" + value.DiasRetrasoTransportista + "</td>" +
                             "<td style='text-align:center;'>" + value.Proveedor + "</td>" +
                             "<td style='text-align:center;'>" + value.Consignacion + "</td>" +
-                            "<td style='text-align:center;'>" + value.GuiaTransporte + "</td>" +
+                            "<td style='text-align:center;'>" + " <a onclick='DetalleMovimientos(\"" + value.Consignacion + "\", \"" + value.GuiaTransporte + "\")'" + "title='Click para ver el detalle de la orden' class='btn btn-link'>" + value.GuiaTransporte + "</a></td>" +
                             "<td style='text-align:center;'>" + value.Transportista + "</td>" +
                             "<td style='text-align:center;'>" + value.Carrier + "</td>" +
                             "<td style='text-align:center;'>" + value.TipoDeEnvio + "</td>" +
@@ -934,7 +928,7 @@
                             "<td class='" + colorRetrasoTot + "' style='text-align:center;'>" + value.DiasRetrasoTotal + "</td>" +
                             "<td style='text-align:center;'>" + value.Proveedor + "</td>" +
                             "<td style='text-align:center;'>" + value.Consignacion + "</td>" +
-                            "<td style='text-align:center;'>" + value.GuiaTransporte + "</td>" +
+                            "<td style='text-align:center;'>" + " <a onclick='DetalleMovimientos(\"" + value.Consignacion + "\", \"" + value.GuiaTransporte + "\")'" + "title='Click para ver el detalle de la orden' class='btn btn-link'>" + value.GuiaTransporte + "</a></td>" +
                             "<td style='text-align:center;'>" + value.Transportista + "</td>" +
 
                             "<td style='text-align:center;'>" + value.Carrier + "</td>" +
@@ -1034,6 +1028,7 @@
                     success: function (json) {
                         if (json.Success) {
                             alert('La Guia se reasigno con exito');
+                            window.location.reload();
                         }
                     }
                     , error: function (jqXHR, textStatus, errorThrown) {
@@ -1044,8 +1039,12 @@
                 alert('Seleccione un Carrier.');
             }
         }
-
+        var _UeNo = undefined;
+        var _guia = undefined;
         function ModalCancelGuias(_consignacion, _guiaTransporte) {
+            _UeNo = _consignacion;
+            _guia = _guiaTransporte;
+
             $.ajax({
                 async: false,
                 type: "GET",
@@ -1081,6 +1080,34 @@
                     bootbox.alert(errorThrown);
                 }
             });
+        }
+        function Cancelar() {
+            var _idMotivo = $("#ddlMotivosCancelacion").val();
+
+            if (_idMotivo != '0') {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: '@Url.Action("CancelarGuia", "Guias")',
+                    data: {
+                        UeNo: _UeNo,
+                        IdTrackingService: _guia,
+                        IdMotivo: _idMotivo
+                    },
+                    datatype: "html",
+                    success: function (json) {
+                        if (json.Success) {
+                            alert('La Guia se ha cancelado con exito');
+                            window.location.reload();
+                        }
+                    }
+                    , error: function (jqXHR, textStatus, errorThrown) {
+                        bootbox.alert(errorThrown);
+                    }
+                });
+            } else {
+                alert('Seleccione un Motivo para la cancelación.');
+            }
         }
 
         function DetalleMovimientos(_consignacion, _guiaTransporte) {

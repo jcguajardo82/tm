@@ -99,6 +99,55 @@ namespace ServicesManagement.Web.Controllers
             return ds;
         }
 
+        public DataSet OperacionGeneralFiltros(string FecIni, string FecFin, string Transportista, string EstatusTrans, string operacion)
+        {
+            DataSet ds = new DataSet();
+            AlertasModel Alertas = new AlertasModel();
+            List<PendienteRecoleccionModel> lstPendientesRecoleccion = new List<PendienteRecoleccionModel>();
+            List<PendienteEntregaModel> lstPendientesEntrega = new List<PendienteEntregaModel>();
+            List<RevisionGeneralModel> lstRevisionGeneral = new List<RevisionGeneralModel>();
+            try
+            {
+                var _ConnectionString = ConfigurationManager.ConnectionStrings["Connection_DEV"].ToString(); //Environment.GetEnvironmentVariable("ConnectionStrings:MercurioDB");
+                string sp_Name = "tms.upCorpTms_Cns_Alertas";
+
+                using (System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(_ConnectionString))
+                {
+                    using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sp_Name, cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        #region Parametros
+                        System.Data.SqlClient.SqlParameter param;
+
+                        param = cmd.Parameters.Add("@fechaini", SqlDbType.VarChar);
+                        param.Value = FecIni;  //"2022-01-01";
+
+                        param = cmd.Parameters.Add("@fechafin", SqlDbType.VarChar);
+                        param.Value = FecFin;  //"2022-04-18";
+
+                        param = cmd.Parameters.Add("@transportistas", SqlDbType.VarChar);
+                        param.Value = Transportista; // "111111,6569,222222";
+
+                        param = cmd.Parameters.Add("@idOwner", SqlDbType.Int);
+                        param.Value = operacion;
+
+                        param = cmd.Parameters.Add("@estatusTransporte", SqlDbType.Int);
+                        param.Value = EstatusTrans; //3;
+                        #endregion
+
+                        using (System.Data.SqlClient.SqlDataAdapter dataAdapter = new System.Data.SqlClient.SqlDataAdapter(cmd))
+                            dataAdapter.Fill(ds);
+                    }
+                }
+
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult BuscarOperacionGeneralFiltros(string FecIni, string FecFin, string Transportista, string EstatusTrans, string operacion) 
         {
             DataSet ds = new DataSet();
