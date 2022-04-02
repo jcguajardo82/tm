@@ -2992,7 +2992,8 @@
                          }
 
                          var dataset = [
-                             { label: "Entrega al cliente", data: dataEntrega },
+                             { label: "Entrega al cliente", data: dataEntrega, points: { symbol: "triangle" } },
+                             //{ label: "Entrega al cliente", data: dataEntrega },
                              { label: "Surtido", data: dataSurtido },
                              { label: "Transporte", data: dataTransporte }
                          ];
@@ -3078,7 +3079,8 @@
                                      axisLabelUseCanvas: true,
                                      axisLabelFontSizePixels: 12,
                                      axisLabelFontFamily: 'Verdana, Arial',
-                                     axisLabelPadding: 3
+                                     axisLabelPadding: 3,
+                                     tickFormatter: function (val, axis) { return val + "%" }
                                  }, {
                                      position: "right",
                                      axisLabel: "Change(%)",
@@ -3326,7 +3328,8 @@
                                      axisLabelUseCanvas: true,
                                      axisLabelFontSizePixels: 12,
                                      axisLabelFontFamily: 'Verdana, Arial',
-                                     axisLabelPadding: 3
+                                     axisLabelPadding: 3,
+                                     tickFormatter: function (val, axis) { return val + "%" }
                                  }, {
                                      position: "right",
                                      axisLabel: "Change(%)",
@@ -3534,7 +3537,7 @@
                              ],
                              legend: {
                                  show: true,
-                                 container: $('#legend-container3')
+                                 container: $('#legend-container4')
                                  //noColumns: 0,
                                  //labelBoxBorderColor: "#000000",
                                  //position: "nw"
@@ -3575,7 +3578,8 @@
                                      axisLabelUseCanvas: true,
                                      axisLabelFontSizePixels: 12,
                                      axisLabelFontFamily: 'Verdana, Arial',
-                                     axisLabelPadding: 3
+                                     axisLabelPadding: 3,
+                                     tickFormatter: function (val, axis) { return val + "%" }
                                  }, {
                                      position: "right",
                                      axisLabel: "Change(%)",
@@ -3587,7 +3591,7 @@
                                  ],
                                  legend: {
                                      show: true,
-                                     container: $('#legend-container3')
+                                     container: $('#legend-container4')
                                      //noColumns: 0,
                                      //labelBoxBorderColor: "#000000",
                                      //position: "nw"
@@ -3790,7 +3794,7 @@
                              ],
                              legend: {
                                  show: true,
-                                 container: $('#legend-container4')
+                                 container: $('#legend-container3')
                                  //noColumns: 0,
                                  //labelBoxBorderColor: "#000000",
                                  //position: "nw"
@@ -3831,7 +3835,8 @@
                                      axisLabelUseCanvas: true,
                                      axisLabelFontSizePixels: 12,
                                      axisLabelFontFamily: 'Verdana, Arial',
-                                     axisLabelPadding: 3
+                                     axisLabelPadding: 3,
+                                     tickFormatter: function (val, axis) { return val + "%" }
                                  }, {
                                      position: "right",
                                      axisLabel: "Change(%)",
@@ -3843,7 +3848,7 @@
                                  ],
                                  legend: {
                                      show: true,
-                                     container: $('#legend-container4')
+                                     container: $('#legend-container3')
                                      //noColumns: 0,
                                      //labelBoxBorderColor: "#000000",
                                      //position: "nw"
