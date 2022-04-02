@@ -2574,7 +2574,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2591,7 +2591,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2606,7 +2606,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2674,7 +2674,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2691,7 +2691,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2706,7 +2706,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2774,7 +2774,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2791,7 +2791,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2806,7 +2806,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec
 
                         }
@@ -2876,7 +2876,7 @@ namespace ServicesManagement.Web.Controllers
                             Anio = fec.Year.ToString(),
                             Mes = fec.Month.ToString(),
                             Dia = fec.Day.ToString(),
-                            Valor = item[1].ToString(),
+                            Valor = item[3].ToString(),
                             Fecha = fec,
                             Tendencia = item[4].ToString(),
 
