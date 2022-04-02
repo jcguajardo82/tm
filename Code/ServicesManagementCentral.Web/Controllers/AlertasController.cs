@@ -13,35 +13,171 @@ namespace ServicesManagement.Web.Controllers
     public class AlertasController : Controller
     {
         #region Actions
-        public ActionResult OperacionesGeneral()
+        public ActionResult OperacionesGeneral(string FecIni, string FecFin, string Transportista, string EstatusTrans)
         {
-            Session["RevisionGeneral"] = Get_RevisionGeneral("1");
+            if(FecIni == null)
+                FecIni = DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd");
+
+            if (FecFin == null)
+                FecFin = DateTime.Now.ToString("yyyy/MM/dd");
+
+            if (EstatusTrans == null)
+                EstatusTrans = "3";
+
+            if (Transportista == null || Transportista == "0")
+                Transportista = "111111,6569,222222";
+
+            Session["RevisionGeneral"] = OperacionGeneralFiltros(FecIni, FecFin,Transportista,EstatusTrans, "1");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
+            ViewBag.Pendientes = false;
+            ViewBag.Recoleccion = false;
+            ViewBag.Entregadas = false;
+
+            if (EstatusTrans == "3")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+                ViewBag.Entregadas = true;
+            }
+            if (EstatusTrans == "2")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+            }
+            if (EstatusTrans == "1")
+            {
+                ViewBag.Entregadas = true;
+            }
+
+            ViewBag.FecIniGeneral = FecIni;
+            ViewBag.FecFinGeneral = FecFin;
             return View();
         }
 
-        public ActionResult OperacionCedis()
+        public ActionResult OperacionCedis(string FecIni, string FecFin, string Transportista, string EstatusTrans)
         {
-            Session["RevisionGeneral"] = Get_RevisionGeneral("3");
+            if (FecIni == null)
+                FecIni = DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd");
+
+            if (FecFin == null)
+                FecFin = DateTime.Now.ToString("yyyy/MM/dd");
+
+            if (EstatusTrans == null)
+                EstatusTrans = "3";
+
+            if (Transportista == null || Transportista == "0")
+                Transportista = "111111,6569,222222";
+
+            Session["RevisionGeneral"] = OperacionGeneralFiltros(FecIni, FecFin, Transportista, EstatusTrans, "3");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
+            ViewBag.Pendientes = false;
+            ViewBag.Recoleccion = false;
+            ViewBag.Entregadas = false;
+
+            if (EstatusTrans == "3")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+                ViewBag.Entregadas = true;
+            }
+            if (EstatusTrans == "2")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+            }
+            if (EstatusTrans == "1")
+            {
+                ViewBag.Entregadas = true;
+            }
+
+            ViewBag.FecIniGeneral = FecIni;
+            ViewBag.FecFinGeneral = FecFin;
             return View();
         }
 
-        public ActionResult OperacionDSV()
+        public ActionResult OperacionDSV(string FecIni, string FecFin, string Transportista, string EstatusTrans)
         {
-            Session["RevisionGeneral"] = Get_RevisionGeneral("4");
+            if (FecIni == null)
+                FecIni = DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd");
+
+            if (FecFin == null)
+                FecFin = DateTime.Now.ToString("yyyy/MM/dd");
+
+            if (EstatusTrans == null)
+                EstatusTrans = "3";
+
+            if (Transportista == null || Transportista == "0")
+                Transportista = "111111,6569,222222";
+
+            Session["RevisionGeneral"] = OperacionGeneralFiltros(FecIni, FecFin, Transportista, EstatusTrans, "4");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
+            ViewBag.Pendientes = false;
+            ViewBag.Recoleccion = false;
+            ViewBag.Entregadas = false;
+
+            if (EstatusTrans == "3")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+                ViewBag.Entregadas = true;
+            }
+            if (EstatusTrans == "2")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+            }
+            if (EstatusTrans == "1")
+            {
+                ViewBag.Entregadas = true;
+            }
+
+            ViewBag.FecIniGeneral = FecIni;
+            ViewBag.FecFinGeneral = FecFin;
             return View();
         }
 
-        public ActionResult OperacionDST()
+        public ActionResult OperacionDST(string FecIni, string FecFin, string Transportista, string EstatusTrans)
         {
-            Session["RevisionGeneral"] = Get_RevisionGeneral("2");
+            if (FecIni == null)
+                FecIni = DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd");
+
+            if (FecFin == null)
+                FecFin = DateTime.Now.ToString("yyyy/MM/dd");
+
+            if (EstatusTrans == null)
+                EstatusTrans = "3";
+
+            if (Transportista == null || Transportista == "0")
+                Transportista = "111111,6569,222222";
+
+            Session["RevisionGeneral"] = OperacionGeneralFiltros(FecIni, FecFin, Transportista, EstatusTrans, "2");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
+            ViewBag.Pendientes = false;
+            ViewBag.Recoleccion = false;
+            ViewBag.Entregadas = false;
+
+            if (EstatusTrans == "3")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+                ViewBag.Entregadas = true;
+            }
+            if (EstatusTrans == "2")
+            {
+                ViewBag.Pendientes = true;
+                ViewBag.Recoleccion = true;
+            }
+            if (EstatusTrans == "1")
+            {
+                ViewBag.Entregadas = true;
+            }
+
+            ViewBag.FecIniGeneral = FecIni;
+            ViewBag.FecFinGeneral = FecFin;
             return View();
         }
 
@@ -140,6 +276,52 @@ namespace ServicesManagement.Web.Controllers
                             dataAdapter.Fill(ds);
                     }
                 }
+                int EnTiempo1 = 0, PorVencer1 = 0, Vencidas1 = 0, EnTiempo2 = 0, PorVencer2 = 0, Vencidas2 = 0, EnTiempo3 = 0, PorVencer3 = 0, Vencidas3 = 0;
+                foreach (DataTable dt in ds.Tables)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (dt.TableName == "Table")
+                        {
+                            if (row["ColorRetrasoRecoleccion"].ToString() == "V")
+                                EnTiempo1++;
+                            if (row["ColorRetrasoRecoleccion"].ToString() == "A")
+                                PorVencer1++;
+                            if (row["ColorRetrasoRecoleccion"].ToString() == "R")
+                                Vencidas1++;
+                        }
+                        if (dt.TableName == "Table1")
+                        {
+                            if (row["ColorRetrasoTransportista"].ToString() == "V")
+                                EnTiempo2++;
+                            if (row["ColorRetrasoTransportista"].ToString() == "A")
+                                PorVencer2++;
+                            if (row["ColorRetrasoTransportista"].ToString() == "R")
+                                Vencidas2++;
+                        }
+                        if (dt.TableName == "Table2")
+                        {
+                            if (row["ColorRetrasoTotal"].ToString() == "V")
+                                EnTiempo3++;
+                            if (row["ColorRetrasoTotal"].ToString() == "A")
+                                PorVencer3++;
+                            if (row["ColorRetrasoTotal"].ToString() == "R")
+                                Vencidas3++;
+
+                        }
+                    }
+                }
+                ViewBag.EnTiempo1 = EnTiempo1;
+                ViewBag.PorVencer1 = PorVencer1;
+                ViewBag.Vencidas1 = Vencidas1;
+
+                ViewBag.EnTiempo2 = EnTiempo2;
+                ViewBag.PorVencer2 = PorVencer2;
+                ViewBag.Vencidas2 = Vencidas2;
+
+                ViewBag.EnTiempo3 = EnTiempo3;
+                ViewBag.PorVencer3 = PorVencer3;
+                ViewBag.Vencidas3 = Vencidas3;
 
                 return ds;
             }

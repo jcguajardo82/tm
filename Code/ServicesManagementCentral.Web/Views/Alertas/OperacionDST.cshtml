@@ -79,7 +79,7 @@
                 <div class="form-group">
                     <label>Transportista</label>
                     <select id="SelTrans" name="cars" class="form-control">
-                        <option value="Op1">Opcion1</option>
+                        <option value="0">TODOS</option>
                         @{
                             if (Session["ddlTransportista"] != null)
                             {
@@ -105,25 +105,35 @@
                     <select id="selEstatusTran" name="cars" class="form-control">
                         <option value="1">Envíos entregados</option>
                         <option value="2">Envíos sin entregarse pagados</option>
-                        <option value="3">Múltiple (A & B)</option>
+                        <option selected value="3">Múltiple (A & B)</option>
                     </select>
                 </div>
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="form-group">
                     <label>Fecha</label>
-                    <input type="date" id="txtFecIni" class="form-control" />
-                    <div class="input-group date" id="datetimepicker1"></div>
+                    <div class="input-group date" id="datetimepicker1">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input class="form-control datepicker" id="txtFecIni"
+                               type="text" value="@ViewBag.FecIniGeneral">
+                    </div>
+                    @*<input type="date" id="txtFecIni" class="form-control" value="@ViewBag.FecIniGeneral" />
+                    <div class="input-group date" id="datetimepicker1"></div>*@
                 </div>
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3">
                 <label>Fecha Fin</label>
-                <input type="date" id="txtFecFin" class="form-control" />
-                <div class="input-group date" id="datetimepicker2"></div>
+                <div class="input-group date" id="datetimepicker2">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input class="form-control datepicker" id="txtFecFin"
+                           type="text" value="@ViewBag.FecFinGeneral">
+                </div>
+                @*<input type="date" id="txtFecFin" class="form-control" value="@ViewBag.FecFinGeneral" />
+                <div class="input-group date" id="datetimepicker2"></div>*@
             </div>
             <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
                 <label>&nbsp;</label>
-                <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="BuscarOperacionGeneral()">
+                <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="Buscar()">
                     Buscar
                 </button>
             </div>
@@ -132,6 +142,26 @@
             <br />
             <br />
             <h2>Pendiente de recolección</h2>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>En Tiempo</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblEnTiempo1">@ViewBag.EnTiempo1</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>Por Vencer</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblPorVencer1">@ViewBag.PorVencer1</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>Vencidas</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblVencidas1">@ViewBag.Vencidas1</label>
+                </div>
+            </div>
             <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
                 <thead class="bg-danger-sor">
                     <tr>
@@ -154,7 +184,7 @@
                 </thead>
                 <tbody id="contenido">
                     @{
-                        if (Session["RevisionGeneral"] != null)
+                        if (Session["RevisionGeneral"] != null && ViewBag.Pendientes)
                         {
                             System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
 
@@ -203,6 +233,26 @@
             <br />
             <br />
             <h2>Pendiente de entrega (en transito)</h2>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>En Tiempo</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblEnTiempo2">@ViewBag.EnTiempo2</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>Por Vencer</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblPorVencer2">@ViewBag.PorVencer2</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>Vencidas</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblVencidas2">@ViewBag.Vencidas2</label>
+                </div>
+            </div>
             <table id="tblConsulta2" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
                 <thead class="bg-danger-sor">
                     <tr>
@@ -226,7 +276,7 @@
                 </thead>
                 <tbody id="ContenidoTransp">
                     @{
-                        if (Session["RevisionGeneral"] != null)
+                        if (Session["RevisionGeneral"] != null && ViewBag.Recoleccion)
                         {
                             System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
 
@@ -235,28 +285,28 @@
 
                             foreach (System.Data.DataRow p in dt.Rows)
                             {
-                                        <tr>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
-                                            <td style="text-align:center;">@p["Proveedor"]</td>
-                                            <td style="text-align:center;">@p["Consignacion"]</td>
-                                            <td style="text-align:center;">
-                                                <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                                    @p["GuiaTransporte"]
-                                                </a>
-                                            </td>
-                                            <td style="text-align:center;">@p["Transportista"]</td>
-                                            <td style="text-align:center;">@p["Carrier"]</td>
-                                            <td style="text-align:center;">@p["TipoDeEnvio"]</td>
-                                            <td style="text-align:center;">@p["TipoDeServicio"]</td>
-                                            <td style="text-align:center;">@p["CodigoPostalDestino"]</td>
-                                            <td style="text-align:center;">@p["EstadoDestino"]</td>
-                                            <td style="text-align:center;">@p["EstatusTransporte"]</td>
-                                            <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
-                                            <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
-                                            <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
-                                            <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
-                                        </tr>
+                                <tr>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
+                                    <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
+                                    <td style="text-align:center;">
+                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
+                                            @p["GuiaTransporte"]
+                                        </a>
+                                    </td>
+                                    <td style="text-align:center;">@p["Transportista"]</td>
+                                    <td style="text-align:center;">@p["Carrier"]</td>
+                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                    <td style="text-align:center;">@p["CodigoPostalDestino"]</td>
+                                    <td style="text-align:center;">@p["EstadoDestino"]</td>
+                                    <td style="text-align:center;">@p["EstatusTransporte"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                    <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
+                                </tr>
 
                             }
                         }
@@ -268,6 +318,26 @@
             <br />
             <br />
             <h2>Revision general</h2>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>En Tiempo</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblEnTiempo3">@ViewBag.EnTiempo3</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>Por Vencer</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblPorVencer3">@ViewBag.PorVencer3</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label>Vencidas</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <label id="lblVencidas3">@ViewBag.Vencidas3</label>
+                </div>
+            </div>
             <table id="tblConsulta3" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
                 <thead class="bg-danger-sor">
                     <tr>
@@ -297,43 +367,51 @@
                 </thead>
                 <tbody id="ContenidoGral">
                     @{
-                        if (Session["RevisionGeneral"] != null)
+                        if (Session["RevisionGeneral"] != null && ViewBag.Entregadas)
                         {
                             System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
 
-                            var dt = ds.Tables[2];
+                            var dt = new System.Data.DataTable();
 
+                            if (ds.Tables.Count == 3)
+                            {
+                                dt = ds.Tables[2];
+                            }
+                            else
+                            {
+                                dt = ds.Tables[0];
+                            }
 
                             foreach (System.Data.DataRow p in dt.Rows)
                             {
-                                        <tr>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoTotal"].ToString())" style="text-align:center;">@p["DiasRetrasoTotal"]</td>
-                                            <td style="text-align:center;">@p["Proveedor"]</td>
-                                            <td style="text-align:center;">@p["Consignacion"]</td>
-                                            <td style="text-align:center;">
-                                                <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
-                                                    @p["GuiaTransporte"]
-                                                </a>
-                                            </td>
-                                            <td style="text-align:center;">@p["Transportista"]</td>
-                                            <td style="text-align:center;">@p["Carrier"]</td>
-                                            <td style="text-align:center;">@p["TipoDeEnvio"]</td>
-                                            <td style="text-align:center;">@p["TipoDeServicio"]</td>
-                                            <td style="text-align:center;">@p["EstatusTransporte"]</td>
-                                            <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
-                                            <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
-                                            <td style="text-align:center;">@p["fechaCreacion"]/td>
-                                            <td style="text-align:center;">@p["FechaPago"]</td>
-                                            <td style="text-align:center;">@p["FechaCompromisoSurtido"]</td>
-                                            <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
-                                            <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
-                                            <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
-                                            <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
-                                            <td style="text-align:center;">@p["fechaEntregaReal"]</td>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
-                                        </tr>
+                                <tr>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTotal"].ToString())" style="text-align:center;">@p["DiasRetrasoTotal"]</td>
+                                    <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
+                                    <td style="text-align:center;">
+                                        <a onclick="DetalleMovimientos('@p["Consignacion"]', '@p["GuiaTransporte"]')" title="Click para ver el detalle de la orden" class="btn btn-link">
+                                            @p["GuiaTransporte"]
+                                        </a>
+                                    </td>
+                                    <td style="text-align:center;">@p["Transportista"]</td>
+                                    <td style="text-align:center;">@p["Carrier"]</td>
+                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                    <td style="text-align:center;">@p["EstatusTransporte"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                    <td style="text-align:center;">@p["fechaCreacion"]/td>
+                                    <td style="text-align:center;">@p["FechaPago"]</td>
+                                    <td style="text-align:center;">@p["FechaCompromisoSurtido"]</td>
+                                    <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
+                                    <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["FechaRecoleccionReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">@p["DiasRetrasoRecoleccion"]</td>
+                                    <td style="text-align:center;">@p["FechaEntregaTransporte"]</td>
+                                    <td style="text-align:center;">@p["fechaEntregaReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoTransportista"].ToString())" style="text-align:center;">@p["DiasRetrasoTransportista"]</td>
+                                </tr>
                             }
                         }
                     }
@@ -637,6 +715,16 @@
         });
 
         $(document).ready(function () {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const _Transportista = urlParams.get('Transportista');
+            const _EstatusTrans = urlParams.get('EstatusTrans');
+
+            if (_Transportista != null)
+                $("#SelTrans").val(_Transportista);
+            if (_EstatusTrans != null)
+                $("#selEstatusTran").val(_EstatusTrans);
+
             table = $('#tblCarriersRates').DataTable(
                 {
 
@@ -770,6 +858,15 @@
     </script>
 
     <script>
+        function Buscar() {
+            debugger;
+            var _FecIni = $("#txtFecIni").val();
+            var _FecFin = $("#txtFecFin").val();
+            var _Transportista = $("#SelTrans").val();
+            var _EstatusTrans = $("#selEstatusTran").val();
+
+            window.location.href = "Alertas/OperacionDST?FecIni=" + _FecIni + "&FecFin=" + _FecFin + "&Transportista=" + _Transportista + "&EstatusTrans=" + _EstatusTrans;
+        }
          function BuscarOperacionGeneral() {
             debugger;
              var _FecIni = $("#txtFecIni").val();
