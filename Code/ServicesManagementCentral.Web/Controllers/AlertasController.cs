@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace ServicesManagement.Web.Controllers
         #region Actions
         public ActionResult OperacionesGeneral(string FecIni, string FecFin, string Transportista, string EstatusTrans)
         {
-            if(FecIni == null)
+            if (FecIni == null)
                 FecIni = DateTime.Now.AddDays(-7).ToString("yyyy/MM/dd");
 
             if (FecFin == null)
@@ -27,7 +28,7 @@ namespace ServicesManagement.Web.Controllers
             if (Transportista == null || Transportista == "0")
                 Transportista = "111111,6569,222222";
 
-            Session["RevisionGeneral"] = OperacionGeneralFiltros(FecIni, FecFin,Transportista,EstatusTrans, "1");
+            Session["RevisionGeneral"] = OperacionGeneralFiltros(FecIni, FecFin, Transportista, EstatusTrans, "1");
             Session["ddlTransportista"] = upCorpTms_Cns_DashboardTrans();
 
             ViewBag.Pendientes = false;
@@ -184,6 +185,287 @@ namespace ServicesManagement.Web.Controllers
         #endregion
 
         #region ObtenerDatos 
+        public FileResult Excel(int type)
+        {
+
+            DataSet dsGeneral = (DataSet)Session["RevisionGeneral"];
+
+            var d = new DataSet();
+
+            string nombreArchivo = "ReporteAlertas";
+
+
+            //Excel to create an object file
+
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+
+            //Add a sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+
+
+            //Here you can set a variety of styles seemingly font color backgrounds, but not very convenient, there is not set
+            //Sheet1 head to add the title of the first row
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+
+            DataTable dt = new DataTable();
+            var i = 0;
+            if (type == 1)
+            {
+                row1.CreateCell(0).SetCellValue("Dias de Retraso recoleccion");
+                row1.CreateCell(1).SetCellValue("Almacen/Proveedor");
+                row1.CreateCell(2).SetCellValue("Pedido");
+                row1.CreateCell(3).SetCellValue("Guia Transportista");
+                row1.CreateCell(4).SetCellValue("Transportista");
+                row1.CreateCell(5).SetCellValue("Carrier");
+                row1.CreateCell(6).SetCellValue("Tipo de envio");
+                row1.CreateCell(7).SetCellValue("Tipo de Servicio");
+                row1.CreateCell(8).SetCellValue("Fecha Comprimiso cliente Inicio");
+                row1.CreateCell(9).SetCellValue("Fecha Comprimiso cliente Fin");
+                row1.CreateCell(10).SetCellValue("Fecha fin surtido real");
+                row1.CreateCell(11).SetCellValue("Dias de retraso surtido");
+                row1.CreateCell(12).SetCellValue("Estatus de Retraso Surtido");
+                row1.CreateCell(13).SetCellValue("Fecha compromiso recoleccion");
+                dt = dsGeneral.Tables[0];
+
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                    rowtemp.CreateCell(0).SetCellValue(item[0].ToString());
+                    rowtemp.CreateCell(1).SetCellValue(item[2].ToString());
+                    rowtemp.CreateCell(2).SetCellValue(item[3].ToString());
+                    rowtemp.CreateCell(3).SetCellValue(item[4].ToString());
+                    rowtemp.CreateCell(4).SetCellValue(item[5].ToString());
+                    rowtemp.CreateCell(5).SetCellValue(item[6].ToString());
+                    rowtemp.CreateCell(6).SetCellValue(item[7].ToString());
+                    rowtemp.CreateCell(7).SetCellValue(item[8].ToString());
+                    rowtemp.CreateCell(8).SetCellValue(item[9].ToString());
+                    rowtemp.CreateCell(9).SetCellValue(item[10].ToString());
+                    rowtemp.CreateCell(10).SetCellValue(item[11].ToString());
+                    rowtemp.CreateCell(11).SetCellValue(item[12].ToString());
+                    if (item[13].ToString() == "V")
+                        rowtemp.CreateCell(12).SetCellValue("En Tiempo");
+                    if (item[13].ToString() == "A")
+                        rowtemp.CreateCell(12).SetCellValue("Por Vencer");
+                    if (item[13].ToString() == "R")
+                        rowtemp.CreateCell(12).SetCellValue("Vencida");
+                    rowtemp.CreateCell(13).SetCellValue(item[14].ToString());
+                    i++;
+                }
+            }
+            if (type == 2)
+            {
+                row1.CreateCell(0).SetCellValue("Dias de Retraso Transportista");
+                row1.CreateCell(1).SetCellValue("Almacen/Proveedor");
+                row1.CreateCell(2).SetCellValue("Pedido");
+                row1.CreateCell(3).SetCellValue("Guia Transportista");
+                row1.CreateCell(4).SetCellValue("Transportista");
+                row1.CreateCell(5).SetCellValue("Carrier");
+                row1.CreateCell(6).SetCellValue("Tipo de envio");
+                row1.CreateCell(7).SetCellValue("Tipo de Servicio");
+
+                row1.CreateCell(8).SetCellValue("Codigo Postal");
+                row1.CreateCell(9).SetCellValue("Estado Destino");
+                row1.CreateCell(10).SetCellValue("Estatus Transporte");
+                row1.CreateCell(11).SetCellValue("Fecha Comprimiso cliente Inicio");
+                row1.CreateCell(12).SetCellValue("Fecha Comprimiso cliente Fin");
+                row1.CreateCell(13).SetCellValue("Fecha Recoleccion real");
+                row1.CreateCell(14).SetCellValue("Dias de retraso recoleccion");
+                row1.CreateCell(15).SetCellValue("Estatus de Retraso Recoleccion");
+                row1.CreateCell(16).SetCellValue("Estatus de Retraso Transportista");
+                dt = dsGeneral.Tables[1];
+
+                foreach (DataRow item in dt.Rows)
+                {
+                    NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                    rowtemp.CreateCell(0).SetCellValue(item[0].ToString());
+                    rowtemp.CreateCell(1).SetCellValue(item[2].ToString());
+                    rowtemp.CreateCell(2).SetCellValue(item[3].ToString());
+                    rowtemp.CreateCell(3).SetCellValue(item[4].ToString());
+                    rowtemp.CreateCell(4).SetCellValue(item[5].ToString());
+                    rowtemp.CreateCell(5).SetCellValue(item[6].ToString());
+                    rowtemp.CreateCell(6).SetCellValue(item[7].ToString());
+                    rowtemp.CreateCell(7).SetCellValue(item[8].ToString());
+                    rowtemp.CreateCell(8).SetCellValue(item[9].ToString());
+                    rowtemp.CreateCell(9).SetCellValue(item[10].ToString());
+                    rowtemp.CreateCell(10).SetCellValue(item[11].ToString());
+                    rowtemp.CreateCell(11).SetCellValue(item[12].ToString());
+                    rowtemp.CreateCell(12).SetCellValue(item[13].ToString());
+                    rowtemp.CreateCell(13).SetCellValue(item[16].ToString());
+                    rowtemp.CreateCell(14).SetCellValue(item[14].ToString());
+
+                    if (item[15].ToString() == "V")
+                        rowtemp.CreateCell(15).SetCellValue("En Tiempo");
+                    if (item[15].ToString() == "A")
+                        rowtemp.CreateCell(15).SetCellValue("Por Vencer");
+                    if (item[15].ToString() == "R")
+                        rowtemp.CreateCell(15).SetCellValue("Vencida");
+
+                    if (item[1].ToString() == "V")
+                        rowtemp.CreateCell(16).SetCellValue("En Tiempo");
+                    if (item[1].ToString() == "A")
+                        rowtemp.CreateCell(16).SetCellValue("Por Vencer");
+                    if (item[1].ToString() == "R")
+                        rowtemp.CreateCell(16).SetCellValue("Vencida");
+                    i++;
+                }
+
+
+            }
+            if (type == 3)
+            {
+                row1.CreateCell(0).SetCellValue("Dias de Retraso Total");
+                row1.CreateCell(1).SetCellValue("Almacen/Proveedor");
+                row1.CreateCell(2).SetCellValue("Pedido");
+                row1.CreateCell(3).SetCellValue("Guia Transportista");
+                row1.CreateCell(4).SetCellValue("Transportista");
+                row1.CreateCell(5).SetCellValue("Carrier");
+                row1.CreateCell(6).SetCellValue("Tipo de envio");
+                row1.CreateCell(7).SetCellValue("Tipo de Servicio");
+                row1.CreateCell(8).SetCellValue("Estatus Transporte");
+                row1.CreateCell(9).SetCellValue("Fecha Comprimiso cliente Inicio");
+                row1.CreateCell(10).SetCellValue("Fecha Comprimiso cliente Fin");
+                row1.CreateCell(11).SetCellValue("Fecha Creacion");
+                row1.CreateCell(12).SetCellValue("Fecha de Pago");
+                row1.CreateCell(13).SetCellValue("Fecha compromiso surtido");
+                row1.CreateCell(14).SetCellValue("Fecha solicitud guía real");
+                row1.CreateCell(15).SetCellValue("Dias de Retraso Surtido");
+                row1.CreateCell(16).SetCellValue("Estatus de Retraso Surtido");
+
+                row1.CreateCell(17).SetCellValue("Fecha compromiso Recoleccion");
+                row1.CreateCell(18).SetCellValue("Fecha Recoleccion real");
+                row1.CreateCell(19).SetCellValue("Dias de Retraso Recoleccion");
+                row1.CreateCell(20).SetCellValue("Estatus de Retraso Recoleccion");
+
+                row1.CreateCell(21).SetCellValue("Fecha compromiso Entrega");
+                row1.CreateCell(22).SetCellValue("Fecha Entrega real");
+                row1.CreateCell(23).SetCellValue("Dias de Retraso Transportista");
+                row1.CreateCell(24).SetCellValue("Estatus de Retraso Transportista");
+                row1.CreateCell(25).SetCellValue("Estatus de Retraso Total");
+
+                if (dsGeneral.Tables.Count == 3)
+                    dt = dsGeneral.Tables[2];
+                else
+                    dt = dsGeneral.Tables[0];
+
+                foreach (DataRow item in dt.Rows)
+                {
+                    NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                    rowtemp.CreateCell(0).SetCellValue(item[0].ToString());
+                    rowtemp.CreateCell(1).SetCellValue(item[2].ToString());
+                    rowtemp.CreateCell(2).SetCellValue(item[3].ToString());
+                    rowtemp.CreateCell(3).SetCellValue(item[4].ToString());
+                    rowtemp.CreateCell(4).SetCellValue(item[5].ToString());
+                    rowtemp.CreateCell(5).SetCellValue(item[6].ToString());
+                    rowtemp.CreateCell(6).SetCellValue(item[7].ToString());
+                    rowtemp.CreateCell(7).SetCellValue(item[8].ToString());
+                    rowtemp.CreateCell(8).SetCellValue(item[9].ToString());
+                    rowtemp.CreateCell(9).SetCellValue(item[10].ToString());
+                    rowtemp.CreateCell(10).SetCellValue(item[11].ToString());
+                    rowtemp.CreateCell(11).SetCellValue(item[12].ToString());
+                    rowtemp.CreateCell(12).SetCellValue(item[13].ToString());
+                    rowtemp.CreateCell(13).SetCellValue(item[14].ToString());
+                    rowtemp.CreateCell(14).SetCellValue(item[15].ToString());
+                    rowtemp.CreateCell(15).SetCellValue(item[16].ToString());
+
+                    if (item[17].ToString() == "V")
+                        rowtemp.CreateCell(16).SetCellValue("En Tiempo");
+                    if (item[17].ToString() == "A")
+                        rowtemp.CreateCell(16).SetCellValue("Por Vencer");
+                    if (item[17].ToString() == "R")
+                        rowtemp.CreateCell(16).SetCellValue("Vencida");
+
+                    rowtemp.CreateCell(17).SetCellValue(item[18].ToString());
+                    rowtemp.CreateCell(18).SetCellValue(item[19].ToString());
+                    rowtemp.CreateCell(19).SetCellValue(item[20].ToString());
+
+                    if (item[21].ToString() == "V")
+                        rowtemp.CreateCell(20).SetCellValue("En Tiempo");
+                    if (item[21].ToString() == "A")
+                        rowtemp.CreateCell(20).SetCellValue("Por Vencer");
+                    if (item[21].ToString() == "R")
+                        rowtemp.CreateCell(20).SetCellValue("Vencida");
+
+                    rowtemp.CreateCell(21).SetCellValue(item[22].ToString());
+                    rowtemp.CreateCell(22).SetCellValue(item[23].ToString());
+                    rowtemp.CreateCell(23).SetCellValue(item[24].ToString());
+
+                    if (item[25].ToString() == "V")
+                        rowtemp.CreateCell(24).SetCellValue("En Tiempo");
+                    if (item[25].ToString() == "A")
+                        rowtemp.CreateCell(24).SetCellValue("Por Vencer");
+                    if (item[25].ToString() == "R")
+                        rowtemp.CreateCell(24).SetCellValue("Vencida");
+
+
+                    if (item[1].ToString() == "V")
+                        rowtemp.CreateCell(25).SetCellValue("En Tiempo");
+                    if (item[1].ToString() == "A")
+                        rowtemp.CreateCell(25).SetCellValue("Por Vencer");
+                    if (item[1].ToString() == "R")
+                        rowtemp.CreateCell(25).SetCellValue("Vencida");
+                    i++;
+                }
+
+
+            }
+
+
+            //                                                
+            //The data is written progressively sheet1 each row
+
+            //for (int i = 0; i < lst.Count; i++)
+            //{
+            //    NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+            //    rowtemp.CreateCell(0).SetCellValue(lst[i].Consignacion.ToString());
+            //    rowtemp.CreateCell(1).SetCellValue(lst[i].CodigoAlmacen.ToString());
+            //    rowtemp.CreateCell(2).SetCellValue(lst[i].NomAlmacen.ToString());
+            //    rowtemp.CreateCell(3).SetCellValue(lst[i].TipoAlmacen.ToString());
+            //    rowtemp.CreateCell(4).SetCellValue(lst[i].Zona.ToString());
+            //    rowtemp.CreateCell(5).SetCellValue(lst[i].TransAsignado.ToString());
+            //    rowtemp.CreateCell(6).SetCellValue(lst[i].TipoEnvio.ToString());
+            //    rowtemp.CreateCell(7).SetCellValue(lst[i].GuiaTrans.ToString());
+            //    rowtemp.CreateCell(8).SetCellValue(lst[i].GuiaSoriana.ToString());
+            //    rowtemp.CreateCell(9).SetCellValue(lst[i].EstatusEntrega.ToString());
+            //    rowtemp.CreateCell(10).SetCellValue(lst[i].FecRecoleccion.ToString());
+            //    rowtemp.CreateCell(11).SetCellValue(lst[i].FecEntClient.ToString());
+            //    rowtemp.CreateCell(12).SetCellValue(lst[i].PesoKGSis.ToString());
+            //    rowtemp.CreateCell(13).SetCellValue(lst[i].PesoVolSis.ToString());
+            //    rowtemp.CreateCell(14).SetCellValue(lst[i].PesoMayorSis.ToString());
+            //    rowtemp.CreateCell(15).SetCellValue(lst[i].CostoTransCotizado.ToString());
+            //    rowtemp.CreateCell(16).SetCellValue(lst[i].PesoKGGuias.ToString());
+            //    rowtemp.CreateCell(17).SetCellValue(lst[i].PesoVolGuias.ToString());
+            //    rowtemp.CreateCell(18).SetCellValue(lst[i].PesoMayorGuias.ToString());
+            //    rowtemp.CreateCell(19).SetCellValue(lst[i].CostoTransGuias.ToString());
+            //    rowtemp.CreateCell(20).SetCellValue(lst[i].PesoKGTrans.ToString());
+            //    rowtemp.CreateCell(21).SetCellValue(lst[i].PesoVolTrans.ToString());
+            //    rowtemp.CreateCell(22).SetCellValue(lst[i].PesoMayorTrans.ToString());
+            //    rowtemp.CreateCell(23).SetCellValue(lst[i].CostoTransReal.ToString());
+            //    rowtemp.CreateCell(24).SetCellValue(lst[i].Variacion1.ToString());
+            //    rowtemp.CreateCell(25).SetCellValue(lst[i].Variacion2.ToString());
+
+
+
+            //}
+
+
+            //  Write to the client 
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            book.Write(ms);
+
+            ms.Seek(0, SeekOrigin.Begin);
+
+            DateTime t = DateTime.Now;
+
+            string dateTime = t.ToString("yyyyMMddHHmmssfff");
+
+            string fileName = nombreArchivo + "_" + dateTime + ".xls";
+
+            return File(ms, "application/vnd.ms-excel", fileName);
+
+        }
         private DataSet Get_RevisionGeneral(string operacion)
         {
             List<RevisionGeneralModel> lstRevisionGral = new List<RevisionGeneralModel>();
@@ -227,7 +509,7 @@ namespace ServicesManagement.Web.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -283,12 +565,25 @@ namespace ServicesManagement.Web.Controllers
                     {
                         if (dt.TableName == "Table")
                         {
-                            if (row["ColorRetrasoRecoleccion"].ToString() == "V")
-                                EnTiempo1++;
-                            if (row["ColorRetrasoRecoleccion"].ToString() == "A")
-                                PorVencer1++;
-                            if (row["ColorRetrasoRecoleccion"].ToString() == "R")
-                                Vencidas1++;
+                            if (ds.Tables.Count == 3)
+                            {
+                                if (row["ColorRetrasoRecoleccion"].ToString() == "V")
+                                    EnTiempo1++;
+                                if (row["ColorRetrasoRecoleccion"].ToString() == "A")
+                                    PorVencer1++;
+                                if (row["ColorRetrasoRecoleccion"].ToString() == "R")
+                                    Vencidas1++;
+                            }
+                            else
+                            {
+                                if (row["ColorRetrasoTotal"].ToString() == "V")
+                                    EnTiempo3++;
+                                if (row["ColorRetrasoTotal"].ToString() == "A")
+                                    PorVencer3++;
+                                if (row["ColorRetrasoTotal"].ToString() == "R")
+                                    Vencidas3++;
+
+                            }
                         }
                         if (dt.TableName == "Table1")
                         {
@@ -330,7 +625,7 @@ namespace ServicesManagement.Web.Controllers
                 throw ex;
             }
         }
-        public ActionResult BuscarOperacionGeneralFiltros(string FecIni, string FecFin, string Transportista, string EstatusTrans, string operacion) 
+        public ActionResult BuscarOperacionGeneralFiltros(string FecIni, string FecFin, string Transportista, string EstatusTrans, string operacion)
         {
             DataSet ds = new DataSet();
             AlertasModel Alertas = new AlertasModel();
@@ -372,9 +667,9 @@ namespace ServicesManagement.Web.Controllers
                     }
                 }
 
-                foreach(DataTable dt in ds.Tables)
+                foreach (DataTable dt in ds.Tables)
                 {
-                    foreach(DataRow row in dt.Rows)
+                    foreach (DataRow row in dt.Rows)
                     {
                         #region Mapeo
                         if (dt.TableName == "Table")
@@ -401,7 +696,7 @@ namespace ServicesManagement.Web.Controllers
 
                             lstPendientesRecoleccion.Add(pendienteRecol);
                         }
-                        if(dt.TableName == "Table1")
+                        if (dt.TableName == "Table1")
                         {
                             PendienteEntregaModel PendienteEntrega = new PendienteEntregaModel
                             {
@@ -428,7 +723,7 @@ namespace ServicesManagement.Web.Controllers
 
                             lstPendientesEntrega.Add(PendienteEntrega);
                         }
-                        if(dt.TableName == "Table2")
+                        if (dt.TableName == "Table2")
                         {
                             RevisionGeneralModel RevisionGral = new RevisionGeneralModel
                             {
@@ -470,12 +765,12 @@ namespace ServicesManagement.Web.Controllers
                 Alertas.lstPendientesRec = lstPendientesRecoleccion;
                 Alertas.lstRevisionGral = lstRevisionGeneral;
 
-               
+
 
                 var result = new { Success = true, resp = Alertas };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -561,7 +856,7 @@ namespace ServicesManagement.Web.Controllers
                 DataSet ds = new DataSet();
 
                 Transporte = Transporte.Replace("_", "").Trim();
-                
+
                 var _ConnectionString = ConfigurationManager.ConnectionStrings["Connection_DEV"].ToString(); //Environment.GetEnvironmentVariable("ConnectionStrings:MercurioDB");
                 string sp_Name = "tms.upCorpTms_Cns_AlertasCabecera";
 
@@ -586,9 +881,9 @@ namespace ServicesManagement.Web.Controllers
                     }
                 }
 
-                foreach(DataTable dt in ds.Tables)
+                foreach (DataTable dt in ds.Tables)
                 {
-                    foreach(DataRow row in dt.Rows)
+                    foreach (DataRow row in dt.Rows)
                     {
                         cabeceraCancelacion.Consignacion = row["Consignacion"].ToString();
                         cabeceraCancelacion.Transportista = row["Transportista"].ToString();
@@ -619,9 +914,9 @@ namespace ServicesManagement.Web.Controllers
                     }
                 }
 
-                foreach(DataTable dt in ds2.Tables)
+                foreach (DataTable dt in ds2.Tables)
                 {
-                    foreach(DataRow row in dt.Rows)
+                    foreach (DataRow row in dt.Rows)
                     {
                         MotivosCancelacion motivos = new MotivosCancelacion
                         {
@@ -682,12 +977,12 @@ namespace ServicesManagement.Web.Controllers
                     }
                 }
 
-                foreach(DataTable dt in ds.Tables)
+                foreach (DataTable dt in ds.Tables)
                 {
-                    foreach(DataRow row in dt.Rows)
+                    foreach (DataRow row in dt.Rows)
                     {
-                        if(dt.TableName == "Table")
-                        {                          
+                        if (dt.TableName == "Table")
+                        {
                             encabezado.Proveedor = row["Proveedor"].ToString();
                             encabezado.Consignacion = row["Consignacion"].ToString();
                             encabezado.GuiaTransporte = row["GuiaTransporte"].ToString();
@@ -701,7 +996,7 @@ namespace ServicesManagement.Web.Controllers
                             encabezado.FechaComprimisoEntregaCliente = row["FechaComprimisoEntregaCliente"].ToString();
                             encabezado.NombreQuienRecibe = row["NombreQuienRecibe"].ToString();
                         }
-                        else if(dt.TableName == "Table1")
+                        else if (dt.TableName == "Table1")
                         {
                             HistorialDetalle detalle = new HistorialDetalle
                             {
@@ -759,7 +1054,7 @@ namespace ServicesManagement.Web.Controllers
                 var result = new { Success = true, resp = "" };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -771,14 +1066,14 @@ namespace ServicesManagement.Web.Controllers
             {
                 DataSet ds = new DataSet();
 
-               var _ConnectionString = ConfigurationManager.ConnectionStrings["Connection_DEV"].ToString(); //Environment.GetEnvironmentVariable("ConnectionStrings:MercurioDB");
-               string sp_Name = "tms.upCorpTms_Ins_GuiaCancelacion";
+                var _ConnectionString = ConfigurationManager.ConnectionStrings["Connection_DEV"].ToString(); //Environment.GetEnvironmentVariable("ConnectionStrings:MercurioDB");
+                string sp_Name = "tms.upCorpTms_Ins_GuiaCancelacion";
 
-               using (System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(_ConnectionString))
-               {
-                   using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sp_Name, cnn))
-                   {
-                       cmd.CommandType = CommandType.StoredProcedure;
+                using (System.Data.SqlClient.SqlConnection cnn = new System.Data.SqlClient.SqlConnection(_ConnectionString))
+                {
+                    using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sp_Name, cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
                         #region Parametros
                         System.Data.SqlClient.SqlParameter param;
@@ -797,9 +1092,9 @@ namespace ServicesManagement.Web.Controllers
                         #endregion
 
                         using (System.Data.SqlClient.SqlDataAdapter dataAdapter = new System.Data.SqlClient.SqlDataAdapter(cmd))
-                           dataAdapter.Fill(ds);
-                   }
-               }
+                            dataAdapter.Fill(ds);
+                    }
+                }
 
                 var result = new { Success = true, resp = "" };
                 return Json(result, JsonRequestBehavior.AllowGet);

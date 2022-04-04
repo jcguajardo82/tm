@@ -808,7 +808,13 @@
                     paging: true,
                     pageLength: 10,
                     lengthMenu: [10, 25, 50, 100, 500],
-                    buttons: [{ extend: 'excel', className: 'btn-primary' }],
+                    buttons: [{
+                        text: 'Excel',
+                        action: function (e, dt, node, config) {
+                            Excel(1);
+                        }
+                        , className: 'btn-primary'
+                    }],
                     orderCellsTop: false,
                     fixedHeader: {
                         header: true
@@ -855,7 +861,13 @@
                     paging: true,
                     pageLength: 10,
                     lengthMenu: [10, 25, 50, 100, 500],
-                    buttons: [{ extend: 'excel', className: 'btn-primary' }],
+                    buttons: [{
+                        text: 'Excel',
+                        action: function (e, dt, node, config) {
+                            Excel(2);
+                        }
+                        , className: 'btn-primary'
+                    }],
                     orderCellsTop: false,
                     fixedHeader: {
                         header: true
@@ -901,7 +913,13 @@
                     paging: true,
                     pageLength: 10,
                     lengthMenu: [10, 25, 50, 100, 500],
-                    buttons: [{ extend: 'excel', className: 'btn-primary' }],
+                    buttons: [{
+                        text: 'Excel',
+                        action: function (e, dt, node, config) {
+                            Excel(3);
+                        }
+                        , className: 'btn-primary'
+                    }],
                     orderCellsTop: false,
                     fixedHeader: {
                         header: true
@@ -1342,6 +1360,9 @@
 
         function ExportarPendienteRecoleccion() {
             window.location = window.location.origin + '/Alertas/ExportarExcel?Tabla=Au';
+        }
+        function Excel(type) {
+            window.location = window.location.origin + '/Alertas/Excel?type=' + type
         }
     </script>
 }
