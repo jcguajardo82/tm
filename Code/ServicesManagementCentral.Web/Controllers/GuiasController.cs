@@ -23,11 +23,14 @@ namespace ServicesManagement.Web.Controllers
         public ActionResult Cotizar(string UeNo, string IdTrackingService)
         {
             int OrderNo=0, IdTracking = 0;
+            string transportistaActual = string.Empty, carrierActual = string.Empty;
             try
             {
                 var lstCabecera = DataTableToModel.ConvertTo<Cabecera>(DALGuias.ConsultarCabecera(UeNo, IdTrackingService).Tables[0]);
                 OrderNo = lstCabecera.FirstOrDefault().OrderNo;
                 IdTracking = lstCabecera.FirstOrDefault().IdTracking;
+                transportistaActual = lstCabecera.FirstOrDefault().Transportista;
+                carrierActual = lstCabecera.FirstOrDefault().Carrier;
 
                 var Products = DataTableToModel.ConvertTo<ProductEmbalaje>(DALGuias.ConsultarProductosByUeno(UeNo,IdTracking).Tables[0]);
                 int enviaCom = int.Parse(DALGuias.ActiveEnviaCom().Tables[0].Rows[0][0].ToString());
@@ -55,6 +58,12 @@ namespace ServicesManagement.Web.Controllers
                     Session["lstCarrierRequest"] = lstCarrierRequests;
                 }
 
+                if (transportistaActual.ToLower() == "logyt")
+                    carrierActual = "logyt";
+                if (transportistaActual.ToLower() == "estafeta")
+                    carrierActual = "estafeta";
+                if (transportistaActual.ToLower() == "envia.com")
+                    carrierActual = carrierActual.Split('-')[1].ToLower();
                 //DataSet dsCarrier = DALGuias.CarrierRates(OrderNo);
                 //var lstCarriers = DataTableToModel.ConvertTo<CarriersRates>(DALGuias.CarrierRates(OrderNo).Tables[0]);
                 DataSet ds = DALGuias.CarrierRates(OrderNo);
@@ -63,20 +72,23 @@ namespace ServicesManagement.Web.Controllers
                 {
                     foreach (DataRow item in dt.Rows)
                     {
-                        lstCarriers.Add(
-                        new CarriersRates
+                        if (item[0].ToString().ToLower() != carrierActual)
                         {
-                            carrier = item[0].ToString(),
-                            Service = item[1].ToString(),
-                            BitAsegurado = item[2].ToString() == "1" ? true : false,
-                            Montoasegurado = double.Parse(item[3].ToString()),
-                            diasEntrega = int.Parse(item[4].ToString()),
-                            totalPrice = decimal.Parse(item[5].ToString()),
-                            NivelServicio = decimal.Parse(item[6].ToString()),
-                            Prioridad= int.Parse(item[7].ToString()),
-                            cotizeId = long.Parse(item[8].ToString())
+                            lstCarriers.Add(
+                            new CarriersRates
+                            {
+                                carrier = item[0].ToString(),
+                                Service = item[1].ToString(),
+                                BitAsegurado = item[2].ToString() == "1" ? true : false,
+                                Montoasegurado = double.Parse(item[3].ToString()),
+                                diasEntrega = int.Parse(item[4].ToString()),
+                                totalPrice = decimal.Parse(item[5].ToString()),
+                                NivelServicio = decimal.Parse(item[6].ToString()),
+                                Prioridad = int.Parse(item[7].ToString()),
+                                cotizeId = long.Parse(item[8].ToString())
+                            }
+                            );
                         }
-                        ) ;
                     }
                 }
                 Session["lstCarrierRates"] = lstCarriers;
