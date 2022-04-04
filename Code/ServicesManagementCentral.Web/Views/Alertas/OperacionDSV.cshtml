@@ -772,7 +772,25 @@
 
                 }
             );
-            $("#tblConsulta").DataTable(
+            $('#tblConsulta thead tr').clone(true).appendTo('#tblConsulta thead');
+            $('#tblConsulta thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+            table = $("#tblConsulta").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
@@ -801,7 +819,25 @@
         });
 
         $(document).ready(function () {
-            $("#tblConsulta2").DataTable(
+            $('#tblConsulta2 thead tr').clone(true).appendTo('#tblConsulta2 thead');
+            $('#tblConsulta2 thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+            table2 =$("#tblConsulta2").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
@@ -829,7 +865,25 @@
         });
 
         $(document).ready(function () {
-            $("#tblConsulta3").DataTable(
+            $('#tblConsulta3 thead tr').clone(true).appendTo('#tblConsulta3 thead');
+            $('#tblConsulta3 thead tr:eq(0) th').each(function (i) {
+                if ($(this).attr('name') != "accion") {
+                    var title = $(this).text();
+                    $(this).html('<input type="text" class="form form-control input-sm" placeholder="' + title + '" />');
+
+                    $('input', this).on('keyup change', function () {
+                        if (table.column(i).search() !== this.value) {
+                            table
+                                .column(i)
+                                .search(this.value)
+                                .draw();
+                        }
+                    });
+                } else {
+                    $(this).empty();
+                }
+            });
+            table3 = $("#tblConsulta3").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
