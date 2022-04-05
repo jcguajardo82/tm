@@ -1003,8 +1003,7 @@ namespace ServicesManagement.Web.Controllers
                                 UeNo = row["UeNo"].ToString(),
                                 IdTrackingService = row["IdTrackingService"].ToString(),
                                 eventDateTime = row["eventDateTime"].ToString(),
-                                eventDescriptionSPA = row["eventDescriptionSPA"].ToString(),
-                                eventPlaceName = row["eventPlaceName"].ToString()
+                                LugarMovimiento = row["LugarMovimiento"].ToString()
                             };
 
                             lstHistorial.Add(detalle);

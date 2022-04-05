@@ -671,16 +671,18 @@
                     </div>
                     <h2>Historial de Envio</h2>
                     <div class="row">
-                        <table id="tblHistorial" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
-                            <thead class="bg-danger-sor">
-                                <tr>
-                                    <th>Fecha-Hora</th>
-                                    <th>Lugar-Movimiento</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <table id="tblHistorial" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                                <thead class="bg-danger-sor">
+                                    <tr>
+                                        <th>Fecha-Hora</th>
+                                        <th>Lugar-Movimiento</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1295,7 +1297,7 @@
                 },
                 datatype: "html",
                  success: function (json) {
-                     if (json.Success == true) {
+                     if (json.Success) {
                          debugger;
 
                          $('#txtAlmacenMov').text(json.resp.historialEncabezado.Proveedor);
@@ -1311,6 +1313,20 @@
                          $('#txtFechaEntregaTransMov').text(json.resp.historialEncabezado.FechaCompromisoEntregaTransportista);
                          $('#txtFechaFinCompMov').text(json.resp.historialEncabezado.FechaComprimisoEntregaCliente);
                          $('#txtNombreRecibioMov').text(json.resp.historialEncabezado.NombreQuienRecibe);
+
+                         var myTable1 = $('#tblHistorial').DataTable();
+                         myTable1
+                             .clear()
+                             .draw();
+
+                         for (var i = 0; i < json.resp.lstHistorialDetalle.length; i++) {
+
+                             debugger;
+                             myTable1.row.add([
+                                 json.resp.lstHistorialDetalle[i].eventDateTime,
+                                 json.resp.lstHistorialDetalle[i].LugarMovimiento
+                             ]).draw();
+                         }
 
                          $("#dlMovimientosGuia").modal('toggle');
                      }

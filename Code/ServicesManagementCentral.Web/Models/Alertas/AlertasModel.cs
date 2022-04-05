@@ -133,7 +133,6 @@ namespace ServicesManagement.Web.Models.Alertas
         public string UeNo { get; set; }
          public string IdTrackingService { get; set; }
         public string eventDateTime { get; set; }
-        public string eventDescriptionSPA { get; set; }
-        public string eventPlaceName { get; set; }
+        public string LugarMovimiento { get; set; }
     }
 }
