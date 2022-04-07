@@ -972,141 +972,6 @@
         </div>
     </div>
 </div>
-<div class="row" id="divEnviosCumplSurtido">
-    <div class="col-lg-12">
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox ">
-                    <div class="ibox-title">
-                        <h5>Cumplimiento del Transporte</h5>
-                    </div>
-                    <div class="ibox-title">
-                        <div class="ibox-tools">
-                            <div class="btn-group">
-                                <button type="button" id="btnCumplSurtido1" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(1)">Hoy</button>
-                                <button type="button" id="btnCumplSurtido2" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(2)">Mensual</button>
-                                <button type="button" id="btnCumplSurtido3" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(3)">Anual</button>
-                                <div class="input-group date" id="datetimepickerCumplSurtido">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input class="form-control datepicker" id="txtFecCumplSurtidoIni"
-                                           type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
-                                </div>
-                                <div class="input-group date" id="datetimepicker2CumplSurtido">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input class="form-control datepicker" id="txtFecCumplSurtidoFin"
-                                           type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
-                                </div>
-                                <select id="ddlTransCumplSurtido" class="form-control" multiple size="6">
-                                    @foreach (var item in ViewBag.DashboardTrans)
-                                    {
-                                        if (item.Selected)
-                                        {
-                                            <option value="@item.Value" selected>@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-                                </select>
-                                <select id="ddlTipoEnvioCumplSurtido" class="form-control" multiple size="6">
-                                    @foreach (var item in ViewBag.DashboardTipoEnvio)
-                                    {
-                                        if (item.Selected)
-                                        {
-                                            <option value="@item.Value" selected>@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-                                </select>
-                                <select id="ddlTipoServicioCumplSurtido" class="form-ddlTipoServicioEstDes" multiple size="6">
-                                    @foreach (var item in ViewBag.DashboardTipoServicio)
-                                    {
-                                        if (item.Selected)
-                                        {
-                                            <option value="@item.Value" selected>@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-                                </select>
-                                <select id="ddlTipoLogisticaCumplSurtido" class="form-control" multiple size="6">
-
-                                    @foreach (var item in ViewBag.DashboardTipoLogistica)
-                                    {
-                                        if (item.Selected)
-                                        {
-                                            <option value="@item.Value" selected>@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-                                </select>
-                                <select id="ddlTipoFechaCumplSurtido" class="form-control">
-                                    <option value="1">fecha creacion</option>
-                                    <option value="2">fecha entrega</option>
-                                </select>
-                                <select id="ddlTipoPagoCumplSurtido" class="form-control">
-                                    <option value="3">AMBOS</option>
-                                    <option value="1">EN LINEA</option>
-                                    <option value="2">EN TIENDA</option>
-                                </select>
-                                <select class="form-control" id="lstIdAlmacenCumplSurtido" name="lstIdAlmacenCumplSurtido" multiple size="6">
-                                    @foreach (var item in ViewBag.DashboardTipoAlmacen)
-                                    {
-                                        if (item.Selected)
-                                        {
-                                            <option value="@item.Value" selected>@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-
-                                </select>
-                                <select class="form-control m-b" id="ddlSuppliersCumplSurtido" name="ddlSuppliersCumplSurtido" multiple size="6">
-                                    @foreach (var item in ViewBag.DashboardAlmacen)
-                                    {
-                                        if (item.Selected)
-                                        {
-                                            <option value="@item.Value" selected>@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-
-                                </select><br />
-                                <button type="button" id="btnCumplSurtido4" name="btnCumplSurtido4" class="btn btn-sm btn-white" onclick="GraficaCumplSurtido(4)">Aplicar filtros</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="row" style="padding-top:50px;">
-                            <div id="placeholder3" class="demo-placeholder"></div>
-                            <div id="legend-container3"></div>
-                            <div class="col-lg-12">
-                                <div class="flot-chart">
-                                    <div class="flot-chart-content" id="flot-Chart-CumplSurtido"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="row" id="divEnviosCumplTransporte">
     <div class="col-lg-12">
 
@@ -1114,7 +979,7 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Cumplimiento de Surtido</h5>
+                        <h5>Cumplimiento del Transporte</h5>
                     </div>
                     <div class="ibox-title">
                         <div class="ibox-tools">
@@ -1242,7 +1107,141 @@
         </div>
     </div>
 </div>
+<div class="row" id="divEnviosCumplSurtido">
+    <div class="col-lg-12">
 
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Cumplimiento del Surtido</h5>
+                    </div>
+                    <div class="ibox-title">
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button type="button" id="btnCumplSurtido1" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(1)">Hoy</button>
+                                <button type="button" id="btnCumplSurtido2" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(2)">Mensual</button>
+                                <button type="button" id="btnCumplSurtido3" class="btn btn-xs btn-white" onclick="GraficaCumplSurtido(3)">Anual</button>
+                                <div class="input-group date" id="datetimepickerCumplSurtido">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecCumplSurtidoIni"
+                                           type="text" placeholder="Fecha Inicio" value="@ViewBag.FecIni">
+                                </div>
+                                <div class="input-group date" id="datetimepicker2CumplSurtido">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control datepicker" id="txtFecCumplSurtidoFin"
+                                           type="text" placeholder="Fecha Fin" value="@ViewBag.FecFin">
+                                </div>
+                                <select id="ddlTransCumplSurtido" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTrans)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoEnvioCumplSurtido" class="form-control" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoEnvio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoServicioCumplSurtido" class="form-ddlTipoServicioEstDes" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoServicio)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoLogisticaCumplSurtido" class="form-control" multiple size="6">
+
+                                    @foreach (var item in ViewBag.DashboardTipoLogistica)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <select id="ddlTipoFechaCumplSurtido" class="form-control">
+                                    <option value="1">fecha creacion</option>
+                                    <option value="2">fecha entrega</option>
+                                </select>
+                                <select id="ddlTipoPagoCumplSurtido" class="form-control">
+                                    <option value="3">AMBOS</option>
+                                    <option value="1">EN LINEA</option>
+                                    <option value="2">EN TIENDA</option>
+                                </select>
+                                <select class="form-control" id="lstIdAlmacenCumplSurtido" name="lstIdAlmacenCumplSurtido" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardTipoAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select>
+                                <select class="form-control m-b" id="ddlSuppliersCumplSurtido" name="ddlSuppliersCumplSurtido" multiple size="6">
+                                    @foreach (var item in ViewBag.DashboardAlmacen)
+                                    {
+                                        if (item.Selected)
+                                        {
+                                            <option value="@item.Value" selected>@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+
+                                </select><br />
+                                <button type="button" id="btnCumplSurtido4" name="btnCumplSurtido4" class="btn btn-sm btn-white" onclick="GraficaCumplSurtido(4)">Aplicar filtros</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row" style="padding-top:50px;">
+                            <div id="placeholder3" class="demo-placeholder"></div>
+                            <div id="legend-container3"></div>
+                            <div class="col-lg-12">
+                                <div class="flot-chart">
+                                    <div class="flot-chart-content" id="flot-Chart-CumplSurtido"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -3491,7 +3490,7 @@
                              dataDST.push([gd(data.DST[i].Anio, data.DST[i].Mes, data.DST[i].Dia), data.DST[i].Valor]);
                          }
 
-                         var dataset = [
+                         var datasetSurtido = [
                              { label: "CEDIS", data: dataCEDIS, points: { symbol: "triangle" } },
                              { label: "DSV", data: dataDSV },
                              { label: "DST", data: dataDST }
@@ -3537,7 +3536,7 @@
                              ],
                              legend: {
                                  show: true,
-                                 container: $('#legend-container4')
+                                 container: $('#legend-container3')
                                  //noColumns: 0,
                                  //labelBoxBorderColor: "#000000",
                                  //position: "nw"
@@ -3591,7 +3590,7 @@
                                  ],
                                  legend: {
                                      show: true,
-                                     container: $('#legend-container4')
+                                     container: $('#legend-container3')
                                      //noColumns: 0,
                                      //labelBoxBorderColor: "#000000",
                                      //position: "nw"
@@ -3606,7 +3605,7 @@
                              };
                          }
 
-                         $.plot($("#flot-Chart-CumplSurtido"), dataset, options);
+                         $.plot($("#flot-Chart-CumplSurtido"), datasetSurtido, options);
                          $("#flot-Chart-CumplSurtido").UseTooltip();
                      }
                      else {
@@ -3727,7 +3726,7 @@
 
                      if (data.Success) {
 
-                         var dataset = [];
+                         var datasetTransportista = [];
                          debugger;
                          for (var i = 0; i < data.Tendencias.length; i++) {
                              var datasetTendencias = [];
@@ -3739,10 +3738,10 @@
                              let _obj = {};
                              _obj.label = data.Tendencias[i];
                              _obj.data = datasetTendencias;
-                             dataset.push(_obj);
+                             datasetTransportista.push(_obj);
                          }
 
-                         console.log(dataset);
+                         //console.log(dataset);
                          //for (var i = 0; i < data.DST.length; i++) {
                          //    dataDST.push([gd(data.DST[i].Anio, data.DST[i].Mes, data.DST[i].Dia), data.DST[i].Valor]);
                          //}
@@ -3794,7 +3793,7 @@
                              ],
                              legend: {
                                  show: true,
-                                 container: $('#legend-container3')
+                                 container: $('#legend-container4')
                                  //noColumns: 0,
                                  //labelBoxBorderColor: "#000000",
                                  //position: "nw"
@@ -3848,7 +3847,7 @@
                                  ],
                                  legend: {
                                      show: true,
-                                     container: $('#legend-container3')
+                                     container: $('#legend-container4')
                                      //noColumns: 0,
                                      //labelBoxBorderColor: "#000000",
                                      //position: "nw"
@@ -3863,7 +3862,7 @@
                              };
                          }
 
-                         $.plot($("#flot-Chart-CumplTransporte"), dataset, options);
+                         $.plot($("#flot-Chart-CumplTransporte"), datasetTransportista, options);
                          $("#flot-Chart-CumplTransporte").UseTooltip();
                      }
                      else {
@@ -3901,7 +3900,7 @@
                             showTooltip(item.pageX,
                                 item.pageY,
                                 color,
-                                "<strong>" + item.series.label + "</strong><br>" + monthNames[month] + " : <strong>" + y + "</strong>");
+                                "<strong>" + item.series.label + "</strong><br>" + monthNames[month] + " : <strong>" + y + "</strong>(%)");
                         } else {
                             showTooltip(item.pageX,
                                 item.pageY,
