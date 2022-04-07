@@ -373,8 +373,10 @@ namespace ServicesManagement.Web.Controllers
                 parametros.Add("@UsuarioCreacion", "sysAdmin");
                 parametros.Add("@IdTipoLogistica", IdTipoLogistica);
                 parametros.Add("@Estatus", Estatus);
-                parametros.Add("@IdCarriers", IdCarriers);
-                parametros.Add("@IdIntegracion", IdIntegracion);
+                if(!string.IsNullOrEmpty(IdCarriers))
+                    parametros.Add("@IdCarriers", IdCarriers);
+                if(IdIntegracion > 0)
+                    parametros.Add("@IdIntegracion", IdIntegracion);
 
                 Soriana.FWK.FmkTools.SqlHelper.ExecuteNonQuery(CommandType.StoredProcedure, "tms.up_CorpTMS_ins_Transportista", false, parametros);
 

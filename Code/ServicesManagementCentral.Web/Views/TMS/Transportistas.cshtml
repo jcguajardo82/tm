@@ -1027,6 +1027,8 @@
             var _in_nombre = document.getElementById("in_nombre").value;
             var _idIntegracion = document.getElementById("ddlCanal").value;
 
+            if (_idIntegracion == undefined || _idIntegracion == "")
+                _idIntegracion = 0;
             //var _IdTransportista = parseInt(document.getElementById("ProveedorLista").value);
             //var _TarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
             //var _CostoTarifaFija = parseFloat(document.getElementById("CostoTarifaFija").value);
