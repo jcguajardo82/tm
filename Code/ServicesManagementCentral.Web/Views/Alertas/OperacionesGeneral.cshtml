@@ -79,8 +79,7 @@
             <div class="col-sm-2 col-md-3 col-lg-2">
                 <div class="form-group">
                     <label>Transportista</label>
-                    <select id="SelTrans" name="cars" class="form-control">
-                        <option value="0">TODOS</option>
+                    <select id="SelTrans" name="cars" class="form-control" style="width:600px" multiple size="3">
                         @{
                             if (Session["ddlTransportista"] != null)
                             {
@@ -119,7 +118,7 @@
                                type="text" value="@ViewBag.FecIniGeneral">
                     </div>
                     @*<input type="date" id="txtFecIni" class="form-control" value="@ViewBag.FecIniGeneral" />
-        <div class="input-group date" id="datetimepicker1"></div>*@
+                        <div class="input-group date" id="datetimepicker1"></div>*@
                 </div>
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3">
@@ -130,7 +129,7 @@
                            type="text" value="@ViewBag.FecFinGeneral">
                 </div>
                 @*<input type="date" id="txtFecFin" class="form-control" value="@ViewBag.FecFinGeneral" />
-        <div class="input-group date" id="datetimepicker2"></div>*@
+                    <div class="input-group date" id="datetimepicker2"></div>*@
             </div>
             <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
                 <label>&nbsp;</label>
@@ -163,73 +162,73 @@
                     <label id="lblVencidas1">@ViewBag.Vencidas1</label>
                 </div>
             </div>
-                    <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
-                        <thead class="bg-danger-sor">
-                            <tr>
-                                <th>Días de retraso recolección</th>
-                                <th>Almacen/Proveedor</th>
-                                <th>Consignacion</th>
-                                <th>Guía transporte</th>
-                                <th>Transportista</th>
-                                <th>Carrier</th>
-                                <th>Tipo de envío</th>
-                                <th>Tipo de servicio</th>
-                                <th>Fecha compromiso cliente Inicio</th>
-                                <th>Fecha compromiso cliente Fin</th>
-                                <th>Fecha solicitud guía real</th>
-                                <th>Días de retraso surtido</th>
-                                <th>Fecha compromiso recolección</th>
-                                <th>Reasignación de transporte</th>
-                                <th>Cancelación de guías</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contenido">
-                            @{
-                                if (Session["RevisionGeneral"] != null && ViewBag.Pendientes)
-                                {
-                                    System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
+            <table id="tblConsulta" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                <thead class="bg-danger-sor">
+                    <tr>
+                        <th>Días de retraso recolección</th>
+                        <th>Almacen/Proveedor</th>
+                        <th>Consignacion</th>
+                        <th>Guía transporte</th>
+                        <th>Transportista</th>
+                        <th>Carrier</th>
+                        <th>Tipo de envío</th>
+                        <th>Tipo de servicio</th>
+                        <th>Fecha compromiso cliente Inicio</th>
+                        <th>Fecha compromiso cliente Fin</th>
+                        <th>Fecha solicitud guía real</th>
+                        <th>Días de retraso surtido</th>
+                        <th>Fecha compromiso recolección</th>
+                        <th>Reasignación de transporte</th>
+                        <th>Cancelación de guías</th>
+                    </tr>
+                </thead>
+                <tbody id="contenido">
+                    @{
+                        if (Session["RevisionGeneral"] != null && ViewBag.Pendientes)
+                        {
+                            System.Data.DataSet ds = (System.Data.DataSet)Session["RevisionGeneral"];
 
-                                    var dt = ds.Tables[0];
-                                    int i = 0;
+                            var dt = ds.Tables[0];
+                            int i = 0;
 
 
-                                    foreach (System.Data.DataRow p in dt.Rows)
-                                    {
-                                        string Consignacion = p["Consignacion"].ToString();
+                            foreach (System.Data.DataRow p in dt.Rows)
+                            {
+                                string Consignacion = p["Consignacion"].ToString();
 
-                                        <tr>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">
-                                                @p["DiasRetrasoRecoleccion"]
-                                            </td>
-                                            <td style="text-align:center;">@p["Proveedor"]</td>
-                                            <td style="text-align:center;">@p["Consignacion"]</td>
-                                            <td style="text-align:center;">@p["GuiaTransporte"]</td>
-                                            <td style="text-align:center;">@p["Transportista"]</td>
-                                            <td style="text-align:center;">@p["Carrier"]</td>
-                                            <td style="text-align:center;">@p["TipoDeEnvio"]</td>
-                                            <td style="text-align:center;">@p["TipoDeServicio"]</td>
-                                            <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
-                                            <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
-                                            <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
-                                            <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
-                                            <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
-                                            <td style="text-align:center;">
-                                                <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="ModalReasignacion('@p["Consignacion"]', '@p["GuiaTransporte"]')">
-                                                    Reasignación de transporte
-                                                </button>
-                                            </td>
-                                            <td style="text-align:center;">
-                                                <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="ModalCancelGuias('@p["Consignacion"]', '@p["GuiaTransporte"]')">
-                                                    Cancelación de guías
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
+                                <tr>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoRecoleccion"].ToString())" style="text-align:center;">
+                                        @p["DiasRetrasoRecoleccion"]
+                                    </td>
+                                    <td style="text-align:center;">@p["Proveedor"]</td>
+                                    <td style="text-align:center;">@p["Consignacion"]</td>
+                                    <td style="text-align:center;">@p["GuiaTransporte"]</td>
+                                    <td style="text-align:center;">@p["Transportista"]</td>
+                                    <td style="text-align:center;">@p["Carrier"]</td>
+                                    <td style="text-align:center;">@p["TipoDeEnvio"]</td>
+                                    <td style="text-align:center;">@p["TipoDeServicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoInicio"]</td>
+                                    <td style="text-align:center;">@p["FechaComprimisoFin"]</td>
+                                    <td style="text-align:center;">@p["FechaSolicitudReal"]</td>
+                                    <td class="@ColoresSemaforo(@p["ColorRetrasoSurtido"].ToString())" style="text-align:center;">@p["DiasRetrasoSurtido"]</td>
+                                    <td style="text-align:center;">@p["FechaCompromisoRecoleccion"]</td>
+                                    <td style="text-align:center;">
+                                        <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="ModalReasignacion('@p["Consignacion"]', '@p["GuiaTransporte"]')">
+                                            Reasignación de transporte
+                                        </button>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button class="btn btn-lg btn-block btn-primary mt-auto" type="submit" onclick="ModalCancelGuias('@p["Consignacion"]', '@p["GuiaTransporte"]')">
+                                            Cancelación de guías
+                                        </button>
+                                    </td>
+                                </tr>
                             }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
         <div style="width: 99%;">
             <br />
             <br />
@@ -421,278 +420,278 @@
         </div>
     </div>
 
-            <div class="modal inmodal fade" id="dlReasignacionTrans" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">Reasignacion Transportista</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Consignacion:</label>
-                                        <label id="txtConsignacionRe"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Transporte Actual:</label>
-                                        <label id="txtTransActRe">
-
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Carrier:</label>
-                                        <label id="txtCarrierRe">
-
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Servicio:</label>
-                                        <label id="txtServicioRe">
-
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Tipo Envio:</label>
-                                        <label id="txtTipoEnvioRe">
-
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <label>
-                                        Transportes disponibles para reasignar:
-                                    </label><br>
-                                    <table id="tblCarriersRates" class="table table-striped dataTable" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th class="no-sort">Seleccione</th>
-                                                <th class="no-sort">Carrier</th>
-                                                <th class="no-sort">Servicio</th>
-                                                <th class="no-sort">Precio</th>
-                                                <th class="no-sort">Dias de Entrega</th>
-                                                <th class="no-sort">% Nivel de servicio</th>
-                                                <th class="no-sort">Prioridad</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
+    <div class="modal inmodal fade" id="dlReasignacionTrans" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Reasignacion Transportista</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Consignacion:</label>
+                                <label id="txtConsignacionRe"></label>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                            <button type="button" onclick="Solicitar()" class="btn btn-primary">Solicitar</button>
-                            @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Transporte Actual:</label>
+                                <label id="txtTransActRe">
+
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Carrier:</label>
+                                <label id="txtCarrierRe">
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Servicio:</label>
+                                <label id="txtServicioRe">
+
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Tipo Envio:</label>
+                                <label id="txtTipoEnvioRe">
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <label>
+                                Transportes disponibles para reasignar:
+                            </label><br>
+                            <table id="tblCarriersRates" class="table table-striped dataTable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="no-sort">Seleccione</th>
+                                        <th class="no-sort">Carrier</th>
+                                        <th class="no-sort">Servicio</th>
+                                        <th class="no-sort">Precio</th>
+                                        <th class="no-sort">Dias de Entrega</th>
+                                        <th class="no-sort">% Nivel de servicio</th>
+                                        <th class="no-sort">Prioridad</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="Solicitar()" class="btn btn-primary">Solicitar</button>
+                    @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal inmodal fade" id="dlCancelacionGuias" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header pt-3 pb-1">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">Cancelacion Guias</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Consignacion:</label>
-                                        <label id="txtConsignacion"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Transporte Actual:</label>
-                                        <label id="txtTransAct"></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Carrier:</label>
-                                        <label id="txtCarrier"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Servicio:</label>
-                                        <label id="txtServicio">
-                                            Express
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Tipo Envio:</label>
-                                        <label id="txtTipoEnvio"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-12">
-                                    <label>Motivo de cancelación de guía</label><br>
-                                    <select id="ddlMotivosCancelacion" name="cars" class="form-control">
-                                    </select>
-                                </div>
+    <div class="modal inmodal fade" id="dlCancelacionGuias" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header pt-3 pb-1">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Cancelacion Guias</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Consignacion:</label>
+                                <label id="txtConsignacion"></label>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                            <button type="button" onclick="Cancelar()" class="btn btn-primary">Confirmar</button>
-                            @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Transporte Actual:</label>
+                                <label id="txtTransAct"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Carrier:</label>
+                                <label id="txtCarrier"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Servicio:</label>
+                                <label id="txtServicio">
+                                    Express
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Tipo Envio:</label>
+                                <label id="txtTipoEnvio"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-12">
+                            <label>Motivo de cancelación de guía</label><br>
+                            <select id="ddlMotivosCancelacion" name="cars" class="form-control">
+                            </select>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="Cancelar()" class="btn btn-primary">Confirmar</button>
+                    @*<button type="button" onclick="addSurtidores()" class="btn btn-primary" data-dismiss="modal">Guardar</button>*@
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal inmodal fade" id="dlMovimientosGuia" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header pt-3 pb-1">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">Historial Movimientos</h4>
+    <div class="modal inmodal fade" id="dlMovimientosGuia" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header pt-3 pb-1">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Historial Movimientos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Consignacion:</label>
+                                <label id="txtConsignacionMov"></label>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Consignacion:</label>
-                                        <label id="txtConsignacionMov"></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Detalle Entrega</label>
-                                    </div>
-                                </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Detalle Entrega</label>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Almacen/Proveedor que surtió:</label>
-                                        <label id="txtAlmacenMov"></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Fecha estimada de entrega transportista</label>
-                                        <label id="txtFechaEntregaTransMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Numero de Guia</label>
-                                        <label id="txtGuiaTransporte"></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Fecha fin compromiso de entrega cliente:</label>
-                                        <label id="txtFechaFinCompMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Transportista:</label>
-                                        <label id="txtTransportistaMov"></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Carrier:</label>
-                                        <label id="txtCarrierMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Ciudad origen:</label>
-                                        <label id="txtCdOrigenMov"></label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Nombre de quien recibió:</label>
-                                        <label id="txtNombreRecibioMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>CP Origen:</label>
-                                        <label id="txtCpOrigenMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Ciudad Destino:</label>
-                                        <label id="txtCdDestinoMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-6">
-                                    <div class="form-group">
-                                        <label>Cp Destino:</label>
-                                        <label id="txtCpDestinoMov"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <h2>Historial de Envio</h2>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <table id="tblHistorial" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
-                                        <thead class="bg-danger-sor">
-                                            <tr>
-                                                <th>Fecha-Hora</th>
-                                                <th>Lugar-Movimiento</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Almacen/Proveedor que surtió:</label>
+                                <label id="txtAlmacenMov"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Fecha estimada de entrega transportista</label>
+                                <label id="txtFechaEntregaTransMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Numero de Guia</label>
+                                <label id="txtGuiaTransporte"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Fecha fin compromiso de entrega cliente:</label>
+                                <label id="txtFechaFinCompMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Transportista:</label>
+                                <label id="txtTransportistaMov"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Carrier:</label>
+                                <label id="txtCarrierMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Ciudad origen:</label>
+                                <label id="txtCdOrigenMov"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Nombre de quien recibió:</label>
+                                <label id="txtNombreRecibioMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>CP Origen:</label>
+                                <label id="txtCpOrigenMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Ciudad Destino:</label>
+                                <label id="txtCdDestinoMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-6">
+                            <div class="form-group">
+                                <label>Cp Destino:</label>
+                                <label id="txtCpDestinoMov"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Historial de Envio</h2>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <table id="tblHistorial" class="display table table-striped table-bordered table-hover table-responsive-md expand dataTable no-footer container">
+                                <thead class="bg-danger-sor">
+                                    <tr>
+                                        <th>Fecha-Hora</th>
+                                        <th>Lugar-Movimiento</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
+</div>
 @section scripts {
     @*CONFIGURACION DE TABLAS, FILTROS, BOTONES DE EXPORT*@
 
@@ -701,7 +700,8 @@
     <script src="~/Content/plugins/datatables/datatables.js"></script>
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
-    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>
+    <link href="~/Content/plugins/multiselect/vanillaSelectBox.css" rel="stylesheet" />
 
     <script>
         $(function () {
@@ -715,6 +715,38 @@
             });
 
         });
+       
+        function init(id) {
+
+            if (id == "SelTrans") {
+                selectBoxTrans = new vanillaSelectBox("#SelTrans", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items": "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            }
+        }
+        
+        function setValue(value) {
+            if (selectBoxTrans != null) {
+                selectBoxTrans.setValue(value);
+            }
+        }
+        function getValues(id) {
+            let result = [];
+            let collection = document.querySelectorAll("#" + id + " option");
+            collection.forEach(function (x) {
+                if (x.selected) {
+                    result.push(x.value);
+                }
+            });
+
+            return result;
+        }
+
+        function setValues(id, value) {
+            if (id == "SelTrans" && selectBoxTrans != null) {
+                selectBoxTrans.setValue(value);
+            }
+        }
+
+
 
         $(document).ready(function () {
             const queryString = window.location.search;
@@ -722,10 +754,20 @@
             const _Transportista = urlParams.get('Transportista');
             const _EstatusTrans = urlParams.get('EstatusTrans');
 
-            if(_Transportista != null)
-                $("#SelTrans").val(_Transportista);
+            init("SelTrans");
+
+            if (_Transportista != null) {
+                if (_Transportista != '') {
+                    var _array = _Transportista.split(',');
+                    setValue(_array);
+                }
+            }
+            else {
+                setValues("SelTrans", 'all');
+            }
             if (_EstatusTrans != null)
                 $("#selEstatusTran").val(_EstatusTrans);
+
 
             table = $('#tblCarriersRates').DataTable(
                 {
@@ -792,7 +834,7 @@
                     $(this).empty();
                 }
             });
-           table = $("#tblConsulta").DataTable(
+            table = $("#tblConsulta").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
@@ -809,13 +851,13 @@
                     paging: true,
                     pageLength: 10,
                     lengthMenu: [10, 25, 50, 100, 500],
-                   buttons: [{
-                       text: 'Excel',
-                       action: function (e, dt, node, config) {
-                           Excel(1);
-                       }
-                       , className: 'btn-primary'
-                   }],
+                    buttons: [{
+                        text: 'Excel',
+                        action: function (e, dt, node, config) {
+                            Excel(1);
+                        }
+                        , className: 'btn-primary'
+                    }],
                     orderCellsTop: false,
                     fixedHeader: {
                         header: true
@@ -826,7 +868,7 @@
             );
         });
 
-        $(document).ready(function () {        
+        $(document).ready(function () {
             $('#tblConsulta2 thead tr').clone(true).appendTo('#tblConsulta2 thead');
             $('#tblConsulta2 thead tr:eq(0) th').each(function (i) {
                 if ($(this).attr('name') != "accion") {
@@ -897,7 +939,7 @@
                     $(this).empty();
                 }
             });
-            table3 =$("#tblConsulta3").DataTable(
+            table3 = $("#tblConsulta3").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
@@ -936,10 +978,10 @@
             debugger;
             var _FecIni = $("#txtFecIni").val();
             var _FecFin = $("#txtFecFin").val();
-            var _Transportista = $("#SelTrans").val();
+            var _Transportista = getValues('SelTrans');
             var _EstatusTrans = $("#selEstatusTran").val();
 
-            window.location.href = "Alertas/OperacionesGeneral?FecIni=" + _FecIni  + "&FecFin=" + _FecFin + "&Transportista=" + _Transportista + "&EstatusTrans=" + _EstatusTrans;
+            window.location.href = "Alertas/OperacionesGeneral?FecIni=" + _FecIni + "&FecFin=" + _FecFin + "&Transportista=" + _Transportista.join(',') + "&EstatusTrans=" + _EstatusTrans;
         }
          function BuscarOperacionGeneral() {
             debugger;

@@ -79,8 +79,7 @@
             <div class="col-sm-2 col-md-3 col-lg-2">
                 <div class="form-group">
                     <label>Transportista</label>
-                    <select id="SelTrans" name="cars" class="form-control">
-                        <option value="0">TODOS</option>
+                    <select id="SelTrans" name="cars" class="form-control" multiple size="3">
                         @{
                             if (Session["ddlTransportista"] != null)
                             {
@@ -119,7 +118,7 @@
                                type="text" value="@ViewBag.FecIniGeneral">
                     </div>
                     @*<input type="date" id="txtFecIni" class="form-control" value="@ViewBag.FecIniGeneral" />
-                    <div class="input-group date" id="datetimepicker1"></div>*@
+                        <div class="input-group date" id="datetimepicker1"></div>*@
                 </div>
             </div>
             <div class="col-sm-3 col-md-3 col-lg-3">
@@ -130,7 +129,7 @@
                            type="text" value="@ViewBag.FecFinGeneral">
                 </div>
                 @*<input type="date" id="txtFecFin" class="form-control" value="@ViewBag.FecFinGeneral" />
-                <div class="input-group date" id="datetimepicker2"></div>*@
+                    <div class="input-group date" id="datetimepicker2"></div>*@
             </div>
             <div class="col-sm-2 col-md-2 col-lg-2" style="vertical-align:bottom;">
                 <label>&nbsp;</label>
@@ -478,22 +477,22 @@
                             <label>
                                 Transportes disponibles para reasignar:
                             </label><br>
-                                    <table id="tblCarriersRates" class="table table-striped dataTable" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th class="no-sort">Seleccione</th>
-                                                <th class="no-sort">Carrier</th>
-                                                <th class="no-sort">Servicio</th>
-                                                <th class="no-sort">Precio</th>
-                                                <th class="no-sort">Dias de Entrega</th>
-                                                <th class="no-sort">% Nivel de servicio</th>
-                                                <th class="no-sort">Prioridad</th>
+                            <table id="tblCarriersRates" class="table table-striped dataTable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="no-sort">Seleccione</th>
+                                        <th class="no-sort">Carrier</th>
+                                        <th class="no-sort">Servicio</th>
+                                        <th class="no-sort">Precio</th>
+                                        <th class="no-sort">Dias de Entrega</th>
+                                        <th class="no-sort">% Nivel de servicio</th>
+                                        <th class="no-sort">Prioridad</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -702,7 +701,8 @@
     <script src="~/Content/plugins/datatables/datatables.js"></script>
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
-    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js?v0.72"></script>
+    <script src="~/Content/plugins/multiselect/vanillaSelectBox.js"></script>
+    <link href="~/Content/plugins/multiselect/vanillaSelectBox.css" rel="stylesheet" />
 
     <script>
         $(function () {
@@ -716,15 +716,52 @@
             });
 
         });
+        function init(id) {
 
+            if (id == "SelTrans") {
+                selectBoxTrans = new vanillaSelectBox("#SelTrans", { "disableSelectAll": false, "maxHeight": 200, "search": false, "translations": { "all": "Todos los Transportistas", "items": "Transportistas Seleccionados", "selectAll": "Check All", "clearAll": "Clear All" } });
+            }
+        }
+
+        function setValue(value) {
+            if (selectBoxTrans != null) {
+                selectBoxTrans.setValue(value);
+            }
+        }
+        function getValues(id) {
+            let result = [];
+            let collection = document.querySelectorAll("#" + id + " option");
+            collection.forEach(function (x) {
+                if (x.selected) {
+                    result.push(x.value);
+                }
+            });
+
+            return result;
+        }
+
+        function setValues(id, value) {
+            if (id == "SelTrans" && selectBoxTrans != null) {
+                selectBoxTrans.setValue(value);
+            }
+        }
         $(document).ready(function () {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const _Transportista = urlParams.get('Transportista');
             const _EstatusTrans = urlParams.get('EstatusTrans');
 
-            if (_Transportista != null)
-                $("#SelTrans").val(_Transportista);
+            init("SelTrans");
+
+            if (_Transportista != null) {
+                if (_Transportista != '') {
+                    var _array = _Transportista.split(',');
+                    setValue(_array);
+                }
+            }
+            else {
+                setValues("SelTrans", 'all');
+            }
             if (_EstatusTrans != null)
                 $("#selEstatusTran").val(_EstatusTrans);
 
@@ -793,7 +830,7 @@
                     $(this).empty();
                 }
             });
-            table =$("#tblConsulta").DataTable(
+            table = $("#tblConsulta").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
@@ -846,7 +883,7 @@
                     $(this).empty();
                 }
             });
-            table2 =$("#tblConsulta2").DataTable(
+            table2 = $("#tblConsulta2").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
@@ -898,7 +935,7 @@
                     $(this).empty();
                 }
             });
-            table3 =$("#tblConsulta3").DataTable(
+            table3 = $("#tblConsulta3").DataTable(
                 {
                     dom: 'Bfrtip',
                     processing: true,
