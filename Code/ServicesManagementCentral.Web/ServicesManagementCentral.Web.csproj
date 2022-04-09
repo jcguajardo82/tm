@@ -207,6 +207,7 @@
     <Compile Include="Controllers\ConfigController.cs" />
     <Compile Include="Controllers\CpanelController.cs" />
     <Compile Include="Controllers\DefRangosTiempoController.cs" />
+    <Compile Include="Controllers\GuiasController.cs" />
     <Compile Include="Controllers\ImpexController.cs" />
     <Compile Include="Controllers\OpUltMillaController.cs" />
     <Compile Include="Controllers\OrdenesController.cs" />
@@ -216,9 +217,11 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TMSController.cs" />
+    <Compile Include="CsvExport.cs" />
     <Compile Include="DALConfig.cs" />
     <Compile Include="DALServicesM.cs" />
     <Compile Include="DAL\DALDashboard.cs" />
+    <Compile Include="DAL\DALGuias.cs" />
     <Compile Include="DAL\DALRangosTiemposExcepciones.cs" />
     <Compile Include="DAL\DALCatalogo.cs" />
     <Compile Include="DAL\DALDefRangosTiempo.cs" />
@@ -242,6 +245,8 @@
     <Compile Include="Models\Catalogos\EstadosMuniCpsTableType.cs" />
     <Compile Include="Models\Catalogos\Gastos.cs" />
     <Compile Include="Models\Catalogos\Logistica.cs" />
+    <Compile Include="Models\Catalogos\MotivoCancelacionGuias.cs" />
+    <Compile Include="Models\Catalogos\MotivosSolicitud_Sup.cs" />
     <Compile Include="Models\Catalogos\Owners.cs" />
     <Compile Include="Models\Catalogos\Paqueteria.cs" />
     <Compile Include="Models\Catalogos\Plazas.cs" />
@@ -262,6 +267,24 @@
     <Compile Include="Models\Config\Menu.cs" />
     <Compile Include="Models\Config\Rol.cs" />
     <Compile Include="Models\Config\Usuario.cs" />
+    <Compile Include="Models\Cotizador\AddressCotzModel.cs" />
+    <Compile Include="Models\Cotizador\Appointment.cs" />
+    <Compile Include="Models\Cotizador\CoordinatesModel.cs" />
+    <Compile Include="Models\Cotizador\CostSummaryModel.cs" />
+    <Compile Include="Models\Cotizador\CotizadorRequestLTLModel.cs" />
+    <Compile Include="Models\Cotizador\CotizadorRequestModel.cs" />
+    <Compile Include="Models\Cotizador\CotizadorResponseModel.cs" />
+    <Compile Include="Models\Cotizador\DataResponseModel.cs" />
+    <Compile Include="Models\Cotizador\DeliveryDateModel.cs" />
+    <Compile Include="Models\Cotizador\DimensionsModel.cs" />
+    <Compile Include="Models\Cotizador\PackageModel.cs" />
+    <Compile Include="Models\Cotizador\Pickup.cs" />
+    <Compile Include="Models\Cotizador\RecoleccionRequestModel.cs" />
+    <Compile Include="Models\Cotizador\SettingsModel.cs" />
+    <Compile Include="Models\Cotizador\SettingsRecoleccionModel.cs" />
+    <Compile Include="Models\Cotizador\ShipmentLTLModel.cs" />
+    <Compile Include="Models\Cotizador\ShipmentModel.cs" />
+    <Compile Include="Models\Cotizador\TarifaModel.cs" />
     <Compile Include="Models\Dashboard\CumplimientoEntrega.cs" />
     <Compile Include="Models\Dashboard\CumplimientoTransporte.cs" />
     <Compile Include="Models\Dashboard\EnviosLogistica.cs" />
@@ -286,8 +309,20 @@
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionProductoSuministrado.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionProductoSuministrar.cs" />
     <Compile Include="Models\DTO_UnidadEjecucion\InformacionSurtidor.cs" />
+    <Compile Include="Models\EnviaResponseModel.cs" />
     <Compile Include="Models\EstafetaModel.cs" />
+    <Compile Include="Models\EstafetaRequestModel.cs" />
+    <Compile Include="Models\Estafeta\RequestEstafetaLtlModel.cs" />
+    <Compile Include="Models\Estafeta\RequestEstafetaModel.cs" />
+    <Compile Include="Models\Estafeta\ResponseEstafetaModel.cs" />
+    <Compile Include="Models\EstatusGuiasEnvio\EstatusGuiasEnvio.cs" />
     <Compile Include="Models\EtiquetaModel.cs" />
+    <Compile Include="Models\Guias\Cabecera.cs" />
+    <Compile Include="Models\Guias\CarrierRequest.cs" />
+    <Compile Include="Models\Guias\CarriersRates.cs" />
+    <Compile Include="Models\Guias\PackageMeasure.cs" />
+    <Compile Include="Models\Guias\ProductEmbalaje.cs" />
+    <Compile Include="Models\Guias\WeightByProducts.cs" />
     <Compile Include="Models\Impex\Cns_TransportistaDestinosZonas.cs" />
     <Compile Include="Models\Impex\CobZon.cs" />
     <Compile Include="Models\Impex\KgDinero.cs" />
@@ -298,6 +333,7 @@
     <Compile Include="Models\Impex\TransportistaZonaCostos.cs" />
     <Compile Include="Models\Impex\TransportistaZonaPlazas.cs" />
     <Compile Include="Models\LineaModel.cs" />
+    <Compile Include="Models\LogytRequestModel.cs" />
     <Compile Include="Models\MotivoCambioFP.cs" />
     <Compile Include="Models\OMSModels.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -329,6 +365,7 @@
     <Compile Include="Models\Reportes\SuppliersByIdModel.cs" />
     <Compile Include="Models\Reportes\TarifasTransportista.cs" />
     <Compile Include="Models\RestInterfazMethods.cs" />
+    <Compile Include="Models\ShipmentToTrackingModel.cs" />
     <Compile Include="Models\SupplierModel.cs" />
     <Compile Include="Models\TiendaModel.cs" />
     <Compile Include="Models\TipoLogistica\TipoLogisticaCns.cs" />
@@ -587,7 +624,6 @@
     <Content Include="Content\Inspinia\plugins\easypiechart\jquery.easypiechart.js" />
     <Content Include="Content\Inspinia\plugins\flot\curvedLines.js" />
     <Content Include="Content\Inspinia\plugins\flot\excanvas.min.js" />
-    <Content Include="Content\Inspinia\plugins\flot\jquery.flot.axislabels.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.pie.js" />
     <Content Include="Content\Inspinia\plugins\flot\jquery.flot.resize.js" />
@@ -3734,9 +3770,12 @@
     <Content Include="Views\Alertas\OperacionCedis.cshtml" />
     <Content Include="Views\Alertas\OperacionDSV.cshtml" />
     <Content Include="Views\Alertas\OperacionDST.cshtml" />
+    <Content Include="Views\Catalogo\MotivosSolicitud.cshtml" />
+    <Content Include="Views\Catalogo\MotivoCancelacionGuias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Guias\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Inspinia\bootstrap.css.map" />
